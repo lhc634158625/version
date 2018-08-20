@@ -1,0 +1,126 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>baseDict</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link href="../js/layui2/css/layui.css" rel="stylesheet" />
+<link href="../css/backoffice.css" rel="stylesheet" />
+</head>
+<body>
+<div class="pagecontent">
+   <div class="page" id="divMain">
+       <form class="layui-form layui-form-pane" action="" onsubmit="return false;">
+          <div class="layui-form-item">
+               <div class="layui-inline">
+                  <label class="layui-form-label">名称</label>
+                  <div class="layui-input-inline">
+                      <input type="text" lay-verify="required" id='txtKeyword' autocomplete="off" placeholder="请输入名称" class="layui-input" />
+                  </div>
+              </div>
+               <button id="btnSearch" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe615;</i>查询</button>
+               <button id="btnNew" class="layui-btn layui-btn-warm" ><i class="layui-icon">&#xe61f;</i>新建</button>
+           </div>
+      </form>
+       <table class="layui-table" lay-even="" lay-skin="row">
+           <colgroup>
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+           <col width="140">
+            </colgroup>
+            <thead>
+               <tr id="divHead">
+       <th sortfield="id"><span>id</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="dictName"><span>字典名称</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="code"><span>编号</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="name"><span>名称</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="parameter"><span>参数</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+           <th>操作</th>
+               </tr>
+           </thead>
+           <tbody id="divContent">
+               <script id="tmpl" type="text/html">
+                   {{#  layui.each(d.data, function(index, item){ }}
+                   <tr>
+    <td>{{ item.id==null?'':item.id }}</td>
+    <td>{{ item.dictName==null?'':item.dictName }}</td>
+    <td>{{ item.code==null?'':item.code }}</td>
+    <td>{{ item.name==null?'':item.name }}</td>
+    <td>{{ item.parameter==null?'':item.parameter }}</td>
+                       <td>
+                           <div class="layui-btn-group">
+                                  <button class="layui-btn layui-btn-sm" onclick="baseDictList.Edit({{index}})">编辑</button>&nbsp;
+                                 <button class="layui-btn layui-btn-sm layui-btn-warm" onclick="baseDictList.Delete('{{item.Id}}')">删除</button> &nbsp;
+                             </div>
+                         </td>
+                    </tr>
+                     {{#  }); }}
+                     {{#  if(d.data === null){ }}
+                     <tr><td colspan="3">没有检索到相关数据</td></tr>
+                     {{#  } }}
+                 </script>
+             </tbody>
+         </table>
+          <div id="Page"></div>
+      </div>
+     <div id="divEdit" class="sideRight page">
+         <form class="layui-form layui-form-pane" action="" onsubmit="return false;">
+             <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button id="btnSave" class="layui-btn layui-btn-warm" lay-submit=lay-submit lay-filter="baseDict"><i class="layui-icon">&#xe616;</i>保存</button>
+                    <button id="btnReturn" class="layui-btn  layui-btn"><i class="layui-icon">&#xe603;</i>返回</button>
+                 </div>
+             </div>
+             <div id="divEditInfo">
+                  <script id="tmpDetail" type="text/html">
+            <div class="layui-form-item">
+                <label class="layui-form-label">id</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtId' value='{{ d.id ==null?'':d.id}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">字典名称</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtDictName' value='{{ d.dictName ==null?'':d.dictName}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">编号</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtCode' value='{{ d.code ==null?'':d.code}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtName' value='{{ d.name ==null?'':d.name}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">参数</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtParameter' value='{{ d.parameter ==null?'':d.parameter}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+     </script>
+     </div>
+          </form>
+      </div>
+ </div>
+  <div class="Mask">
+      <i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#x1002;</i>刷新
+  </div>
+
+  <script src="../js/jquery/jquery.min.js"></script>
+  <script src="../js/layui2/layui.js"></script>
+  <script src="../js/dateTime.js"></script>
+  <script src="../js/common.js?v=170930" type="text/javascript"></script>
+ <script src="../js/base/baseDictList.js?v=180725" charset="gb2312"></script>
+</body>
+</html>
+

@@ -1,0 +1,17 @@
+﻿
+<div class="title">未读消息<span style="float:right; margin-right:10px; font-size:12px;font-weight:normal;" onclick="ChangePage('/system/messagelist.htm?state=新建')">[更多]</span></div>
+<ul id="ulMessage" class="ListShow">
+    <script id="tmpMessage" type="text/html">
+        {{#  layui.each(d.Datas, function(index, item){ }}
+        <li class="clearfix">
+            <a onclick="message.ShowMessage({{index}})">
+                <span style=" ">【{{item.Created.substr(5,11)}}】</span>
+                <span style=" color:#0094ff;margin-left:10px;">{{item.Title}}</span>
+            </a>
+        </li>
+        {{#  }); }}
+        {{#  if(d.Datas.length === 0){ }}
+        <li>没有检索到相关数据</li>
+        {{#  } }}
+    </script>
+</ul>

@@ -1,0 +1,19 @@
+.prepay input[type=radio]
+{
+     float:left;
+     margin-left:15px;
+}
+.prepay h5{
+    background-color:#808080;
+    height:40px;
+    font-size:24px;
+    color:#fff;
+    padding-left:15px;
+}
+.prepay h5 div{
+    float:right;margin-right:20px;
+}
+.prepay li{
+    height:50px;
+    line-height:50px;
+}

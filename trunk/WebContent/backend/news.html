@@ -1,0 +1,17 @@
+﻿
+<div class="title">新闻公告<span style="float:right; margin-right:10px; font-size:12px;font-weight:normal;" onclick="ChangePage('/oa/newslist.html?state=新建')">[更多]</span></div>
+<ul id="ulNews" class="ListShow">
+    <script id="tmpNews" type="text/html">
+        {{#  layui.each(d.Datas, function(index, item){ }}
+        <li class="clearfix">
+            <a onclick="news.ShowNews({{index}})">
+                <span style=" ">【{{item.Created.substr(5,11)}}】</span>
+                <span style=" color:#0094ff;margin-left:10px;">{{item.Title}}</span>
+            </a>
+        </li>
+        {{#  }); }}
+        {{#  if(d.Datas.length === 0){ }}
+        <li>没有检索到相关数据</li>
+        {{#  } }}
+    </script>
+</ul>

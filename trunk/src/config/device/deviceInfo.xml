@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetDeviceInfoById" parameterType="int" resultType="teamwish.dataContracts.device.DeviceInfo">
+        select id,name,type,videoType,stationId,param,code,state,regionId,shiftType,longitude,latitude,address,lastPosTime,serviceId,staff_code,remark,isUse,userName,userId,bindType,deviceState,deviceLogId,updateDt,prevX,prevY,prePosTime,prior,manufacturer,assembleType,assembleCode,sCode from DeviceInfo where id = #{id}
+    </select>
+<select id="GetDeviceInfoByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.device.DeviceInfo"  statementType="STATEMENT">
+        SELECT id,name,type,videoType,stationId,param,code,state,regionId,shiftType,longitude,latitude,address,lastPosTime,serviceId,staff_code,remark,isUse,userName,userId,bindType,deviceState,deviceLogId,updateDt,prevX,prevY,prePosTime,prior,manufacturer,assembleType,assembleCode,sCode FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from DeviceInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertDeviceInfo" parameterType="teamwish.dataContracts.device.DeviceInfo">
+        insert into DeviceInfo(name,type,videoType,stationId,param,code,state,regionId,shiftType,longitude,latitude,address,lastPosTime,serviceId,staff_code,remark,isUse,userName,userId,bindType,deviceState,deviceLogId,updateDt,prevX,prevY,prePosTime,prior,manufacturer,assembleType,assembleCode,sCode) values(#{name},#{type},#{videoType},#{stationId},#{param},#{code},#{state},#{regionId},#{shiftType},#{longitude},#{latitude},#{address},#{lastPosTime},#{serviceId},#{staff_code},#{remark},#{isUse},#{userName},#{userId},#{bindType},#{deviceState},#{deviceLogId},#{updateDt},#{prevX},#{prevY},#{prePosTime},#{prior},#{manufacturer},#{assembleType},#{assembleCode},#{sCode})
+    </insert>
+ <delete id="DeleteDeviceInfo" parameterType="int">
+        delete from DeviceInfo where id=#{id}
+    </delete>
+ <update id="UpdateDeviceInfo" parameterType="teamwish.dataContracts.device.DeviceInfo">
+        update DeviceInfo set 
+   name=#{name},
+   type=#{type},
+   videoType=#{videoType},
+   stationId=#{stationId},
+   param=#{param},
+   code=#{code},
+   state=#{state},
+   regionId=#{regionId},
+   shiftType=#{shiftType},
+   longitude=#{longitude},
+   latitude=#{latitude},
+   address=#{address},
+   lastPosTime=#{lastPosTime},
+   serviceId=#{serviceId},
+   staff_code=#{staff_code},
+   remark=#{remark},
+   isUse=#{isUse},
+   userName=#{userName},
+   userId=#{userId},
+   bindType=#{bindType},
+   deviceState=#{deviceState},
+   deviceLogId=#{deviceLogId},
+   updateDt=#{updateDt},
+   prevX=#{prevX},
+   prevY=#{prevY},
+   prePosTime=#{prePosTime},
+   prior=#{prior},
+   manufacturer=#{manufacturer},
+   assembleType=#{assembleType},
+   assembleCode=#{assembleCode},
+   sCode=#{sCode}
+  where id=#{id}
+    </update>
+
+
+</mapper>
+

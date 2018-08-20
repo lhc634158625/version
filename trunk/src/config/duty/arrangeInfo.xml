@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetArrangeInfoById" parameterType="int" resultType="teamwish.dataContracts.duty.ArrangeInfo">
+        select id,staffId,workDt,shiftType,staffName,regionId,stationId,timeType,timeName,fromTime,toTime from ArrangeInfo where id = #{id}
+    </select>
+<select id="GetArrangeInfoByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.duty.ArrangeInfo"  statementType="STATEMENT">
+        SELECT id,staffId,workDt,shiftType,staffName,regionId,stationId,timeType,timeName,fromTime,toTime FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from ArrangeInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertArrangeInfo" parameterType="teamwish.dataContracts.duty.ArrangeInfo">
+        insert into ArrangeInfo(staffId,workDt,shiftType,staffName,regionId,stationId,timeType,timeName,fromTime,toTime) values(#{staffId},#{workDt},#{shiftType},#{staffName},#{regionId},#{stationId},#{timeType},#{timeName},#{fromTime},#{toTime})
+    </insert>
+ <delete id="DeleteArrangeInfo" parameterType="int">
+        delete from ArrangeInfo where id=#{id}
+    </delete>
+    <select id="GetArrangeReport" parameterType="teamwish.dataContracts.common.Request" resultType="teamwish.dataContracts.duty.ArrangeInfoReport" >        
+        with cte as
+(
+	select id,pid,name,name as pname,cast(id as nvarchar(max)) as ReportPath,1 as TLevel
+	from dbo.station
+	where pid=#{stationId} or id=#{stationId}
+
+	union all
+	select c.id,c.pid,c.Name,p.name as ManagerName,p.ReportPath+'-'+cast(c.id as nvarchar(max)) as ReportPath, p.TLevel+1 as TLevel
+	from cte P
+	inner join dbo.station c
+		on p.id=c.pid
+)
+select s.Id as stationId ,s.Name as stationName, a.staffId, a.staffName,a.staffCode,a.staffPhone, a.post, a.shiftInfos, a.shiftState,a.lastPosTime,a.workDt, a.fromTime,a.toTime,a.state, a.shiftType, a.Name as shiftName, a.PId,a.namePath
+from cte c
+left join (
+
+select a.stationid, a.staffid,a.staffName, a.staffCode, isnull(s.LeaderPost,'')+ isnull(s.NonLeaderPost,'') as post, a.staffPhone ,s.ShiftInfos, s.ShiftState, s.LastPosTime, a.workdt, a.fromtime,a.totime, a.state,a.shiftType,st.Name, st.PId,st.NamePath
+		from arrangeInfo a
+		left join staff s on s.id= a.StaffId
+		left join VTShiftType st on st.Id = a.ShiftType
+		where a.fromTime &gt; =#{fromDt} and a.toTime &lt;=#{toDt}
+)
+		 a on a.stationid = c.Id
+left join Station s on  s.Id = case when c.TLevel > 1 then c.PId  else c.Id end
+where a.StationId is not null
+order by a.PId,a.namePath        
+    </select>
+    
+        <select id="GetSubArrange" parameterType="teamwish.dataContracts.common.Request" resultType="teamwish.dataContracts.duty.ArrangeInfo" >        
+        
+       SELECT arrangeInfo.shiftType shiftTypeId,shifttype.name shiftTypename,workdt,arrangeInfo.fromTime,arrangeInfo.toTime,stationId,station.name stationName  from arrangeInfo,station,shifttype
+ where 
+        station.id=arrangeInfo.stationid and 
+		arrangeInfo.shifttype=shiftType.id and 
+        arrangeInfo.fromTime &gt;=#{fromDt}
+        and arrangeInfo.toTime &lt;=#{toDt}
+		and  station.pid=#{stationId}
+    </select>
+    
+ <update id="UpdateArrangeInfo" parameterType="teamwish.dataContracts.duty.ArrangeInfo">
+        update ArrangeInfo set 
+   staffId=#{staffId},
+   workDt=#{workDt},
+   shiftType=#{shiftType},
+   staffName=#{staffName},
+   regionId=#{regionId},
+   stationId=#{stationId},
+   timeType=#{timeType},
+   timeName=#{timeName},
+   fromTime=#{fromTime},
+   toTime=#{toTime}
+  where id=#{id}
+    </update>
+
+
+</mapper>
+

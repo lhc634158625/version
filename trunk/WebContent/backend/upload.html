@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link href="../css/backoffice.css" rel="stylesheet" />
+    
+</head>
+<body>
+    <div>
+
+        <div>
+            <form class="layui-form" action="" onsubmit="return false;">
+                <a class="a-upload">
+                    <input multiple type="file" name="FileData" id="FileData" value="上传文件" onchange="Upload()" />
+                    +
+                </a>
+
+            </form>
+            
+        </div>
+
+    </div>
+    <script src="../js/jquery/jquery.min.js"></script>
+    <script src="/js/common.js?v=170930"></script>
+    <script type="text/javascript">
+        function AfterInitial() {
+
+        }
+        function Upload() {
+            var formData = new FormData();
+            formData.append("FileData", $("#FileData")[0].files[0]);
+            if (request("OwnerId") == null || request("OwnerType") == null) {
+                var ret = new Object();
+                ret.Code = -1;
+                ret.Message = "参数错误，请传入归属Id和归属类型";
+                parent.AfterUpload(ret);
+            }
+            //返回的参数item，即为当前的input DOM对象
+            $.ajax({
+                url: _uploadUrl + 'OwnerType=' + request("OwnerType") + '&OwnerId=' + request("OwnerId"),
+                type: 'POST',
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                success: function (respStr) {
+                    var ret = JSON.parse(respStr);
+                    parent.AfterUpload(ret);
+                },
+                error: function (responseStr, err) {
+                    alert(responseStr);
+                }
+            });
+        }  
+    </script>
+
+</body>
+</html>

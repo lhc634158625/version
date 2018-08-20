@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetStationById" parameterType="int" resultType="teamwish.dataContracts.sys.Station">
+        select id,name,leader,telephone,centerX,centerY,pId,zoom,code,workTime,shiftDays,checkInTime,innerCode,pyCode,wbCode,shortName,isUse,sCode,radioNo,caseInfoStationCode,serviceStationCode,updateDt,groupIds from Station where id = #{id}
+    </select>
+<select id="GetStationByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.sys.Station"  statementType="STATEMENT">
+        SELECT id,name,leader,telephone,centerX,centerY,pId,zoom,code,workTime,shiftDays,checkInTime,innerCode,pyCode,wbCode,shortName,isUse,sCode,radioNo,caseInfoStationCode,serviceStationCode,updateDt,groupIds FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from Station  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertStation" parameterType="teamwish.dataContracts.sys.Station">
+        insert into Station(name,leader,telephone,centerX,centerY,pId,zoom,code,workTime,shiftDays,checkInTime,innerCode,pyCode,wbCode,shortName,isUse,sCode,radioNo,caseInfoStationCode,serviceStationCode,updateDt,groupIds) values(#{name},#{leader},#{telephone},#{centerX},#{centerY},#{pId},#{zoom},#{code},#{workTime},#{shiftDays},#{checkInTime},#{innerCode},#{pyCode},#{wbCode},#{shortName},#{isUse},#{sCode},#{radioNo},#{caseInfoStationCode},#{serviceStationCode},#{updateDt},#{groupIds})
+    </insert>
+ <delete id="DeleteStation" parameterType="int">
+        delete from Station where id=#{id}
+    </delete>
+ <update id="UpdateStation" parameterType="teamwish.dataContracts.sys.Station">
+        update Role set 
+  
+   name=#{name},
+   leader=#{leader},
+   telephone=#{telephone},
+   centerX=#{centerX},
+   centerY=#{centerY},
+   pId=#{pId},
+   zoom=#{zoom},
+   code=#{code},
+   workTime=#{workTime},
+   shiftDays=#{shiftDays},
+   checkInTime=#{checkInTime},
+   innerCode=#{innerCode},
+   pyCode=#{pyCode},
+   wbCode=#{wbCode},
+   shortName=#{shortName},
+   isUse=#{isUse},
+   sCode=#{sCode},
+   radioNo=#{radioNo},
+   caseInfoStationCode=#{caseInfoStationCode},
+   serviceStationCode=#{serviceStationCode},
+   updateDt=#{updateDt},
+   groupIds=#{groupIds}
+  where id=#{id}
+    </update>
+
+
+</mapper>
+

@@ -1,0 +1,711 @@
+﻿*
+{
+	margin: 0 auto;
+	padding: 0px;
+	font-family:Microsoft JhengHei;
+}
+a{
+	text-decoration:none;
+	 border:0px;
+	 color:Black;
+	}
+ul li{
+	list-style:none;
+	height:25px;
+	  
+	}
+	input
+	{
+	    height:60px;
+	    width:90%;
+	    border-radius:20px;
+	    font-size:16px;
+	    
+	}
+body
+{
+	font-family:Microsoft JhengHei;	
+	font-size:16px;
+	letter-spacing:1px;
+	 background-color:#000;
+/*overflow:hidden;*/
+}
+
+#Block{
+	margin:0px;
+	text-align:left;
+	width:1080px;
+	height:1920px;	
+	
+	background:url('../../images/bg1.png') no-repeat;
+	}
+	.Title
+{
+     
+        height:90px;
+        color:#000;
+        line-height:90px;
+}
+.Title a
+{
+    color:#ffffff;
+}
+.Title input
+{
+    vertical-align:middle;
+    margin-bottom:10px;
+}
+.DefaultBg
+{
+    
+    width:1080px;
+    height:1860px;
+    z-index:9;
+}
+.Menu
+{
+    position:absolute;
+    z-index:1;
+}
+.Menu img
+{
+    border:0px;
+}
+.Icon
+{
+    position:absolute;
+    opacity:0.3;
+    filter: alpha(opacity=0.3); 
+    z-index:0;
+}
+.Icon img
+{
+    border:0px;
+        
+}
+.Guide1
+{
+     background-color:#838a90;
+      height:87px;
+     border-radius:5px;
+     float:left;
+     font-size:30px;
+}
+.Guide1 li
+{
+    
+     float:left;
+      line-height:80px;
+      height:80px;
+      font-size:32px;
+       margin-left:10px; 
+       color:#fff;    
+}
+.Guide1 li img
+{
+    vertical-align:middle;
+    border:0px;
+}
+.KeyBoard
+{
+    display:none;
+     position: absolute; 
+     z-index: 1000; 
+     background-color: #596e6f;
+     height:220px; 
+     width:900px;
+      -moz-border-radius: 20px; /* Firefox */
+  -webkit-border-radius: 20px; /* Safari 和 Chrome */
+  border-radius: 20px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+     left:100px;
+     top:1600px;
+     text-align:center;
+}
+.KeyBoardButton
+{
+    background-color:#a0a2a1;
+    color:#dedede;
+     -moz-border-radius: 10px; /* Firefox */
+  -webkit-border-radius: 10px; /* Safari 和 Chrome */
+  border-radius: 10px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+    width:60px;
+     height:40px;
+     margin-top:10px;
+     border:none;
+     text-align:center;
+     padding-left:0px;
+}
+.KeyBoardDoubleButton
+{
+    background-color:#a0a2a1;
+    color:#dedede;
+     -moz-border-radius: 10px; /* Firefox */
+  -webkit-border-radius: 10px; /* Safari 和 Chrome */
+  border-radius: 10px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+    width:140px;
+     height:40px;
+      margin-top:10px;
+      border:none;
+      text-align:center;
+      padding-left:0px;
+}
+#divDeptContent
+{
+     
+       
+}
+
+#divSymptomList
+{
+    background:url('../../images/bg1.png') no-repeat;
+}
+#ulSymptomList li
+{
+     line-height:60px;
+     height:60px;
+     border-bottom:1px solid #ededed;
+      width:500px;
+}
+
+.SymptomDetail
+{
+    background:url('../../images/bg1.png') no-repeat;
+    line-height:40px;    
+    
+      width:800px;
+      margin:0px;
+      
+}
+.SymptomDetail h1
+{
+    text-align:center;
+     height:80px;
+     line-height:80px;
+     
+}
+.SymptomDetail h1 img
+{
+    vertical-align:middle;
+}
+.SymptomDetail ul
+{
+    height:70px;
+    background-color:#fff;
+    margin-top:10px;
+}
+.SymptomDetail li
+{
+      float:left;
+       
+        text-align:left;
+          margin-right:10px;
+        background-color:#69d520;
+         height:50px;
+         width:170px;
+         border-radius:5px;
+          text-align:center;
+          line-height:50px;
+        
+}
+.SymptomDetail li img
+{
+    vertical-align:middle;
+}
+.SymtomDept
+{
+     background-color:#fff;    
+     height:140px;
+     border:1px solid #efefef;
+}
+.SymtomDeptTitle
+{
+     background-color:#bff9e1;
+     padding:20px;
+     height:40px;
+     font-size:32px;
+     color:#0db626;
+     font-weight:bold;
+}
+.SymptomDetailMemo
+{
+    font-size:20px;
+    line-height:60px;
+     padding:30px;
+     font-weight:bold;
+}
+.DeptContent
+{   
+   
+      
+     width:996px;   
+      height:640px;
+     border:#008c96 solid 2px;
+      -moz-border-radius: 20px; /* Firefox */
+  -webkit-border-radius: 20px; /* Safari 和 Chrome */
+  border-radius: 20px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+     margin-left:10px;
+     margin-top:60px;
+     padding-top:60px;
+     padding-left:30px;
+     padding-right:30px;
+}
+.DeptContent2
+{   
+     width:996px;  
+     height:320px; 
+     border:#788795 solid 2px;
+      -moz-border-radius: 20px; /* Firefox */
+  -webkit-border-radius: 20px; /* Safari 和 Chrome */
+  border-radius: 20px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+     margin-left:10px;
+     margin-top:60px;
+     padding-top:60px;
+     padding-left:30px;
+     padding-right:30px;
+     background-color:#fff;
+      opacity:0.5;
+    filter: alpha(opacity=50); 
+}
+ .DoctorFullWidth
+  {
+       width:900px;  
+       height:800px;
+       margin-left:110px;
+       
+   }
+.DoctorList
+{
+   
+    height:800px;    
+    margin-right:-60px;
+    margin-top:80px;
+   
+}   
+ .DoctorList li
+{
+    width:240px;
+    margin-right:60px;
+     height:356px;
+     margin-bottom:80px;
+   
+     float:left;
+    
+     z-index:2;            
+ }
+  .DoctorList li img
+  {      
+      height:316px;
+     width:240px;
+      border:0px;  
+      
+   }
+  .DoctorList li .DoctName
+  {
+      background-color:#008c96;
+      vertical-align:bottom;
+      height:40px;
+      width:100%;
+      line-height:40px;
+      color:White;
+      text-align:center;
+    
+  }
+  .DoctorItem
+  {
+      position:absolute;
+        -moz-border-radius: 10px; /* Firefox */
+  -webkit-border-radius: 10px; /* Safari 和 Chrome */
+  border-radius: 10px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+        width:240px;
+    border:#008c96 solid 2px;  
+     height:356px;
+     z-index:1;
+  }
+.DoctorInfo 
+{
+    height:650px;
+    width:1040px;
+     -moz-border-radius: 20px; /* Firefox */
+  -webkit-border-radius: 20px; /* Safari 和 Chrome */
+  border-radius: 20px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+    background-color:#f7f7f7;
+    
+}
+
+.DoctorBase
+{
+    padding-top:20px;
+     float:left;
+     width:760px;
+}
+.DoctorImg
+{
+   width:220px;
+   height:320px;
+   border: #f7f7f7 solid 4px;
+   float:left;
+   margin:20px;
+  
+    -moz-border-radius: 10px; /* Firefox */
+  -webkit-border-radius: 10px; /* Safari 和 Chrome */
+  border-radius: 10px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+}
+.DoctorImg img
+{
+   width:220px;
+   height:320px;   
+   border-radius:10px; 
+}
+.DoctorBase .DoctorName
+{
+   width:754px;
+   height:50px;
+   line-height:50px;
+   text-align:center;
+    
+}
+.DoctorBase .DoctorName #lblName
+{
+   font-size:45px; 
+}
+ .DoctorBase .DoctorName #lblGrade
+{
+   font-size:36px; 
+   color:#008c96;
+}
+.DoctorBase .DoctMemo
+{
+    width:734px;
+    height:250px;
+    padding:20px;
+    font-size:24px;
+    
+ }
+ 
+ 
+ .DoctSchedule
+ {
+    width:1000px;
+    height:266px;
+    font-size:20px;
+    text-align:center;
+     
+ }
+ .DoctSchedule .Head
+ {
+     font-weight:bold;
+      font-size:24px;
+ }
+ .DoctSchedule tr
+ {
+    width:1000px;
+    height:60px;
+ }
+ .DoctSchedule tr.Gray
+ {
+    width:1000px;
+    height:60px;
+    background-color:#d1dcdd;     
+ }
+ .DoctorPage
+ {
+    margin: 20px auto; 
+     text-align:center;
+     
+  }
+  .DoctorPage li
+ {
+    float:left; 
+     
+  }
+  
+  .FeeBase
+  {
+      margin-left:40px;
+      margin-right:40px;
+      width:1000px;
+      height:160px;
+      font-size:26px;
+      font-weight:bolder;
+      
+  }
+.Return
+{
+    position:absolute;
+    left:990px;
+    top:815px;
+     width:90px;
+     height:300px;
+     border-top-left-radius:90px;
+     border-bottom-left-radius:90px;
+     border:1px solid #9f9f9f;
+     background-color:#efefef;
+     opacity:0.3;
+    filter: alpha(opacity=0.3); 
+}
+.Return li
+{
+    list-style:none;
+    height:150px;
+}
+.Return li img
+{
+    height:64px;
+}
+.TopContent
+{   
+    margin-top:30px;
+     width:1000px;  
+     height:320px; 
+     border:#788795 solid 2px;
+      -moz-border-radius: 20px; /* Firefox */
+  -webkit-border-radius: 20px; /* Safari 和 Chrome */
+  border-radius: 20px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+     margin-left:10px;   
+     padding-top:30px;
+     padding-left:20px;  
+     background-color:#fff;
+      opacity:0.8;
+    filter: alpha(opacity=80); 
+    margin-right:-20px;
+     box-shadow:3px 3px 8px #000;
+}
+.BottomContent
+{   
+    margin-top:30px;
+     width:1000px;  
+     height:750px; 
+     border:#788795 solid 2px;
+      -moz-border-radius: 20px; /* Firefox */
+  -webkit-border-radius: 20px; /* Safari 和 Chrome */
+  border-radius: 20px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+     margin-left:10px;   
+     padding-top:30px;
+     padding-left:20px;  
+     background-color:#fff;
+      opacity:0.8;
+    filter: alpha(opacity=80); 
+    margin-right:-20px;
+     box-shadow:3px 3px 8px #000;
+}
+.TopContent1
+{   
+    margin-top:140px;
+     width:980px;  
+     height:1150px; 
+     border:#788795 solid 2px;
+      -moz-border-radius: 20px; /* Firefox */
+  -webkit-border-radius: 20px; /* Safari 和 Chrome */
+  border-radius: 20px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+     margin-left:40px;  
+     font-size:48px; 
+    
+     background-color:#fff;
+     
+     box-shadow:2px 2px 4px #666;
+     text-align:center;
+}
+.TopContent1 h1
+{
+     margin-top:85px;
+     color:#ff0000;
+     height:80px;
+     line-height:80px;
+     text-align:center;
+    
+}
+.TopContent1 h2
+{
+     margin-top:55px;
+      color:#000000;
+     height:80px;
+     line-height:80px;
+     text-align:center;
+     
+}
+.TopContent1 h3
+{
+    
+    padding-left:20px;
+    background-color:#b5d3ec;
+    color:#000;
+    height:115px;
+    line-height:115px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+     opacity:0.8;
+    filter: alpha(opacity=0.8);
+    text-align:left;
+      margin-bottom:30px;
+}
+.TopContent1 img
+{
+     vertical-align:middle;
+}
+
+.BottomContent1
+{   
+    margin-top:20px;
+     width:980px;  
+     height:525px; 
+     border:#788795 solid 2px;
+      -moz-border-radius: 20px; /* Firefox */
+  -webkit-border-radius: 20px; /* Safari 和 Chrome */
+  border-radius: 20px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+     
+     padding-top:30px;
+     text-align:center;
+   
+     box-shadow:2px 2px 4px #666;
+}
+.CardType
+{
+     width:480px;
+     height:290px;
+      float:left;
+      border:1px solid #d1d1d1;
+      box-shadow:3px 3px 8px #000;
+      margin-right:15px;
+        font-size:32px;
+       
+}    
+.CardType h2
+{
+    height:100px;
+    background-color:#0a7c79;
+    line-height:100px;
+     font-size:48px;
+     text-align:center;
+     color:#fff;
+   
+}
+.CardType h2 img
+{
+    vertical-align:middle;
+}
+.Button
+{
+      height:90px;
+      border-radius:30px;
+       background-image:url(../images/touch/buttonbg.png);
+       width:410px;
+       line-height:90px;
+       font-size:32px;
+       color:#fff;
+       text-align:center;
+        margin-top:40px;
+}
+.active
+{
+     border:1px solid #ee3105;
+      box-shadow:3px 3px 8px #ee3105;
+     
+}
+.active h2
+{
+    background-color:#ee3105;
+     
+}
+.Register
+  {
+       display:none;
+       margin-top:30px;
+       padding-top:30px;
+       font-size:24px;
+       font-weight:bold;
+  }
+  .Register .Head
+  {
+       font-size:40px;
+       height:60px;
+       line-height:60px;
+        text-align:center;
+         
+  }
+    .Register .Head img
+    {
+         vertical-align:middle;
+    }
+.Register .CardType
+{
+     width:334px;
+     height:197px;
+      float:left;
+      border:1px solid #d1d1d1;
+      box-shadow:3px 3px 8px #000;
+    
+        font-size:24px;       
+}    
+.Register li
+{
+     height:60px;
+     line-height:60px;
+      padding-left:20px;
+}
+.Register li img
+{
+    height:32px;
+     vertical-align:middle;
+}
+
+.Register .CardType h2
+{
+    height:70px;
+    background-color:#0a7c79;
+    line-height:70px;
+     font-size:36px;
+     text-align:center;
+     color:#fff;
+   
+}
+
+.Register .Button
+{
+      height:63px;
+      border-radius:20px;
+       background-image:url(../images/buttonbg.png);
+       width:300px;
+       line-height:63px;
+       font-size:32px;
+       color:#fff;
+       text-align:center;
+        margin-top:20px;
+}
+.Register .active
+{
+     border:1px solid #ee3105;
+      box-shadow:3px 3px 8px #ee3105;
+     
+}
+.Register .active h2
+{
+    background-color:#ee3105;
+     
+}
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+    width: 12px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0,0,0,0.1);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(255,0,0,0.4);
+}
+/*tab*/
+.itab{height:36px; border-bottom:solid 1px #d0dee5; position:relative; border-left:solid 1px #d3dbde;}
+.itab ul li{float:left;height:37px; line-height:37px; background:url(../../images/itabbg.png) repeat-x; border-right:solid 1px #d3dbde;}
+.itab ul li a{font-size:14px; color:#000; padding-left:20px; padding-right:20px;}
+.itab ul li a.selected{ heigh:37px; display:block; background:url(../../images/itabbg1.png) repeat-x; font-weight:bold;}
+.tabson{margin:18px 0px;}
+.formtext{height:45px; padding-left:25px; line-height:20px; color:#848383;}
+.formtext b{color:#d70101;}
+.forminfo b{color:#ea2020; padding-left:3px;}

@@ -1,0 +1,335 @@
+﻿.ChatPanel {
+    margin: 0 auto;
+    text-align: center;
+}
+.PartPanel {
+      width: calc(100% - 500px);
+     float:left;
+}
+.RightPanel
+{
+    width:0px;
+    float:left;
+    margin-left:10px;
+    border:1px solid #dfdfdf;
+    overflow-y:auto;
+   
+}
+
+#lblTitle {
+    background-color: #efefef;
+    border-bottom: 1px solid #dfdfdf;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#divChatContent {
+    min-height: 300px;
+    overflow-y:auto;
+    padding:10px;
+}
+#divHisChatContent {
+    min-height: 300px;
+    overflow-y:auto;
+    padding:10px;
+}
+
+#divTool {
+    height: 40px;
+    line-height: 40px;
+    border-top: 1px solid #dfdfdf;
+}
+
+    #divTool li {
+        float: left;
+        width: 40px;
+        height: 40px;
+        margin-left: 10px;
+        vertical-align: central;
+    }
+
+        #divTool li i {
+            font-size: 30px;
+            line-height: 40px;
+            vertical-align: central;
+        }
+
+        #divTool li:last-child {
+            float: right;
+            margin-right: 10px;
+            width: 120px;
+            vertical-align: central;
+            line-height: 40px;
+        }
+
+#divBottom {
+    height: 30px;
+}
+
+    #divBottom button {
+        float: right;
+        margin-right: 20px;
+    }
+    #divFace li{
+         float:left;
+         margin:5px;
+         cursor:pointer;
+    }
+.ChatInput {
+    height: 60px;
+    line-height: 30px;
+}
+
+    .ChatInput img {
+        vertical-align: middle;
+    }
+
+    .ChatInput #btnVoice {
+        width: 32px;
+        height: 32px;
+        float: left;
+        margin-left: 5px;
+    }
+
+    .ChatInput #btnChat {
+        width: 32px;
+        height: 32px;
+        float: left;
+        margin-left: 5px;
+        display: none;
+    }
+
+    .ChatInput #btnSend {
+        width: 40px;
+        height: 24px;
+        float: left;
+        margin-left: 5px;
+        text-align: center;
+        line-height: 32px;
+        height: 32px;
+    }
+
+.SendActive {
+    background-color: #01bb6a;
+    border: 1px solid #9f9f9f;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.ChatInput #btnSend img {
+    width: 32px;
+    height: 32px;
+}
+
+.ChatInput #divTextContent {
+    background-color: #fff;
+    width: 100%;
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 30px;
+    height: 60px;
+    overflow-y: auto;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -o-user-select: text;
+    user-select: text;
+    word-wrap: break-word;
+    outline: none;
+}
+
+.ChatInput #btnSmile {
+    float: left;
+    margin-left: 10px;
+    height: 30px;
+}
+
+.ChatInput #btnStart {
+    float: left;
+    background-color: #9f9f9f;
+    width: -moz-calc(100% - 120px);
+    width: -webkit-calc(100% - 120px);
+    width: calc(100% - 120px);
+    height: 32px;
+    display: none;
+    margin-left: 10px;
+}
+
+#divScroll {
+    position: absolute;
+    left: 0px;
+    top: 40px;
+    width: 100%;
+    height: 300px;
+    z-index: 999;
+}
+
+#smileywrap {
+    display: none;
+}
+
+    #smileywrap li {
+        width: 50px;
+        text-align: center;
+        padding: 0px;
+        margin: 0px;
+        float: left;
+    }
+
+.MyChat cc {
+    background-color: #88dc88;
+    color:#fff;
+    float: right;
+    padding: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    max-width: -moz-calc(100% - 100px);
+    max-width: -webkit-calc(100% - 100px);
+    max-width: calc(100% - 100px);
+    word-wrap: break-word;
+}
+.MyChat cc a
+{
+    text-align:center;
+}
+
+.MyChat aa {
+    float: right;
+    width: 0px;
+    height: 0px;
+    border-width: 8px 0px 8px 18px;
+    border-style: solid;
+    border-color: transparent transparent transparent #88dc88;
+}
+
+.MyChat ii {
+    float: right;
+}
+
+    .MyChat ii img {
+        width: 40px;
+        height: 40px;
+    }
+
+.OtherChat cc {
+    background-color: #dfdfdf;
+    float: left;
+    padding: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 1px solid #dfdfdf;
+    word-wrap: break-word;
+    max-width: -moz-calc(100% - 100px);
+    max-width: -webkit-calc(100% - 100px);
+    max-width: calc(100% - 100px);
+}
+.OtherChat cc a
+{
+    text-align:center;
+}
+.OtherChat p {
+    margin-top: -30px;
+    float: left;
+    width: 60px;
+}
+
+.OtherChat aa {
+    float: left;
+    width: 0px;
+    height: 0px;
+    border-width: 8px 18px 8px 0;
+    border-style: solid;
+    border-color: transparent #dfdfdf transparent transparent;
+}
+
+.OtherChat span {
+    font-size: 14px;
+    margin-left: 18px;
+}
+
+.OtherChat ii {
+    float: left;
+}
+
+    .OtherChat ii img {
+        width: 40px;
+        height: 40px;
+    }
+
+#otherOption {
+    padding: 5px;
+    margin-left: -40px;
+    display: none;
+}
+
+    #otherOption li {
+        float: left;
+        width: 50px;
+        margin-left: 40px;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+        #otherOption li dd {
+            width: 45px;
+            height: 45px;
+            line-height: 50px;
+            border: 1px solid #9f9f9f;
+            border-radius: 5px;
+            text-align: center;
+            padding: 5px;
+        }
+
+        #otherOption li cc {
+            width: 45px;
+            text-align: center;
+        }
+
+        #otherOption li img {
+            vertical-align: middle;
+            width: 40px;
+            height: auto;
+        }
+
+.DoveCard {
+    border: 1px solid #9f9f9f;
+    border-radius: 5px;
+    width: 190px;
+    height: 80px;
+    background-color: #fff;
+}
+
+    .DoveCard dd {
+        float: left;
+        width: 120px;
+    }
+
+    .DoveCard img {
+        float: left;
+        width: 60px;
+        height: 60px;
+    }
+
+    .DoveCard h2 {
+        font-size: 12px;
+        line-height: 20px;
+    }
+
+    .DoveCard p {
+        font-size: 11px;
+        line-height: 16px;
+    }
+    #divChatGroup li
+    {
+         text-align:left;
+    }
+    #divChatGroup li img{
+         width:40px;
+         height:40px;
+         border-radius:20px;
+    }

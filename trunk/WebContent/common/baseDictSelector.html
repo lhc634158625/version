@@ -1,0 +1,123 @@
+﻿<template>
+<div style=" width:300px; z-index:999; backgroupcolor:#f00;">
+ 
+  <el-input @keyup.native="startSearch" placeholder="请输入关键字" v-model="keyword" class="input-with-select">   
+    <el-button @click="refreshData" slot="append" icon="el-icon-refresh"></el-button>
+  </el-input>  
+    <el-table ref="tbBaseDictSelector" :data="listDatas" border stripe style="width: 100%"
+    @row-click="handleRowClick"
+    >
+        <el-table-column border prop="code" label="编码" width="70">
+        </el-table-column>
+        <el-table-column prop="name" label="名称" >
+        </el-table-column>
+    </el-table>
+</div> 
+</template>
+
+<script>
+import { getBaseDict } from "@/api/sys";
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters({
+      LoginUser: "userInfo"
+    })
+  },
+  created() {   
+    this.retrieveData();
+  },
+
+  data() {
+    return {
+      baseDicts: [],
+      listDatas: [],
+      showTree: true,
+      keyword: "",
+      rowIndex: 0,
+      defaultProps: {
+        children: "children",
+        label: "name"
+      }
+    };
+  },
+  watch: {
+    $route() {
+     
+    }
+  },
+  methods: {
+    handleRowClick(data) {     
+      this.$emit("selectRole", data);
+    },
+    selectRow(index) {
+      if(index<0) index=0;
+      if(index>=(this.listDatas.length-1)) index=this.listDatas.length-1;
+      this.rowIndex = index;
+      this.$refs.tbBaseDictSelector.setCurrentRow(this.listDatas[this.rowIndex]);
+    },
+    refreshData() {
+      this.SaveLocalData(this.LoginUser.id + "_AllBaseDict");
+      this.retrieveData();
+    },
+    startSearch(ev) {
+      if (ev.keyCode == 13) {
+        this.handleRowClick(this.listDatas[this.rowIndex]);
+        return;
+      }
+      if (ev.keyCode == 38) {
+        this.selectRow(this.rowIndex-1);
+        return;
+      }
+      if (ev.keyCode == 40) {
+        this.selectRow(this.rowIndex+1);
+        return;
+      }
+      this.showData();
+    },
+    showData(){
+      var param=this.keyword.toUpperCase();
+      this.listDatas = Enumerable.From(this.baseDicts)
+        .Where(function(x) {
+          return (
+            (x.code==null?true:x.code.indexOf(param)>=0) ||
+            (x.name==null?true: x.name.indexOf(param)>=0 ) ||
+           (x.pyCode==null?true:x.pyCode.toUpperCase().indexOf(param)>=0)
+          );
+        })
+        .ToArray();
+        if(this.listDatas.length>0)
+          this.selectRow(0);
+
+    },
+    retrieveData() {
+      var oldData = this.RetrieveLocalData(this.LoginUser.id + "_AllBaseDict");
+      if (oldData != null) {
+        this.baseDicts = oldData;
+        this.showData();
+        return;
+      }
+      var condition = new Object();
+      condition.fieldName = "CompanyId";
+      condition.opt = "=";
+      condition.value = this.LoginUser.companyId;
+      condition.fieldType = "string";
+      var filter = [];
+      filter.push(condition);
+      var param = {
+        filter: filter,
+        pageIndex: 0,
+        pageSize: 100,
+        orderField: "id"
+      };
+      getBaseDict(param).then(result => {
+        this.baseDicts = result.Data;
+        this.SaveLocalData(this.LoginUser.id + "_AllBaseDict", this.baseDicts);
+        this.showData();
+      });
+    }
+  }
+};
+</script>
+
+

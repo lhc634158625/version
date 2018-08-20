@@ -1,0 +1,14 @@
+﻿h1{
+    font:30px;   
+    text-align:center; 
+}
+li{
+    list-style:none;
+    float:left;
+}
+.title h2{
+    width:200px;
+}
+.top{
+    vertical-align:middle;
+}

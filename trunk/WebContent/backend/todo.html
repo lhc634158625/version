@@ -1,0 +1,17 @@
+﻿
+<div class="title">待办事项<span style="float:right; margin-right:10px; font-size:12px;font-weight:normal;" onclick="ChangePage('/oa/todolist.html')">[更多]</span></div>
+<ul id="ulTodo" class="ListShow">
+    <script id="tmpTodo" type="text/html">
+        {{#  layui.each(d.Datas, function(index, item){ }}
+        <li class="clearfix">
+            <a onclick="ChangePage('{{item.Url}}')">
+                <span style=" color:#ff6a00;">【{{item.Created.substr(5,11)}}】</span>
+                <span style=" margin-left:10px;">{{item.Title}}</span>
+            </a>
+        </li>
+        {{#  }); }}
+        {{#  if(d.Datas.length === 0){ }}
+        <li>没有检索到相关数据</li>
+        {{#  } }}
+    </script>
+</ul>

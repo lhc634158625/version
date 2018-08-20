@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetShiftTypeById" parameterType="int" resultType="teamwish.dataContracts.base.ShiftType">
+        select id,name,fromTime,toTime,memo,type,position,pName from ShiftType where id = #{id}
+    </select>
+<select id="GetShiftTypeByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.base.ShiftType"  statementType="STATEMENT">
+        SELECT id,name,fromTime,toTime,memo,type,position,pName FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from ShiftType  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertShiftType" parameterType="teamwish.dataContracts.base.ShiftType">
+        insert into ShiftType(name,fromTime,toTime,memo,type,position,pName) values(#{name},#{fromTime},#{toTime},#{memo},#{type},#{position},#{pName})
+    </insert>
+ <delete id="DeleteShiftType" parameterType="int">
+        delete from ShiftType where id=#{id}
+    </delete>
+ <update id="UpdateShiftType" parameterType="teamwish.dataContracts.base.ShiftType">
+        update ShiftType set 
+   name=#{name},
+   fromTime=#{fromTime},
+   toTime=#{toTime},
+   memo=#{memo},
+   type=#{type},
+   position=#{position},
+   pName=#{pName}
+  where id=#{id}
+    </update>
+
+
+</mapper>
+

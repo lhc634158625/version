@@ -1,0 +1,301 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>staff</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link href="../js/layui2/css/layui.css" rel="stylesheet" />
+<link href="../css/backoffice.css" rel="stylesheet" />
+</head>
+<body>
+<div class="pagecontent">
+   <div class="page" id="divMain">
+       <form class="layui-form layui-form-pane" action="" onsubmit="return false;">
+          <div class="layui-form-item">
+               <div class="layui-inline">
+                  <label class="layui-form-label">名称</label>
+                  <div class="layui-input-inline">
+                      <input type="text" lay-verify="required" id='txtKeyword' autocomplete="off" placeholder="请输入名称" class="layui-input" />
+                  </div>
+              </div>
+               <button id="btnSearch" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe615;</i>查询</button>
+               <button id="btnNew" class="layui-btn layui-btn-warm" ><i class="layui-icon">&#xe61f;</i>新建</button>
+           </div>
+      </form>
+       <table class="layui-table" lay-even="" lay-skin="row">
+           <colgroup>
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+  <col width="100" />
+           <col width="140">
+            </colgroup>
+            <thead>
+               <tr id="divHead">
+       <th sortfield="id"><span>id</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="code"><span>警号</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+     
+       <th sortfield="name"><span>姓名</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="gender"><span>性别</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="state"><span>状态</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+     
+       <th sortfield="telephone"><span>电话</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="position"><span>职务</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="shiftType"><span>当前班别</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="regionId"><span>当前警务区</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+      
+       <th sortfield="lastPosTime"><span>末次时间</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+      
+       <th sortfield="idCode"><span>身份证号</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="leaderPost"><span>领导职务</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+       <th sortfield="nonLeaderPost"><span>非领导职务</span><span class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"></i><i class="layui-edge layui-table-sort-desc"></i></span></th>
+     
+           <th>操作</th>
+               </tr>
+           </thead>
+           <tbody id="divContent">
+               <script id="tmpl" type="text/html">
+                   {{#  layui.each(d.data, function(index, item){ }}
+                   <tr>
+    <td>{{ item.id==null?'':item.id }}</td>
+    <td>{{ item.name==null?'':item.name }}</td>
+    <td>{{ item.gender==null?'':item.gender }}</td>
+    <td>{{ item.state==null?'':item.state }}</td>
+    <td>{{ item.longitude==null?'':item.longitude }}</td>
+    <td>{{ item.latitude==null?'':item.latitude }}</td>
+    <td>{{ item.stationId==null?'':item.stationId }}</td>
+    <td>{{ item.telephone==null?'':item.telephone }}</td>
+    <td>{{ item.position==null?'':item.position }}</td>
+    <td>{{ item.shiftType==null?'':item.shiftType }}</td>
+    <td>{{ item.regionId==null?'':item.regionId }}</td>
+    <td>{{ item.code==null?'':item.code }}</td>
+    <td>{{ item.pyCode==null?'':item.pyCode }}</td>
+    <td>{{ item.address==null?'':item.address }}</td>
+    <td>{{ item.timeType==null?'':item.timeType }}</td>
+    <td>{{ item.serviceId==null?'':item.serviceId }}</td>
+    <td>{{ item.lastPosTime==null?'':item.lastPosTime }}</td>
+    <td>{{ item.isDel==null?'':item.isDel }}</td>
+    <td>{{ item.idCode==null?'':item.idCode }}</td>
+    <td>{{ item.leaderPost==null?'':item.leaderPost }}</td>
+    <td>{{ item.nonLeaderPost==null?'':item.nonLeaderPost }}</td>
+    <td>{{ item.posType==null?'':item.posType }}</td>
+    <td>{{ item.shiftState==null?'':item.shiftState }}</td>
+    <td>{{ item.updateDt==null?'':item.updateDt }}</td>
+    <td>{{ item.shiftInfos==null?'':item.shiftInfos }}</td>
+                       <td>
+                           <div class="layui-btn-group">
+                                  <button class="layui-btn layui-btn-sm" onclick="staffList.Edit({{index}})">编辑</button>&nbsp;
+                                 <button class="layui-btn layui-btn-sm layui-btn-warm" onclick="staffList.Delete('{{item.Id}}')">删除</button> &nbsp;
+                             </div>
+                         </td>
+                    </tr>
+                     {{#  }); }}
+                     {{#  if(d.data === null){ }}
+                     <tr><td colspan="3">没有检索到相关数据</td></tr>
+                     {{#  } }}
+                 </script>
+             </tbody>
+         </table>
+          <div id="Page"></div>
+      </div>
+     <div id="divEdit" class="sideRight page">
+         <form class="layui-form layui-form-pane" action="" onsubmit="return false;">
+             <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button id="btnSave" class="layui-btn layui-btn-warm" lay-submit=lay-submit lay-filter="staff"><i class="layui-icon">&#xe616;</i>保存</button>
+                    <button id="btnReturn" class="layui-btn  layui-btn"><i class="layui-icon">&#xe603;</i>返回</button>
+                 </div>
+             </div>
+             <div id="divEditInfo">
+                  <script id="tmpDetail" type="text/html">
+            <div class="layui-form-item">
+                <label class="layui-form-label">id</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtId' value='{{ d.id ==null?'':d.id}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtName' value='{{ d.name ==null?'':d.name}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtGender' value='{{ d.gender ==null?'':d.gender}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtState' value='{{ d.state ==null?'':d.state}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">经度</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtLongitude' value='{{ d.longitude ==null?'':d.longitude}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">纬度</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtLatitude' value='{{ d.latitude ==null?'':d.latitude}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">单位Id</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtStationId' value='{{ d.stationId ==null?'':d.stationId}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtTelephone' value='{{ d.telephone ==null?'':d.telephone}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">职务</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtPosition' value='{{ d.position ==null?'':d.position}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">当前班别</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtShiftType' value='{{ d.shiftType ==null?'':d.shiftType}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">当前警务区</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtRegionId' value='{{ d.regionId ==null?'':d.regionId}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">警号</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtCode' value='{{ d.code ==null?'':d.code}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">拼音码</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtPyCode' value='{{ d.pyCode ==null?'':d.pyCode}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">address</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtAddress' value='{{ d.address ==null?'':d.address}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">timeType</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtTimeType' value='{{ d.timeType ==null?'':d.timeType}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">警情Id</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtServiceId' value='{{ d.serviceId ==null?'':d.serviceId}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">末次时间</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtLastPosTime' value='{{ d.lastPosTime ==null?'':d.lastPosTime}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否删除</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtIsDel' value='{{ d.isDel ==null?'':d.isDel}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份证号</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtIdCode' value='{{ d.idCode ==null?'':d.idCode}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">领导职务</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtLeaderPost' value='{{ d.leaderPost ==null?'':d.leaderPost}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">非领导职务</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtNonLeaderPost' value='{{ d.nonLeaderPost ==null?'':d.nonLeaderPost}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">posType</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtPosType' value='{{ d.posType ==null?'':d.posType}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">班别状态</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtShiftState' value='{{ d.shiftState ==null?'':d.shiftState}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">更新时间</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtUpdateDt' value='{{ d.updateDt ==null?'':d.updateDt}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">当前所有班别</label>
+                <div class="layui-input-block">
+                    <input type="text" id='txtShiftInfos' value='{{ d.shiftInfos ==null?'':d.shiftInfos}}' autocomplete="off" class="layui-input" />
+                </div>
+             </div>
+     </script>
+     </div>
+          </form>
+      </div>
+ </div>
+  <div class="Mask">
+      <i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#x1002;</i>刷新
+  </div>
+  <div class="MovePanel" id="divDict">
+   <iframe id="frmDict" src="/common/baseDictSelector.html" style="width: 100%; height: 300px;" frameborder="0" scrolling="no"></iframe>
+   </div>
+  <script src="../js/jquery/jquery.min.js"></script>
+  <script src="../js/layui2/layui.js"></script>
+  <script src="../js/dateTime.js"></script>
+  <script src="../js/common.js?v=170930" type="text/javascript"></script>
+ <script src="../js/sys/staffList.js?v=180725" charset="gb2312"></script>
+</body>
+</html>
+

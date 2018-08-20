@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link href="/js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+        <style>
+            #container{
+                width: 1000px;
+                height: 500px
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container" ></div>
+        <script src="js/vue.min.js"></script>
+        <script src="js/jquery/jquery.min.js"></script>
+        <script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js" async></script>
+        <script src="https://webapi.amap.com/maps?v=1.4.8&key=221d91887200eef51e28ee855998c114&callback=init" defer="defer"></script>
+        <script type="text/javascript" defer="defer">
+
+// // var n=0        //不是闭包
+// function a(){
+// let n = 0;        //闭包
+// this.inc = function () {
+// n++;
+// console.log(n);
+// console.log(this)
+// };
+// }
+// var c = new a();
+// c.inc(); //控制台输出1
+// c.inc(); //控制台输出2
+
+            window.init=function(){
+
+            //像素(Pixel)
+            var offset=new AMap.Pixel(116,39)
+
+            //经纬度(LngLat)
+            var position=new AMap.LngLat(116,39)
+            //经纬数组,并创建折线路径
+            //var path=[new AMap.LngLat(116,39),new AMap.LngLat(116,40),new AMap.LngLat(117,39)]
+            var path=[[116,39],[116,40],[117,39]]
+
+            //折线路径
+            var polyline=new AMap.Polyline({
+                path:path
+            })
+
+            //地图
+            var map = new AMap.Map('container', {
+               center:position,
+               zoom:11
+              });
+
+            //集合像素(Pixel),标记(Marker)
+            var Mark=new AMap.Marker('container',{
+                offset:offset,
+                icon:'images/Icon/1.png'
+            })  
+
+            // 高德地图采用 GCJ-02 坐标系，即火星坐标系。与 GPS 坐标系，即 WGS-84 坐标系存在一定的偏移量，
+            // 如果您采集到的坐标数据为GPS坐标，可以先通过AMap.ConvertFrom进行坐标偏移后进行制图或者使用，
+            // 才能够和高德的底图完全匹配。
+
+            //像素尺寸 AMap.Size
+            var mapSize = map.getSize();//获取地图大小，返回的是地图容器的像素大小
+            var width = mapSize.width;
+            var height = mapSize.height;
+
+            var marker = new AMap.Marker({
+	        position: [116.405467, 39.907761],
+            icon: new AMap.Icon({            
+            size: new AMap.Size(40, 50),  //图标的大小
+            image: "https://webapi.amap.com/theme/v1.3/images/newpc/way_btn2.png",
+            imageOffset: new AMap.Pixel(0, -60)
+        })        
+  });
+  map.add(marker)
+
+            //
+            map.add(Mark)
+            map.add(polyline)
+
+            }
+
+            
+
+            // $(function(){
+            //    var map = new AMap.Map('container', {
+            //    center:[117.000923,36.675807],
+            //    zoom:11
+            // });
+            // })
+
+        </script>
+    </body>
+</html>

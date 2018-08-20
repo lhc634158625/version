@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ShiftType</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link href="../js/layui2/css/layui.css" rel="stylesheet" />
+<link href="../css/backoffice.css" rel="stylesheet" />
+</head>
+<body>
+<div id="divTree" >
+    <ul id="tree" class="ztree"></ul>
+</div>
+<div class="contextMenu MovePanel" id="myMenu1" style="display: none;">
+   <ul>
+       <li>
+           <a href="javascript:void(0);" id="btnRefresh">
+              <i class="layui-icon" id="iRefresh">&#x1002;</i>刷新
+          </a>
+      </li>
+  </ul>
+</div>
+  <div class="Mask">
+      <i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#x1002;</i>刷新
+  </div>
+  <div class="MovePanel" id="divDict">
+   <iframe id="frmDict" src="/common/baseDictSelector.html" style="width: 100%; height: 300px;" frameborder="0" scrolling="no"></iframe>
+   </div>
+  <script src="../js/jquery/jquery.min.js"></script>
+  <script src="../js/layui2/layui.js"></script>
+  <script src="../js/dateTime.js"></script>
+  <script src="../js/common.js?v=170930" type="text/javascript"></script>
+ <script src="../js/common/shiftTypeSelector.js?v=180802" charset="gb2312"></script>
+</body>
+</html>
+

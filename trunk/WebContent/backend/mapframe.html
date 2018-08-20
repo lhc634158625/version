@@ -1,0 +1,214 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>警力展示</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../js/layui2/css/layui.css" rel="stylesheet" />
+    <link href="../css/mapframe.css?v=1801191" rel="stylesheet" />
+    <link href="../css/backoffice.css" rel="stylesheet" />
+    <link href="../css/font-awesome.min.css" rel="stylesheet" />
+    <style type="text/css" media="print">
+        .noprint {
+            display: none;
+        }
+    </style>
+</head>
+<body style="overflow:hidden;">
+    <!--startprint1-->
+    <div id="divSearch">
+        <input id="txtKeyword" type="text" placeholder="输入设备名称或安装位置查询" />
+        <button type="button" id="btnSearch">
+            <i class="layui-icon" style="font-size: 30px; color: #1E9FFF;">&#xe615;</i>
+        </button>
+    </div>
+    <!--顶层工具菜单 -->
+    <div id="ToolItem" class="noprint MovePanel">
+        <ul>
+            <li id="btnLight" class="noprint">
+                <img src="images/light.png" /><br />
+                <span id="lblLight">灯光切换</span>
+            </li>
+            <li id="btnPrint" class="noprint">
+                <i class="fa  fa-print"></i><br />
+                <span>页面打印</span>
+            </li>
+            <li id="btnScreen" class="noprint">
+                <img src="images/screen.png" /><br />
+                <span>地图全屏</span>
+            </li>
+            <!--<li id="btnManager" class="noprint">
+                <img src="images/setting.png" /><br />
+                <span>后台管理</span> </li>-->
+            <li id="btnClearBuffer" class="noprint">
+                <img src="images/setting.png" /><br />
+                <span>清除缓存</span>
+            </li>
+            <li id="btnHideAll" class="noprint">
+                <i class="icon iconfont" style="color:#fff; font-size:24px;">&#xe632;</i><br />
+                <span>隐藏全部</span>
+            </li>
+        </ul>
+    </div>
+    <div id="SearchResult" class="MovePanel">
+        <ul></ul>
+    </div>
+    <div style="clear: both;">
+    </div>
+    <div id="Left" class="noprint">
+        <!--左边信息 -->
+        <div id="LeftInfoPanel">
+            <div id="divInfoTitle" class="PageTitle">
+                <span id="InfoTitle">勤务力量</span>
+                <!--控制左边信息 -->
+                <span id="btnInfoClose" style=" float:right; color:#fff; margin-right:5px;cursor:pointer;">
+                    <i class="layui-icon" style="font-size: 20px; color: #1E9FFF;">&#xe65a;</i>
+                </span>
+            </div>
+            <iframe id="frmInfo" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+    </div>
+
+    <!--轨迹回放信息 -->
+    <div id="divTrace" class="MovePanel" style="left: 80px; width: 320px; height: 300px;
+        bottom: 0px; z-index: 9; background-color: #fff;">
+        <iframe id="frmTrace" scrolling="auto" frameborder="0"
+                width="100%" height="100%"></iframe>
+    </div>
+    <!--报表信息 -->
+    <div id="ReportPanel">
+
+        <iframe id="frmReport" scrolling="auto" frameborder="0"
+                width="100%" height="100%"></iframe>
+    </div>
+    <div id="RightPanel">
+        <iframe id="frmMap" name="frmMap" scrolling="no" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+    <!--浮动信息板块 -->
+    <div id="FloatPanel" class="DefaultSize Dragable">
+        <div class="PageTitle">
+            <span id="LegendTitle">勤务力量(2016-05-05)</span>
+            <img id="btnFloatClose" src="images/closebox.png" />
+        </div>
+        <div id="LegendContent">
+        </div>
+        <div>
+        </div>
+    </div>
+
+    <!--右边提示板块 -->
+    <div id="RightTip" class="noprint" style="display:none;">
+        <span id="lblTimer">17:13:45</span> <span id="lblUpdateInterval">每隔15秒自动刷新</span>
+    </div>
+    <!--右边浮动选项板块 -->
+    <div id="RightTools" class="noprint">
+        <ul>
+
+            <li rel="Camera">
+                <i class="fa  fa-camera"></i><br />
+                视频卡口
+            </li>
+            <li rel="Traffic">
+                <i class="fa  fa-home"></i><br />
+                门禁设备
+            </li>
+            <li rel="RegionService">
+                <i class="fa  fa-bell"></i><br />
+                最新告警
+            </li>
+            <!--<li>
+            <img src="images/map/routeline.png" /><br />巡逻路线
+            </li>
+            <li class="Traffic" class="Traffic gray">
+            <img src="images/map/peak2_1.png" class="Traffic"/><br />高峰站点
+            </li>-->
+        </ul>
+    </div>
+    <!--右边菜单子项 -->
+    <div id="divChildType">
+        <ul>
+           
+        
+            <li parent="Camera" rel="卡口" id="li_Camera_01" class="gray">
+                <img src="/images/camera_01.png" /><br />
+                卡口
+            </li>
+            <li parent="Camera" rel="高清球机" id="li_Camera_02" class="gray">
+                <img src="/images/camera_02.png" /><br />
+                高清球机
+            </li>
+            <li parent="Camera" rel="高清枪机" id="li_Camera_03" class="gray">
+                <img src="/images/camera_03.png" /><br />
+                高清枪机
+            </li>
+            <li parent="Camera" rel="模拟球机" id="li_Camera_04" class="gray">
+                <img src="/images/camera_04.png" /><br />
+                模拟球机
+            </li>
+            <li parent="Camera" rel="模拟枪机" id="li_Camera_05" class="gray">
+                <img src="/images/camera_05.png" /><br />
+                模拟枪机
+            </li>
+            <li parent="Camera" rel="高空枪机" id="li_Camera_06" class="gray">
+                <img src="/images/camera_06.png" /><br />
+                高空枪机
+            </li>
+            <li parent="Camera" rel="涉爆视频" id="li_Camera_99" class="gray">
+                <img src="/images/camera_99.png" /><br />
+                涉爆视频
+            </li>
+            <li parent="Traffic" rel="1" id="li1" class="gray">
+                <img src="images/taxi.png" /><br />
+                出租车
+            </li>
+            <li parent="Traffic" rel="2" id="li2" class="gray">
+                <img src="images/bus.png" /><br />
+                公交车
+            </li>
+            <li parent="Traffic" rel="3" id="li3" class="gray">
+                <img src="images/camera_01.png" /><br />
+                卡口
+            </li>
+            <li parent="Device" rel="Car" class="gray">
+                <img src="images/cardevice.png" /><br />
+                巡逻车台
+            </li>
+            <li parent="Device" rel="Personal" class="gray">
+                <img src="images/personalDevice.png" /><br />
+                单兵电台
+            </li>
+            <li parent="Device" rel="ZFY" class="gray">
+                <img src="images/jwt.png" /><br />
+                执法仪
+            </li>
+            <li parent="Device" rel="Group" class="gray">
+                <img src="images/groupDevice.png" /><br />
+                群防设备
+            </li>
+       
+        </ul>
+    </div>
+    <!--右边菜单子项的子项 -->
+    <div id="divGrandson">
+        <ul>
+            <li parent="Process" rel="领导" id="li_Staff_1" class="gray">
+                <img src="images/map/shift1_0.png" /><br />
+                领导
+            </li>
+            <li parent="Process" rel="正班" id="li_Staff_2" class="gray">
+                <img src="images/map/shift2_0.png" /><br />
+                正班
+            </li>
+            
+        </ul>
+    </div>
+    <!--右边主显信息板块 -->
+    <!--endprint1 -->
+
+    <script src="../js/jquery/jquery.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/DateTime.js"></script>
+    <script src="../js/layui2/layui.js"></script>
+    <script src="../js/backend/mapframe.js?v=171229"></script>
+</body>
+</html>

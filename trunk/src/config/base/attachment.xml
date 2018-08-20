@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetAttachmentById" parameterType="int" resultType="teamwish.dataContracts.base.Attachment">
+        select id,attachURL,fileName,length,conentType,ownerId,ownerType,creater,created from Attachment where id = #{id}
+    </select>
+<select id="GetAttachmentByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.base.Attachment"  statementType="STATEMENT">
+        SELECT id,attachURL,fileName,length,conentType,ownerId,ownerType,creater,created FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from Attachment  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertAttachment" parameterType="teamwish.dataContracts.base.Attachment">
+        insert into Attachment(attachURL,fileName,length,conentType,ownerId,ownerType,creater,created) values(#{attachURL},#{fileName},#{length},#{conentType},#{ownerId},#{ownerType},#{creater},#{created})
+    </insert>
+ <delete id="DeleteAttachment" parameterType="int">
+        delete from Attachment where id=#{id}
+    </delete>
+ <update id="UpdateAttachment" parameterType="teamwish.dataContracts.base.Attachment">
+        update Attachment set 
+   attachURL=#{attachURL},
+   fileName=#{fileName},
+   length=#{length},
+   conentType=#{conentType},
+   ownerId=#{ownerId},
+   ownerType=#{ownerType},
+   creater=#{creater},
+   created=#{created}
+  where id=#{id}
+    </update>
+
+
+</mapper>
+

@@ -1,0 +1,154 @@
+
+#hd {
+    height: 65px;
+    background: #393D49;
+  
+}
+
+#bd {
+  
+   overflow:hidden;
+}
+
+.logo .logo-img {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: url(/images/logo.png) center center no-repeat;
+    background-size: 100% 100%;
+     margin-left: 10px;
+    line-height: 60px;
+    vertical-align: middle;
+  
+}
+.logo{
+    float:left;
+    width:200px;
+}
+
+
+.smallLogo{
+    float:left;
+    width:40px;
+}
+.smalllogo .logo-img {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background: url(/images/logo.png) center center no-repeat;
+    background-size: 100% 100%;
+     margin-left: 10px;
+    line-height: 60px;
+    vertical-align: middle;  
+}
+.smallLogo span{
+    display:none;
+}
+.topTitle{
+   height:64px;line-height:65px; 
+   font-size:24px; 
+   color:#fff; 
+   padding-left:20px; 
+ 
+  
+  
+    float:left;
+    display:inline;
+    border-bottom:1px solid #ddd;
+}
+.roleName {
+    margin-left: 10px;    
+    font-size: 28px;
+    line-height: 60px;
+}
+.companyName {
+  
+    color: #fff;
+    font-size: 16px;
+    line-height: 60px;
+}
+
+
+.login-user {    
+    float:right;
+  font-size:10px;
+  margin-right:20px;
+}
+
+    .login-user a {
+    color:#fff;
+    }
+
+        .login-user a:hover {
+            text-decoration: none;
+        }
+
+    .login-user .user-opt-panel {
+        display: none;
+        position: absolute;
+        right:0px;
+        width: 200px;
+        top: 35px;
+        background: #fff;
+        z-index: 111;
+        border: 1px solid #e1e1e1;
+        box-shadow: 1px 1px 2px #ddd;
+        border-top: none;
+    }
+
+    .login-user:hover {
+        background: #000;
+       color: #fff;
+    }
+
+        .login-user:hover a {
+            color: #fff;
+        }
+
+        .login-user:hover .user-opt-panel {
+            display: block;
+            color:#fff;
+        }
+
+            .login-user:hover .user-opt-panel li {
+                height: 34px;
+                line-height: 34px;
+            }
+
+                .login-user:hover .user-opt-panel li a {
+                    display: block;
+                    padding: 0 20px;
+                    color:#00a2ca;
+                }
+
+                    .login-user:hover .user-opt-panel li a .iconfont {
+                        margin-right: 10px;
+                    }
+
+                .login-user:hover .user-opt-panel li.div-line {
+                    height: 46px;
+                    line-height: 46px;
+                    border-top: 1px solid #e3e3e3;
+                }
+
+                    .login-user:hover .user-opt-panel li.div-line a {
+                        padding: 0 20px;
+                    }
+
+                .login-user:hover .user-opt-panel li:hover {
+                    background: #00a2ca;
+                    color: #fff;
+                }
+
+                    .login-user:hover .user-opt-panel li:hover a {
+                        color: #fff;
+                    }
+
+.user-message {
+    float: right;
+    margin-top: -20px;
+    color: #fff;
+    margin-right: 30px;
+   
+   
+}

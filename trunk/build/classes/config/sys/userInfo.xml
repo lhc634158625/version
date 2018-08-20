@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetUserInfoById" parameterType="int" resultType="teamwish.dataContracts.sys.UserInfo">
+        select id,nickName,stationId,password,longitude,latitude,roleId,state,created,zoom,name,stationName,token,tokenTime,loginDt from UserInfo where id = #{id}
+    </select>
+<select id="GetUserInfoByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.sys.UserInfo" statementType="STATEMENT">
+        SELECT id,nickName,stationId,password,longitude,latitude,roleId,state,created,zoom,name,stationName,token,tokenTime,loginDt FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from UserInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertUserInfo" parameterType="teamwish.dataContracts.sys.UserInfo">
+        insert into UserInfo(nickName,stationId,password,longitude,latitude,roleId,state,created,zoom,name,stationName,token,tokenTime,loginDt) values(#{nickName},#{stationId},#{password},#{longitude},#{latitude},#{roleId},#{state},#{created},#{zoom},#{name},#{stationName},#{token},#{tokenTime},#{loginDt})
+    </insert>
+ <delete id="DeleteUserInfo" parameterType="int">
+        delete from UserInfo where id=#{id}
+    </delete>
+ <update id="UpdateUserInfo" parameterType="teamwish.dataContracts.sys.UserInfo">
+        update UserInfo set 
+ 
+   nickName=#{nickName},
+   stationId=#{stationId},
+   password=#{password},
+   longitude=#{longitude},
+   latitude=#{latitude},
+   roleId=#{roleId},
+   state=#{state},
+   created=#{created},
+   zoom=#{zoom},
+   name=#{name},
+   stationName=#{stationName},
+   token=#{token},
+   tokenTime=#{tokenTime},
+   loginDt=#{loginDt}
+  where id=#{id}
+    </update>
+
+
+</mapper>
+

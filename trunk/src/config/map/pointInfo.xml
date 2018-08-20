@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetPointInfoById" parameterType="int" resultType="teamwish.dataContracts.map.PointInfo">
+        select id,code,name,nickName,stationId,ownerId,ownerType,created,updateDt,longitude,latitude,state,memo,contents,creater,createrStation,param from PointInfo where id = #{id}
+    </select>
+<select id="GetPointInfoByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.map.PointInfo"  statementType="STATEMENT">
+        SELECT id,code,name,nickName,stationId,ownerId,ownerType,created,updateDt,longitude,latitude,state,memo,contents,creater,createrStation,param FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from PointInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertPointInfo" parameterType="teamwish.dataContracts.map.PointInfo">
+        insert into PointInfo(code,name,nickName,stationId,ownerId,ownerType,created,updateDt,longitude,latitude,state,memo,contents,creater,createrStation,param) values(#{code},#{name},#{nickName},#{stationId},#{ownerId},#{ownerType},#{created},#{updateDt},#{longitude},#{latitude},#{state},#{memo},#{contents},#{creater},#{createrStation},#{param})
+    </insert>
+ <delete id="DeletePointInfo" parameterType="int">
+        delete from PointInfo where id=#{id}
+    </delete>
+ <update id="UpdatePointInfo" parameterType="teamwish.dataContracts.map.PointInfo">
+        update PointInfo set 
+   code=#{code},
+   name=#{name},
+   nickName=#{nickName},
+   stationId=#{stationId},
+   ownerId=#{ownerId},
+   ownerType=#{ownerType},
+   created=#{created},
+   updateDt=#{updateDt},
+   longitude=#{longitude},
+   latitude=#{latitude},
+   state=#{state},
+   memo=#{memo},
+   contents=#{contents},
+   creater=#{creater},
+   createrStation=#{createrStation},
+   param=#{param}
+  where id=#{id}
+    </update>
+
+
+</mapper>
+

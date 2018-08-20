@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetRegionServiceById" parameterType="int" resultType="teamwish.dataContracts.duty.RegionService">
+        select id,regionId,receiveDt,type,memo,stationId,processDt,reportName,reportTel,reportAddress,longitude,latitude,typeName,result,caseId,mainEventFlag,modifyTime,startTime,acceptUnitName,acceptUnitSubRegion,code,firstTimeUnitName,videoIds,aY from RegionService where id = #{id}
+    </select>
+<select id="GetRegionServiceByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.duty.RegionService"  statementType="STATEMENT">
+        SELECT id,regionId,receiveDt,type,memo,stationId,processDt,reportName,reportTel,reportAddress,longitude,latitude,typeName,result,caseId,mainEventFlag,modifyTime,startTime,acceptUnitName,acceptUnitSubRegion,code,firstTimeUnitName,videoIds,aY FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from RegionService  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertRegionService" parameterType="teamwish.dataContracts.duty.RegionService">
+        insert into RegionService(regionId,receiveDt,type,memo,stationId,processDt,reportName,reportTel,reportAddress,longitude,latitude,typeName,result,caseId,mainEventFlag,modifyTime,startTime,acceptUnitName,acceptUnitSubRegion,code,firstTimeUnitName,videoIds,aY) values(#{regionId},#{receiveDt},#{type},#{memo},#{stationId},#{processDt},#{reportName},#{reportTel},#{reportAddress},#{longitude},#{latitude},#{typeName},#{result},#{caseId},#{mainEventFlag},#{modifyTime},#{startTime},#{acceptUnitName},#{acceptUnitSubRegion},#{code},#{firstTimeUnitName},#{videoIds},#{aY})
+    </insert>
+ <delete id="DeleteRegionService" parameterType="int">
+        delete from RegionService where id=#{id}
+    </delete>
+ <update id="UpdateRegionService" parameterType="teamwish.dataContracts.duty.RegionService">
+        update RegionService set 
+   regionId=#{regionId},
+   receiveDt=#{receiveDt},
+   type=#{type},
+   memo=#{memo},
+   stationId=#{stationId},
+   processDt=#{processDt},
+   reportName=#{reportName},
+   reportTel=#{reportTel},
+   reportAddress=#{reportAddress},
+   longitude=#{longitude},
+   latitude=#{latitude},
+   typeName=#{typeName},
+   result=#{result},
+   caseId=#{caseId},
+   mainEventFlag=#{mainEventFlag},
+   modifyTime=#{modifyTime},
+   startTime=#{startTime},
+   acceptUnitName=#{acceptUnitName},
+   acceptUnitSubRegion=#{acceptUnitSubRegion},
+   code=#{code},
+   firstTimeUnitName=#{firstTimeUnitName},
+   videoIds=#{videoIds},
+   aY=#{aY}
+  where id=#{id}
+    </update>
+
+
+</mapper>
+
