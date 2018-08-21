@@ -31,13 +31,20 @@
                                             </div>
                                             <button class="layui-btn" data-type="reload">搜索</button>
                                         </div>
-                                        <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+                                        <table class="layui-hide" id="LAY_table_user" lay-filter="user">
+                                                <th lay-data="{field:'wealth'}">财富</th>
+                                        </table>
                                     </div>
                                 </div>
                                 <%@ include file="../shared/pageFooter.jsp"%>
                             </div>
                         </div>
             </div>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+              </script>
             <script src="../My97DatePicker/WdatePicker.js"></script>
             <script src="../js/layui2/layui.js"></script>
             <script>
@@ -47,22 +54,35 @@
                     //方法级渲染
                     table.render({
                         elem: '#LAY_table_user'
-                        , url: '/demo/table/user/'
+                        // , url: '/demo/table/user/'
                         , cols: [[
-                            { checkbox: true, fixed: true }
-                            , { field: 'id', title: 'ID', width: 80, sort: true, fixed: true }
-                            , { field: 'username', title: '用户名', width: 80 }
-                            , { field: 'sex', title: '性别', width: 80, sort: true }
-                            , { field: 'city', title: '城市', width: 80 }
-                            , { field: 'sign', title: '签名' }
-                            , { field: 'experience', title: '积分', sort: true, width: 80 }
-                            , { field: 'score', title: '评分', sort: true, width: 80 }
-                            , { field: 'classify', title: '职业', width: 80 }
-                            , { field: 'wealth', title: '财富', sort: true, width: 135 }
+                            { field: 'id', title: 'ID', width: 80,align:"center"}
+                            ,{ checkbox: true, fixed: true }
+                            , { title: '操作', width: 100,align:"center"}
+                            , { field: 'lbtnCode', title: '警号', width: 80,align:"center"}
+                            , { field: 'lbtnName', title: '姓名/名称', width: 100,align:"center" }
+                            , { field: 'lbtnStation', title: '单位', width: 80,align:"center" }
+                            , { field: 'lbtnPosition', title: '岗位', width: 80,align:"center" }
+                            , { field: 'lbtnTelephone', title: '电话',width: 80,align:"center" }
+                            , { field: 'lbtnLeaderPost', title: '领导职务', width: 100,align:"center" }
+                            , { field: 'lbtnNonLeaderPost', title: '非领导职务', width: 100,align:"center" }
+                            , { field: 'lbtnIdCode', title: '身份证', width: 80,align:"center" }
+                            , { field: 'lbtnRole', title: '角色', width: 80,align:"center" }
+                            , { field: 'classify', title: '设备', width: 80,align:"center" }
+                            , { field: 'lblCurState', title: '当前状态', width: 100,align:"center" }
+                            , { field: 'classify', title: '排班情况', width: 100,align:"center" }
+                            , { field: 'classify', title: '作日志证', width: 100,align:"center" }
+
                         ]]
                         , id: 'testReload'
                         , page: true
-                        , height: 315
+                        , height: 355
+                        ,data:[
+                        {"code":0,"msg":"","count":1000,
+                        "data":[{"id":1,"username":"user-0","sex":"女","city":"城市-0","sign":"签名-0","experience":255,"logins":24,"wealth":82830700,"classify":"作家","score":57}
+                        ]
+                        }]
+                        
                     });
 
                     var $ = layui.$, active = {
