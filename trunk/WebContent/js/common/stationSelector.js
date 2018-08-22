@@ -32,6 +32,7 @@ function StationSelector() {
                 }
             },
             callback: {
+                //点击树节点
                 onClick: SelectStation
             }
         };
@@ -118,7 +119,7 @@ function StationSelector() {
             $('#myMenu1').hide();
         });
     }
-    //��ѡ�¼�����
+    //树结构函数
     function SelectStation(event, treeId, treeNode) {
         parent.SelectStation(treeNode);
     }
