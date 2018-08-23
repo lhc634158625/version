@@ -20,13 +20,18 @@
                 }
 
                 /* 分页条 */
-                #layui-table-page2{
+                #layui-table-page2 {
                     position: absolute;
-                    top: 0px;
+                    top: -50px;
                     left: 1000px;
 
                 }
-
+                /* 消除边界隐藏 */
+                .layui-table-view {
+                    position: relative;
+                    margin: 10px 0;
+                    overflow: visible;
+                }
             </style>
         </head>
 
@@ -48,17 +53,20 @@
                                     <thead>
                                         <tr>
                                             <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-                                            <th lay-data="{field:'id', width:80, sort: true, fixed: true}">ID</th>
-                                            <th lay-data="{field:'username', width:80}">用户名</th>
-                                            <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
-                                            <th lay-data="{field:'city', width:80}">城市</th>
-                                            <th lay-data="{field:'sign', width:160}">签名</th>
-                                            <th lay-data="{field:'experience', width:80, sort: true}">积分</th>
+                                            <th lay-data="{width:278,align:'center', toolbar: '#barDemo'}">操作</th>
+                                            <th lay-data="{field:'id', width:80, sort: true}">警号</th>
+                                            <th lay-data="{field:'username', width:100}">姓名/名称</th>
+                                            <th lay-data="{field:'sex', width:80, sort: true}">单位</th>
+                                            <th lay-data="{field:'city', width:80}">岗位</th>
+                                            <th lay-data="{field:'sign', width:160}">电话</th>
+                                            <th lay-data="{field:'experience', width:100, sort: true}">领导职位</th>
 
-                                            <th lay-data="{field:'classify', width:80}">职业</th>
-                                            <th lay-data="{field:'wealth', width:135, sort: true}">财富</th>
-                                            <th lay-data="{field:'score', width:80, sort: true, fixed: 'right'}">评分</th>
-                                            <th lay-data="{fixed: 'right', width:278,align:'center', toolbar: '#barDemo'}"></th>
+                                            <th lay-data="{field:'classify', width:100}">非领导职务</th>
+                                            <th lay-data="{field:'wealth', width:135, sort: true}">身份证</th>
+                                            <th lay-data="{field:'score', width:80, sort: true}">角色</th>
+                                            <th lay-data="{field:'score', width:80, sort: true}">设备</th>
+                                            <th lay-data="{field:'score', width:100, sort: true}">当前状态</th>
+
                                         </tr>
                                     </thead>
                                 </table>
