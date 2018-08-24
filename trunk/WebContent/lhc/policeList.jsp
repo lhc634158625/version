@@ -2,8 +2,6 @@
          pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         <!DOCTYPE html>
-
-
         <html>
 
         <head>
@@ -13,19 +11,27 @@
             <script src="../js/jquery/jquery.js"></script>
             <link rel="stylesheet" href="../layui/css/layui.css">
             <link rel="stylesheet" href="../css/policeStationScheduling.css">
+
             <style>
                 /* 行高 */
                 .layui-table-cell {
                     height: 50px;
                 }
 
-                /* 分页条 */
+                /* 表格自带分页条 */
                 #layui-table-page2 {
                     position: absolute;
                     top: -50px;
                     left: 1000px;
+                    display: none;
 
                 }
+
+                /* 查看后的tr颜色条 */
+                /* .layui-table-cell{
+                    background-color: #FFEEE8!important;
+                } */
+
                 /* 消除边界隐藏 */
                 .layui-table-view {
                     position: relative;
@@ -49,23 +55,27 @@
                                     <button class="layui-btn" data-type="isAll">验证是否全选</button>
                                 </div>
 
-                                <table class="layui-table" lay-data="{width: 1700, page:true, id:'idTest'}" lay-filter="demo">
+                                <div id="demo7"></div>
+
+                                <table class="layui-table" lay-data="{width: 1800, page:true, id:'idTest'}" lay-filter="demo">
                                     <thead>
                                         <tr>
                                             <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
                                             <th lay-data="{width:278,align:'center', toolbar: '#barDemo'}">操作</th>
-                                            <th lay-data="{field:'id', width:80, sort: true}">警号</th>
-                                            <th lay-data="{field:'username', width:100}">姓名/名称</th>
-                                            <th lay-data="{field:'sex', width:80, sort: true}">单位</th>
-                                            <th lay-data="{field:'city', width:80}">岗位</th>
-                                            <th lay-data="{field:'sign', width:160}">电话</th>
-                                            <th lay-data="{field:'experience', width:100, sort: true}">领导职位</th>
+                                            <th lay-data="{field:'code', width:80, sort: true}">警号</th>
+                                            <th lay-data="{field:'name', width:100}">姓名/名称</th>
+                                            <th lay-data="{field:'gender', width:80}">单位</th>
+                                            <th lay-data="{field:'gender', width:80}">岗位</th>
+                                            <th lay-data="{field:'telephone', width:160}">电话</th>
+                                            <th lay-data="{field:'leaderPost', width:100}">领导职位</th>
 
-                                            <th lay-data="{field:'classify', width:100}">非领导职务</th>
-                                            <th lay-data="{field:'wealth', width:135, sort: true}">身份证</th>
-                                            <th lay-data="{field:'score', width:80, sort: true}">角色</th>
-                                            <th lay-data="{field:'score', width:80, sort: true}">设备</th>
-                                            <th lay-data="{field:'score', width:100, sort: true}">当前状态</th>
+                                            <th lay-data="{field:'nonLeaderPost', width:100}">非领导职务</th>
+                                            <th lay-data="{field:'idCode', width:135}">身份证</th>
+                                            <th lay-data="{field:'gender', width:80}">角色</th>
+                                            <th lay-data="{field:'deviceInfos', width:80}">设备</th>
+                                            <th lay-data="{field:'state', width:100}">当前状态</th>
+                                            <th lay-data="{width:123,align:'center', toolbar: '#barDemo1'}">排班情况</th>
+                                            <th lay-data="{width:123,align:'center', toolbar: '#barDemo2'}">工作日志</th>
 
                                         </tr>
                                     </thead>
@@ -78,94 +88,201 @@
                 <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
                 <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-              </script>
+            </script>
+            <script type="text/html" id="barDemo1" style="width:100px">
+                <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">排班情况</a>
+            </script>
+            <script type="text/html" id="barDemo2" style="width:100px">
+                <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">工作日志</a>
+            </script>
             <script src="../My97DatePicker/WdatePicker.js"></script>
             <script src="../js/layui2/layui.js"></script>
+
             <script>
-                // layui.use('table', function () {
-                //     var table = layui.table;
 
-                //     //方法级渲染
-                //     table.render({
-                //         elem: '#LAY_table_user'
-                //         // , url: '/demo/table/user/'
-                //         , cols: [[
-                //             { field: 'id', title: 'ID', checkbox: true, width: 80, align: "center" }
-                //             , { field: 'do', title: '操作', width: 100, align: "center" }
-                //             , { field: 'lbtnCode', title: '警号', width: 80, align: "center" }
-                //             , { field: 'lbtnName', title: '姓名/名称', width: 100, align: "center" }
-                //             , { field: 'lbtnStation', title: '单位', width: 80, align: "center" }
-                //             , { field: 'lbtnPosition', title: '岗位', width: 80, align: "center" }
-                //             , { field: 'lbtnTelephone', title: '电话', width: 80, align: "center" }
-                //             , { field: 'lbtnLeaderPost', title: '领导职务', width: 100, align: "center" }
-                //             , { field: 'lbtnNonLeaderPost', title: '非领导职务', width: 100, align: "center" }
-                //             , { field: 'lbtnIdCode', title: '身份证', width: 80, align: "center" }
-                //             , { field: 'lbtnRole', title: '角色', width: 80, align: "center" }
-                //             , { field: 'classify', title: '设备', width: 80, align: "center" }
-                //             , { field: 'lblCurState', title: '当前状态', width: 100, align: "center" }
-                //             , { field: 'arrange', title: '排班情况', width: 100, align: "center" }
-                //             , { field: 'workrecord', title: '作日志证', width: 100, align: "center" }
+                var data_lists;
 
-                //         ]]
-                //         , id: 'testReload'
-                //         , page: true
-                //         , height: 355
-                //         , data: [
-                //             {
-                //                 "code": 0, "msg": "", "count": 1000,
-                //                 "data": [{ "id": 1, "username": "user-0", "sex": "女", "city": "城市-0", "sign": "签名-0", "experience": 255, "logins": 24, "wealth": 82830700, "classify": "作家", "score": 57 }
-                //                 ]
-                //             }]
+                function initData() { }
+                initData.prototype.policeList = function (fromRecord, toRecord, pageSize) {
+                    console.log(toRecord);
+                    // $.ajax({
+                    //     url: "${APP_PATH}/UserOK",
+                    //     type: "get",
+                    //     data: "empName=" + empName,
+                    //     success: function (result) {
+                    //         if (result.code == 100) {
 
-                //     });
-                layui.use('table', function () {
-                    var table = layui.table;
+                    //         } else {
 
-                    table.reload('idTest', {
-                        data: [{ "id": 10000, "username": "user-0", "sex": "女", "city": "城市-0", "sign": "签名-0", "experience": 255, "logins": 24, "wealth": 82830700, "classify": "作家", "score": 57 }, { "id": 10001, "username": "user-1", "sex": "男", "city": "城市-1", "sign": "签名-1", "experience": 884, "logins": 58, "wealth": 64928690, "classify": "词人", "score": 27 }, { "id": 10002, "username": "user-2", "sex": "女", "city": "城市-2", "sign": "签名-2", "experience": 650, "logins": 77, "wealth": 6298078, "classify": "酱油", "score": 31 }, { "id": 10003, "username": "user-3", "sex": "女", "city": "城市-3", "sign": "签名-3", "experience": 362, "logins": 157, "wealth": 37117017, "classify": "诗人", "score": 68 }, { "id": 10004, "username": "user-4", "sex": "男", "city": "城市-4", "sign": "签名-4", "experience": 807, "logins": 51, "wealth": 76263262, "classify": "作家", "score": 6 }, { "id": 10005, "username": "user-5", "sex": "女", "city": "城市-5", "sign": "签名-5", "experience": 173, "logins": 68, "wealth": 60344147, "classify": "作家", "score": 87 }, { "id": 10006, "username": "user-6", "sex": "女", "city": "城市-6", "sign": "签名-6", "experience": 982, "logins": 37, "wealth": 57768166, "classify": "作家", "score": 34 }, { "id": 10007, "username": "user-7", "sex": "男", "city": "城市-7", "sign": "签名-7", "experience": 727, "logins": 150, "wealth": 82030578, "classify": "作家", "score": 28 }, { "id": 10008, "username": "user-8", "sex": "男", "city": "城市-8", "sign": "签名-8", "experience": 951, "logins": 133, "wealth": 16503371, "classify": "词人", "score": 14 }, { "id": 10009, "username": "user-9", "sex": "女", "city": "城市-9", "sign": "签名-9", "experience": 484, "logins": 25, "wealth": 86801934, "classify": "词人", "score": 75 }]
-                    });
+                    //         }
+                    //     },
+                    // });
+                };
+                var init = new initData();
 
-                    //监听表格复选框选择
-                    table.on('checkbox(demo)', function (obj) {
-                        console.log(obj)
-                    });
-                    //监听工具条
-                    table.on('tool(demo)', function (obj) {
-                        var data = obj.data;
-                        if (obj.event === 'detail') {
-                            layer.msg('ID：' + data.id + ' 的查看操作');
-                        } else if (obj.event === 'del') {
-                            layer.confirm('真的删除行么', function (index) {
-                                obj.del();
-                                layer.close(index);
-                            });
-                        } else if (obj.event === 'edit') {
-                            layer.alert('编辑行：<br>' + JSON.stringify(data))
-                        }
-                    });
-
-                    var $ = layui.$, active = {
-                        getCheckData: function () { //获取选中数据
-                            var checkStatus = table.checkStatus('idTest')
-                                , data = checkStatus.data;
-                            layer.alert(JSON.stringify(data));
-                        }
-                        , getCheckLength: function () { //获取选中数目
-                            var checkStatus = table.checkStatus('idTest')
-                                , data = checkStatus.data;
-                            layer.msg('选中了：' + data.length + ' 个');
-                        }
-                        , isAll: function () { //验证是否全选
-                            var checkStatus = table.checkStatus('idTest');
-                            layer.msg(checkStatus.isAll ? '全选' : '未全选')
-                        }
-                    };
-
-                    $('.demoTable .layui-btn').on('click', function () {
-                        var type = $(this).data('type');
-                        active[type] ? active[type].call(this) : '';
-                    });
+                //jq初始化加载 
+                $(function () {
+                    init.policeList(1, 1000, 10);
                 });
+
+
+
+                //layui表格渲染和控制
+                layui.use('table', function () {
+                        var table = layui.table;
+                        //分页
+                        var laypage = layui.laypage
+                            , layer = layui.layer;
+                        laypage.render({
+                            elem: 'demo7'
+                            , count: 100
+                            , layout: ['count', 'prev', "page",'next', 'limit', 'refresh', 'skip']
+                            , limit:10
+                            , limits:	[25, 50, 100, 150]
+                            , groups:1
+                            , jump: function (obj) {//回调
+                                console.log(obj)
+                            }
+                        });
+
+                        table.reload('idTest', {
+                            // page:true,
+                            // limit:10;
+                            data: [
+                                {
+                                    "address": "思明区开元街道深田社区",
+                                    "code": "220130",
+                                    "deviceInfos": "",
+                                    "gender": "男",
+                                    "id": 1,
+                                    "idCode": "350201199001011234",
+                                    "isDel": false,
+                                    "lastPosTime": "2013-04-27T04:00:22Z[UTC]",
+                                    "latitude": 24.472354499999998,
+                                    "leaderPost": "",
+                                    "longitude": 118.08867350000001,
+                                    "name": "周佩荣",
+                                    "nonLeaderPost": "主任科员",
+                                    "pic": "",
+                                    "position": 1,
+                                    "pyCode": "ZPR",
+                                    "regionId": 0,
+                                    "serviceId": 3001458,
+                                    "shiftInfos": "",
+                                    "shiftType": 0,
+                                    "state": "备勤",
+                                    "stationId": 378,
+                                    "telephone": "13012345678",
+                                    "timeType": 6801
+                                },
+                                {
+                                    "address": "思明区开元街道溪岸社区",
+                                    "code": "240039",
+                                    "deviceInfos": "",
+                                    "gender": "男",
+                                    "id": 2,
+                                    "idCode": "350201199001011234",
+                                    "isDel": false,
+                                    "lastPosTime": "2013-04-27T08:28:32Z[UTC]",
+                                    "latitude": 24.4543765,
+                                    "leaderPost": "",
+                                    "longitude": 118.073086,
+                                    "name": "曾颖武",
+                                    "nonLeaderPost": "主任科员",
+                                    "pic": "",
+                                    "position": 1,
+                                    "pyCode": "ZYW",
+                                    "regionId": 61,
+                                    "serviceId": 3009103,
+                                    "shiftInfos": "",
+                                    "shiftType": 4,
+                                    "state": "待警",
+                                    "stationId": 373,
+                                    "telephone": "13012345678",
+                                    "timeType": 5246
+                                },
+                                {
+                                    "address": "思明区开元街道西边社区",
+                                    "code": "220227",
+                                    "deviceInfos": "",
+                                    "gender": "男",
+                                    "id": 3,
+                                    "idCode": "350201199001011234",
+                                    "lastPosTime": "2013-04-27T05:51:46Z[UTC]",
+                                    "latitude": 24.4598995,
+                                    "leaderPost": "",
+                                    "longitude": 118.094841,
+                                    "name": "黄凌",
+                                    "nonLeaderPost": "主任科员",
+                                    "pic": "",
+                                    "position": 1,
+                                    "pyCode": "HL",
+                                    "regionId": 0,
+                                    "serviceId": 3008989,
+                                    "shiftInfos": "",
+                                    "shiftType": 8,
+                                    "state": "备勤",
+                                    "stationId": 378,
+                                    "telephone": "13012345678",
+                                    "timeType": 6804
+                                }]
+                        });
+
+
+                        //分页条
+                        // layui.use('laypage', function () {
+                        //     var laypage = layui.laypage;
+                        //     //执行一个laypage实例
+                        //     laypage.render({
+                        //         elem: 'layui-laypage-1' //注意，这里的 test1 是 ID，不用加 # 号
+                        //         , count: 50 //数据总数，从服务端得到
+                        //         ,prev:"上一页"
+                        //     });
+                        // });
+                        //完整功能
+
+
+                        //监听表格复选框选择
+                        table.on('checkbox(demo)', function (obj) {
+                            console.log(obj)
+                        });
+                        //监听工具条
+                        table.on('tool(demo)', function (obj) {
+                            var data = obj.data;
+                            if (obj.event === 'detail') {
+                                layer.msg('ID：' + data.id + ' 的查看操作');
+                            } else if (obj.event === 'del') {
+                                layer.confirm('真的删除行么', function (index) {
+                                    obj.del();
+                                    layer.close(index);
+                                });
+                            } else if (obj.event === 'edit') {
+                                layer.alert('编辑行：<br>' + JSON.stringify(data))
+                            }
+                        });
+
+                        var $ = layui.$, active = {
+                            getCheckData: function () { //获取选中数据
+                                var checkStatus = table.checkStatus('idTest')
+                                    , data = checkStatus.data;
+                                layer.alert(JSON.stringify(data));
+                            }
+                            , getCheckLength: function () { //获取选中数目
+                                var checkStatus = table.checkStatus('idTest')
+                                    , data = checkStatus.data;
+                                layer.msg('选中了：' + data.length + ' 个');
+                            }
+                            , isAll: function () { //验证是否全选
+                                var checkStatus = table.checkStatus('idTest');
+                                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+                            }
+                        };
+
+                        $('.demoTable .layui-btn').on('click', function () {
+                            var type = $(this).data('type');
+                            active[type] ? active[type].call(this) : '';
+                        });
+                    });
             </script>
         </body>
 
