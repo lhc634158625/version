@@ -52,6 +52,12 @@
                                 </div>
 
                                 <div id="demo7"></div>
+                                <!-- 显示分页信息-->
+                                <!-- <div class="row">
+                                    <div class="layui-btn layui-btn-primaryt" id="page_info_area">1</div>
+
+                                    <div class="layui-btn layui-btn-primary" id="page_nav_area">1</div>
+                                </div>  -->
 
                                 <table class="layui-table" lay-data="{width: 1800, page:false, id:'idTest'}" lay-filter="demo">
                                     <thead>
@@ -108,7 +114,34 @@
 
                 //jq初始化加载 
                 $(function () {
-                    GetPolice(1, 10);//第几页,一页几条           
+                    laytab.loadTab();
+                    GetPolice(1, 10);//第几页,一页几条      
+
+                });
+
+
+                //独立分页
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //只显示上一页、下一页
+                    var laypage = layui.laypage;
+                    laypage.render({
+                        elem: 'demo7'
+                        , count: 50
+                        , first: '首页'
+                        , last: '尾页'
+                        // , prev: '上'
+                        // , next: '下'
+                        , layout: ['prev', 'next', 'limit', 'skip']
+                        , limits: [25, 50, 100, 150]
+                        , jump: function (obj, first) {
+                            console.log(obj);
+                            if (!first) {
+                                layer.msg('第 ' + obj.curr + ' 页');
+                            }
+                        }
+                    });
                 });
 
                 function layTab() { }
@@ -116,16 +149,17 @@
                 layTab.prototype.loadTab = function () {
                     layui.use('table', function () {
                         var table = layui.table;
-                        //独立分页
 
-     
+
+
+
                         //表格重载,自定义表格与分页
                         table.reload('idTest', {
                             // page:true,
                             // count:5696,
                             // limit:10,
                             // layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
-                            data: dataPolice
+                            data: dataTest//dataPolice
                         });
                         //监听表格复选框选择
                         table.on('checkbox(demo)', function (obj) {
@@ -170,7 +204,7 @@
                     });
 
                 }
-                var laytab=new layTab();
+                var laytab = new layTab();
 
 
 

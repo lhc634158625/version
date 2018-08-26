@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import sun.misc.BASE64Encoder;
+
 import teamwish.dataContracts.common.*;
 import teamwish.dataContracts.sys.*;
 import teamwish.logic.base.DBHelp;
