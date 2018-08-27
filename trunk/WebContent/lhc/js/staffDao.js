@@ -1,7 +1,18 @@
+
+var _serviceUrl = "http://218.85.92.186:8081/api/";
+var tokenCode='06814dc7-2712-4093-b21d-7156a1de7fbb';
+
+
 function loadData() {}
+
+/**
+ * 警员搜索
+ * @param {*} method 
+ * @param {*} data 
+ * @param {*} callback 
+ */
 loadData.prototype.PostData = function (method, data, callback) {
-    console.log(data);
-    var _serviceUrl = "http://218.85.92.186:8081/api/";
+    console.log(data);   
     var datajson = JSON.stringify(data);
     var url = _serviceUrl + method;
 
@@ -9,7 +20,7 @@ loadData.prototype.PostData = function (method, data, callback) {
         cache: false,
         type: "POST",
         async: true,
-        headers: { 'token': '06814dc7-2712-4093-b21d-7156a1de7fbb', "userId": "0" },
+        headers: { 'token': tokenCode, "userId": "0" },
         url: url,
         data: datajson, // JSON.stringify(obj),
         contentType: "application/json",
@@ -21,6 +32,35 @@ loadData.prototype.PostData = function (method, data, callback) {
 
     });
 }
+
+/**
+ * 查询警员数量
+ * @param {*} method 
+ * @param {*} data 
+ * @param {*} callback 
+ */
+loadData.prototype.GetPoliceNum=function (method, data, callback) {
+    console.log(data);   
+    var datajson = JSON.stringify(data);
+    var url = _serviceUrl + method;
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        async: true,
+        headers: { 'token': tokenCode, "userId": "0" },
+        url: url,
+        data: datajson, // JSON.stringify(obj),
+        contentType: "application/json",
+        dataType: "json",
+        success: function (result) {
+            console.log(result.data);
+            callback(result);
+        }
+
+    });
+}
+
 //加载数据
 var load = new loadData();
 

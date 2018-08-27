@@ -178,7 +178,7 @@
                 //jq初始化加载 
                 $(function () {
                     // laytab.loadTab();//静态
-                    GetPolice(1, 10);//第几页,一页几条      
+                    GetPolice(1, 25);//第几页,一页几条      
 
                 });
 
@@ -199,7 +199,7 @@
                     });
                 });
 
-
+                var pageData=25;
                 //独立分页控件
                 layui.use(['laypage', 'layer'], function () {
                     var laypage = layui.laypage
@@ -220,6 +220,9 @@
                             if (!first) {
                                 layer.msg('第 ' + obj.curr + ' 页');
                                 PagiNationSelect(obj);
+                                pageData=eval(obj).limit;
+                                console.log(eval(obj).limit);
+                                laytab.loadTab();
                             }
                         }
                     });
@@ -237,6 +240,7 @@
                             // count:5696,
                             // limit:10,
                             // layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+                            limit:pageData,
                             data: dataPolice//dataTest
                         });
                         //监听表格复选框选择
