@@ -36,7 +36,7 @@ table thead, tbody {
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin">
 		<%@ include file="../shared/pageHeader.jsp"%>
-		<%@ include file="../shared/policeStationSchedulingMenu.jsp"%>
+		<!-- <%@ include file="../shared/policeStationSchedulingMenu.jsp"%> -->
 		<div class="" id="width_right" style="float:right">
 			<!-- 内容主体区域 -->
 			<div>

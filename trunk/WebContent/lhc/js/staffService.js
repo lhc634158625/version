@@ -1,25 +1,37 @@
 /**
- * 获取警员信息
+ * 初始化获取警员信息
  * @param {*} page_num 
  * @param {*} pageSize_num 
  */
 function GetPolice(page_num, pageSize_num) {
-    var pageFilter = new Object();
+    let pageFilter = new Object();
     pageFilter.page = page_num;
     pageFilter.pageSize = pageSize_num;
-    var list = load.PostData("sys/staff/filter", pageFilter, function (result) {
+    load.PostData("sys/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
         laytab.loadTab();   
-        // layui.use('table', function () {
-        //     var table = layui.table;
-        //     table.reload('idTest', {
-        //         // page:true,
-        //         // limit:10;
-        //         data: dataPolice
-        //     });
-        // });
     });
 }
+
+/**
+ * 分页查询
+ * @param {*} obj 
+ */
+function PagiNationSelect(obj){
+    let data=eval(obj);
+    let page_num=data.curr;
+    let pageSize_num=data.limit;
+    console.log(page_num);
+    let pageFilter=new Object();
+    pageFilter.page = page_num;
+    pageFilter.pageSize = pageSize_num;
+    load.PostData("sys/staff/filter", pageFilter, function (result) {
+        dataPolice = result.data;
+        laytab.loadTab();   
+    });
+}
+
+
 
 
 const vue=new Vue({

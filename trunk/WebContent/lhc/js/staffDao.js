@@ -9,7 +9,7 @@ loadData.prototype.PostData = function (method, data, callback) {
         cache: false,
         type: "POST",
         async: true,
-        headers: { 'token': '20199d83-f9f0-40c3-a103-eade7d1aab2a', "userId": "1" },
+        headers: { 'token': '06814dc7-2712-4093-b21d-7156a1de7fbb', "userId": "0" },
         url: url,
         data: datajson, // JSON.stringify(obj),
         contentType: "application/json",
