@@ -153,7 +153,7 @@
 				<li class="layui-nav-item"><a href="javascript:;"><img style="width: 22%;height: 22%;" src="../images/xtgl.png">&nbsp;系统管理</a>
 					<dl class="layui-nav-child" style="float:left">
 						<dd>
-							<a href="<c:url value='/lhc/policeList.jsp'/>">警员列表</a>
+							<a href="">警员列表</a>
 						</dd>
 						<dd>
 							<a href="">组织管理</a>
@@ -195,7 +195,7 @@
 				<li class="layui-nav-item"><a
 					href="<c:url value=' '/>"><img style="width: 60%;height: 70%;" src="../images/message.png" class="layui-nav-img"></a></li>
 				<li id="returnToLogin" class="layui-nav-item"><a
-					href="<c:url value=''/>">退出</a></li>
+					onclick='OnClickeExit();'>退出</a></li>
 				<li id="loginTo" class="layui-nav-item"><a>
 						<img style="width: 25%;height: 25%;" src="../images/gly.png" class="layui-nav-img">
 						<span id="loginUser">登录</span>
@@ -238,5 +238,39 @@
 			}			
 		}
 		init();
+		function OnClickeExit(){			
+			var request={};
+			PostDataExit("sys/user/logout",request,function(result){
+				sessionStorage.removeItem("result");
+	        	top.window.location.href = "/duty/login.jsp";	
+			});
+		}
+		function PostDataExit(method, data, callback) {
+		    var result = sessionStorage.getItem("result");
+		    var dataObj;
+			if(result != null){
+				dataObj =eval("("+result+")");
+			};		
+		    var datajson = JSON.stringify(data);
+		    var token = window.localStorage.getItem("token");
+		    var url = "http://218.85.92.186:8081/api/" + method ;
+		    $.ajax({
+		        cache: false,
+		        type: "POST",
+		        headers: {'token': dataObj.token,"userId":dataObj.id},
+		        async: true,
+		        url: url,
+		        data: datajson, // JSON.stringify(obj),
+		        contentType: "application/json",
+		        dataType: "json",
+		        success: function (result) {
+		        	callback(result);
+		        },
+		        error: function (xhr) {		          
+		            alert("系统退出出错！");
+		            return;
+		        }
+		    });
+		}
 	</script>
 </header>

@@ -231,7 +231,6 @@
 					<div id="mapDiv"></div>
 				</div>
 			</div>
-			<%@ include file="../shared/pageFooter.jsp"%>
 		</div>
 	</div>
 </body>

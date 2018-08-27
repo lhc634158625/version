@@ -237,7 +237,6 @@
 </body>
 
 <script src="../layui/layui.js"></script>
-<script src="../js/pgis/mypgis.js"></script>
 <script src="../js/pgis/EzMapAPI.js"></script>
 <script src="../js/pgis/EzServerClient.min.js"></script>
 <script>
