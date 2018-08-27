@@ -39,55 +39,100 @@
 
         <body class="layui-layout-body">
             <div class="layui-layout layui-layout-admin">
-                <%@ include file="../shared/pageHeader.jsp"%>
-                    <%@ include file="../shared/policeStationSchedulingMenu.jsp"%>
-                        <div class="layui-body">
-                            <!-- 内容主体区域 -->
-                            <div>
 
-                                <div class="layui-btn-group demoTable">
-                                    <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
-                                    <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
-                                    <button class="layui-btn" data-type="isAll">验证是否全选</button>
+                <div class="layui-body">
+                    <!-- 内容主体区域 -->
+                    <div>
+                        <!--条件查询-->
+                        <div class="search_bar">
+                            <form @submit.prevent="policeSearch">
+                                <div>
+                                    <span>名字:</span>
+                                    <input type="text" v-model="policeName"/>
                                 </div>
+                                <div>
+                                    <span>单位:</span>
+                                    <input/>
+                                </div>
+                                <div>
+                                    <span>岗位:</span>
+                                    <select v-model="stationId">
+                                        <option value="">未选择</option>
+                                        <option v-for="(station,index) in allStations" :value="station.id" :key="index">{{station.name}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <span>角色:</span>
+                                    <select v-model="roleId">
+                                        <option value="">未选择</option>
+                                        <option v-for="(role,index) in allRoles" :value="role.id" :key="index">{{role.name}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <span>当前班:</span>
+                                    <select v-model="dutyId">
+                                        <option value="">未选择</option>
+                                        <option v-for="(duty,index) in allDutys" :value="duty.id" :key="index">{{duty.name}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <span>状态:</span>
+                                    <select v-model="stateId">
+                                        <option value="">未选择</option>
+                                        <option v-for="(state,index) in allStates" :value="state.id" :key="index">{{state.name}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <span>通信:</span>
+                                    <input type="text" />
+                                </div>
+                                <input type="submit" />
+                            </form>
+                        </div>
 
-                                <div id="demo7"></div>
-                                <!-- 显示分页信息-->
-                                <!-- <div class="row">
+                        <div class="layui-btn-group demoTable">
+                            <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+                            <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
+                            <button class="layui-btn" data-type="isAll">验证是否全选</button>
+                        </div>
+
+                        <div id="demo7"></div>
+                        <!-- 显示分页信息-->
+                        <!-- <div class="row">
                                     <div class="layui-btn layui-btn-primaryt" id="page_info_area">1</div>
 
                                     <div class="layui-btn layui-btn-primary" id="page_nav_area">1</div>
                                 </div>  -->
 
-                                <table class="layui-table" lay-data="{width: 1800, page:false, id:'idTest'}" lay-filter="demo">
-                                    <thead>
-                                        <tr>
-                                            <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-                                            <th lay-data="{width:278,align:'center', toolbar: '#barDemo'}">操作</th>
-                                            <th lay-data="{field:'code', width:80, sort: true}">警号</th>
-                                            <th lay-data="{field:'name', width:100}">姓名/名称</th>
+                        <table class="layui-table" lay-data="{width: 1800, page:false, id:'idTest'}" lay-filter="demo">
+                            <thead>
+                                <tr>
+                                    <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+                                    <th lay-data="{width:278,align:'center', toolbar: '#barDemo'}">操作</th>
+                                    <th lay-data="{field:'code', width:80, sort: true}">警号</th>
+                                    <th lay-data="{field:'name', width:100}">姓名/名称</th>
 
-                                            <th lay-data="{field:'gender', width:80}">单位</th>
-                                            <th lay-data="{field:'gender', width:80}">岗位</th>
+                                    <th lay-data="{field:'gender', width:80}">单位</th>
+                                    <th lay-data="{field:'gender', width:80}">岗位</th>
 
-                                            <th lay-data="{field:'telephone', width:160}">电话</th>
-                                            <th lay-data="{field:'leaderPost', width:100}">领导职位</th>
-                                            <th lay-data="{field:'nonLeaderPost', width:100}">非领导职务</th>
-                                            <th lay-data="{field:'idCode', width:135}">身份证</th>
-                                            <th lay-data="{field:'gender', width:80}">角色</th>
+                                    <th lay-data="{field:'telephone', width:160}">电话</th>
+                                    <th lay-data="{field:'leaderPost', width:100}">领导职位</th>
+                                    <th lay-data="{field:'nonLeaderPost', width:100}">非领导职务</th>
+                                    <th lay-data="{field:'idCode', width:135}">身份证</th>
+                                    <th lay-data="{field:'gender', width:80}">角色</th>
 
-                                            <th lay-data="{field:'deviceInfos', width:123, toolbar: '#barDemo3'}">设备</th>
+                                    <th lay-data="{field:'deviceInfos', width:123, toolbar: '#barDemo3'}">设备</th>
 
-                                            <th lay-data="{field:'state', width:100,}">当前状态</th>
-                                            <th lay-data="{width:123,align:'center', toolbar: '#barDemo1'}">排班情况</th>
-                                            <th lay-data="{width:123,align:'center', toolbar: '#barDemo2'}">工作日志</th>
+                                    <th lay-data="{field:'state', width:100,}">当前状态</th>
+                                    <th lay-data="{width:123,align:'center', toolbar: '#barDemo1'}">排班情况</th>
+                                    <th lay-data="{width:123,align:'center', toolbar: '#barDemo2'}">工作日志</th>
 
-                                        </tr>
-                                    </thead>
-                                </table>
-                                <%@ include file="../shared/pageFooter.jsp"%>
-                            </div>
-                        </div>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+                </div>
             </div>
             <script type="text/html" id="barDemo" style="width:200px">
                 <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -102,7 +147,8 @@
             <script type="text/html" id="barDemo3" style="width:100px">
                 <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">设备编号</a>
             </script>
-            <script src="../My97DatePicker/WdatePicker.js"></script>
+            <script src="./js/vue.js"></script>
+            <!-- <script src="../My97DatePicker/WdatePicker.js"></script> -->
             <script src="../js/layui2/layui.js"></script>
             <script src="./js/staffService.js"></script>
             <script src="./js/staffDao.js"></script>
@@ -115,7 +161,7 @@
                 //jq初始化加载 
                 $(function () {
                     laytab.loadTab();
-                    GetPolice(1, 10);//第几页,一页几条      
+                    // GetPolice(1, 10);//第几页,一页几条      
 
                 });
 

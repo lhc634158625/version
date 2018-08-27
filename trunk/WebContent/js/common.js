@@ -241,7 +241,7 @@ function PostData(method, data, callback) {
 	};		
     var datajson = JSON.stringify(data);
     var token = window.localStorage.getItem("token");
-    $(".Mask").show();
+    //$(".Mask").show();
     var url = _serviceUrl + method ;
     $.ajax({
         cache: false,

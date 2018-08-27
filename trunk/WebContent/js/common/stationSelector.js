@@ -1,11 +1,8 @@
-function AfterInitial() {
-    stationSelector = new StationSelector();
-    stationSelector.Initial();
-}
 var stationSelector
-function StationSelector() {
+function StationSelector(isMulti) {
     var _self = this;
     var _allStations;
+    this._ismulti=isMulti;
     _self.pId=_LoginUser.stationId;
     this.Initial = function () {
         _self.InitData();
@@ -30,13 +27,16 @@ function StationSelector() {
                 simpleData: {
                     enable: true
                 }
-            },
+            },            
             callback: {
-                //点击树节点
-                onClick: SelectStation
+                onClick: SelectStation,
+                onExpand:onExpandforchangeWidth,
+                onCollapse:onExpandforchangeWidth
             }
         };
-        if (request("multi") == "1") {
+       // if (request("multi") == "1") 
+        if(this._ismulti==true)
+        {
             ismulti = true;
             _self.setting = {
                 check: {
@@ -64,11 +64,14 @@ function StationSelector() {
             _self.pageIndex = 0;
             if (_allStations == null) {
                 _allStations = new Array();              
-                _self.RetrieveAllData();
+                _self.RetrieveAllData();                  
                 return;
             }
             _self.ShowData();
-        });     
+            _self.clearOption();
+            _self.AddOption();
+        });   
+        
     }
     this.GetFilter = function () {
         _self.filter = new Array();
@@ -82,12 +85,9 @@ function StationSelector() {
     this.RetrieveAllData = function () {
         _self.GetFilter();
         var param = new Object();
-        param.conditions = _self.filter;
-        param.pageSize = 20;
-        param.pageIndex = _self.pageIndex;
-        param.fromRecord=_self.pageIndex*param.pageSize;
-        param.orderField = "Id";
-        PostData("sys/station/filter", param, function (result) {
+        param.stationId = 1;
+        param.stationGroupId = 0;
+        PostData("sys/station/tree", param, function (result) {
             if (result.data.length > 0) {
             	for(var i=0;i<result.data.length;i++)
             		{
@@ -97,12 +97,11 @@ function StationSelector() {
             	}
             		
                 _allStations = _allStations.concat(result.data);
-                _self.pageIndex++;
-                _self.RetrieveAllData();
-            }
-            else {
                 SaveDBData("AllStation", _allStations);            
-                _self.ShowData();            
+                _self.ShowData(); 
+                _self.clearOption();
+                _self.AddOption(); 
+                selectRender();
             }
         });
     }
@@ -119,9 +118,9 @@ function StationSelector() {
             $('#myMenu1').hide();
         });
     }
-    //树结构函数
+    //��ѡ�¼�����
     function SelectStation(event, treeId, treeNode) {
-        parent.SelectStation(treeNode);
+        parent.changeStation(treeNode);
     }
     function SelectStationById(id) {
         var _node = zTree.getNodeByParam("id", id, null);
@@ -169,7 +168,7 @@ function StationSelector() {
             if (nodes.length > 0) {
                 parent.SelectStation(nodes[0]);
             }
-        }      
+        }
     }   
     this.RefreshChecked=function(selectedIds) {
         var checkNames = "";
@@ -188,6 +187,29 @@ function StationSelector() {
     	//zTree.expandNode(zTree.getNodeByParam("id",treeId,null));
     	zTree.selectNode(zTree.getNodeByParam("id",treeId,null));
     	zTree.setting.callback.onClick(null, zTree.setting.id, zTree.getNodeByParam("id",treeId,null));
+    	onExpandforchangeWidth();
+    }
+ // 画警员搜索
+    this.AddOption=function() {
+    	var data=_allStations;
+ 		var manList=new Array();
+ 		var IdList=new Array();
+ 		for(var i=0;i<data.length;i++){
+ 			if(!isInArray(manList,data[i].staffName)){					
+ 				manList.push(data[i].name);
+ 				IdList.push(data[i].id);
+ 			}
+ 		}
+ 		var html = "";
+ 		html += "<option value=''></option>";
+ 		for(var j=0;j<manList.length;j++){
+ 			html += "<option value='"+ IdList[j] +"'>"+manList[j]+"</option>";		
+ 		}
+ 		$("#stationSearch").append(html); 
+ 		
+ 	}
+    this.clearOption=function(){
+    	$("#stationSearch").empty();
     }
 }
 

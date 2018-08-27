@@ -17,12 +17,13 @@ table thead, tbody {
     width:100%;
     table-layout:fixed;
 }
+
 .layui-table{
 	margin:0
 }
 
 .table-head{padding-right:17px;background-color:#999;color:#000;}
-.table-body{width:100%; height:450px;overflow-y:scroll;}
+.table-body{width:100%; height:450px;overflow-y:scroll;overflow-x:hidden;}
 .table-head table,.table-body table{width:100%;}
 #table-top1{
 	margin-bottom:10px;
@@ -36,7 +37,7 @@ table thead, tbody {
 	<div class="layui-layout layui-layout-admin">
 		<%@ include file="../shared/pageHeader.jsp"%>
 		<%@ include file="../shared/policeStationSchedulingMenu.jsp"%>
-		<div class="layui-body">
+		<div class="" id="width_right" style="float:right">
 			<!-- 内容主体区域 -->
 			<div>
 				<div class="layui-row layui-col-space1">
@@ -52,22 +53,26 @@ table thead, tbody {
 								<div class="layui-form-item">
 									<div class="layui-inline" id="selectTime">
 										<div class="grid-demo grid-demo-bg1"
-											style="font-size: 18px; font-weight: bold;" id="titleName"></div>
+											style="font-size: 16px; font-weight: bold;cursor: pointer;" id="titleName"></div>
 									</div>
-									<div class="layui-inline" style="float: right;">
-										<button class="layui-btn layui-btn-primary layui-btn-sm"
-											onclick="_turn('week')" style="display: none;" id="week">切换至周表</button>
-										<button class="layui-btn layui-btn-primary layui-btn-sm"
-											onclick="_turn('day')" style="display: block;" id="day">切换至日表</button>
-									</div>
+							 		<div class="layui-inline" style="float: right;display: none;" id="dayOrWeek">
+							 			<div style="display: none;" id="week">
+											<button class="layui-btn layui-btn-primary layui-btn-sm"
+													onclick="_turn('week')">切换至周表</button>
+										</div>
+										<div style="display: block;" id="day">
+											<button class="layui-btn layui-btn-primary layui-btn-sm"
+													onclick="_turn('day')">切换至日表</button>
+										</div>
+									</div>	
 								</div>
 							</div>
 							<form class="layui-form" action="" method="post">
 								<div style="margin-top: 10px; margin-bottom: 10px;">
 									<div class="layui-form">
 										<div class="layui-form-item">
-											<div class="layui-inline" id="selectTime">
-												<label class="layui-form-label">日期</label>
+											<div class="layui-inline" id="selectTime" style="float: left;">
+												<label class="layui-form-label" style="width: 50px">日期</label>
 												<div class="layui-input-inline" style="min-width: 212px;">
 													<input id="d121" class="layui-input" type="text"
 														onfocus="WdatePicker({isShowWeek:true,onpicked:funccc,errDealMode:3})" />
@@ -75,17 +80,37 @@ table thead, tbody {
 													<input id="d123" class="layui-input" style="display: none;" />
 												</div>
 											</div>
-											<div class="layui-inline">
-												<label class="layui-form-label">时段</label>
+											<div class="layui-inline" style="float: left;">
+												<label class="layui-form-label" style="width: 50px">时段</label>
 												<div class="layui-input-inline" style="min-width: 212px;">
 													<input type="text" class="layui-input" id="test9"
 														placeholder=" - ">
 												</div>
 											</div>
-											<div class="layui-inline">
-												<div class="layui-input-inline" style="min-width: 212px;">
+											<div class="layui-inline" style="float: left;">
+												<div class="layui-input-inline" style="width: 100px;">
 													<button class="layui-btn layui-btn-primary layui-btn-lg"
 														type="button" lay-submit="find" lay-filter="find">查询</button>
+												</div>
+											</div>
+											<div class="layui-inline" id="selectMan" style="float: left;">
+												<div id="selectMan1" style="display:block;">
+													<label class="layui-form-label" style="width: 50px">警员</label>
+													<div class="layui-input-inline"
+														style="min-width: 300px;">
+														<select name="category1" id="category1" lay-filter="category1"
+															aria-invalid="false" multiple lay-search lay-case>
+														</select>
+													</div>
+												</div>
+												<div id="selectMan2" style="display:none;">
+													<label class="layui-form-label" style="width: 50px">警员</label>
+													<div class="layui-input-inline"
+														style="min-width: 300px;">
+														<select name="category2" id="category2" lay-filter="category2"
+															aria-invalid="false" multiple lay-search lay-case>
+														</select>
+													</div>
 												</div>
 											</div>
 											<div class="layui-inline" style="float: right;">
@@ -96,26 +121,6 @@ table thead, tbody {
 													<button class="layui-btn layui-btn-primary layui-btn-sm">模板下载</button>
 												</div>
 											</div>
-											<div class="layui-inline" id="selectMan">
-												<div id="selectMan1" style="display:block;">
-													<label class="layui-form-label">警员</label>
-													<div class="layui-input-inline"
-														style="min-width: 212px; max-width: 500px;">
-														<select name="category1" id="category1" lay-filter="category1"
-															aria-invalid="false" multiple lay-search lay-case>
-														</select>
-													</div>
-												</div>
-												<div id="selectMan2" style="display:none;">
-													<label class="layui-form-label">警员</label>
-													<div class="layui-input-inline"
-														style="min-width: 212px; max-width: 500px;">
-														<select name="category2" id="category2" lay-filter="category2"
-															aria-invalid="false" multiple lay-search lay-case>
-														</select>
-													</div>
-												</div>
-											</div>
 										</div>
 									</div>
 								</div>
@@ -123,11 +128,10 @@ table thead, tbody {
 							<table class="layui-table" id="table-top1" ></table>
 							<table class="layui-table" id="table-top2" style="display: none;" ></table>
 							<div id="table1"></div>
-							<div id="table2" style="display: none;"></div>							
+							<div id="table2" style="display: none;"></div>								
 						</div>
 					</div>
 				</div>
-				<%@ include file="../shared/pageFooter.jsp"%>
 			</div>
 		</div>
 	</div>
@@ -160,19 +164,25 @@ table thead, tbody {
         var categoryName = '';
         form.on('select(category1)', function (data) {
             category = data.value;
-            var tab = document.getElementById("table2").getElementsByClassName("layui-table");
+            var tab = document.getElementById("tableBody1").getElementsByClassName("layui-table");
             for(var m=0;m<tab.length;m++){
             	var a = tab[m].getElementsByTagName("a");
                 for(var k=0;k<a.length;k++){
-                	a[k].firstChild.style.backgroundColor="transparent";
+                	if(a[k].childElementCount>=1){
+                		a[k].firstChild.style.backgroundColor="transparent";
+                	}
                 }
             }
             if(category.length!=0){
                 for(var j=0;j<category.length;j++){
                 	categoryName = category[j];
-                    tab=document.getElementsByName(categoryName);
-                    for(var i=0;i<tab.length;i++){
-                    	tab[i].firstChild.style.backgroundColor="white";
+                	for(var m=0;m<tab.length;m++){
+                    	var a = tab[m].getElementsByTagName("a");
+                        for(var k=0;k<a.length;k++){
+                        	if(a[k].text==categoryName){
+                        		a[k].firstChild.style.backgroundColor="white";
+                        	}	
+                        }
                     }
                 }
             }
@@ -181,43 +191,77 @@ table thead, tbody {
         
         form.on('select(category2)', function (data) {
             category = data.value;
-            var tab = document.getElementById("table1").getElementsByClassName("layui-table");
+            var tab = document.getElementById("tableBody2").getElementsByClassName("layui-table");
             for(var m=0;m<tab.length;m++){
             	var a = tab[m].getElementsByTagName("a");
                 for(var k=0;k<a.length;k++){
-                	a[k].firstChild.style.backgroundColor="transparent";
+                	if(a[k].childElementCount>=1){
+                		a[k].firstChild.style.backgroundColor="transparent";
+                	}
                 }
             }
             if(category.length!=0){
                 for(var j=0;j<category.length;j++){
                 	categoryName = category[j];
-                    tab=document.getElementsByName(categoryName);
-                    for(var i=0;i<tab.length;i++){
-                    	tab[i].firstChild.style.backgroundColor="white";
+                	for(var m=0;m<tab.length;m++){
+                    	var a = tab[m].getElementsByTagName("a");
+                        for(var k=0;k<a.length;k++){
+                        	if(a[k].text==categoryName){
+                        		a[k].firstChild.style.backgroundColor="white";
+                        	}	
+                        }
                     }
                 }
             }
 			return false;
         });	
-        
+        form.on('select(stationSearch)', function (data) {
+        	var select = data.value;
+        	stationSelector.openNode(select);
+        	return false;
+        });
 		form.on('submit(find)', function (data) {
 			SelectStation(null);
 			return false;
         });	
 		window.selectRender = function(){
-			form.render();
+			form.render();	
+			ChangeTableHeight();
 		};
-	})				
+	});
+	//调整内容表格的最大高度
+	function ChangeTableHeight(){
+		var h= document.documentElement.clientHeight || document.body.clientHeight;	
+		var tb=document.getElementsByClassName("table-body");
+		if(tb!=null){	
+			for(var i=0;i<tb.length;i++){				
+				if(tb[i].offsetTop!=0 && h!=(tb[i].offsetHeight+tb[i].offsetTop+30)){
+					var offset=h-tb[i].offsetTop-30;
+					if(offset>0){
+						tb[i].style.height=offset+'px';						
+					}		
+				}	
+			}
+		}
+	}
 </script>
 <script>
+	function AfterInitial() {		
+	    stationSelector = new StationSelector();
+	    //stationSelector._ismulti=true;
+	    stationSelector.Initial();	    
+	}
 	var id;//单位id
 	var stationN;//单位名称
 	var type=0;// 周的标识
 	var arr;//一周的日期
 	var type1=0;
+	var shiftTypeId = -1;
+	var arr_isShow = -1;
 
 	//一进来就根据用户信息加载表格信息
-	$(function (){
+	$(function (){	
+		
 		var station = new Object();
 	    var result = sessionStorage.getItem("result");
 	    var dataObj;
@@ -231,6 +275,7 @@ table thead, tbody {
 		var fromDt = arr[0] + " 00:00:00";
 		var toDt = arr[6] + " 23:59:59";
 		GetArrangeReport( fromDt, toDt, id);
+		
 	}); 
 	
 	// 点击树节点加载
@@ -251,7 +296,19 @@ table thead, tbody {
 	//根据单位名称判断警员搜索隐藏和显示
 	function getStationName(obj) {
 		$("#titleName").empty();
-		$("#titleName").append(obj+"排班");
+		var request=new Object();
+		request.stationId=id;
+		PostData("sys/station/superiors",request,function(result){
+			var html = "";
+			for(var i=0;i<result.data.length;i++){
+				if(i!=result.data.length-1){
+					html += "<a onclick='showStation("+result.data[i].id+")''>" + result.data[i].name + "</a>>";
+				}else{
+					html += "<a onclick='showStation("+result.data[i].id+")''>" + result.data[i].name + "</a>";
+				}
+			}
+			$("#titleName").append(html);
+		});
 		var selectMan = document.getElementById("selectMan");
 		if(obj=="厦门公安局"||obj=="分局"){
 			selectMan.style.display="none";
@@ -266,8 +323,7 @@ table thead, tbody {
 		var request1=new Object();
 		var request2=new Object();
 		var request3=new Object();
-		var request4=new Object();
-
+		var request4=new Object();	
 		var oneDay = document.getElementById("d122").value;
 		var timeSpan = document.getElementById("test9").value;
 		var fromTime;
@@ -288,8 +344,7 @@ table thead, tbody {
 		var html3 = "";
 		var html4 = "";
 		var html5 = "";
-		var html6 = "";
-		
+		var html6 = "";		
 
 		request.fromDt=fromDt;
 		request.toDt=toDt;
@@ -306,13 +361,36 @@ table thead, tbody {
 		request3.fromDt=oneDay + " 00:00:00";
 		request3.toDt=oneDay + " 23:59:59";
 		request3.stationId=stationId;
+
+		request1.fromDt=oneDay + " 00:00:00";
+		request1.toDt=oneDay + " 23:59:59";
+		request1.stationId=stationId;
+		if(shiftTypeId!=-1){
+			request.shiftTypeIdPath=shiftTypeId;
+			request1.shiftTypeIdPath=shiftTypeId;
+			request2.shiftTypeIdPath=shiftTypeId;
+			request3.shiftTypeIdPath=shiftTypeId;
+			request4.shiftTypeIdPath=shiftTypeId;
+		}
+		
+		if(arr_isShow!=-1){
+			request.isShow=arr_isShow;
+			request1.isShow=arr_isShow;
+			request2.isShow=arr_isShow;
+			request3.isShow=arr_isShow;
+			request4.isShow=arr_isShow;
+		}
 		
 		if(fromTime!=null&&fromTime!=""){
+			request.fromTime=fromTime;
+			request1.fromTime=fromTime;
 			request2.fromTime=fromTime;
 			request3.fromTime=fromTime;
 			request4.fromTime=fromTime;
 		}
 		if(toTime!=null&&toTime!=""){
+			request.toTime=toTime;
+			request1.toTime=toTime;
 			request2.toTime=toTime;
 			request3.toTime=toTime;
 			request4.toTime=toTime;
@@ -323,6 +401,10 @@ table thead, tbody {
 		}
 		PostData("duty/arrange/stationShiftTypeCount",request2,function(result){
 			var typeNum = result.data;
+			if(typeNum.length==0){
+				return;
+			}
+			document.getElementById("dayOrWeek").style.display="block";
 			html4 += "<tr>";
 			for(var i=0;i<typeNum.length;i++){
 				html4 += "<td>"+typeNum[i].stationName+"("+typeNum[i].count+")</td>";
@@ -332,6 +414,10 @@ table thead, tbody {
 		});
 		PostData("duty/arrange/stationShiftTypeCount",request3,function(result){
 			var typeNum = result.data;
+			if(typeNum.length==0){
+				return;
+			}
+			document.getElementById("dayOrWeek").style.display="block";
 			html5 += "<tr>";
 			for(var i=0;i<typeNum.length;i++){
 				html5 += "<td>"+typeNum[i].stationName+"("+typeNum[i].count+")</td>";
@@ -341,17 +427,26 @@ table thead, tbody {
 		});
 		if(stationN!="厦门公安局"&&stationN!="分局"){
 			if((stationN.split("分局").length==2&&(stationN.split("分局")[1]==null||stationN.split("分局")[1]==""))||stationN=="支队"){
+				type1=1;
+				document.getElementById("selectMan1").style.display="none";
 				PostData("duty/arrange/stationStaffCount",request,function(result){	
+					var typeNum = result.data.length;
+					if(typeNum==0){
+						return;
+					}
 					// alert(result.data.length);
-					type1=1;
-					document.getElementById("selectMan1").style.display="none";
 					// 画周表
-					html1 += CreateTableByStation(result.data,getTitleItem(result.data));
+					html1 += CreateTableByStation1(result.data,getTitleItem(result.data));
 					$("#table1").append(html1);
+					selectRender();
 				});
 				PostData("duty/arrange/stationStaff",request4,function(result){
+					var typeNum = result.data.length;
+					if(typeNum==0){
+						return;
+					}
 					// 画日表
-					html2 += CreateTable2(result.data,getTitleItem(result.data));
+					html2 += CreateTableByStation2(result.data,getTitleItem(result.data));
 					$("#table2").append(html2);
 					// 画警员搜索
 					html6 += selectMan(result.data);
@@ -359,7 +454,12 @@ table thead, tbody {
 					selectRender();				
 				});
 			}else{
-				PostData("duty/arrange/stationStaff",request,function(result){	
+				PostData("duty/arrange/stationStaff",request,function(result){
+					var typeNum = result.data.length;
+					if(typeNum==0){
+						return;
+					}
+					document.getElementById("dayOrWeek").style.display="block";	
 					// alert(result.data.length);
 					// 画周表
 					html1 += CreateTable1(getTitleItem(result.data),result.data);
@@ -375,6 +475,11 @@ table thead, tbody {
 					selectRender();
 				});
 				PostData("duty/arrange/stationStaff",request4,function(result){
+					var typeNum = result.data.length;
+					if(typeNum==0){
+						return;
+					}
+					document.getElementById("dayOrWeek").style.display="block";
 					// 画日表
 					html2 += CreateTable2(result.data,getTitleItem(result.data));
 					$("#table2").append(html2);
@@ -385,30 +490,33 @@ table thead, tbody {
 				});
 			}
 		}else{
-			request1.fromDt=oneDay + " 00:00:00";
-			request1.toDt=oneDay + " 23:59:59";
-			request1.stationId=stationId;
-			if(fromTime!=null&&fromTime!=""){
-				request.fromTime=fromTime;
-				request1.fromTime=fromTime;
-			}
-			if(toTime!=null&&toTime!=""){
-				request.toTime=toTime;
-				request1.toTime=toTime;
-			}
 			PostData("duty/arrange/stationStaffCount",request,function(result){	
+				var typeNum = result.data.length;
+				if(typeNum==0){
+					return;
+				}
+				document.getElementById("dayOrWeek").style.display="block";
 				// alert(result.data.length);
 				// 画周表
-				html1 += CreateTableByStation(result.data,getTitleItem(result.data));
+				html1 += CreateTableByStation1(result.data,getTitleItem(result.data));
 				$("#table1").append(html1);
+				selectRender();
 			});
-			PostData("duty/arrange/stationStaffCount",request1,function(result){	
+			PostData("duty/arrange/stationStaffCount",request1,function(result){
+				var typeNum = result.data.length;
+				if(typeNum==0){
+					return;
+				}
+				document.getElementById("dayOrWeek").style.display="block";	
 				// alert(result.data.length);
 				// 画日表
-				html2 += CreateTableByStation(result.data,getTitleItem(result.data));
+				html2 += CreateTableByStation1(result.data,getTitleItem(result.data));
 				$("#table2").append(html2);
+				selectRender();
 			});
 		}
+		shiftTypeId = -1;
+		arr_isShow = -1;		
 	}
 	
 	function getMaxRows(data){
@@ -425,12 +533,15 @@ table thead, tbody {
 	function getTitleItem(data){
 		var length=data.length;
 		var itemList=new Array();
-		var itemMaplist=new Array();
+		var itemIdList=new Array();
+		var itemMaplist=new Array();	
+		var itemMapIdlist=new Array();
 	    var maxRows=1;
 	    
 		for(var i=0;i<data.length;i++){
 			if(!isInArray(itemList,data[i].namePath)){					
 				itemList.push(data[i].namePath);
+				itemIdList.push(data[i].idPath);
 				if(data[i].namePath.split(",").length>maxRows){
 					maxRows=data[i].namePath.split(",").length;
 				}
@@ -438,9 +549,11 @@ table thead, tbody {
 		}
 		for(var i=0;i<itemList.length;i++){
 			var temp=itemList[i].split(",");
+			var tempId=itemIdList[i].split(",");
 			for(var j=0;j<temp.length;j++){
 				if(itemMaplist[j]==null){					
-					itemMaplist[j]=new Map();						
+					itemMaplist[j]=new Map();
+					itemMapIdlist[j]=new Map();
 				}
 				var row=1;
 				if(temp.length==1){
@@ -449,12 +562,28 @@ table thead, tbody {
 				else if(temp.length>1 && j==0){
 					row=maxRows-temp.length+1;
 				}
-				var key=temp[j]+','+row;					
-				if(itemMaplist[j].has(key)){
-					itemMaplist[j].set(key,itemMaplist[j].get(key)+1);
+				var idPath="";
+				if(temp.length == 1){
+					idPath=itemIdList[i];
 				}
 				else{
-					itemMaplist[j].set(key,1);
+					for(var k=0;k<=j;k++){
+						idPath += (tempId[k] + ",");
+					}
+				}
+				var key=temp[j]+','+row;
+				var value="";
+				var keyId=tempId[j]+','+row;			
+				
+				if(itemMapIdlist[j].has(keyId)){
+					var cow = 1 + Number(itemMaplist[j].get(key).split(";")[0]);
+					value=cow +";"+idPath;					
+					itemMaplist[j].set(key,value);
+				}
+				else{
+					value=1+";"+idPath;
+					itemMaplist[j].set(key,value);
+					itemMapIdlist[j].set(keyId,value);
 				}
 			}
 		}
@@ -481,9 +610,10 @@ table thead, tbody {
 				 var temp= key.split(",");					 
 				 var name=temp[0];
 				 var rows=temp[1];
-				 var cols=value;
+				 var cols=value.split(";")[0];
+				 var idPath=value.split(";")[1];
 				 if(cols==1&&rows==itemMaplist.length){
-					 lastShiftType.push(name);	
+					 lastShiftType.push(idPath);	
 				 }
 				 else{
 					 var cnt=0;
@@ -494,7 +624,7 @@ table thead, tbody {
 							}
 							else{
 								if(cnt < cols){
-									lastShiftType.push(key1.split(",")[0]);	
+									lastShiftType.push(value1.split(";")[1]);	
 									cnt++;
 								} 								
 							} 							
@@ -503,12 +633,8 @@ table thead, tbody {
 				 }
 			});
 		}else if(itemMaplist.length==1){
-			itemMaplist[0].forEach(function (value, key, map) {
-				var temp= key.split(",");					 
-				var name=temp[0];
-				var rows=temp[1];
-				var cols=value;
-				lastShiftType.push(name);	
+			itemMaplist[0].forEach(function (value, key, map) {				
+				lastShiftType.push(value.split(";")[1]);	
 			});
 		}
 		return lastShiftType;
@@ -533,17 +659,34 @@ table thead, tbody {
 		}
 		return mapitem;
 	}
-	
+	//获取表内容单元格中排版数据
 	function getShiftTypeAndDate(data){
 		var mapitem=new Map();//把DATA按照班别+日期分类
 		for(var i=0;i<data.length;i++){
-			var key=data[i].shiftName + "," + data[i].workDt;				
+			var dateFrom;
+			if(data[i].fromTime!=""&&data[i].fromTime!=null){
+				dateFrom = data[i].fromTime.substr(0,10);
+			}
+			var dateTo;
+			if(data[i].toTime!=""&&data[i].toTime!=null){
+				dateTo = data[i].toTime.substr(0,10);
+			}
+			if(dateFrom!=dateTo){//跨日排班需要多加一天显示
+				var key1=data[i].idPath + ";" + dateTo;
+				if(mapitem.has(key1)){
+					mapitem.set(key1,mapitem.get(key1) + "," + i);
+				}
+				else{
+					mapitem.set(key1,i);
+				}
+			}
+			var key=data[i].idPath + ";" + dateFrom;				
 			if(mapitem.has(key)){
 				mapitem.set(key,mapitem.get(key) + "," + i);
 			}
 			else{
 				mapitem.set(key,i);
-			}	
+			}
 		}
 		return mapitem;
 	}
@@ -552,12 +695,85 @@ table thead, tbody {
 	function getShiftTypeByStation(data){
 		var mapitem=new Map();
 		for(var i=0;i<data.length;i++){
-			var key=data[i].stationName + "," + data[i].shiftName;				
+			var key=data[i].stationName + ";" + data[i].idPath;				
 			if(!mapitem.has(key)){
 				mapitem.set(key,data[i].count);
 			}
 		}
 		return mapitem;
+	}
+	
+	// 单位、班别做key，staffId做value
+	function getShiftTypeByStation2(data){
+		var mapitem=new Map();
+		for(var i=0;i<data.length;i++){
+			var key=data[i].stationName + ";" + data[i].idPath;				
+			if(mapitem.has(key)){
+				mapitem.set(key,mapitem.get(key)+","+i);
+			}else{
+				mapitem.set(key,i);
+			}
+		}
+		return mapitem;
+	}
+	
+	function getTimeShiftType(data,date){
+		var mapitem=new Map();//把DATA按照警察局+班别序号分类
+		for(var i=0;i<data.length;i++){
+			var fromTime;
+			if(data[i].fromTime!=null&&data[i].fromTime!=""){
+				fromTime=data[i].fromTime.split(" ")[1].replace(".0","");
+			}
+			var toTime;
+			if(data[i].toTime!=null&&data[i].toTime!=""){
+				toTime=data[i].toTime.split(" ")[1].replace(".0","");
+			}
+			if(data[i].fromTime<date){
+				fromTime="00:00:00";
+			}
+			else if(data[i].toTime>date+" 23:59:59"){
+				toTime="23:59:59";
+			}
+			var timeft = fromTime + " - " + toTime;	
+			
+			var time = timeft.substr(0,5)+timeft.substr(8,8);			
+			var key=time + ";" + data[i].idPath;			
+			if(mapitem.has(key)){
+				mapitem.set(key,mapitem.get(key) + "," + i);
+			}
+			else{
+				mapitem.set(key,i);
+			}
+		}
+		return mapitem;
+	}
+	
+	//获取时间段
+	function getTimes(data,date){
+		var timelist=new Array();
+		for(var i=0;i<data.length;i++){
+			var fromTime;
+			if(data[i].fromTime!=null&&data[i].fromTime!=""){
+				fromTime=data[i].fromTime.split(" ")[1].replace(".0","");
+			}
+			var toTime;
+			if(data[i].toTime!=null&&data[i].toTime!=""){
+				toTime=data[i].toTime.split(" ")[1].replace(".0","");
+			}
+			if(data[i].fromTime<date){
+				fromTime="00:00:00";
+			}
+			else if(data[i].toTime>date+" 23:59:59"){
+				toTime="23:59:59";
+			}
+			var timeft = fromTime + " - " + toTime;	
+			
+			var timesub = timeft.substr(0,5)+timeft.substr(8,8);
+			if(!isInArray(timelist,timesub)){
+				timelist.push(timesub);
+			}
+		}
+		return timelist;
 	}
 	
 	function getStation(data) {
@@ -581,93 +797,83 @@ table thead, tbody {
 		}
 		return itemList;
 	}
-	function changeTime(Date,Time){
-		if(Time == null || Time =="") return "";
-		var times =Time.split(" - ");
-		return Date+" "+times[0]+".0"+","+Date+" "+times[1]+".0";
+	function changeTime(sDate,Time){
+		var fromTime = sDate+" 00:00:00.0";
+		var toTime = sDate+" 23:59:59.0";
+		if(Time != null && Time !="")
+		{
+			var times =Time.split(" - ");
+			fromTime = sDate+" "+times[0]+".0";
+			toTime = sDate+" "+times[1]+".0";
+			if(times[0]>=times[1]){
+				toTime=sDate+" 23:59:59.0";
+			}
+		}
+		return fromTime + "," + toTime;		
 	}
 	
 	
 	// 画日表
 	function CreateTable2(data,itemMaplist){
-		getStationId(data);
-		var shiftIdMap = getShiftId(data);
-		var time1 = document.getElementById("d122").value;
-		var time = document.getElementById("test9").value;
-		var mapitem = getShiftType(data,time1,time);
-		var itemList = getStation(data);
-		var lastShiftType = getBodyItem(itemMaplist);
-		
-		var timeft = changeTime(time1,time);
-		
-		
-		var maxRow=itemMaplist.length;
+		var time1 = document.getElementById("d122").value;//日期
+		var time = document.getElementById("test9").value;//时间段
+		var maptimeitem = getTimeShiftType(data,time1);
+		var timeList = getTimes(data,time1);
+		var lastShiftType = getBodyItem(itemMaplist);		
+		var maxRow=itemMaplist.length;		
 		var html = "<div class='table-head'><table class='layui-table'><thead>";
 		
-		for(var i=0;i<itemMaplist.length;i++){
-			
+		for(var i=0;i<itemMaplist.length;i++){			
 			var mapItem=itemMaplist[i];
 			html += "<tr>";
 			if(i==0){
-				html += "<th rowspan='" + maxRow + "'>勤务单位</th>"
+				html += "<th rowspan='" + maxRow + "'>时间段</th>"
 			}
-
 			mapItem.forEach(function (value, key, map) {
 				 var temp= key.split(",");					 
 				 var name=temp[0];
 				 var rows=temp[1];
-				 var cols=value;
-				 html+="<th rowspan='" + rows + "' colspan='" + cols +"'>" + name;
+				 var cols=value.split(";")[0];
+				 var shiftIdPath=value.split(";")[1];				 
+				 html+="<th rowspan='" + rows + "' colspan='" + cols +"'><a style='color:white;cursor: pointer;' onclick='showTypeShift(\""+shiftIdPath+"\")'>" + name + "</a>";
 				 var num = 0;
 				 if(i==itemMaplist.length-rows){
-					 if(timeft !=""){
-						var timefts = timeft.split(",");
-						var sumPeople  = Enumerable.From(data).Where("x=>x.shiftName=="+"'"+name+"' && x.fromTime=="+"'"+timefts[0]+"'"+" && x.toTime=="+"'"+timefts[1]+"'").Distinct("x=>x.staffId").ToArray().length;
-					 }else{
-						 var sumPeople  = Enumerable.From(data).Where("x=>x.shiftName=="+"'"+name+"' && x.workDt=="+"'"+time1+"'").Distinct("x=>x.staffId").ToArray().length;
-					 }
-					html += "("+sumPeople+"人)";
+					var sumPeople  = Enumerable.From(data).Where("x=>x.idPath=="+"'"+shiftIdPath+"'&& x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;					 
+					html += "<a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+shiftIdPath+"\")'>("+sumPeople+"人)</a>";
 				 }
 				 html+="</th>";
 			});
 			html+="</tr>";
 		}			
 		html += "</thead></table></div>";
-		html += "<div class='table-body'><table class='layui-table'><tbody>";
-		for(var i=0;i<itemList.length;i++){
+		html += "<div class='table-body' id='tableBody2'><table class='layui-table'><tbody>";	
+		for(var i=0;i<timeList.length;i++){
 			html += "<tr>";
 			var num = 0;
-			 if(timeft !=""){
-					var timefts = timeft.split(",");
-					var sumPe = Enumerable.From(data).Where("x=>x.stationName=="+"'"+itemList[i]+"' && x.fromTime=="+"'"+timefts[0]+"'"+" && x.toTime=="+"'"+timefts[1]+"'").Distinct("x=>x.staffId").ToArray().length;
-				 }else{
-					var sumPe = Enumerable.From(data).Where("x=>x.stationName=="+"'"+itemList[i]+"' && x.workDt=="+"'"+time1+"'").Distinct("x=>x.staffId").ToArray().length;
-				 }
-			html += "<td>"+itemList[i]+"("+sumPe+"人)</td>";
+			var timeLs = timeList[i].split(" - ");
+			var timeFrom = time1+" "+timeLs[0]+":00.0";
+			var timeTo = time1+" "+timeLs[1]+":00.0";
+			var sumPe=0;
+			if(timeLs[0] =="00:00"){				
+				sumPe = Enumerable.From(data).Where("x=>x.fromTime <="+"'"+timeFrom+"'"+" && x.toTime=="+"'"+timeTo+"'&& x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;
+			}else if (timeLs[1] =="23:59"){
+				sumPe = Enumerable.From(data).Where("x=>x.fromTime =="+"'"+timeFrom+"'"+" && x.toTime>="+"'"+timeTo+"'&& x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;
+			}else{
+				sumPe = Enumerable.From(data).Where("x=>x.fromTime=="+"'"+timeFrom+"'"+" && x.toTime=="+"'"+timeTo+"'&& x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;
+			}
+			if(sumPe==0){
+				break;
+			}
+			html += "<td>"+timeList[i]+"<a style='cursor: pointer;' onclick='messByNum("+id+",\"\",\"\",\""+timeList[i]+"\")'>("+sumPe+"人)</td>";
 			for(var j=0;j<lastShiftType.length;j++){
 				html += "<td>";
-				mapitem.forEach(function (value, key, map) {
-					var temp= key.split(",");					 
-					var stationName=temp[0];
-					var shiftName=temp[1];	
+				maptimeitem.forEach(function (value, key, map) {
+					var temp= key.split(";");					 
+					var timeft=temp[0];
+					var shiftIdPath=temp[1];	
 					var mess= (value+"").split(",");
-					if(lastShiftType[j]==shiftName&&itemList[i]==stationName){
-						if(stationN!="厦门公安局"&&stationN!="分局"){
-							html += showShiftTimeStaff(data,mess,i);							 
-						}else if(stationN=="厦门公安局"||stationN=="分局"){
-							var index = 0;
-							var fromTime = "00:00:00";
-							var toTime = "23:59:59";
-							if(time!=null&&time!=""){
-								fromTime = time.split(" - ")[0];
-								toTime = time.split(" - ")[1];
-							}
-							fromTime = time1 + " " + fromTime;
-							toTime = time1 + " " + toTime;
-							var shiftId = shiftIdMap.get(shiftName);
-							index = mess.length;
-							html += "<a onclick='messByNum("+id+",\""+fromTime+"\",\""+toTime+"\","+shiftId+")'>"+index+"</a>";
-						}
+					if(lastShiftType[j]==shiftIdPath&&timeList[i]==timeft){
+						html += showShiftTimeStaff(data,mess,i,time1);
 					}
 				});
 				html += "</td>";
@@ -678,9 +884,9 @@ table thead, tbody {
 		return html;
 	}
 	
-	// 厦门公安局、分局表格
-	function CreateTableByStation(data,itemMaplist){
-		var shiftIdMap = getShiftId(data);
+	// 厦门公安局、分局显示数量表格
+	function CreateTableByStation1(data,itemMaplist){
+		//var shiftIdMap = getShiftId(data);
 		var mapitem = getShiftTypeByStation(data);
 		var itemList = getStation(data);
 		var lastShiftType = getBodyItem(itemMaplist);
@@ -696,57 +902,54 @@ table thead, tbody {
 			}
 
 			mapItem.forEach(function (value, key, map) {
-				 var temp= key.split(",");					 
-				 var name=temp[0];
-				 var rows=temp[1];
-				 var cols=value;
-				 html+="<th rowspan='" + rows + "' colspan='" + cols +"'>" + name;
+				 var idPath = value.split(";")[1];
+				 var cols = value.split(";")[0];
+				 var rows = key.split(",")[1];
+				 var name = key.split(",")[0];
+				 html+="<th rowspan='" + rows + "' colspan='" + cols +"'><a style='color:white;cursor: pointer;' onclick='showTypeShift(\""+idPath+"\")'>" + name + "</a>";
 				 var num = 0;
 				 if(i==itemMaplist.length-rows){
 					mapitem.forEach(function (value, key, map) {
-							var temp= key.split(",");					 
+							var temp= key.split(";");					 
 							var stationName=temp[0];
-							var shiftName=temp[1];	
+							var idPath2=temp[1];	
 							var mess= value;
-							if(shiftName==name){
+							if(idPath2==idPath){
 								num += value;
 							}
 					});
-					var shiftId = shiftIdMap.get(name);
-					html += "<a style='color:white' onclick='messByNum("+id+",\""+shiftId+"\")'>("+num+"人)</a>";
+					html += "<a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+idPath+"\")'>("+num+"人)</a>";
 				 }
 				 html+="</th>";
 			});
 			html+="</tr>";
 		}			
 		html += "</thead></table></div>";
-		html += "<div class='table-body'><table class='layui-table'><tbody>";
+		html += "<div class='table-body'id='tableBody3'><table class='layui-table'><tbody>";
 		for(var i=0;i<itemList.length;i++){
 			html += "<tr>";
 			var num = 0;
 			mapitem.forEach(function (value, key, map) {
-				var temp= key.split(",");					 
+				var temp= key.split(";");					 
 				var stationName=temp[0];
-				var shiftName=temp[1];	
+				var idPath=temp[1];	
 				var mess= value;
 				if(stationName==itemList[i]){
 					num += mess;
 				}
 			});
-			var shiftId = "";
-			html += "<td><a onclick='showStation("+stationMap.get(itemList[i])+")'>"+itemList[i]+"</a>(<a onclick='messByNum("+stationMap.get(itemList[i])+",\""+shiftId+"\")'>"+num+"人</a>)</td>";
+			html += "<td><a onclick='showStation("+stationMap.get(itemList[i])+")'>"+itemList[i]+"</a>(<a onclick='messByNum("+stationMap.get(itemList[i])+",\"\")'>"+num+"人</a>)</td>";
 			for(var j=0;j<lastShiftType.length;j++){
 				html += "<td>";
 				mapitem.forEach(function (value, key, map) {
-					var temp= key.split(",");					 
+					var temp= key.split(";");					 
 					var stationName=temp[0];
-					var shiftName=temp[1];	
+					var idPath=temp[1];	
 					var mess= value;
-					if(lastShiftType[j]==shiftName&&itemList[i]==stationName){
+					if(lastShiftType[j]==idPath&&itemList[i]==stationName){
 						var index = 0;
 						index = mess;
-						shiftId = shiftIdMap.get(shiftName);
-						html += "<a onclick='messByNum("+stationMap.get(itemList[i])+",\""+shiftId+"\")'>"+index+"</a>";	
+						html += "<a onclick='messByNum("+stationMap.get(itemList[i])+",\""+idPath+"\")'>"+index+"</a>";	
 					}
 				});
 				html += "</td>";
@@ -757,25 +960,80 @@ table thead, tbody {
 		return html;
 	}
 	
+	// 分局显示人名单位日表
+	function CreateTableByStation2(data,itemMaplist){
+		var time1 = document.getElementById("d122").value;//日期
+		var time = document.getElementById("test9").value;//时间段
+		var maptimeitem = getShiftTypeByStation2(data);
+		var itemList = getStation(data);
+		var lastShiftType = getBodyItem(itemMaplist);	
+		var stationMap = getStationId(data);	
+		var maxRow=itemMaplist.length;		
+		var html = "<div class='table-head'><table class='layui-table'><thead>";
+		
+		for(var i=0;i<itemMaplist.length;i++){			
+			var mapItem=itemMaplist[i];
+			html += "<tr>";
+			if(i==0){
+				html += "<th rowspan='" + maxRow + "'>勤务单位</th>"
+			}
+			mapItem.forEach(function (value, key, map) {
+				 var temp= key.split(",");					 
+				 var name=temp[0];
+				 var rows=temp[1];
+				 var cols=value.split(";")[0];
+				 var shiftIdPath=value.split(";")[1];				 
+				 html+="<th rowspan='" + rows + "' colspan='" + cols +"'><a style='color:white;cursor: pointer;' onclick='showTypeShift(\""+shiftIdPath+"\")'>" + name + "</a>";
+				 var num = 0;
+				 if(i==itemMaplist.length-rows){
+					var sumPeople  = Enumerable.From(data).Where("x=>x.idPath=="+"'"+shiftIdPath+"'&& x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;					 
+					html += "<a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+shiftIdPath+"\")'>("+sumPeople+"人)</a>";
+				 }
+				 html+="</th>";
+			});
+			html+="</tr>";
+		}			
+		html += "</thead></table></div>";
+		html += "<div class='table-body' id='tableBody2'><table class='layui-table'><tbody>";	
+		for(var i=0;i<itemList.length;i++){
+			html += "<tr>";
+			var sumPe=0;			
+			sumPe = Enumerable.From(data).Where("x=>x.stationId =="+"'"+stationMap.get(itemList[i])+"'&& x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;		
+			html += "<td><a onclick='showStation("+stationMap.get(itemList[i])+")'>"+itemList[i]+"</a><a style='cursor: pointer;' onclick='messByNum("+stationMap.get(itemList[i])+",\"\",\"\",\"\")'>("+sumPe+"人)</td>";
+			for(var j=0;j<lastShiftType.length;j++){
+				html += "<td>";
+				maptimeitem.forEach(function (value, key, map) {
+					var temp= key.split(";");					 
+					var stationName=temp[0];
+					var shiftIdPath=temp[1];	
+					var mess= (value+"").split(",");
+					if(lastShiftType[j]==shiftIdPath&&itemList[i]==stationName){
+						html += showShiftTimeStaff(data,mess,i,time1);
+					}
+				});
+				html += "</td>";
+			}
+			html += "</tr>";
+		}	
+		html += "</tbody></table></div>";
+		return html;
+	}
+	
+	//现有排班namePath排序
 	function getShiftypeRow(lastShiftType,data){			
-		var itemList=new Array();		    
+		var itemList=new Array();	
+		var itemIdList=new Array();	
 		for(var i=0;i<data.length;i++){
 			if(!isInArray(itemList,data[i].namePath)){					
 				itemList.push(data[i].namePath);
+				itemIdList.push(data[i].idPath);
 			}
 		}
 		var rowList=new Array();
 		for(var i=0;i<itemList.length;i++){
-			var temp=itemList[i].split(",");
-			var compareItem='';
-			if(temp.length==1){
-				compareItem=itemList[i];
-			}
-			else{
-				compareItem=temp[temp.length-1];
-			}
+			var temp=itemList[i].split(",");			
 			for(var j=0;j<lastShiftType.length;j++){
-				if(compareItem==lastShiftType[j]){
+				if(itemIdList[i]==lastShiftType[j]){
 					rowList.push(itemList[i]);
 					break;
 				}
@@ -791,10 +1049,11 @@ table thead, tbody {
 		var pos=1; 
 		for(var i=row;i<tb.rows.length;i++){ 
 		value = tb.rows[i].cells[col].innerText; 
-			if(lastValue == value){ 
+			if(lastValue == value){
+				var idx=i-pos;			
 				tb.rows[i].deleteCell(col); 
-				tb.rows[i-pos].cells[col].rowSpan = tb.rows[i-pos].cells[col].rowSpan+1; 
-				pos++; 
+				tb.rows[idx].cells[col].rowSpan = tb.rows[idx].cells[col].rowSpan+1;
+				pos++; 	
 			}else{ 
 				lastValue = value; 
 				pos=1; 
@@ -803,94 +1062,55 @@ table thead, tbody {
 	}
 	
 	// 画周表
-	function CreateTable1(itemMaplist,data){
-		var shiftIdMap = getShiftId(data);
-		var time = document.getElementById("test9").value;
+	function CreateTable1(itemMaplist,data){		
+		var time = document.getElementById("test9").value;//时间段
 		var mapItem = getShiftTypeAndDate(data);
 		var date1 = arr;
 		var week = new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
-		var rowList = getShiftypeRow(getBodyItem(itemMaplist),data);
+		var lastShiftType = getBodyItem(itemMaplist);
+		var rowList = getShiftypeRow(lastShiftType,data);//排版顺序
 		var maxRow=itemMaplist.length;
+		//开始画表头
 		var html = "<div class='table-head'><table class='layui-table'><thead><tr>";
 		html += "<th><div>序号</div></th>";
 		html += "<th colspan='"+maxRow+"'><div>班别</div></div></th>";
-		for(var m=0;m<7;m++){
-			var timeft = changeTime(date1[m],time);
-			if(timeft != ""){
-				var timefts = timeft.split(",");
-				var sumPeople  = Enumerable.From(data).Where("x=>x.fromTime<="+"'"+timefts[0]+"'"+" && x.toTime>="+"'"+timefts[1]+"'").Distinct("x=>x.staffId").ToArray().length;
-
-			}else{
-				var sumPeople  = Enumerable.From(data).Where("x=>x.workDt=="+"'"+date1[m]+"'").Distinct("x=>x.staffId").ToArray().length;
-			}
-			var num = 0;
-			html += "<th><div>"+week[m]+"</div><div>（"+date1[m]+"）</div>";
-			html += "<div>"+sumPeople+"人</div></th>";
+		for(var m=0;m<7;m++){//计算人数
+			var timeft = changeTime(date1[m],time);			
+			var timefts = timeft.split(",");
+			var sumPeople  = Enumerable.From(data).Where("x=>x.fromTime<='"+timefts[1]+"' && x.toTime>='"+timefts[0]+"' && x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;			
+			html += "<th><div>"+week[m]+"</div><div>("+date1[m]+")</div>";
+			var shiftId = "";
+			html += "<div><a style='color: white;cursor: pointer;' onclick='messByNum("+id+",\""+shiftId+"\",\""+date1[m]+"\")'>("+sumPeople+"人)</a></div></th>";
 		}
 		html += "</tr></thead></table></div>";
-		html += "<div class='table-body'><table class='layui-table' id='table1_tbody'><tbody>";
+		//开始画表内容
+		html += "<div class='table-body' id='tableBody1'><table class='layui-table' id='table1_tbody'><tbody>";
 		for(var i=0;i<rowList.length;i++){
 			var rows = rowList[i].split(",");
 			html += "<tr>";
 			html += "<td colspan='1'>"+(i+1)+"</td>";
-			for(var j=0;j<rows.length;j++){ 
-				var indexsum =0;
-				if(time != ""){		
-					var arrsum = new Array();
-					var texta = Enumerable.From(data).Where("x=>x.shiftName=='"+rows[j]+"'").ToArray();
-					var indexs = Enumerable.From(data).Where("x=>x.shiftName=='"+rows[j]+"'");
-					for(var s=0;s<date1.length;s++){
-						var timeft = changeTime(date1[s],time);
-						var timefts = timeft.split(",");
-						var lists = Enumerable.From(indexs).Where("x=>x.fromTime<="+"'"+timefts[0]+"'"+" && x.toTime>="+"'"+timefts[1]+"'").Select("x=>x.staffId").ToArray();
-						for(var x=0;x<lists.length;x++){
-							if(!isInArray(arrsum,lists[x])){					
-								arrsum.push(lists[x]);
-							}	
-						}
-					}
-					indexsum = arrsum.length;
-				}else{
-					 indexsum = Enumerable.From(data).Where("x=>x.shiftName=='"+rows[j]+"'").Distinct("x=>x.staffId").ToArray().length;  
-				}
-				var index = 0;
-				if(j==0){
-					if(j==rows.length-1){						
-						html+="<td colspan='" + (maxRow-rows.length+1) + "' rowspan='1'>" + rows[j] + "("+indexsum+"人)</td>";
+			for(var j=0;j<rows.length;j++){ 								
+				var indexsum = Enumerable.From(data).Where("x=>x.namePath=='"+rowList[i]+"' && x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;				
+				var index = 0;				
+				if(j == 0){
+					if(j==rows.length-1){					
+						html+="<td colspan='" + (maxRow-rows.length+1) + "' rowspan='1'><a style='cursor: pointer;' onclick='showTypeShift(\""+lastShiftType[i]+"\")'>" + rows[j] + "</a><a style='cursor: pointer;' onclick='messByNum("+id+",\""+lastShiftType[i]+"\")'>("+indexsum+"人)</a></td>";
 					}else{
-						html+="<td colspan='" + (maxRow-rows.length+1) + "' rowspan='1'>" + rows[j] + "</td>";
+						html+="<td colspan='" + (maxRow-rows.length+1) + "' rowspan='1'><a style='cursor: pointer;' onclick='showTypeShift(\""+lastShiftType[i]+"\")'>" + rows[j] + "</a></td>";
 					}
 				}else{					
-					html+="<td colspan='1' rowspan='1'>" + rows[j] + "("+indexsum+"人)</td>";
+					html+="<td colspan='1' rowspan='1'><a style='cursor: pointer;' onclick='showTypeShift(\""+lastShiftType[i]+"\")'>" + rows[j] + "</a><a style='cursor: pointer;' onclick='messByNum("+id+",\""+lastShiftType[i]+"\")'>("+indexsum+"人)</a></td>";
 				}
 			}
 			for(var k=0;k<7;k++){
-				html += "<td>";
-				
+				html += "<td>";				
 				mapItem.forEach(function (value, key, map) {
-					var temp= key.split(",");
-					var shiftName=temp[0];
+					var temp= key.split(";");
+					var idPath=temp[0];
 					var date2=temp[1];	
 					var mess= (value+"").split(",");
-					if(rows[rows.length-1]==shiftName&&date1[k]==date2){
-						if(stationN!="厦门公安局"&&stationN!="分局"){
-							html += showShiftTimeStaff(data,mess,i);
-							
-						}else if(stationN=="厦门公安局"||stationN=="分局"){
-							var index = 0;
-							var fromTime = "00:00:00";
-							var toTime = "23:59:59";
-							if(time!=null&&time!=""){
-								fromTime = time.split(" - ")[0];
-								toTime = time.split(" - ")[1];
-							}
-							fromTime = date2 + " " + fromTime;
-							toTime = date2 + " " + toTime;
-							var shiftId = shiftIdMap.get(shiftName);
-							index = mess.length;
-							html += "<a onclick='messByNum("+id+",\""+fromTime+"\",\""+toTime+"\","+shiftId+")'>"+index+"</a>";
-						}
-						
+					if(lastShiftType[i]==idPath&&date1[k]==date2){						
+						html += showShiftTimeStaff(data,mess,i,date2);	
 					}
 				});
 				html += "</td>";
@@ -910,11 +1130,11 @@ table thead, tbody {
 		var tableTop1 = document.getElementById("table-top1");
 		var tableTop2 = document.getElementById("table-top2");
 		var category1 = document.getElementById("selectMan1");
-		var category2 = document.getElementById("selectMan2");
+		var category2 = document.getElementById("selectMan2");		
 		if (obj == "week") {
 			tableTop1.removeAttribute("style");
 			tableTop2.style.display = "none";
-			if(type1=0){
+			if(type1==0){
 				category1.style.display = "block";
 			}
 			category2.style.display = "none";
@@ -936,6 +1156,7 @@ table thead, tbody {
 			type=1;
 			document.getElementById("d121").value = document.getElementById("d122").value;
 		}
+		selectRender();
 	}
 	
 	// 画警员搜索
@@ -950,8 +1171,7 @@ table thead, tbody {
 		html += "<option value=''>人物搜索</option>";
 		for(var j=0;j<manList.length;j++){
 			html += "<option>"+manList[j]+"</option>";		
-		}
-		
+		}		
 		return html;
 	}
 	
@@ -1038,6 +1258,15 @@ table thead, tbody {
 			
 			if(mess.position ==2) mess.nonLeaderPost = mess.leaderPost;
 			if(typeof(mess.nonLeaderPost) == "undefined" ) mess.nonLeaderPost ="";
+			var html = '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">姓名：'+mess.name+'<br>';
+			html += '照片：';
+			if(mess.pic!=null&&mess.pic!=""){
+				html += '<img src="'+mess.pic+'" style="width:80px;height:100px;"><br>';
+			}else{
+				html += '<img src="../images/default_pic.png" style="width:80px;height:100px;"><br>';
+			}
+			html += '警号：'+mess.code+'<br>岗位：'+ mess.nonLeaderPost+'<br>电话：'+mess.telephone+'<br>';
+			html += '班别：'+mess.shiftInfos+'<br>设备：'+mess.deviceInfos+'</div>';
 		    //示范一个公告层
 		    layer.open({
 		       type: 1
@@ -1049,7 +1278,7 @@ table thead, tbody {
 		        ,btn: ['关闭']
 		        ,btnAlign: 'c'
 		        ,moveType: 1 //拖拽模式，0或者1
-		        ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">姓名：'+mess.name+'<br>照片：<c:if test="${mess.pic!=null&&mess.pic!=''}"><img src="'+mess.pic+'" style="width:80px;height:100px;"></c:if><c:if test="${mess.pic==null||mess.pic==''}"><img src="../images/default_pic.png" style="width:80px;height:100px;"></c:if><br>警号：'+mess.code+'<br>岗位：'+ mess.nonLeaderPost+'<br>电话：'+mess.telephone+'<br>班别：'+mess.shiftInfos+'<br>设备：'+mess.deviceInfos+'</div>'
+		        ,content: html
 		        ,success: function(layero){
 		          var btn = layero.find('.layui-layer-btn');
 		          btn.find('.layui-layer-btn0').attr({
@@ -1060,7 +1289,7 @@ table thead, tbody {
 	}
 	
 	// 根据单位id、工作时段、班别获取人员信息
-	function messByNum(id,shifyId){
+	function messByNum(id,shiftId,dayTime,daySpan){
 		var oneDay = document.getElementById("d122").value;
 		var timeSpan = document.getElementById("test9").value;
 		var fromDt = oneDay + " 00:00:00";
@@ -1071,9 +1300,17 @@ table thead, tbody {
 			fromTime = timeSpan.split(" - ")[0];
 			toTime = timeSpan.split(" - ")[1];
 		}
+		if(daySpan!=null&&daySpan!=""){
+			fromTime = daySpan.split(" - ")[0];
+			toTime = daySpan.split(" - ")[1];
+		}
 		if(type==0){
 			fromDt = arr[0] + " 00:00:00";
 			toDt = arr[6] + " 23:59:59";
+		}
+		if(dayTime!=null&&dayTime!=""){
+			fromDt = dayTime + " 00:00:00";
+			toDt = dayTime + " 23:59:59";
 		}
 		var request=new Object();
 		if(id!=null&&id!=""){
@@ -1091,8 +1328,8 @@ table thead, tbody {
 		if(toTime!=null&&toTime!=""){
 			request.toTime=toTime;
 		}
-		if(shifyId!=null&&shifyId!=""){
-			request.shiftTypeIdPath=shifyId;
+		if(shiftId!=null&&shiftId!=""){
+			request.shiftTypeIdPath=shiftId;
 		}
 		PostData("duty/arrange/stationStaff",request,function(result){
 			var mess = result.data;
@@ -1100,9 +1337,9 @@ table thead, tbody {
 			for(var i=0;i<mess.length;i++){
 				var key = mess[i].staffId + "," + mess[i].idPath;
 				if(!itemMap.has(key)){
-					itemMap.set(key,mess[i].staffName + "-" + mess[i].staffCode + "-" + 
-							mess[i].post + "-" + mess[i].staffPhone + "-" + 
-							mess[i].shiftName + "-" + mess[i].lastPosTime + "-" + mess[i].deviceInfos);
+					itemMap.set(key,mess[i].staffName + ";" + mess[i].staffCode + ";" + 
+							mess[i].post + ";" + mess[i].staffPhone + ";" + 
+							mess[i].shiftName + ";" + mess[i].lastPosTime + ";" + mess[i].deviceInfos);
 				}
 			}
 		    //示范一个公告层
@@ -1112,7 +1349,7 @@ table thead, tbody {
 			var index = 1;
 			itemMap.forEach(function (value, key, map) {
 				html += "<tr>";
-				var obj = value.split("-");
+				var obj = value.split(";");
 				for(var j=0;j<obj.length;j++){
 					if(j==0){
 						html += "<td>"+index+"</td>";
@@ -1145,14 +1382,39 @@ table thead, tbody {
 		});
 	}
 	function getTimebyDateTime(datetime){
-		return datetime.split(" ")[1].replace(":00.0","");
+		if(datetime==null||datetime==""){
+			return;
+		}
+		return datetime.split(" ")[1].replace(".0","");
 	}
-	function showShiftTimeStaff(data,Idx,row){
+	function showShiftTimeStaff(data,Idx,row,date){
 		var html ="";
 		var mapItem = new Map();
-		for(var i=0;i<Idx.length;i++){		
+		for(var i=0;i<Idx.length;i++){	
+			var flag = 0;//是否需要加*
 			var dataItem = data[Idx[i]];
-			var timeSpan = getTimebyDateTime(dataItem.fromTime) + "-" + getTimebyDateTime(dataItem.toTime);
+			if(dataItem.staffId==0){
+				break;
+			}
+			var fromTime=getTimebyDateTime(dataItem.fromTime);
+			var toTime=getTimebyDateTime(dataItem.toTime);
+			if(dataItem.fromTime < date){
+				fromTime="00:00:00";
+				flag=1;
+			}
+			else if(dataItem.toTime > date+" 23:59:59"){
+				toTime="23:59:59";
+				flag=2;
+			}
+			var timeft = fromTime + "-" + toTime;				
+			var timeSpan = timeft.substr(0,5)+timeft.substr(8,6);
+			if(flag==1){
+				timeSpan="*"+timeSpan;
+			}
+			else if(flag==2){
+				timeSpan=timeSpan+"*";
+			}
+
 			var staffName = dataItem.staffName;	
 			var value =dataItem.staffId + ";" + staffName;
 			if(mapItem.has(timeSpan)){
@@ -1162,14 +1424,20 @@ table thead, tbody {
 				mapItem.set(timeSpan,value);
 			}
 		}
-		var n=0;
+		var n=0;		
 		mapItem.forEach(function (value, key, map){			
 			html += "<a name='"+key+"'><div>" + key +"</div></a> ";
 			var nameAndId=value.split(",");
+			var itemList = new Array();
 			for(var i=0;i<nameAndId.length;i++){
-				var item=nameAndId[i].split(";");
+				if(!isInArray(itemList,nameAndId[i])){					
+					itemList.push(nameAndId[i]);
+				}
+			}
+			for(var i=0;i<itemList.length;i++){
+				var item=itemList[i].split(";");
 				html += "<a name='"+item[1]+"' onclick='details("+item[0]+")'><div>"+item[1]+"</div></a> ";	
-				if(n==4){
+				if(n==4 && Idx.length>5){
 					html += "<div class='more"+row+"'>";
 					html += "<a onclick=showMore("+row+")>...more...</a> ";
 					html += "</div>";
@@ -1179,7 +1447,7 @@ table thead, tbody {
 			}			
 		});					
 	
-		if(n>4){
+		if(n>4 && Idx.length>5){
 			html += "<a onclick=showLess("+row+")>...less...</a> ";
 			html += "</div>";
 		} 
@@ -1188,6 +1456,7 @@ table thead, tbody {
 	// 显示单位
 	function showStation(id) {
 		stationSelector.openNode(id);
+		onExpandforchangeWidth();
 	}
 </script>
 <script>
@@ -1213,5 +1482,13 @@ table thead, tbody {
 		$("."+moreid).css("display","none");
 		$("."+lessid).css("display","block");
 	}
+	
+	function showTypeShift(shiftId) {
+		shiftTypeId = shiftId;
+		arr_isShow = 1;
+		SelectStation(null);
+	}
+	
+	//日期类型 加减
 </script>
 </html>

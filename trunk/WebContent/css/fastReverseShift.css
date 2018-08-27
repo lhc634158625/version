@@ -1,0 +1,110 @@
+body, html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	font-family: "Microsoft YaHei";
+	position: relative;
+}
+
+.layui-body{ 
+	padding-right:3px;
+	height:100%;
+}
+
+.picture{
+	z-index:1;
+	position:absolute;
+	right:800px;
+	top:16px;
+}
+
+.top_t1{
+	position:absolute;
+	right:850px;
+	top:18px;
+}
+
+.layui-form{
+	position:absolute;
+	right:600px;
+	top:15px;
+}
+
+.top_t2{
+	position:absolute;
+	right:470px;
+	top:15px;
+}
+
+.top_t3{
+	position:absolute;
+	right:370px;
+	top:15px;
+}
+
+.top_t4{
+	position:absolute;
+	right:290px;
+	top:15px;
+}
+
+.top_t5{
+	position:absolute;
+	right:200px;
+	top:25px;
+}
+
+.top_t6{
+	position:absolute;
+	right:100px;
+	top:25px;
+}
+
+.div_table{
+	margin-top:-50px;
+	margin-left:10px;
+	margin-right:10px;
+}
+
+.layui-table{
+	margin-top:30px;
+}
+
+.div_table .layui-table thead tr th {
+	color: black;
+}
+.div_table .layui-table thead tr:nth-of-type(1){
+    background-color: #4473c5;
+}
+.div_table .layui-table thead tr:nth-of-type(2){
+    background-color: #B3C6E7;
+}
+.div_table .layui-table thead tr:nth-of-type(3){
+    background-color: #d9e1f2;
+}
+
+.div_table .layui-table tr th {
+	text-align: center;
+	color: black;
+}
+
+.layui-tab-card{
+	width: 99.5%;
+	height: 92%;
+	position: absolute;
+	top:2px;
+	right:2px;
+}
+
+#mapDiv1{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 7%;
+	z-index:1;
+}
+
+.layui-tab-content{
+	width: 100%;
+	height: 80%;
+}
