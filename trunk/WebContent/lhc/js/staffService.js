@@ -27,7 +27,7 @@ function PagiNationSelect(obj){
     pageFilter.pageSize = pageSize_num;
     load.PostData("sys/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
-        laytab.loadTab();   
+        laytab.loadTab();//上下也加载   
     });
 }
 

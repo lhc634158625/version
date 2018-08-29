@@ -112,14 +112,12 @@
                                 <button class="layui-btn" id="addPolice">新增警员</button>
                             </div>
 
-
+                            <!-- 分页条 -->
                             <div id="demo7"></div>
-                            <!-- 显示分页信息-->
-                            <!-- <div class="row">
-                                    <div class="layui-btn layui-btn-primaryt" id="page_info_area">1</div>
+                            <!---首页尾页-->
+                            <span id="first_page_btn" class="layui-btn layui-btn-primary layui-btn-sm">首页</span>
+                            <span id="last_page_btn" class="layui-btn layui-btn-primary layui-btn-sm">尾页</span>
 
-                                    <div class="layui-btn layui-btn-primary" id="page_nav_area">1</div>
-                                </div>  -->
 
                             <table class="layui-table" lay-data="{width: 1800, page:false, id:'idTest'}" lay-filter="demo">
                                 <thead>
@@ -172,8 +170,10 @@
             <script>
 
                 var data_lists;
-
+                //警员数据
                 var dataPolice = [];
+                //每页限制条数
+                var pageLimit = 25;
 
                 //jq初始化加载 
                 $(function () {
@@ -199,8 +199,17 @@
                     });
                 });
 
-                var pageData=25;
+
                 //独立分页控件
+
+                //首页尾页按钮,总数显示
+                $("#first_page_btn").click(function () {
+                    GetPolice(1, pageLimit);
+                });
+                $("#last_page_btn").click(function () {
+                    GetPolice(1, 25);
+                });
+                //分页条
                 layui.use(['laypage', 'layer'], function () {
                     var laypage = layui.laypage
                         , layer = layui.layer;
@@ -218,9 +227,10 @@
                         , jump: function (obj, first) {
                             console.log(obj);
                             if (!first) {
-                                layer.msg('第 ' + obj.curr + ' 页');
+                                // layer.msg('第 ' + obj.curr + ' 页');
                                 PagiNationSelect(obj);
-                                pageData=eval(obj).limit;
+                                //限制条数加载
+                                pageLimit = eval(obj).limit;
                                 console.log(eval(obj).limit);
                                 laytab.loadTab();
                             }
@@ -228,19 +238,15 @@
                     });
                 });
 
-                function layTab() { }
+
                 //layui表格渲染和控制
+                function layTab() { }
                 layTab.prototype.loadTab = function () {
                     layui.use('table', function () {
                         var table = layui.table;
-
                         //表格重载,自定义表格与分页
                         table.reload('idTest', {
-                            // page:true,
-                            // count:5696,
-                            // limit:10,
-                            // layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
-                            limit:pageData,
+                            limit: pageLimit,
                             data: dataPolice//dataTest
                         });
                         //监听表格复选框选择
