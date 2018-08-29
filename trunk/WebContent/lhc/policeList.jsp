@@ -209,6 +209,7 @@
                 $("#last_page_btn").click(function () {
                     GetPolice(1, 25);
                 });
+                function loadPag(pageNum){
                 //分页条
                 layui.use(['laypage', 'layer'], function () {
                     var laypage = layui.laypage
@@ -217,7 +218,7 @@
                     var laypage = layui.laypage;
                     laypage.render({
                         elem: 'demo7'
-                        , count: 5000
+                        , count: pageNum
                         , first: '首页'
                         , last: '尾页'
                         // , prev: '上'
@@ -237,6 +238,7 @@
                         }
                     });
                 });
+            }
 
 
                 //layui表格渲染和控制
