@@ -31,6 +31,21 @@ function PagiNationSelect(obj){
     });
 }
 
+/**
+ * 警员总条数,总页数
+ */
+function SelectPoliceNum(limitNum){
+    let pageFilter = new Object();
+    load.GetPoliceNum("sys/staff/filterCount", pageFilter, function (result) {
+        var policeNum = result.data; 
+        var y=policeNum%limitNum
+        var policePageNum=parseInt(policeNum/limitNum);
+        console.log("限制:"+limitNum);
+        console.log(policeNum+"条");
+        console.log(policePageNum+"页"+y+"条");
+    });
+}
+
 
 
 /**

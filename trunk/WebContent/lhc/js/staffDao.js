@@ -1,6 +1,6 @@
 
 var _serviceUrl = "http://218.85.92.186:8081/api/";
-var tokenCode='e6e07952-d992-49c4-8718-c43247e93eb1';
+var tokenCode='c82e72a1-b867-4f99-bc9f-e5763d4e04fe';
 
 
 function loadData() {}
@@ -13,8 +13,8 @@ function loadData() {}
  */
 loadData.prototype.PostData = function (method, data, callback) {
     console.log(data);   
-    var datajson = JSON.stringify(data);
-    var url = _serviceUrl + method;
+    let datajson = JSON.stringify(data);
+    let url = _serviceUrl + method;
 
     $.ajax({
         cache: false,
@@ -41,26 +41,27 @@ loadData.prototype.PostData = function (method, data, callback) {
  */
 loadData.prototype.GetPoliceNum=function (method, data, callback) {
     console.log(data);   
-    var datajson = JSON.stringify(data);
-    var url = _serviceUrl + method;
+    let datajson = JSON.stringify(data);
+    let url = _serviceUrl + method;
 
-    let promise=new promise(()=>{
-        $.ajax({
-            cache: false,
-            type: "POST",
-            async: true,
-            headers: { 'token': '20199d83-f9f0-40c3-a103-eade7d1aab2a', "userId": "1" },
-            url: url,
-            data: datajson, // JSON.stringify(obj),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (result) {
-                console.log(result.data);
-                callback(result);
-            }
+    // let promise=new promise((resolve,reject)=>{
+    //     $.ajax({
+    //         cache: false,
+    //         type: "POST",
+    //         async: true,
+    //         headers: { 'token': tokenCode, "userId": "1" },
+    //         url: url,
+    //         data: datajson, // JSON.stringify(obj),
+    //         contentType: "application/json",
+    //         dataType: "json",
+    //         success: function (result) {
+    //             console.log(result.data);
+    //             callback(result);
+    //         }
     
-        });
-    })
+    //     });
+    // })
+    // return promise
 
     $.ajax({
         cache: false,
@@ -79,7 +80,7 @@ loadData.prototype.GetPoliceNum=function (method, data, callback) {
     });
 }
 
-//加载数据
+//加载数据对象
 var load = new loadData();
 
 
