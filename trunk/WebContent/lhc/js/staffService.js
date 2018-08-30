@@ -31,20 +31,37 @@ function PagiNationSelect(obj){
     });
 }
 
+
+/**
+ * 
+ */
+// function* GetData(){
+//     yield SelectPoliceNum(limitNum)
+//     yield PagiNationSelect(obj)
+// }
+// let GD=GetData()
+// GD.next
+
 /**
  * 警员总条数,总页数
  */
 function SelectPoliceNum(limitNum){
     let pageFilter = new Object();
+    let num;
     load.GetPoliceNum("sys/staff/filterCount", pageFilter, function (result) {
-        var policeNum = result.data; 
+        policeNum = result.data; 
         var y=policeNum%limitNum
         var policePageNum=parseInt(policeNum/limitNum);
         console.log("限制:"+limitNum);
         console.log(policeNum+"条");
         console.log(policePageNum+"页"+y+"条");
+
+        return function(){num=policeNum}
     });
+    console.log("警员总条数"+num);
 }
+
+
 
 
 

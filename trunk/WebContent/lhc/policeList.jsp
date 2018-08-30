@@ -175,6 +175,9 @@
                 //每页限制条数
                 var pageLimit = 25;
                 //
+                var policeNum ;
+                var y;
+                var policePageNum;
 
 
 
@@ -182,6 +185,7 @@
                 $(function () {
                     // laytab.loadTab();//静态
                     // SelectPoliceNum(25);//总数几条
+                    SelectPoliceNum(pageLimit)
                     GetPolice(1, 25);//第几页,一页几条      
 
 
@@ -215,36 +219,38 @@
                     GetPolice(1, 25);
                 });
                 //分页条
-                layui.use(['laypage', 'layer'], function () {
-                    // console.log("分页条:"+policeNum)
-                    var laypage = layui.laypage
-                        , layer = layui.layer;
-                    //只显示上一页、下一页
-                    var laypage = layui.laypage;
-                    laypage.render({
-                        elem: 'demo7'
-                        , count: 5000
-                        , first: '首页'
-                        , last: '尾页'
-                        // , prev: '上'
-                        // , next: '下'
-                        , layout: ['prev', 'next', 'limit', 'skip']
-                        , limit: 25
-                        , limits: [25, 50, 100, 150]
-                        , jump: function (obj, first) {
-                            console.log(obj);
-                            if (!first) {
-                                // layer.msg('第 ' + obj.curr + ' 页');
-                                PagiNationSelect(obj);
-                                //限制条数加载
-                                pageLimit = eval(obj).limit;
-                                console.log(eval(obj).limit);
-                                SelectPoliceNum(pageLimit)
-                                laytab.loadTab();
+                    layui.use(['laypage', 'layer'], function () {
+                      console.log("分页条:"+policeNum)
+                        var laypage = layui.laypage
+                            , layer = layui.layer;
+                        //只显示上一页、下一页
+                        var laypage = layui.laypage;
+                        laypage.render({
+                            elem: 'demo7'
+                            , count: 5000
+                            , first: '首页'
+                            , last: '尾页'
+                            // , prev: '上'
+                            // , next: '下'
+                            , layout: ['prev', 'next', 'limit', 'skip']
+                            , limit: 25
+                            , limits: [25, 50, 100, 150]
+                            , jump: function (obj, first) {
+                                console.log(obj);
+                                if (!first) {
+                                    layer.msg('第 ' + obj.curr + ' 页');
+                                    PagiNationSelect(obj);
+                                    //限制条数加载
+                                    pageLimit = eval(obj).limit;
+                                    console.log(eval(obj).limit);
+                                    SelectPoliceNum(pageLimit)
+                                    // laytab.loadTab();
+                                }
                             }
-                        }
+                        });
                     });
-                });
+
+
 
 
                 //layui表格渲染和控制
