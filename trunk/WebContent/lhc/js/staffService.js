@@ -55,13 +55,17 @@ function SelectPoliceNum(limitNum){
         console.log("限制:"+limitNum);
         console.log(policeNum+"条");
         console.log(policePageNum+"页"+y+"条");
-
-        return function(){num=policeNum}
     });
-    console.log("警员总条数"+num);
 }
 
+/**
+ * 添加警员(后端格式,单位下拉树)
+ */
+function AddNewPolice(formJson){
+    load.AddPolice("sys/staff/save",pageFiler,function(result){
 
+    });
+}
 
 
 

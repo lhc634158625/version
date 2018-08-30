@@ -1,10 +1,7 @@
 
 var _serviceUrl = "http://218.85.92.186:8081/api/";
-<<<<<<< HEAD
-var tokenCode='63506c19-d281-41e2-87fd-89b6d3aa2794';
-=======
-var tokenCode='228f55cf-0ff1-45ce-b922-d28a3af3ff28';
->>>>>>> 8d3d838107d7bb28c7080b3abae9aed4c8cbd8f6
+var tokenCode='95012e7a-16d0-4521-a805-488c5dcdfa78';
+
 
 
 function loadData() {}
@@ -36,6 +33,35 @@ loadData.prototype.PostData = function (method, data, callback) {
 
     });
 }
+
+/**
+ * 添加警员
+ * @param {*} method 
+ * @param {*} data 
+ * @param {*} callback 
+ */
+loadData.prototype.AddPolice = function (method, data, callback) {
+    console.log(data);   
+    let datajson = JSON.stringify(data);
+    let url = _serviceUrl + method;
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        async: true,
+        headers: { 'token': tokenCode, "userId": "0" },
+        url: url,
+        data: datajson, // JSON.stringify(obj),
+        contentType: "application/json",
+        dataType: "json",
+        success: function (result) {
+            console.log(result.data);
+            callback(result);
+        }
+
+    });
+}
+
 
 /**
  * 查询警员数量
