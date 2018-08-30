@@ -218,7 +218,9 @@
                 $("#last_page_btn").click(function () {
                     GetPolice(1, 25);
                 });
+                function loadPag(pageNum){
                 //分页条
+<<<<<<< HEAD
                     layui.use(['laypage', 'layer'], function () {
                       console.log("分页条:"+policeNum)
                         var laypage = layui.laypage
@@ -246,11 +248,41 @@
                                     SelectPoliceNum(pageLimit)
                                     // laytab.loadTab();
                                 }
+=======
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //只显示上一页、下一页
+                    var laypage = layui.laypage;
+                    laypage.render({
+                        elem: 'demo7'
+                        , count: pageNum
+                        , first: '首页'
+                        , last: '尾页'
+                        // , prev: '上'
+                        // , next: '下'
+                        , layout: ['prev', 'next', 'limit', 'skip']
+                        , limits: [25, 50, 100, 150]
+                        , jump: function (obj, first) {
+                            console.log(obj);
+                            if (!first) {
+                                // layer.msg('第 ' + obj.curr + ' 页');
+                                PagiNationSelect(obj);
+                                //限制条数加载
+                                pageLimit = eval(obj).limit;
+                                console.log(eval(obj).limit);
+                                laytab.loadTab();
+>>>>>>> 8d3d838107d7bb28c7080b3abae9aed4c8cbd8f6
                             }
                         });
                     });
+<<<<<<< HEAD
 
 
+=======
+                });
+            }
+>>>>>>> 8d3d838107d7bb28c7080b3abae9aed4c8cbd8f6
 
 
                 //layui表格渲染和控制

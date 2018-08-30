@@ -1,6 +1,10 @@
 
 var _serviceUrl = "http://218.85.92.186:8081/api/";
+<<<<<<< HEAD
 var tokenCode='63506c19-d281-41e2-87fd-89b6d3aa2794';
+=======
+var tokenCode='228f55cf-0ff1-45ce-b922-d28a3af3ff28';
+>>>>>>> 8d3d838107d7bb28c7080b3abae9aed4c8cbd8f6
 
 
 function loadData() {}
