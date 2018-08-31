@@ -59,7 +59,7 @@ function SelectPoliceNum(limitNum){
 }
 
 /**
- * 添加警员(后端格式,单位下拉树)
+ * 编辑,添加警员(后端格式,单位下拉树)
  */
 function AddNewPolice(formJson){
     load.AddPolice("sys/staff/save",pageFiler,function(result){
