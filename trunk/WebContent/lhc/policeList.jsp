@@ -132,7 +132,7 @@
                     </div>
                 </div>
 
-                <button class="layui-btn" lay-submit lay-filter="formDemo" style="position:absolute;top:0px;right:3px">立即提交</button>
+                <button class="layui-btn" lay-submit lay-filter="formDemo" style="position:absolute;top:200px;right:20px">立即提交</button>
 
 
             </form>
@@ -287,8 +287,12 @@
                 }
 
 
-                //弹出添加警员界面
+                //点击新增按钮
                 $('#addPolice').on('click', function () {
+                    openLayer();
+                });
+                //layui弹出框
+                function openLayer(){
                     layer.open({
                         type: 1,
                         //title:,
@@ -298,7 +302,7 @@
                         shadeClose: false, //点击遮罩关闭
                         content: $("#add_police_view"),
                     });
-                });
+                }
                 //警员表单提交
                 layui.use('form', function () {
                     var form = layui.form;
