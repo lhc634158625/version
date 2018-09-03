@@ -1,11 +1,14 @@
 
 var _serviceUrl = "http://218.85.92.186:8081/api/";
-var tokenCode='95012e7a-16d0-4521-a805-488c5dcdfa78';
+var tokenCode = '95012e7a-16d0-4521-a805-488c5dcdfa78';
+var result = sessionStorage.getItem("result");
+var dataObj;
+if (result != null) {
+    dataObj = eval("(" + result + ")");
+    console.log(dataObj)
+}
 
-
-
-function loadData() {}
-
+function loadData() { }
 /**
  * 警员搜索
  * @param {*} method 
@@ -13,15 +16,20 @@ function loadData() {}
  * @param {*} callback 
  */
 loadData.prototype.PostData = function (method, data, callback) {
-    console.log(data);   
+    console.log(data);
     let datajson = JSON.stringify(data);
     let url = _serviceUrl + method;
+
+
 
     $.ajax({
         cache: false,
         type: "POST",
         async: true,
-        headers: { 'token': tokenCode, "userId": "0" },
+        headers: {
+            'token': dataObj.token,
+            "userId": dataObj.id
+        },
         url: url,
         data: datajson, // JSON.stringify(obj),
         contentType: "application/json",
@@ -41,7 +49,7 @@ loadData.prototype.PostData = function (method, data, callback) {
  * @param {*} callback 
  */
 loadData.prototype.AddPolice = function (method, data, callback) {
-    console.log(data);   
+    console.log(data);
     let datajson = JSON.stringify(data);
     let url = _serviceUrl + method;
 
@@ -49,7 +57,10 @@ loadData.prototype.AddPolice = function (method, data, callback) {
         cache: false,
         type: "POST",
         async: true,
-        headers: { 'token': tokenCode, "userId": "0" },
+        headers: {
+            'token': dataObj.token,
+            "userId": dataObj.id
+        },
         url: url,
         data: datajson, // JSON.stringify(obj),
         contentType: "application/json",
@@ -69,10 +80,18 @@ loadData.prototype.AddPolice = function (method, data, callback) {
  * @param {*} data 
  * @param {*} callback 
  */
-loadData.prototype.GetPoliceNum=function (method, data, callback) {
-    console.log(data);   
+loadData.prototype.GetPoliceNum = function (method, data, callback) {
+
+    console.log(data);
     let datajson = JSON.stringify(data);
     let url = _serviceUrl + method;
+    // let result = sessionStorage.getItem("result");
+    // let dataObj;
+    // if (result != null) {
+    //     dataObj = eval("(" + result + ")");
+    //     console.log(dataObj)
+    // }
+
 
     // let promise=new promise((resolve,reject)=>{
     //     $.ajax({
@@ -88,7 +107,7 @@ loadData.prototype.GetPoliceNum=function (method, data, callback) {
     //             console.log(result.data);
     //             callback(result);
     //         }
-    
+
     //     });
     // })
     // return promise
@@ -97,7 +116,10 @@ loadData.prototype.GetPoliceNum=function (method, data, callback) {
         cache: false,
         type: "POST",
         async: true,
-        headers: { 'token': tokenCode, "userId": "0" },
+        headers: {
+            'token': dataObj.token,
+            "userId": dataObj.id
+        },
         url: url,
         data: datajson, // JSON.stringify(obj),
         contentType: "application/json",
@@ -115,7 +137,7 @@ var load = new loadData();
 
 
 
-var dataTest=[
+var dataTest = [
     {
         "address": "思明区开元街道深田社区",
         "code": "220130",

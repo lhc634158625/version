@@ -141,6 +141,7 @@
         <body class="layui-layout-body">
             <div class="layui-layout layui-layout-admin">
                 <%@ include file="../shared/pageHeader1.jsp"%>
+                   
                     <div class="layui-body">
                         <!-- 内容主体区域 -->
                         <div>
@@ -292,7 +293,7 @@
                     openLayer();
                 });
                 //layui弹出框
-                function openLayer(){
+                function openLayer() {
                     layer.open({
                         type: 1,
                         //title:,
