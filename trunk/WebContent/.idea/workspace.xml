@@ -49,8 +49,8 @@
       <file leaf-file-name="policeList.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lhc/policeList.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state relative-caret-position="3795">
+              <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -59,8 +59,8 @@
       <file leaf-file-name="policeStationSchedulingMenu.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/shared/policeStationSchedulingMenu.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1122">
-              <caret line="34" column="14" lean-forward="false" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+            <state relative-caret-position="2244">
+              <caret line="68" column="14" lean-forward="false" selection-start-line="68" selection-start-column="14" selection-end-line="68" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -69,12 +69,9 @@
       <file leaf-file-name="policeStationScheduling.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/duty/policeStationScheduling.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="683" column="8" lean-forward="false" selection-start-line="683" selection-start-column="8" selection-end-line="683" selection-end-column="8" />
-              <folding>
-                <marker date="1534731432414" expanded="true" signature="21947:21958" ph="..." />
-                <marker date="1534731432414" expanded="true" signature="36675:36687" ph="..." />
-              </folding>
+            <state relative-caret-position="31152">
+              <caret line="944" column="8" lean-forward="false" selection-start-line="944" selection-start-column="8" selection-end-line="944" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -93,7 +90,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="231">
               <caret line="7" column="16" lean-forward="false" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
-              <folding />
+              <folding>
+                <marker date="1535936132289" expanded="true" signature="24:25" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -204,8 +203,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -238,7 +238,6 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -250,7 +249,7 @@
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="F:/PoliceDB" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="SQL Server (Microsoft)" />
   </component>
   <component name="RunDashboard">
@@ -363,11 +362,12 @@
       <updated>1534735656381</updated>
       <workItem from="1534735658057" duration="11328000" />
       <workItem from="1534818436466" duration="696000" />
+      <workItem from="1535938996075" duration="320000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12024000" />
+    <option name="totallyTimeSpent" value="12344000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="7" />
@@ -387,9 +387,9 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10944206" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1110515" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.032725323" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19635193" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -418,6 +418,55 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lhc/policeList.jsp">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shared/policeStationSchedulingMenu.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1122">
+          <caret line="34" column="14" lean-forward="false" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/duty/policeStationScheduling.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22539">
+          <caret line="683" column="8" lean-forward="false" selection-start-line="683" selection-start-column="8" selection-end-line="683" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/common/stationSelector.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="7" column="16" lean-forward="false" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+          <folding>
+            <marker date="1535936132289" expanded="true" signature="24:25" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/3393a4fd-5311-45e5-ab17-52a9a09e236e/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/c74c6a79/3393a4fd-5311-45e5-ab17-52a9a09e236e/PoliceDB.dbo.Staff">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lhc/policeList.jsp">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="792">
           <caret line="24" column="35" lean-forward="false" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
           <folding />
@@ -436,7 +485,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
           <caret line="7" column="16" lean-forward="true" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
-          <folding />
+          <folding>
+            <marker date="1535936132289" expanded="true" signature="24:25" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -452,10 +503,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7854">
           <caret line="238" column="35" lean-forward="false" selection-start-line="238" selection-start-column="21" selection-end-line="238" selection-end-column="35" />
-          <folding>
-            <marker date="1534731432414" expanded="true" signature="21947:21958" ph="..." />
-            <marker date="1534731432414" expanded="true" signature="36675:36687" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -478,34 +526,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
           <caret line="7" column="16" lean-forward="false" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
-          <folding />
+          <folding>
+            <marker date="1535936132289" expanded="true" signature="24:25" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lhc/policeList.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        <state relative-caret-position="3795">
+          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/shared/policeStationSchedulingMenu.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1122">
-          <caret line="34" column="14" lean-forward="false" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+        <state relative-caret-position="2244">
+          <caret line="68" column="14" lean-forward="false" selection-start-line="68" selection-start-column="14" selection-end-line="68" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/duty/policeStationScheduling.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="683" column="8" lean-forward="false" selection-start-line="683" selection-start-column="8" selection-end-line="683" selection-end-column="8" />
-          <folding>
-            <marker date="1534731432414" expanded="true" signature="21947:21958" ph="..." />
-            <marker date="1534731432414" expanded="true" signature="36675:36687" ph="..." />
-          </folding>
+        <state relative-caret-position="31152">
+          <caret line="944" column="8" lean-forward="false" selection-start-line="944" selection-start-column="8" selection-end-line="944" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>

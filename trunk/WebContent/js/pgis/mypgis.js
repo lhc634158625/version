@@ -16,6 +16,7 @@
     IsMouseDown: false,
     IsMouseUp: false,
     DelMarker: null,
+    SelectdrawCircle:false,
     _Marker: null,
     _Feature: null,
     _Draw:null,
@@ -38,9 +39,10 @@
         var point = new EzCoord(PGISHelper.Config.defaultlng, PGISHelper.Config.defaultlat);
         PGISHelper.Map.centerAndZoom(point, PGISHelper.Config.defaultzoom);
         
-       // PGISHelper.Map.changeDragMode('drawCircle', drawCricleT);
+        //PGISHelper.Map.changeDragMode('drawCircle', drawCricleT);
         
         //PGISHelper.Map.changeDragMode('drawRect', drawRectT);
+        
         
         if (PGISHelper.Config.IsShowMapControl) PGISHelper.Map.showMapControl();
 
@@ -104,6 +106,7 @@
                 }
                 
             }
+            getMapLGByClick(PGISHelper.CurCoord);
         }, PGISHelper.Map);
         
         
@@ -136,6 +139,10 @@
                 this.getViewport().style.cursor = '';
                 //if (PGISHelper.IsMouseUp) PGISHelper.IsOnLinePoint = false;
                 //PGISHelper.HideDelMarker();
+            }
+            if(PGISHelper.SelectdrawCircle!=null && PGISHelper.SelectdrawCircle){
+            	PGISHelper.SelectdrawCircle =false;
+            	PGISHelper.Map.changeDragMode('drawRect', drawRectT);
             }
 
         }, PGISHelper.Map);
@@ -196,6 +203,8 @@
     	PGISHelper.Map.addOverlay(PGISHelper.DelMarker);
     	PGISHelper.DelMarker.type = "delpoint";
     	PGISHelper.DelMarker.hide();
+    	
+    	return PGISHelper;
 
     },
     ShowDelMarker: function (coord) {
@@ -230,15 +239,21 @@
     },
     PanAndZoom: function (lng, lat, zoomIndex, offset, type) {
         var coord = new EzCoord(lng, lat);
-        if (type != undefined) {
+        //带动画平移
+        if (type != undefined && type != null) {
             var duration = 2000;
             PGISHelper.Map.animationTo(coord, type, {
                 duration: duration
             });
         }
-        else
-            PGISHelper.Map.centerAndZoom(coord, zoomIndex);
-        
+        //带缩放移图
+        else if(zoomIndex != undefined && zoomIndex != null){
+        	PGISHelper.Map.centerAndZoom(coord, zoomIndex);
+        }else{
+        	//水平移图
+        	PGISHelper.Map.centerAtLatlng(coord);
+        }
+        	                   
         if(offset != undefined)
     	{
         	 var mbr = PGISHelper.Map.getBoundsLatLng();
@@ -247,6 +262,7 @@
         	 coord = new EzCoord(lng, lat);
         	 PGISHelper.Map.centerAtLatlng(coord);
     	}
+        
     },
 
     AddMark: function (obj) {
@@ -1084,6 +1100,7 @@
 
 function drawCricleT(drawObject) {
     var lay=drawObject;
+    var radius = lay.getRadius();
     lay.setFillColor('rgb(0,0,200)');
     if(PGISHelper.Map.Circle!=null){
     	PGISHelper.Map.removeOverlay(PGISHelper.Map.Circle);
@@ -1094,10 +1111,21 @@ function drawCricleT(drawObject) {
 
 function drawRectT(drawObject) {
     var lay=drawObject;
+    var XY = drawObject.coordString;
     lay.setFillColor('rgb(0,0,100)');
     if(PGISHelper.Map.Rect!=null){
     	PGISHelper.Map.removeOverlay(PGISHelper.Map.Rect);
     }
     PGISHelper.Map.Rect=lay;
     PGISHelper.Map.addOverlay(lay);
+    PGISHelper.SelectdrawCircle = true;
 }
+
+//选择坐标，地图点击事件
+function getMapLGByClick(obj){
+	if(typeof parent.getMapLGByClickFromOther =="function"){
+		parent.getMapLGByClickFromOther(obj);
+	}
+}
+
+

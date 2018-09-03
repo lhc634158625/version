@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <style>
-<!--
 .layui-nav-child dd a {
 	min-width: 121px;
 	width: auto;
@@ -28,11 +27,11 @@
 
 #layui-header {
 	position: relative;
-	height: 100%;
+	height: 110px;
 	width: 100%;
 	background-color: white;
-	background-image: url('../images/logo1.png');
-	background-size: 100%;
+	background-image: url('../images/logo2.png');
+	background-size: 100% 110px;
 	background-repeat: no-repeat;
 }
 
@@ -41,15 +40,19 @@
 	bottom: 25px;
 	left: 10%;
 }
--->
+
+.layui-nav-child {
+	padding: 0
+}
 </style>
 <header class="main-header" style="height: 110px; width: 100%">
 
-	<nav style="position: relative; top: 0; height: 100%; width: 100%;">
+	<nav style="position: relative; top: 0; height: 110px; width: 100%;">
 		<!-- Navbar Right Menu -->
 		<div class="layui-header" id="layui-header">
 			<div id="titleAdd"></div>
-			<ul class="layui-nav layui-col-md8 layui-col-md-offset4" style="background-color: transparent;">
+			<ul class="layui-nav layui-col-md8 layui-col-md-offset4"
+				style="background-color: transparent;">
 				<li class="layui-nav-item"><a href="javascript:;"><img
 						style="width: 25%; height: 25%;" src="../images/qwts.png">&nbsp;勤务态势</a></a>
 					<dl class="layui-nav-child">
@@ -85,9 +88,12 @@
 									onclick="showName(this)">派出所排班</a></li>
 								<li><a href="<c:url value='/duty/fastReverseShift.jsp'/>"
 									onclick="showName(this)">135快反圈排班</a></li>
-								<li><a href="" onclick="showName(this)">重点防务区排班</a></li>
-								<li><a href="" onclick="showName(this)">加密巡区排班</a></li>
-								<li><a href="" onclick="showName(this)">案件回返</a></li>
+								<li><a href="<c:url value='/duty/keyDefenseArea.jsp'/>"
+									onclick="showName(this)">重点防务区排班</a></li>
+								<li><a href="<c:url value='/duty/encryptPatrolArea.jsp'/>"
+									onclick="showName(this)">加密巡区排班</a></li>
+								<li><a href="<c:url value='/duty/caseCallback.jsp'/>"
+									onclick="showName(this)">案件回访</a></li>
 							</ul>
 						</dd>
 						<dd>
@@ -159,7 +165,8 @@
 						style="width: 25%; height: 25%;" src="../images/qwgl.png">&nbsp;勤务管理</a>
 					<dl class="layui-nav-child">
 						<dd>
-							<a href="" onclick="showName(this)">警力部署</a>
+							<a href="<c:url value='/duty/policeStationScheduling.jsp'/>"
+								onclick="showName(this)">警力部署</a>
 						</dd>
 						<dd>
 							<a href="" onclick="showName(this)">设备管理</a>
@@ -179,7 +186,7 @@
 						style="width: 22%; height: 22%;" src="../images/xtgl.png">&nbsp;系统管理</a>
 					<dl class="layui-nav-child" style="float: left">
 						<dd>
-							<a href="" onclick="showName(this)">警员列表</a>
+							<a href="<c:url value='/lhc/policeList.jsp'/>" onclick="showName(this)">警员列表</a>
 						</dd>
 						<dd>
 							<a href="" onclick="showName(this)">组织管理</a>
@@ -216,7 +223,8 @@
 						</dd>
 					</dl></li>
 			</ul>
-			<ul class="layui-nav layui-layout-right"  style="background-color: transparent;">
+			<ul class="layui-nav layui-layout-right"
+				style="background-color: transparent;">
 				<li id="loginTo" class="layui-nav-item"><a> <img
 						style="width: 25%; height: 25%;" src="../images/gly.png"
 						class="layui-nav-img"> <span id="loginUser">登录</span>
@@ -237,12 +245,12 @@
 				layer.msg(elem.text());
 			});
 		});
-		
+
 		$(function() {
 			// 拼接导航栏
 			$("#titleAdd").empty();
 			var titleAdd = sessionStorage.getItem("titleAdd");
-			if(titleAdd==null||titleAdd==""){
+			if (titleAdd == null || titleAdd == "") {
 				titleAdd = '勤务态势   > 警力布防';
 			}
 			$("#titleAdd").append(titleAdd);

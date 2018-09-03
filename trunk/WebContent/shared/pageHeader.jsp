@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <style>
-<!--
 .layui-nav-child dd a{
 	min-width: 121px;
 	width: auto;
@@ -24,7 +23,9 @@
 .layui-nav .layui-nav-child dd .ul_header a:hover{
 	background: #f0f0f0;
 }
--->
+.layui-nav-child{
+	padding:0
+}
 </style>
 <header class="main-header" style="height: 80px; width: 100%">
 
@@ -153,7 +154,7 @@
 				<li class="layui-nav-item"><a href="javascript:;"><img style="width: 22%;height: 22%;" src="../images/xtgl.png">&nbsp;系统管理</a>
 					<dl class="layui-nav-child" style="float:left">
 						<dd>
-							<a href="">警员列表</a>
+							<a href="<c:url value='/lhc/polistList.jsp'/>">警员列表</a>
 						</dd>
 						<dd>
 							<a href="">组织管理</a>

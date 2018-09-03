@@ -1,8 +1,12 @@
+function AfterInitial() {		
+    stationSelector = new StationSelector();    
+    stationSelector.Initial();	    
+}
 var stationSelector
-function StationSelector(isMulti) {
+function StationSelector() {
     var _self = this;
     var _allStations;
-    this._ismulti=isMulti;
+    var ismulti = false;
     _self.pId=_LoginUser.stationId;
     this.Initial = function () {
         _self.InitData();
@@ -33,9 +37,9 @@ function StationSelector(isMulti) {
                 onExpand:onExpandforchangeWidth,
                 onCollapse:onExpandforchangeWidth
             }
-        };
-       // if (request("multi") == "1") 
-        if(this._ismulti==true)
+        };       
+       //if (request("multi") == "1")  
+        if (_self.getParam("multi"))
         {
             ismulti = true;
             _self.setting = {
@@ -68,10 +72,8 @@ function StationSelector(isMulti) {
                 return;
             }
             _self.ShowData();
-            _self.clearOption();
             _self.AddOption();
-        });   
-        
+        });        
     }
     this.GetFilter = function () {
         _self.filter = new Array();
@@ -99,9 +101,7 @@ function StationSelector(isMulti) {
                 _allStations = _allStations.concat(result.data);
                 SaveDBData("AllStation", _allStations);            
                 _self.ShowData(); 
-                _self.clearOption();
-                _self.AddOption(); 
-                selectRender();
+                _self.AddOption();                 
             }
         });
     }
@@ -120,7 +120,9 @@ function StationSelector(isMulti) {
     }
     //��ѡ�¼�����
     function SelectStation(event, treeId, treeNode) {
-        parent.changeStation(treeNode);
+    	if(typeof parent.changeStation=="function"){
+    		parent.changeStation(treeNode);
+    	}
     }
     function SelectStationById(id) {
         var _node = zTree.getNodeByParam("id", id, null);
@@ -166,9 +168,12 @@ function StationSelector(isMulti) {
         if (request("default") != null) {
             var nodes = zTree.getNodes();
             if (nodes.length > 0) {
-                parent.SelectStation(nodes[0]);
+            	if(typeof parent.SelectStation=="function"){
+            		parent.SelectStation(nodes[0]);
+            	}
             }
         }
+        _self.openNodebyDefault(123); //默认展开分局
     }   
     this.RefreshChecked=function(selectedIds) {
         var checkNames = "";
@@ -183,33 +188,50 @@ function StationSelector(isMulti) {
         }
         $("#ulSelectName").html(checkNames);
     }
-    this.openNode=function(treeId){
-    	//zTree.expandNode(zTree.getNodeByParam("id",treeId,null));
+    this.openNode=function(treeId){    	
     	zTree.selectNode(zTree.getNodeByParam("id",treeId,null));
-    	zTree.setting.callback.onClick(null, zTree.setting.id, zTree.getNodeByParam("id",treeId,null));
+    	if(ismulti){    
+    		zTree.checkNode(zTree.getNodeByParam("id",treeId,null), !zTree.getNodeByParam("id",treeId,null).checked, true); 
+    		zTree.setting.callback.onCheck();
+    	}
+    	else{
+    		zTree.setting.callback.onClick(null, zTree.setting.id, zTree.getNodeByParam("id",treeId,null));	
+    	}
+    	
     	onExpandforchangeWidth();
+    }
+    function onExpandforchangeWidth(){
+    	if(typeof parent.onExpandforchangeWidth1=="function"){
+    		parent.onExpandforchangeWidth1();
+    	}
     }
  // 画警员搜索
     this.AddOption=function() {
-    	var data=_allStations;
- 		var manList=new Array();
- 		var IdList=new Array();
- 		for(var i=0;i<data.length;i++){
- 			if(!isInArray(manList,data[i].staffName)){					
- 				manList.push(data[i].name);
- 				IdList.push(data[i].id);
- 			}
- 		}
- 		var html = "";
- 		html += "<option value=''></option>";
- 		for(var j=0;j<manList.length;j++){
- 			html += "<option value='"+ IdList[j] +"'>"+manList[j]+"</option>";		
- 		}
- 		$("#stationSearch").append(html); 
- 		
+    	if(typeof parent.AddOption=="function"){
+    		parent.AddOption(_allStations);
+    	}
  	}
-    this.clearOption=function(){
-    	$("#stationSearch").empty();
+    //获取引用参数
+    this.getParam=function(param){
+    	var js = document.getElementsByTagName("script");
+    	for (var i = 0; i < js.length; i++) {
+    	    if (js[i].src.indexOf("stationSelector.js") >= 0) {
+    	        var arraytemp = new Array();
+    	        arraytemp = js[i].src.split('?');
+    	        arraytemp = arraytemp[1].split('&');
+    	        for(var j=0;j<arraytemp.length;j++){
+    	        	var temp=arraytemp[j].split('=');
+    	        	if(temp[0]==param && temp[1]=="1"){
+    	        		return true;
+    	        	}    	        
+    	        }    	        
+    	    }
+    	}
+    	return false;
+    }
+    //默认打开某个节点
+    this.openNodebyDefault=function(treeId){
+    	zTree.expandNode(zTree.getNodeByParam("id",treeId,null));
     }
 }
 

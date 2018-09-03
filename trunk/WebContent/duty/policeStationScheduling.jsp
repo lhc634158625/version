@@ -35,9 +35,11 @@ table thead, tbody {
 </head>
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin">
-		<%@ include file="../shared/pageHeader.jsp"%>
-		<!-- <%@ include file="../shared/policeStationSchedulingMenu.jsp"%> -->
-		<div class="" id="width_right" style="float:right">
+		<%@ include file="../shared/pageHeader1.jsp"%>
+		<jsp:include page="../shared/policeStationSchedulingMenu.jsp" flush="true">
+		<jsp:param name="multi" value="0"/>
+		</jsp:include>
+		<div class="" id="width_right" style="float:right;margin-top: 10px;">
 			<!-- 内容主体区域 -->
 			<div>
 				<div class="layui-row layui-col-space1">
@@ -115,10 +117,7 @@ table thead, tbody {
 											</div>
 											<div class="layui-inline" style="float: right;">
 												<div class="layui-btn-group demoTable" style="float: right;">
-													<button class="layui-btn layui-btn-primary layui-btn-sm">导入</button>
 													<button class="layui-btn layui-btn-primary layui-btn-sm">导出</button>
-													<button class="layui-btn layui-btn-primary layui-btn-sm">生成模板</button>
-													<button class="layui-btn layui-btn-primary layui-btn-sm">模板下载</button>
 												</div>
 											</div>
 										</div>
@@ -246,11 +245,6 @@ table thead, tbody {
 	}
 </script>
 <script>
-	function AfterInitial() {		
-	    stationSelector = new StationSelector();
-	    //stationSelector._ismulti=true;
-	    stationSelector.Initial();	    
-	}
 	var id;//单位id
 	var stationN;//单位名称
 	var type=0;// 周的标识
@@ -407,7 +401,12 @@ table thead, tbody {
 			document.getElementById("dayOrWeek").style.display="block";
 			html4 += "<tr>";
 			for(var i=0;i<typeNum.length;i++){
-				html4 += "<td>"+typeNum[i].stationName+"("+typeNum[i].count+")</td>";
+				if(typeNum[i].stationName=="备勤" || typeNum[i].stationName=="执勤"){
+					html4 += "<td><a onclick='searchShiftState(\""+typeNum[i].stationName+"\")'>"+typeNum[i].stationName+"("+typeNum[i].count+")</a></td>";										
+				}
+				else{
+					html4 += "<td>"+typeNum[i].stationName+"("+typeNum[i].count+")</td>";					
+				}
 			}
 			html4 += "</tr>";
 			$("#table-top1").append(html4);
@@ -420,7 +419,13 @@ table thead, tbody {
 			document.getElementById("dayOrWeek").style.display="block";
 			html5 += "<tr>";
 			for(var i=0;i<typeNum.length;i++){
-				html5 += "<td>"+typeNum[i].stationName+"("+typeNum[i].count+")</td>";
+				if(typeNum[i].stationName=="备勤" || typeNum[i].stationName=="执勤"){
+					html5 += "<td><a onclick='searchShiftState(\""+typeNum[i].stationName+"\")'>"+typeNum[i].stationName+"("+typeNum[i].count+")</a></td>";							
+				}
+				else{
+					html5 += "<td>"+typeNum[i].stationName+"("+typeNum[i].count+")</td>";					
+				}
+				
 			}
 			html5 += "</tr>";
 			$("#table-top2").append(html5);
@@ -532,21 +537,50 @@ table thead, tbody {
 	// 日表表头提取
 	function getTitleItem(data){
 		var length=data.length;
-		var itemList=new Array();
-		var itemIdList=new Array();
+		var itemList1=new Array();
+		var itemIdList1=new Array();
 		var itemMaplist=new Array();	
 		var itemMapIdlist=new Array();
 	    var maxRows=1;
 	    
 		for(var i=0;i<data.length;i++){
-			if(!isInArray(itemList,data[i].namePath)){					
-				itemList.push(data[i].namePath);
-				itemIdList.push(data[i].idPath);
+			if(!isInArray(itemList1,data[i].namePath)){					
+				itemList1.push(data[i].namePath);
+				itemIdList1.push(data[i].idPath);
 				if(data[i].namePath.split(",").length>maxRows){
 					maxRows=data[i].namePath.split(",").length;
 				}
 			}
 		}
+		var itemList=new Array();
+		var itemIdList=new Array(); 
+		for(var i=0;i<itemIdList1.length;i++){
+			if(!isInArray(itemIdList,itemIdList1[i])){					
+				itemList.push(itemList1[i]);
+				itemIdList.push(itemIdList1[i]);
+			}
+			for(var j=0;j<itemIdList1.length;j++){
+				if(i==j||itemIdList1[i].split(",")[0]!=itemIdList1[j].split(",")[0]){
+					continue;
+				}
+				if(!isInArray(itemIdList,itemIdList1[j])){					
+					itemList.push(itemList1[j]);
+					itemIdList.push(itemIdList1[j]);
+				}
+			}
+		}
+		
+		for(var i=0;i<itemIdList.length;i++){
+			if(itemIdList[i].split(",").length>2){
+				for(var j=0;j<itemIdList.length;j++){
+					if(itemIdList[j].split(",").length==2&&itemIdList[i].split(",")[0]==itemIdList[j].split(",")[0]){
+						itemList[j]=itemList[j].split(",")[0] + "," + itemList[j].split(",")[0]; 
+						itemIdList[j]="" + itemIdList[j] + itemIdList[j]; 
+					}
+				}
+			}
+		}
+		
 		for(var i=0;i<itemList.length;i++){
 			var temp=itemList[i].split(",");
 			var tempId=itemIdList[i].split(",");
@@ -834,12 +868,29 @@ table thead, tbody {
 				 var name=temp[0];
 				 var rows=temp[1];
 				 var cols=value.split(";")[0];
-				 var shiftIdPath=value.split(";")[1];				 
+				 var shiftIdPath=value.split(";")[1];	
+				 var isChildShiftType=0;
 				 html+="<th rowspan='" + rows + "' colspan='" + cols +"'><a style='color:white;cursor: pointer;' onclick='showTypeShift(\""+shiftIdPath+"\")'>" + name + "</a>";
 				 var num = 0;
 				 if(i==itemMaplist.length-rows){
+					if(shiftIdPath.split(",")[0]==shiftIdPath.split(",")[1]){
+						shiftIdPath=shiftIdPath.split(",")[0]+",";
+					}
 					var sumPeople  = Enumerable.From(data).Where("x=>x.idPath=="+"'"+shiftIdPath+"'&& x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;					 
-					html += "<a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+shiftIdPath+"\")'>("+sumPeople+"人)</a>";
+					html += "<div><a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+shiftIdPath+"\","+isChildShiftType+")'>("+sumPeople+"人)</a></div>";
+				 }else{
+					var sumPeople = 0;
+					for(var j=0;j<lastShiftType.length;j++){
+						if(shiftIdPath==lastShiftType[j].split(",")[0]+","){
+							var shiftIdPath1=lastShiftType[j];
+							if(lastShiftType[j].split(",")[0]==(lastShiftType[j].split(",")[1])){
+								shiftIdPath1=lastShiftType[j].split(",")[0]+",";
+								isChildShiftType=1;
+							}
+						sumPeople += Enumerable.From(data).Where("x=>x.idPath=="+"'"+shiftIdPath1+"'&& x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;	
+						}
+					}
+					html += "<div><a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+shiftIdPath+"\","+isChildShiftType+")'>("+sumPeople+"人)</a></div>";
 				 }
 				 html+="</th>";
 			});
@@ -864,7 +915,8 @@ table thead, tbody {
 			if(sumPe==0){
 				break;
 			}
-			html += "<td>"+timeList[i]+"<a style='cursor: pointer;' onclick='messByNum("+id+",\"\",\"\",\""+timeList[i]+"\")'>("+sumPe+"人)</td>";
+			var chooseDay=document.getElementById("d122").value;
+			html += "<td>"+timeList[i]+"<div><a style='cursor: pointer;' onclick='messByNum("+id+",\"\",\"\",\""+chooseDay+"\",\""+timeList[i]+"\")'>("+sumPe+"人)<div></td>";
 			for(var j=0;j<lastShiftType.length;j++){
 				html += "<td>";
 				maptimeitem.forEach(function (value, key, map) {
@@ -874,6 +926,9 @@ table thead, tbody {
 					var mess= (value+"").split(",");
 					if(lastShiftType[j]==shiftIdPath&&timeList[i]==timeft){
 						html += showShiftTimeStaff(data,mess,i,time1);
+					}
+					if(lastShiftType[j].split(",")[0]==lastShiftType[j].split(",")[1]&&(lastShiftType[j].split(",")[1]+",")==shiftIdPath&&timeList[i]==timeft){				
+						html += showShiftTimeStaff(data,mess,i,time1);	
 					}
 				});
 				html += "</td>";
@@ -908,17 +963,40 @@ table thead, tbody {
 				 var name = key.split(",")[0];
 				 html+="<th rowspan='" + rows + "' colspan='" + cols +"'><a style='color:white;cursor: pointer;' onclick='showTypeShift(\""+idPath+"\")'>" + name + "</a>";
 				 var num = 0;
+				 var isChildShiftType=1;
 				 if(i==itemMaplist.length-rows){
 					mapitem.forEach(function (value, key, map) {
 							var temp= key.split(";");					 
 							var stationName=temp[0];
 							var idPath2=temp[1];	
 							var mess= value;
+							if(idPath.split(",").length>2&&idPath.split(",")[0]==idPath.split(",")[1]&&idPath.split(",")[0]+","==idPath2){
+								num += value;
+							}
 							if(idPath2==idPath){
 								num += value;
 							}
 					});
-					html += "<a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+idPath+"\")'>("+num+"人)</a>";
+					if(idPath.split(",")[0]==idPath.split(",")[1]){
+						idPath=idPath.split(",")[0]+",";
+						isChildShiftType=0;
+					}
+					html += "<div><a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+idPath+"\","+isChildShiftType+")'>("+num+"人)</a></div>";
+				 }else{
+					 mapitem.forEach(function (value, key, map) {
+							var temp= key.split(";");					 
+							var stationName=temp[0];
+							var idPath2=temp[1];	
+							var mess= value;
+							if(idPath2.split(",")[0]==idPath.split(",")[0]){
+								num += value;
+							}
+					});
+					if(idPath.split(",")[0]==idPath.split(",")[1]){
+						idPath=idPath.split(",")[0]+",";
+						isChildShiftType=1;
+					}
+					html += "<div><a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+idPath+"\","+isChildShiftType+")'>("+num+"人)</a></div>";
 				 }
 				 html+="</th>";
 			});
@@ -938,7 +1016,7 @@ table thead, tbody {
 					num += mess;
 				}
 			});
-			html += "<td><a onclick='showStation("+stationMap.get(itemList[i])+")'>"+itemList[i]+"</a>(<a onclick='messByNum("+stationMap.get(itemList[i])+",\"\")'>"+num+"人</a>)</td>";
+			html += "<td><a onclick='showStation("+stationMap.get(itemList[i])+")'>"+itemList[i]+"</a><div>(<a onclick='messByNum("+stationMap.get(itemList[i])+",\"\")'>"+num+"人</a>)<div></td>";
 			for(var j=0;j<lastShiftType.length;j++){
 				html += "<td>";
 				mapitem.forEach(function (value, key, map) {
@@ -946,7 +1024,7 @@ table thead, tbody {
 					var stationName=temp[0];
 					var idPath=temp[1];	
 					var mess= value;
-					if(lastShiftType[j]==idPath&&itemList[i]==stationName){
+					if((lastShiftType[j]==idPath&&itemList[i]==stationName)||(lastShiftType[j].split(",")[0]==lastShiftType[j].split(",")[1]&&lastShiftType[j].split(",")[0]+","==idPath&&itemList[i]==stationName)){
 						var index = 0;
 						index = mess;
 						html += "<a onclick='messByNum("+stationMap.get(itemList[i])+",\""+idPath+"\")'>"+index+"</a>";	
@@ -985,9 +1063,26 @@ table thead, tbody {
 				 var shiftIdPath=value.split(";")[1];				 
 				 html+="<th rowspan='" + rows + "' colspan='" + cols +"'><a style='color:white;cursor: pointer;' onclick='showTypeShift(\""+shiftIdPath+"\")'>" + name + "</a>";
 				 var num = 0;
+				 var isChildShiftType=1;
 				 if(i==itemMaplist.length-rows){
+					if(shiftIdPath.split(",")[0]==shiftIdPath.split(",")[1]){
+						shiftIdPath=shiftIdPath.split(",")[0]+",";
+						 isChildShiftType=0;
+					}
 					var sumPeople  = Enumerable.From(data).Where("x=>x.idPath=="+"'"+shiftIdPath+"'&& x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;					 
-					html += "<a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+shiftIdPath+"\")'>("+sumPeople+"人)</a>";
+					html += "<div><a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+shiftIdPath+"\","+isChildShiftType+")'>("+sumPeople+"人)</a><div>";
+				 }else{
+					var sumPeople = 0;
+					for(var j=0;j<lastShiftType.length;j++){
+						if(shiftIdPath==lastShiftType[j].split(",")[0]+","){
+							var shiftIdPath1=lastShiftType[j];
+							if(lastShiftType[j].split(",")[0]==(lastShiftType[j].split(",")[1])){
+								shiftIdPath1=lastShiftType[j].split(",")[0]+",";
+							}
+						sumPeople += Enumerable.From(data).Where("x=>x.idPath=="+"'"+shiftIdPath1+"'&& x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;					 
+						}
+					}
+					html += "<div><a style='color:white;cursor: pointer;' onclick='messByNum("+id+",\""+shiftIdPath+"\","+isChildShiftType+")'>("+sumPeople+"人)</a><div>";
 				 }
 				 html+="</th>";
 			});
@@ -1007,6 +1102,9 @@ table thead, tbody {
 					var stationName=temp[0];
 					var shiftIdPath=temp[1];	
 					var mess= (value+"").split(",");
+					if(lastShiftType[j].split(",")[0]==lastShiftType[j].split(",")[1]){
+						lastShiftType[j]=lastShiftType[j].split(",")[0]+",";
+					}
 					if(lastShiftType[j]==shiftIdPath&&itemList[i]==stationName){
 						html += showShiftTimeStaff(data,mess,i,time1);
 					}
@@ -1021,14 +1119,43 @@ table thead, tbody {
 	
 	//现有排班namePath排序
 	function getShiftypeRow(lastShiftType,data){			
-		var itemList=new Array();	
-		var itemIdList=new Array();	
+		var itemList1=new Array();	
+		var itemIdList1=new Array();	
 		for(var i=0;i<data.length;i++){
-			if(!isInArray(itemList,data[i].namePath)){					
-				itemList.push(data[i].namePath);
-				itemIdList.push(data[i].idPath);
+			if(!isInArray(itemList1,data[i].namePath)){					
+				itemList1.push(data[i].namePath);
+				itemIdList1.push(data[i].idPath);
 			}
 		}
+		var itemList=new Array();
+		var itemIdList=new Array(); 
+		for(var i=0;i<itemIdList1.length;i++){
+			if(!isInArray(itemIdList,itemIdList1[i])){					
+				itemList.push(itemList1[i]);
+				itemIdList.push(itemIdList1[i]);
+			}
+			for(var j=0;j<itemIdList1.length;j++){
+				if(i==j||itemIdList1[i].split(",")[0]!=itemIdList1[j].split(",")[0]){
+					continue;
+				}
+				if(!isInArray(itemIdList,itemIdList1[j])){					
+					itemList.push(itemList1[j]);
+					itemIdList.push(itemIdList1[j]);
+				}
+			}
+		}
+		
+		for(var i=0;i<itemIdList.length;i++){
+			if(itemIdList[i].split(",").length>2){
+				for(var j=0;j<itemIdList.length;j++){
+					if(itemIdList[j].split(",").length==2&&itemIdList[i].split(",")[0]==itemIdList[j].split(",")[0]){
+						itemList[j]=itemList[j].split(",")[0] + "," + itemList[j].split(",")[0]; 
+						itemIdList[j]="" + itemIdList[j] + itemIdList[j]; 
+					}
+				}
+			}
+		}
+		
 		var rowList=new Array();
 		for(var i=0;i<itemList.length;i++){
 			var temp=itemList[i].split(",");			
@@ -1087,19 +1214,31 @@ table thead, tbody {
 		html += "<div class='table-body' id='tableBody1'><table class='layui-table' id='table1_tbody'><tbody>";
 		for(var i=0;i<rowList.length;i++){
 			var rows = rowList[i].split(",");
+			var idPath=lastShiftType[i];
 			html += "<tr>";
 			html += "<td colspan='1'>"+(i+1)+"</td>";
-			for(var j=0;j<rows.length;j++){ 								
-				var indexsum = Enumerable.From(data).Where("x=>x.namePath=='"+rowList[i]+"' && x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;				
-				var index = 0;				
+			var isChildShiftType=1;
+			for(var j=0;j<rows.length;j++){
 				if(j == 0){
-					if(j==rows.length-1){					
-						html+="<td colspan='" + (maxRow-rows.length+1) + "' rowspan='1'><a style='cursor: pointer;' onclick='showTypeShift(\""+lastShiftType[i]+"\")'>" + rows[j] + "</a><a style='cursor: pointer;' onclick='messByNum("+id+",\""+lastShiftType[i]+"\")'>("+indexsum+"人)</a></td>";
-					}else{
-						html+="<td colspan='" + (maxRow-rows.length+1) + "' rowspan='1'><a style='cursor: pointer;' onclick='showTypeShift(\""+lastShiftType[i]+"\")'>" + rows[j] + "</a></td>";
+					var indexsum = 0;	
+					for(var k=0;k<lastShiftType.length;k++){
+						if(idPath.split(",")[0]==lastShiftType[k].split(",")[0]){
+							var idPath1=lastShiftType[k];
+							if(lastShiftType[k].split(",")[0]==lastShiftType[k].split(",")[1]){
+								idPath1=lastShiftType[k].split(",")[0]+",";
+							}
+							indexsum+=Enumerable.From(data).Where("x=>x.idPath=='"+idPath1+"' && x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;
+						}
 					}
-				}else{					
-					html+="<td colspan='1' rowspan='1'><a style='cursor: pointer;' onclick='showTypeShift(\""+lastShiftType[i]+"\")'>" + rows[j] + "</a><a style='cursor: pointer;' onclick='messByNum("+id+",\""+lastShiftType[i]+"\")'>("+indexsum+"人)</a></td>";
+					html+="<td colspan='" + (maxRow-rows.length+1) + "' rowspan='1'><a style='cursor: pointer;' onclick='showTypeShift(\""+idPath.split(",")[0]+","+"\")'>" + rows[j] + "</a><a style='cursor: pointer;' onclick='messByNum("+id+",\""+idPath.split(",")[0]+","+"\","+isChildShiftType+")'>("+indexsum+"人)</a></td>";
+				}else{
+					var idPath1=lastShiftType[i];
+					if(lastShiftType[i].split(",")[0]==lastShiftType[i].split(",")[1]){
+						idPath1=lastShiftType[i].split(",")[0]+",";
+						isChildShiftType=0;
+					}
+					var indexsum = Enumerable.From(data).Where("x=>x.idPath=='"+idPath1+"' && x.staffId!=0").Distinct("x=>x.staffId").ToArray().length;				
+					html+="<td colspan='1' rowspan='1'><a style='cursor: pointer;' onclick='showTypeShift(\""+idPath1+"\")'>" + rows[j] + "</a><div><a style='cursor: pointer;' onclick='messByNum("+id+",\""+idPath1+"\","+isChildShiftType+")'>("+indexsum+"人)</a></div></td>";
 				}
 			}
 			for(var k=0;k<7;k++){
@@ -1110,6 +1249,9 @@ table thead, tbody {
 					var date2=temp[1];	
 					var mess= (value+"").split(",");
 					if(lastShiftType[i]==idPath&&date1[k]==date2){						
+						html += showShiftTimeStaff(data,mess,i,date2);	
+					}
+					if(lastShiftType[i].split(",")[0]==lastShiftType[i].split(",")[1]&&(lastShiftType[i].split(",")[1]+",")==idPath&&date1[k]==date2){				
 						html += showShiftTimeStaff(data,mess,i,date2);	
 					}
 				});
@@ -1289,7 +1431,7 @@ table thead, tbody {
 	}
 	
 	// 根据单位id、工作时段、班别获取人员信息
-	function messByNum(id,shiftId,dayTime,daySpan){
+	function messByNum(id,shiftId,isChildShiftType,dayTime,daySpan){
 		var oneDay = document.getElementById("d122").value;
 		var timeSpan = document.getElementById("test9").value;
 		var fromDt = oneDay + " 00:00:00";
@@ -1330,6 +1472,9 @@ table thead, tbody {
 		}
 		if(shiftId!=null&&shiftId!=""){
 			request.shiftTypeIdPath=shiftId;
+		}
+		if(isChildShiftType==0&&isChildShiftType!=""){
+			request.isChildShiftType=isChildShiftType;
 		}
 		PostData("duty/arrange/stationStaff",request,function(result){
 			var mess = result.data;
@@ -1488,7 +1633,59 @@ table thead, tbody {
 		arr_isShow = 1;
 		SelectStation(null);
 	}
-	
+	function searchShiftState(stateParam){
+		var request=new Object();
+		request.shiftState=stateParam;
+		request.stationId=id;
+		PostData("staff/staff/shiftState",request,function(result){
+			var mess = result.data;
+			var itemMap = new Map();
+			for(var i=0;i<mess.length;i++){
+				var key = mess[i].staffId + "," + mess[i].idPath;
+				if(!itemMap.has(key)){
+					itemMap.set(key,mess[i].staffName + ";" + mess[i].staffCode + ";" + 
+							mess[i].post + ";" + mess[i].staffPhone + ";" + 
+							mess[i].shiftName + ";" + mess[i].lastPosTime + ";" + mess[i].deviceInfos);
+				}
+			}
+		    //示范一个公告层
+		    var html = "<table class='layui-table'>";
+			html += "<thead><tr><th>序号</th><th>警员姓名</th><th>警号</th><th>岗位</th><th>电话</th><th>当前勤务</th><th>最近定位时间</th><th>设备</th></tr></thead>";
+			html += "<tbody>";
+			var index = 1;
+			itemMap.forEach(function (value, key, map) {
+				html += "<tr>";
+				var obj = value.split(";");
+				for(var j=0;j<obj.length;j++){
+					if(j==0){
+						html += "<td>"+index+"</td>";
+						index++;
+					}
+					html += "<td>"+obj[j]+"</td>";
+				}
+				html += "</tr>";
+			});
+			html += "</tbody>";
+			html += "</table>";
+			layer.open({
+			       type: 1
+			        ,title: false //不显示标题栏
+			        ,closeBtn: false
+			        ,area: ['1200px', '500px']
+			        ,shade: 0.8
+			        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+			        ,btn: ['关闭']
+			        ,btnAlign: 'c'
+			        ,moveType: 1 //拖拽模式，0或者1
+			        ,content: html
+			        ,success: function(layero){
+			          var btn = layero.find('.layui-layer-btn');
+			          btn.find('.layui-layer-btn0').attr({
+			          });
+			        }
+			    });
+		});
+	}
 	//日期类型 加减
 </script>
 </html>

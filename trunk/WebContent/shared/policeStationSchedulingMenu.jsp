@@ -27,13 +27,20 @@
 #stationSelect .layui-anim-upbit::-webkit-scrollbar {
         display: none;
     }
+    
+#width_left {
+	background: #ffffff;
+	width: auto;
+	padding-right: 10px;
+	margin-top: 40px;
+}
 </style>
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
 	<!-- sidebar: style can be found in sidebar.less -->
 	<section class="sidebar">
 		<!-- sidebar menu: : style can be found in sidebar.less -->
-		<div id="width_left" class="layui-side" style="background: #ffffff;width:auto; padding-right:10px;">
+		<div id="width_left" class="layui-side">
 			<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
 			<div style="color:#000;border-radius:0 10px 10px 0; border:1px #cccccc solid; margin:19px 0 2px 0; height:4%;" class="menu_top">
 				<span id="show_span" style="line-height:30px;">行政区域</span>
@@ -43,8 +50,7 @@
 				<form class="layui-form" action="" method="post">
 				<div id="stationSelect">				
 					<div class="layui-input-inline" style="width:100%; ">
-						<select name="stationSearch" id="stationSearch" lay-filter="stationSearch"
-							aria-invalid="false" lay-search lay-case>
+						<select name="stationSearch" id="stationSearch" lay-filter="stationSearch" aria-invalid="false" lay-search lay-case>
 						</select>
 					</div>
 				</div>
@@ -63,12 +69,11 @@
      </script>
      <script>
      window.onload=function(){
-    	 onExpandforchangeWidth();
-    	 selectRender();
+    	 onExpandforchangeWidth1();    	 
      }
  	    
      //随左侧菜单栏的变化，右边主页面宽度随之改变
-     function onExpandforchangeWidth(){
+     function onExpandforchangeWidth1(){
     		var width_left = document.getElementById("width_left");
     		var width_right = document.getElementById("width_right");
     		if(width_left != null && width_right!=null ){
@@ -81,13 +86,14 @@
      }
      
      //树于各个显示控件联动
-     function changeStation(obj){
-    	 
+     function changeStation(obj){ 	 
     	var selectv = $('#stationSearch');
     	selectv.val(obj.id);
-    	 selectRender();
- 	 if(typeof SelectStation =="function"){
- 		SelectStation(obj);
+    	if(typeof selectRender =="function"){
+ 			selectRender();
+ 		}
+ 	 	if(typeof SelectStation =="function"){
+ 			SelectStation(obj);
     	 }
      }
      </script>
@@ -103,8 +109,30 @@
     		lt_mean_body.style.display='block';
     		sw_span.style.display='inline';
     	}		
-    	onExpandforchangeWidth();
+    	onExpandforchangeWidth1();
     }
+    function AddOption(allStations) {
+    	$("#stationSearch").empty();
+    	var data=allStations;
+ 		var manList=new Array();
+ 		var IdList=new Array();
+ 		for(var i=0;i<data.length;i++){
+ 			if(!isInArray(manList,data[i].staffName)){					
+ 				manList.push(data[i].name);
+ 				IdList.push(data[i].id);
+ 			}
+ 		}
+ 		var html = "";
+ 		html += "<option value=''></option>";
+ 		for(var j=0;j<manList.length;j++){
+ 			html += "<option value='"+ IdList[j] +"'>"+manList[j]+"</option>";		
+ 		}
+ 		$("#stationSearch").append(html); 
+ 		
+ 		if(typeof selectRender =="function"){
+ 			selectRender();
+ 		}
+ 	}
      </script>
 	<div class="Mask">
 		<i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#x1002;</i>刷新
@@ -115,5 +143,5 @@
 	<script src="../js/linq/linq.min.js"></script>
 	<script src="../js/dictCache.js"></script>
 	<script src="../js/IndexDB.js"></script>
-	<script src="../js/common/stationSelector.js?v=180612" charset="gb2312"></script>
+	<script src="../js/common/stationSelector.js?v=180612&&multi=${param.multi}" charset="gb2312"></script>
 </aside>

@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>135快反圈排班排班</title>
+<title>重点防务区排班</title>
 <link rel="stylesheet" href="../layui/css/layui.css">
 <link rel="stylesheet" href="../css/fastReverseShift.css">
 <script src="../js/jquery/jquery.js"></script>
@@ -23,7 +23,7 @@
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin">
 		<%@ include file="../shared/pageHeader1.jsp"%>
-		<%@ include file="../shared/fastReverseShiftMenu.jsp"%>
+		<%@ include file="../shared/keyDefenseAreaMenu.jsp"%>
 		<div id="mainBody">
 			<div class="layui-tab" lay-filter="demo" lay-allowclose="true">
 				<ul class="layui-tab-title" style="background: #92b4f4;"
@@ -34,16 +34,12 @@
 					style="border: 1px solid #ccc; border-top: none;" id="tabContent">
 					<div class="layui-tab-item layui-show">
 						<div id="mapTop"
-							style="position: fixed; width: auto ; height: auto; z-index: 2; right: 30px; background: white; border-radius: 5px; padding: 5px;">
+							style="position: fixed; width: 60%; height: auto; z-index: 2; right: 30px; background: white; border-radius: 5px; padding: 5px;">
 							<form class="layui-form" action="">
 								<div class="layui-inline">
 									<div class="layui-input-inline" style="margin-top: 5px;">
-										<input type="checkbox" name="like1[write]" lay-skin="primary"
-											title="<img src='../images/gray1.png'><img src='../images/blue1.png'>&nbsp;一分钟 ">
-										<input type="checkbox" name="like1[read]" lay-skin="primary"
-											title="<img src='../images/gray3.png'><img src='../images/blue3.png'>&nbsp;三分钟">
-										<input type="checkbox" name="like1[read]" lay-skin="primary"
-											title="<img src='../images/gray5.png'><img src='../images/blue5.png'>&nbsp;五分钟">
+										<input type="checkbox" name="" lay-skin="primary"
+											title="<img src='../images/gray.png'><img src='../images/blue.png'>&nbsp;重点防务区">
 									</div>
 								</div>
 								<div class="layui-inline" style="z-index: 5;">
@@ -60,8 +56,8 @@
 										</ul>
 									</div>
 								</div>
-								<div class="layui-inline" style="z-index: 5;">
-									<div class="layui-input-inline">
+								<div class="layui-inline">
+									<div class="layui-input-inline" style="z-index: 5;">
 										<ul>
 											<li class="liStyle">勤务车辆
 												<ul class="ulStyle">
@@ -174,21 +170,21 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">X坐标</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" id="coordinateX" name="title" required lay-verify="required"
+							<input type="text" name="title" required lay-verify="required"
 								placeholder="请输入标题" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">Y坐标</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" id="coordinateY" name="title" required lay-verify="required"
+							<input type="text" name="title" required lay-verify="required"
 								placeholder="请输入标题" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">关联单位</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input id="showTree" onclick="showTreemMean(this,this.id)" type="text" name="title" required lay-verify="required"
+							<input type="text" name="title" required lay-verify="required"
 								placeholder="请输入标题" autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -216,8 +212,8 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label"></label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input onclick="selectMapLG()" type="button" class="layui-btn"  value="选择坐标"
-								style="background: #4472ca;width:92px;"></input>
+							<button class="layui-btn" lay-submit lay-filter="formChose"
+								style="background: #4472ca;">选择坐标</button>
 							<button class="layui-btn" lay-submit lay-filter="formSave"
 								style="background: #4472ca;">保存信息</button>
 							<button class="layui-btn" lay-submit lay-filter="formStop"
@@ -228,12 +224,8 @@
 			</div>
 		</div>
 	</div>
-	<div id="textTree" style="position: absolute; overflow:auto;border:solid 1px #ccc; background-color:#fff; height:200px;">
-		<ul id="tree" class="ztree"></ul>
-	</div>	
 </body>
 <script type="text/javascript">
-var map;
 	layui
 			.use(
 					[ 'form', 'layedit', 'laydate' ],
@@ -264,7 +256,7 @@ var map;
 		mapDiv.style.height = (height * 0.8 - 30) + "px";
 		mapDiv.style.width = (width - 20) + "px";
 		mapTop.style.maxWidth = (width - 50) + "px";
-	    map = PGISHelper.Init("mapDiv");
+		var map = PGISHelper.Init("mapDiv");
 	});
 
 	// 关闭详情页
@@ -351,31 +343,29 @@ var map;
 		html2 += "<table class='layui-table' style='text-align: center;'>";
 		html2 += "<tbody>";
 		html2 += "<tr>";
-		html2 += "<td colspan='17'>特警支队常态化联勤武装巡逻警力部署表2018-08-27</td>";
+		html2 += "<td colspan='16'>各分局加密巡逻安排表2018-08-28</td>";
 		html2 += "</tr>"
 		html2 += "<tr>";
+		html2 += "<td rowspan='2'>分局(队伍驻地)</td>";
+		html2 += "<td rowspan='2'>巡逻类型</td>";
 		html2 += "<td rowspan='2'>巡逻区域</td>";
-		html2 += "<td rowspan='2'>1分钟快反处置范围</td>";
-		html2 += "<td rowspan='2'>巡逻时间</td>";
+		html2 += "<td rowspan='2'>巡逻及辐射范围</td>";
+		html2 += "<td rowspan='2'>巡逻时段</td>";
 		html2 += "<td colspan='3'>带队民警</td>";
-		html2 += "<td rowspan='2'>责任单位</td>";
 		html2 += "<td rowspan='2'>车号</td>";
-		html2 += "<td colspan='3'>通信</td>";
-		html2 += "<td colspan='2'>武装联络人</td>";
-		html2 += "<td colspan='2'>执勤人数</td>";
+		html2 += "<td colspan='2'>通信</td>";
+		html2 += "<td colspan='3'>执勤人数</td>";
 		html2 += "<td colspan='2'>携带装备</td>";
 		html2 += "</tr>";
 		html2 += "<tr>";
 		html2 += "<td>姓名</td>";
 		html2 += "<td>职务</td>";
 		html2 += "<td>电话</td>";
-		html2 += "<td>组别</td>";
 		html2 += "<td>代码</td>";
 		html2 += "<td>电台值守组</td>";
-		html2 += "<td>姓名</td>";
-		html2 += "<td>电话</td>";
-		html2 += "<td>特警</td>";
+		html2 += "<td>民警</td>";
 		html2 += "<td>武警</td>";
+		html2 += "<td>协警</td>";
 		html2 += "<td>长枪</td>";
 		html2 += "<td>短枪</td>";
 		html2 += "</tr>";
@@ -406,73 +396,4 @@ var map;
 		});
 	}
 </script>
-<script>
-	function showTreemMean(obj,Id){
-		var cityObj = $("#" + Id);
-        var cityOffset = $("#" + Id).offset();
-        var leftv = cityOffset.left;
-        var topv = cityOffset.top;
-        var oh = cityObj.outerHeight();
-       $('#textTree').css({ left: leftv + "px", top: topv + oh + "px" }).slideDown("fast");;
-       $("body").bind("mousedown", onBodyDown);
-       gTargetId = Id;
-	}
-
-function onBodyDown(event) {
-	 var str = event.target.id.substring(0,4);
-	 if(str =="tree"&&!(event.target.id.indexOf("span")>-1)){
-		return;
-	 }else{
-	    hideMenu();
-	 } 
-    }
-
- function hideMenu() {
-	 $('#textTree').fadeOut("fast");
-       $("body").unbind("mousedown", onBodyDown);
-   }
- 
- function changeStation(treeNode){
-	 var selectv = document.getElementById('showTree');
-	 selectv.value=treeNode.name;
- }
- </script>
- <script>
- 
- //点击事件变量，为true时在，则将坐标值赋予X，Y坐标
- var select_mapLG = false;
- var move = false;
- //选择坐标点击事件，修改变量select_mapLG 为true
- function selectMapLG(){
-	 if(move){
-		//delete
-		  var CoordinateY = document.getElementById('coordinateY');
-		  var CoordinateX = document.getElementById('coordinateX');	
-		  map.PanAndZoom(CoordinateX.value,CoordinateY.value);
-	 }
-	 select_mapLG = true;
-	 
- }
- 
- //赋予坐标行函数
- function getMapLGByClickFromOther(obj){
-	 if(select_mapLG){
-		 var CoordinateY = document.getElementById('coordinateY');
-		 var CoordinateX = document.getElementById('coordinateX');
-		 CoordinateX.value=obj[0];
-		 CoordinateY.value=obj[1];
-	 }
-	 select_mapLG = false;
-	 move = true;
- }
-  
- </script>
- <script src="../js/jquery.ztree.all-3.1.min.js"></script>
-<script src="../js/dateTime.js"></script>
-<script src="../js/common.js?v=180725" type="text/javascript"></script>
-<script src="../js/linq/linq.min.js"></script>
-<script src="../js/dictCache.js"></script>
-<script src="../js/IndexDB.js"></script>
-<script src="../js/common/stationSelector.js?v=180612" charset="gb2312"></script>
 </html>
-

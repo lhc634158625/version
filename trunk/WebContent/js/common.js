@@ -240,7 +240,7 @@ function PostData(method, data, callback) {
 		dataObj =eval("("+result+")");
 	};		
     var datajson = JSON.stringify(data);
-    var token = window.localStorage.getItem("token");
+    //var token = window.localStorage.getItem("token");
     //$(".Mask").show();
     var url = _serviceUrl + method ;
     $.ajax({

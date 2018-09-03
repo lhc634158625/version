@@ -211,3 +211,8 @@ pre {
 .div_table .layui-table tbody tr td {
 	text-align: center;
 }
+
+#mainBody {
+	position: fixed;
+	right: 10px;
+}
