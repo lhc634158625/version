@@ -125,7 +125,7 @@ loadData.prototype.GetPoliceNum = function (method, data, callback) {
         contentType: "application/json",
         dataType: "json",
         success: function (result) {
-            console.log(result.data);
+            console.log(result.code);
             callback(result);
         }
 

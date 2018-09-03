@@ -141,7 +141,7 @@
         <body class="layui-layout-body">
             <div class="layui-layout layui-layout-admin">
                 <%@ include file="../shared/pageHeader1.jsp"%>
-                   
+
                     <div class="layui-body">
                         <!-- 内容主体区域 -->
                         <div>
@@ -329,14 +329,18 @@
                 // function loadPag(pageNum){
                 //分页条
                 layui.use(['laypage', 'layer'], function () {
-                    console.log("分页条:" + policeNum)
+                    if (sessionStorage.getItem("pageNums") != null) {
+                        var pageNums=sessionStorage.getItem("pageNums");
+                        var countNums=sessionStorage.getItem("policeNums");
+                    }
+                    console.log(pageNums);
                     var laypage = layui.laypage
                         , layer = layui.layer;
                     //只显示上一页、下一页
                     var laypage = layui.laypage;
                     laypage.render({
                         elem: 'demo7'
-                        , count: 5000
+                        , count: countNums
                         , first: '首页'
                         , last: '尾页'
                         // , prev: '上'
@@ -349,11 +353,6 @@
                             if (!first) {
                                 layer.msg('第 ' + obj.curr + ' 页');
                                 PagiNationSelect(obj);
-                                //限制条数加载
-                                pageLimit = eval(obj).limit;
-                                console.log(eval(obj).limit);
-                                SelectPoliceNum(pageLimit)
-                                // laytab.loadTab();
                             }
                         }
                     });
