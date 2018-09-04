@@ -256,7 +256,7 @@
             <script src="../My97DatePicker/WdatePicker.js"></script>
             <script src="../js/layui2/layui.js"></script>
             <script src="./js/staffService.js"></script>
-            <script src="./js/staffDao.js"></script>
+            <script src="./js/staffData.js"></script>
             <script>
 
                 var data_lists;

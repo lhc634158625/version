@@ -110,33 +110,36 @@
     		sw_span.style.display='inline';
     	}		
     	onExpandforchangeWidth1();
-    }
-    function AddOption(allStations) {
-    	$("#stationSearch").empty();
-    	var data=allStations;
- 		var manList=new Array();
- 		var IdList=new Array();
- 		for(var i=0;i<data.length;i++){
- 			if(!isInArray(manList,data[i].staffName)){					
- 				manList.push(data[i].name);
- 				IdList.push(data[i].id);
- 			}
- 		}
- 		var html = "";
- 		html += "<option value=''></option>";
- 		for(var j=0;j<manList.length;j++){
- 			html += "<option value='"+ IdList[j] +"'>"+manList[j]+"</option>";		
- 		}
- 		$("#stationSearch").append(html); 
+	}
+	//搜索下拉
+    // function AddOption(allStations) {
+    // 	$("#stationSearch").empty();
+    // 	var data=allStations;
+ 	// 	var manList=new Array();
+ 	// 	var IdList=new Array();
+ 	// 	for(var i=0;i<data.length;i++){
+ 	// 		if(!isInArray(manList,data[i].staffName)){					
+ 	// 			manList.push(data[i].name);
+ 	// 			IdList.push(data[i].id);
+ 	// 		}
+ 	// 	}
+ 	// 	var html = "";
+ 	// 	html += "<option value=''></option>";
+ 	// 	for(var j=0;j<manList.length;j++){
+ 	// 		html += "<option value='"+ IdList[j] +"'>"+manList[j]+"</option>";		
+ 	// 	}
+ 	// 	$("#stationSearch").append(html); 
  		
- 		if(typeof selectRender =="function"){
- 			selectRender();
- 		}
- 	}
+ 	// 	if(typeof selectRender =="function"){
+ 	// 		selectRender();
+ 	// 	}
+ 	// }
      </script>
 	<div class="Mask">
 		<i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#x1002;</i>刷新
 	</div>
+	<script src="../js/layui2/layui.js"></script><!--添加的-->
+	<script src="../js/jquery/jquery.min.js"></script><!--添加的-->
 	<script src="../js/jquery.ztree.all-3.1.min.js"></script>
 	<script src="../js/dateTime.js"></script>
 	<script src="../js/common.js?v=180725" type="text/javascript"></script>
