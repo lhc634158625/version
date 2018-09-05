@@ -9,8 +9,9 @@ function GetPolice(page_num, pageSize_num) {
     pageFilter.pageSize = pageSize_num;
     SelectPoliceNum(pageSize_num);
     load.PostData("sys/staff/filter", pageFilter, function (result) {
-        dataPolice = result.data;    
-        laytab.loadTab();
+        dataPolice = result.data;  
+        sessionStorage.setItem("pageLimit",pageFilter.pageSize);  
+        laytab.loadTab();  
     });
     
 }
@@ -30,6 +31,7 @@ function PagiNationSelect(obj) {
     pageFilter.pageSize = pageSize_num;
     load.PostData("sys/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
+        sessionStorage.setItem("pageLimit",pageFilter.pageSize);
         laytab.loadTab();//上下也加载   
     });
 }

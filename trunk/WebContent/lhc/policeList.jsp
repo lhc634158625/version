@@ -13,6 +13,10 @@
             <link rel="stylesheet" href="../css/policeStationScheduling.css">
 
             <style>
+                html {
+                    font-family: "Times New Roman", Georgia, Serif;
+                }
+
                 /* 行高 */
                 .layui-table-cell {
                     height: 50px;
@@ -35,9 +39,6 @@
                     overflow: visible;
                 }
 
-
-
-
                 .layui-laypage a,
                 .layui-laypage span {
                     margin: 0 100px 5px 100px;
@@ -48,8 +49,8 @@
                     margin: 0 100px 5px 100px;
                 }
 
-                .search_bar{
-                    
+                .search_bar {
+                    font-weight: bolder
                 }
             </style>
         </head>
@@ -150,74 +151,88 @@
                         <!-- 内容主体区域 -->
                         <div style="position:absolute;top:100px;">
                             <!--条件查询-->
-                            <div class="search_bar">
-                                <form @submit.prevent="policeSearch">
-                                    <div class="layui-form-item layui-row">
-                                        <div class="layui-col-md1" style="display:-webkit-flex;
+                            <div class="search_bar" class="layui-row">
+                                <form @submit.prevent="policeSearch" class="layui-form layui-row ">
+                                    <div class="layui-inline">
+                                        <div class="layui-form-item layui-row">
+                                            <div class="layui-col-md2" style="display:-webkit-flex;
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
-                                            height: 38px;"><span style="">姓名</span></div>
-                                        <div class="layui-col-md1">
-                                            <input type="text" v-model="policeName" class="layui-input" />
+                                            height: 38px;"><span style="">姓名:</span></div>
+                                            <div class="layui-col-md10">
+                                                <input type="text" v-model="policeName" class="layui-input" />
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="layui-form-item layui-row">
-                                        <div class="layui-col-md1" style="display:-webkit-flex;
+                                    <div class="layui-inline">
+                                        <div class="layui-form-item layui-row">
+                                            <div class="layui-col-md2" style="display:-webkit-flex;
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
-                                            height: 38px;"><span style="">单位</span></div>
-                                        <div class="layui-col-md1">
-                                            <input type="text" v-model="stationName" class="layui-input" />
+                                            height: 38px;"><span style="">单位:</span></div>
+                                            <div class="layui-col-md10">
+                                                <input type="text" v-model="stationName" class="layui-input" />
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="layui-form-item layui-row">
-                                        <label class="layui-col-md1" style="display:-webkit-flex;
+                                    <div class="layui-inline">
+                                        <div class="layui-form-item layui-row">
+                                            <label class="layui-col-md2" style="display:-webkit-flex;
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
-                                            height: 38px;"><span style="">岗位</span></label>
-                                        <div class="layui-col-md1">
-                                            <select v-model="stationId" class="layui-input layui-col-md12">
-                                                <option value="">未选择</option>
-                                                <option v-for="(station,index) in allStations" :value="station.id" :key="index">{{station.name}}</option>
-                                            </select>
+                                            height: 38px;"><span style="">岗位:</span></label>
+                                            <div class="layui-col-md10">
+                                                <select v-model="stationId" class="layui-input layui-col-md12">
+                                                    <option value="">未选择</option>
+                                                    <option v-for="(station,index) in allStations" :value="station.id" :key="index">{{station.name}}</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="layui-form-item layui-row">
-                                        <label class="layui-col-md1" style="display:-webkit-flex;
+                                    <div class="layui-inline">
+                                        <div class="layui-form-item layui-row">
+                                            <label class="layui-col-md2" style="display:-webkit-flex;
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
-                                            height: 38px;"><span style="">角色</span></label>
-                                        <div class="layui-col-md1">
-                                            <select v-model="roleId" class="layui-input layui-col-md12">
-                                                <option value="">未选择</option>
-                                                <option v-for="(role,index) in allRoles" :value="role.id" :key="index">{{role.name}}</option>
-                                            </select>
+                                            height: 38px;"><span style="">角色:</span></label>
+                                            <div class="layui-col-md10">
+                                                <select v-model="roleId" class="layui-input layui-col-md12">
+                                                    <option value="">未选择</option>
+                                                    <option v-for="(role,index) in allRoles" :value="role.id" :key="index">{{role.name}}</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="layui-form-item layui-row">
-                                        <label class="layui-col-md1" style="display:-webkit-flex;
+                                    <div class="layui-inline">
+                                        <div class="layui-form-item layui-row">
+                                            <label class="layui-col-md3" style="display:-webkit-flex;
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
-                                            height: 38px;"><span style="">当前班</span></label>
-                                        <div class="layui-col-md1">
-                                            <select v-model="dutyId" class="layui-input layui-col-md12">
-                                                <option value="">未选择</option>
-                                                <option v-for="(duty,index) in allDutys" :value="duty.id" :key="index">{{duty.name}}</option>
-                                            </select>
+                                            height: 38px;"><span style="">当前班:</span></label>
+                                            <div class="layui-col-md9">
+                                                <select v-model="dutyId" class="layui-input layui-col-md12">
+                                                    <option value="">未选择</option>
+                                                    <option v-for="(duty,index) in allDutys" :value="duty.id" :key="index">{{duty.name}}</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="layui-form-item layui-row">
-                                        <label class="layui-col-md1" style="display:-webkit-flex;
+                                    <div class="layui-inline">
+                                        <div class="layui-form-item layui-row">
+                                            <label class="layui-col-md2" style="display:-webkit-flex;
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
-                                            height: 38px;"><span style="">状态</span></label>
-                                        <div class="layui-col-md1">
-                                            <select v-model="stateId" class="layui-input layui-col-md12">
-                                                <option value="">未选择</option>
-                                                <option v-for="(state,index) in allStates" :value="state.id" :key="index">{{state.name}}</option>
-                                            </select>
+                                            height: 38px;"><span style="">状态:</span></label>
+                                            <div class="layui-col-md10">
+                                                <select v-model="stateId" class="layui-input layui-col-md12">
+                                                    <option value="">未选择</option>
+                                                    <option v-for="(state,index) in allStates" :value="state.id" :key="index">{{state.name}}</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="layui-form-item layui-row">
-                                        <div class="layui-col-md1" style="display:-webkit-flex;
+                                    <div class="layui-inline">
+                                        <div class="layui-form-item layui-row">
+                                            <div class="layui-col-md2" style="display:-webkit-flex;
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
-                                            height: 38px;"><span style="">通信</span></div>
-                                        <div class="layui-col-md1">
-                                            <input type="text" class="layui-input" />
+                                            height: 38px;"><span style="">通信:</span></div>
+                                            <div class="layui-col-md10">
+                                                <input type="text" class="layui-input" />
+                                            </div>
                                         </div>
                                     </div>
                                     <input type="submit" class="layui-btn layui-btn-normal" />
@@ -308,9 +323,7 @@
                     // laytab.loadTab();//静态
                     // SelectPoliceNum(25);//总数几条
                     SelectPoliceNum(pageLimit)
-                    GetPolice(1, 25);//第几页,一页几条      
-
-
+                    GetPolice(1, 25);//第几页,一页几条    
                 });
 
                 function AfterInitial() {
@@ -353,19 +366,35 @@
                 //独立分页控件
                 //首页尾页按钮,总数显示
                 $("#first_page_btn").click(function () {
+                    if (sessionStorage.getItem("pageLimit") != null) {
+                        pageLimit = sessionStorage.getItem("pageLimit");
+                    }
                     GetPolice(1, pageLimit);
+                    $(".layui-laypage input").val(1);
                 });
                 $("#last_page_btn").click(function () {
-                    GetPolice(1, 25);
-                });
-                // function loadPag(pageNum){
-                //分页条
-                layui.use(['laypage', 'layer'], function () {
                     if (sessionStorage.getItem("pageNums") != null) {
-                        var pageNums=sessionStorage.getItem("pageNums");
-                        var countNums=sessionStorage.getItem("policeNums");
+                        var pageNums = sessionStorage.getItem("pageNums");
+                        console.log("///" + pageNums);
                     }
-                    console.log(pageNums);
+                    if (sessionStorage.getItem("pageLimit") != null) {
+                        pageLimit = sessionStorage.getItem("pageLimit");
+                    }
+                    GetPolice(pageNums, pageLimit);
+                    $(".layui-laypage input").val(pageNums);
+                });
+
+                //layui分页条
+                //function loadPag() {
+                layui.use(['laypage', 'layer'], function () {
+                    if (sessionStorage.getItem("policeNums") != null) {
+
+                        var countNums = sessionStorage.getItem("policeNums");
+                    }
+                    if (sessionStorage.getItem("pageLimit") != null) {
+                        pageLimit = sessionStorage.getItem("pageLimit");
+                    }
+
                     var laypage = layui.laypage
                         , layer = layui.layer;
                     //只显示上一页、下一页
@@ -378,7 +407,7 @@
                         // , prev: '上'
                         // , next: '下'
                         , layout: ['prev', 'next', 'limit', 'skip']
-                        , limit: 25
+                        , limit: pageLimit//控制刷新page显示
                         , limits: [25, 50, 100, 150]
                         , jump: function (obj, first) {
                             console.log(obj);
@@ -389,7 +418,7 @@
                         }
                     });
                 });
-                // }
+                //}
 
 
 
@@ -398,9 +427,12 @@
                 layTab.prototype.loadTab = function () {
                     layui.use('table', function () {
                         var table = layui.table;
+                        if (sessionStorage.getItem("pageLimit") != null) {
+                            pageLimit = sessionStorage.getItem("pageLimit");
+                        }
                         //表格重载,自定义表格与分页
                         table.reload('idTest', {
-                            limit: pageLimit,
+                            limit: pageLimit,//控制表格实际加载
                             data: dataPolice//dataTest
                         });
                         //监听表格复选框选择
