@@ -29,7 +29,7 @@
 
                 /* 查看后的tr颜色条 */
                 /* .layui-table-cell{
-                    background-color: #FFEEE8!important;
+                    background-color: #D6DBEC!important;
                 } */
 
                 /* 消除边界隐藏 */
@@ -51,6 +51,32 @@
 
                 .search_bar {
                     font-weight: bolder
+                }
+
+                /*表格数据操作按钮*/
+                .layui_edit_btn {
+                    background-color: #3F69BA;
+                }
+
+                .layui_del_btn {
+                    background-color: #90B2F1;
+                }
+
+                /*表格按钮组*/
+                #layui_getSelectData_btn {
+                    background-color: #3F69BA;
+                }
+
+                #layui_getSelectNums_btn {
+                    background-color: #90B2F1;
+                }
+
+                #layui_allSelect_btn {
+                    background-color: #3F69BA;
+                }
+
+                #addPolice {
+                    background-color: #90B2F1;
                 }
             </style>
         </head>
@@ -138,9 +164,9 @@
                 </div>
 
                 <button class="layui-btn" lay-submit lay-filter="formDemo" style="position:absolute;top:200px;right:20px">立即提交</button>
+        </div>
 
-
-            </form>
+        </form>
         </div>
 
         <body class="layui-layout-body">
@@ -235,15 +261,21 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="submit" class="layui-btn layui-btn-normal" />
+                                    <div class="layui-inline">
+                                        <div class="layui-form-item layui-row">
+                                            <div class="layui-col-md3">
+                                                <input type="submit" class="layui-btn layui-btn-normal" style="background-color:#3F69BA;"/>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
 
                             <!--表格操作,新增,批量-->
                             <div class="layui-btn-group demoTable">
-                                <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
-                                <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
-                                <button class="layui-btn" data-type="isAll">验证是否全选</button>
+                                <button id="layui_getSelectData_btn" class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+                                <button id="layui_getSelectNums_btn" class="layui-btn" data-type="getCheckLength">获取选中数目</button>
+                                <button id="layui_allSelect_btn" class="layui-btn" data-type="isAll">验证是否全选</button>
                                 <button class="layui-btn" id="addPolice">新增警员</button>
                             </div>
 
@@ -287,8 +319,8 @@
                     </div>
             </div>
             <script type="text/html" id="barDemo" style="width:200px">
-                <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                <a class="layui-btn layui-btn-xs layui_edit_btn" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs layui_del_btn" lay-event="del">删除</a>
             </script>
             <script type="text/html" id="barDemo1" style="width:100px">
                 <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">排班情况</a>

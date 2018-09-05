@@ -21,7 +21,7 @@
         #divTree::-webkit-scrollbar-thumb {
             border-radius: 10px;
             -webkit-box-shadow: inset 0 0 5px #cccccc;
-            background: #535353;
+            background: #90B2F1;
         }
 
         /*滚动条里面轨道*/
