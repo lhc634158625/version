@@ -44,7 +44,7 @@ var browser = {
  */
 var NV = {};
 var UA = navigator.userAgent.toLowerCase();
-try { NV.name = !-[1, ] ? 'ie' : (UA.indexOf("firefox") > 0) ? 'firefox' : (UA.indexOf("chrome") > 0) ? 'chrome' : window.opera ? 'opera' : window.openDatabase ? 'safari' : 'unkonw'; } catch (e) { };
+try { NV.name = !-[1,] ? 'ie' : (UA.indexOf("firefox") > 0) ? 'firefox' : (UA.indexOf("chrome") > 0) ? 'chrome' : window.opera ? 'opera' : window.openDatabase ? 'safari' : 'unkonw'; } catch (e) { };
 try { NV.version = (NV.name == 'ie') ? UA.match(/msie ([\d.]+)/)[1] : (NV.name == 'firefox') ? UA.match(/firefox\/([\d.]+)/)[1] : (NV.name == 'chrome') ? UA.match(/chrome\/([\d.]+)/)[1] : (NV.name == 'opera') ? UA.match(/opera.([\d.]+)/)[1] : (NV.name == 'safari') ? UA.match(/version\/([\d.]+)/)[1] : '0'; } catch (e) { };
 try { NV.shell = (UA.indexOf('360ee') > -1) ? '360极速浏览器' : (UA.indexOf('360se') > -1) ? '360安全浏览器' : (UA.indexOf('se') > -1) ? '搜狗浏览器' : (UA.indexOf('aoyou') > -1) ? '遨游浏览器' : (UA.indexOf('theworld') > -1) ? '世界之窗浏览器' : (UA.indexOf('worldchrome') > -1) ? '世界之窗极速浏览器' : (UA.indexOf('greenbrowser') > -1) ? '绿色浏览器' : (UA.indexOf('qqbrowser') > -1) ? 'QQ浏览器' : (UA.indexOf('baidu') > -1) ? '百度浏览器' : (UA.indexOf('360se') > -1) ? '' : '未知或无壳'; } catch (e) { }
 /*
@@ -73,12 +73,12 @@ function stringToTime(string) {
     var d = (f[0] ? f[0] : '').split('-', 3);
     var t = (f[1] ? f[1] : '').split(':', 3);
     return (new Date(
-    parseInt(d[0], 10) || null,
-    (parseInt(d[1], 10) || 1) - 1,
-    parseInt(d[2], 10) || null,
-    parseInt(t[0], 10) || null,
-    parseInt(t[1], 10) || null,
-    parseInt(t[2], 10) || null
+        parseInt(d[0], 10) || null,
+        (parseInt(d[1], 10) || 1) - 1,
+        parseInt(d[2], 10) || null,
+        parseInt(t[0], 10) || null,
+        parseInt(t[1], 10) || null,
+        parseInt(t[2], 10) || null
     )).getTime();
 }
 //日期比较，返回第一个日期减第二日期秒数
@@ -236,17 +236,17 @@ function PostData(method, data, callback) {
     var station = new Object();
     var result = sessionStorage.getItem("result");
     var dataObj;
-	if(result != null){
-		dataObj =eval("("+result+")");
-	};		
+    if (result != null) {
+        dataObj = eval("(" + result + ")");
+    };
     var datajson = JSON.stringify(data);
     //var token = window.localStorage.getItem("token");
     //$(".Mask").show();
-    var url = _serviceUrl + method ;
+    var url = _serviceUrl + method;
     $.ajax({
         cache: false,
         type: "POST",
-        headers: {'token': dataObj.token,"userId":dataObj.id},
+        headers: { 'token': dataObj.token, "userId": dataObj.id },
         async: true,
         url: url,
         data: datajson, // JSON.stringify(obj),
@@ -385,13 +385,13 @@ ShowPanel = function (id, leftwidth) {
         opacity: 1
     }, 500);
 },
-HidePanel = function (id) {
-    $(id).animate({
-        width: '0',
-        opacity: 1
-    }, 500);
-    $(id).hide();
-}
+    HidePanel = function (id) {
+        $(id).animate({
+            width: '0',
+            opacity: 1
+        }, 500);
+        $(id).hide();
+    }
 NewGuid = function () {
     return 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);

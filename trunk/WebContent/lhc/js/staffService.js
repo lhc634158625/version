@@ -52,7 +52,7 @@ function SelectPoliceNum(limitNum) {
     let pageFilter = new Object();
     let num;
     load.GetPoliceNum("sys/staff/filterCount", pageFilter, function (result) {
-        policeNum = result.code; //条
+        policeNum = result.data; //条
         var y = policeNum % limitNum //余
         var policePageNum = parseInt(policeNum / limitNum); //页
         policePageNum = y > 0 ? policePageNum + 1 : policePageNum;

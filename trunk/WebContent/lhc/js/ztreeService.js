@@ -1,26 +1,31 @@
-function AfterInitial() {		
-    stationSelector = new StationSelector();    
-    stationSelector.Initial();	    
+function AfterInitial() {
+    stationSelector = new StationSelector();
+    //执行
+    stationSelector.Initial();
 }
 var stationSelector
 function StationSelector() {
     var _self = this;
     var _allStations;
     var ismulti = false;
-    _self.pId=_LoginUser.stationId;
+    _self.pId = _LoginUser.stationId;
+
+    //初始化
     this.Initial = function () {
         _self.InitData();
         _self.InitEvent();
         _self.initContextMenu();
     }
+
+    //初始化数据
     this.InitData = function () {
         layui.use(['laypage', 'layer', 'laytpl'], function () {
             _self.laypage = layui.laypage
-            , _self.layer = layui.layer
-            , _self.laytpl = layui.laytpl
+                , _self.layer = layui.layer
+                , _self.laytpl = layui.laytpl
         });
         if (request("pId") != null)
-        	 _self.pId = request("pId");
+            _self.pId = request("pId");
         _self.setting = {
             view: {
                 dblClickExpand: false,
@@ -31,16 +36,15 @@ function StationSelector() {
                 simpleData: {
                     enable: true
                 }
-            },            
+            },
             callback: {
                 onClick: SelectStation,
-                onExpand:onExpandforchangeWidth,
-                onCollapse:onExpandforchangeWidth
+                onExpand: onExpandforchangeWidth,
+                onCollapse: onExpandforchangeWidth
             }
-        };       
-       //if (request("multi") == "1")  
-        if (_self.getParam("multi"))
-        {
+        };
+        //if (request("multi") == "1")  
+        if (_self.getParam("multi")) {
             ismulti = true;
             _self.setting = {
                 check: {
@@ -63,18 +67,22 @@ function StationSelector() {
             };
             $("#divSelectedNames").show();
         }
+
+        //取回数据库数据
         RetrieveDBData("AllStation", function (datas) {
             _allStations = datas;
             _self.pageIndex = 0;
             if (_allStations == null) {
-                _allStations = new Array();              
-                _self.RetrieveAllData();                  
+                _allStations = new Array();
+                _self.RetrieveAllData();
                 return;
             }
             _self.ShowData();
             _self.AddOption();
-        });        
+        });
     }
+
+    //json传输格式
     this.GetFilter = function () {
         _self.filter = new Array();
         var condition = new Object();
@@ -84,6 +92,8 @@ function StationSelector() {
         condition.fieldType = "string";
         _self.filter.push(condition);
     }
+
+    //取回所有数据
     this.RetrieveAllData = function () {
         _self.GetFilter();
         var param = new Object();
@@ -91,17 +101,16 @@ function StationSelector() {
         param.stationGroupId = 0;
         PostData("sys/station/tree", param, function (result) {
             if (result.data.length > 0) {
-            	for(var i=0;i<result.data.length;i++)
-            		{
-            		result.data[i].pId=result.data[i].PId;
-            		if(result.data[i].id==_self.pId)
-            			result.data[i].open=true;            		
-            	}
-            		
+                for (var i = 0; i < result.data.length; i++) {
+                    result.data[i].pId = result.data[i].PId;
+                    if (result.data[i].id == _self.pId)
+                        result.data[i].open = true;
+                }
+
                 _allStations = _allStations.concat(result.data);
-                SaveDBData("AllStation", _allStations);            
-                _self.ShowData(); 
-                _self.AddOption();                 
+                SaveDBData("AllStation", _allStations);
+                _self.ShowData();
+                _self.AddOption();
             }
         });
     }
@@ -118,12 +127,14 @@ function StationSelector() {
             $('#myMenu1').hide();
         });
     }
-    //��ѡ�¼�����
+    //选择单位
     function SelectStation(event, treeId, treeNode) {
-    	if(typeof parent.changeStation=="function"){
-    		parent.changeStation(treeNode);
-    	}
+        if (typeof parent.changeStation == "function") {
+            parent.changeStation(treeNode);
+        }
     }
+
+    //根据id选择单位
     function SelectStationById(id) {
         var _node = zTree.getNodeByParam("id", id, null);
         if (_node != null) {
@@ -131,6 +142,8 @@ function StationSelector() {
             zTree.expandNode(_node, true, true, true);
         }
     }
+
+    //批量选择单位
     function MultiSelectStation() {
         var nodes = zTree.getCheckedNodes(true);
         var ids = "", names = "";
@@ -149,34 +162,42 @@ function StationSelector() {
         $("#ulSelectName").html(checkNames);
         // parent.SelectMultiStation(ids, names);
     }
+
+    //刷新数据
     RefreshData = function () {
         SaveDBData("StationTree", null);
         _self.pageIndex = 0;
         _allStations = new Array();
         _self.RetrieveAllData();
     }
+
+    //展示数据
     this.ShowData = function () {
-       // var keyword = $("#txtKeyword").val().toUpperCase();
+        // var keyword = $("#txtKeyword").val().toUpperCase();
         _currDatas = _allStations;// Enumerable.From(_allStations).Where(function (x) { return x.code.indexOf(keyword) >= 0 || x.name.indexOf(keyword) >= 0 || x.pyCode.toUpperCase().indexOf(keyword) >= 0; }).OrderBy("x=>x.code").Take(10).ToArray();
-        console.log(_currDatas);      
+        console.log(_currDatas);
         _self.ShowTree(_currDatas);
     }
-    this.ShowTree = function (datas) {      
-        $("#tree").html("");        
+
+    //展示树
+    this.ShowTree = function (datas) {
+        $("#tree").html("");
         zTree = $.fn.zTree.init($("#tree"), _self.setting, datas);
         if (request("selectedIds") != null)
             _self.RefreshChecked(request("selectedIds"));
         if (request("default") != null) {
             var nodes = zTree.getNodes();
             if (nodes.length > 0) {
-            	if(typeof parent.SelectStation=="function"){
-            		parent.SelectStation(nodes[0]);
-            	}
+                if (typeof parent.SelectStation == "function") {
+                    parent.SelectStation(nodes[0]);
+                }
             }
         }
         _self.openNodebyDefault(123); //默认展开分局
-    }   
-    this.RefreshChecked=function(selectedIds) {
+    }
+
+    //检查刷新
+    this.RefreshChecked = function (selectedIds) {
         var checkNames = "";
         var arrids = selectedIds.split(",");
         zTree.checkAllNodes(false);
@@ -189,50 +210,55 @@ function StationSelector() {
         }
         $("#ulSelectName").html(checkNames);
     }
-    this.openNode=function(treeId){    	
-    	zTree.selectNode(zTree.getNodeByParam("id",treeId,null));
-    	if(ismulti){    
-    		zTree.checkNode(zTree.getNodeByParam("id",treeId,null), !zTree.getNodeByParam("id",treeId,null).checked, true); 
-    		zTree.setting.callback.onCheck();
-    	}
-    	else{
-    		zTree.setting.callback.onClick(null, zTree.setting.id, zTree.getNodeByParam("id",treeId,null));	
-    	}
-    	
-    	onExpandforchangeWidth();
+
+    //打开节点
+    this.openNode = function (treeId) {
+        zTree.selectNode(zTree.getNodeByParam("id", treeId, null));
+        if (ismulti) {
+            zTree.checkNode(zTree.getNodeByParam("id", treeId, null), !zTree.getNodeByParam("id", treeId, null).checked, true);
+            zTree.setting.callback.onCheck();
+        }
+        else {
+            zTree.setting.callback.onClick(null, zTree.setting.id, zTree.getNodeByParam("id", treeId, null));
+        }
+
+        onExpandforchangeWidth();
     }
-    function onExpandforchangeWidth(){
-    	if(typeof parent.onExpandforchangeWidth1=="function"){
-    		parent.onExpandforchangeWidth1();
-    	}
+    function onExpandforchangeWidth() {
+        if (typeof parent.onExpandforchangeWidth1 == "function") {
+            parent.onExpandforchangeWidth1();
+        }
     }
- // 画警员搜索
-    this.AddOption=function() {
-    	if(typeof parent.AddOption=="function"){
-    		parent.AddOption(_allStations);
-    	}
- 	}
+
+    // 画警员搜索
+    this.AddOption = function () {
+        if (typeof parent.AddOption == "function") {
+            parent.AddOption(_allStations);
+        }
+    }
+
     //获取引用参数
-    this.getParam=function(param){
-    	var js = document.getElementsByTagName("script");
-    	for (var i = 0; i < js.length; i++) {
-    	    if (js[i].src.indexOf("stationSelector.js") >= 0) {
-    	        var arraytemp = new Array();
-    	        arraytemp = js[i].src.split('?');
-    	        arraytemp = arraytemp[1].split('&');
-    	        for(var j=0;j<arraytemp.length;j++){
-    	        	var temp=arraytemp[j].split('=');
-    	        	if(temp[0]==param && temp[1]=="1"){
-    	        		return true;
-    	        	}    	        
-    	        }    	        
-    	    }
-    	}
-    	return false;
+    this.getParam = function (param) {
+        var js = document.getElementsByTagName("script");
+        for (var i = 0; i < js.length; i++) {
+            if (js[i].src.indexOf("stationSelector.js") >= 0) {
+                var arraytemp = new Array();
+                arraytemp = js[i].src.split('?');
+                arraytemp = arraytemp[1].split('&');
+                for (var j = 0; j < arraytemp.length; j++) {
+                    var temp = arraytemp[j].split('=');
+                    if (temp[0] == param && temp[1] == "1") {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
+
     //默认打开某个节点
-    this.openNodebyDefault=function(treeId){
-    	zTree.expandNode(zTree.getNodeByParam("id",treeId,null));
+    this.openNodebyDefault = function (treeId) {
+        zTree.expandNode(zTree.getNodeByParam("id", treeId, null));
     }
 }
 
