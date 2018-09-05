@@ -47,6 +47,10 @@
                 .layui-laypage select {
                     margin: 0 100px 5px 100px;
                 }
+
+                .search_bar{
+                    
+                }
             </style>
         </head>
 
