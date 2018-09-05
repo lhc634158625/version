@@ -152,47 +152,75 @@
                             <!--条件查询-->
                             <div class="search_bar">
                                 <form @submit.prevent="policeSearch">
-                                    <div>
-                                        <span>名字:</span>
-                                        <input type="text" v-model="policeName" />
+                                    <div class="layui-form-item layui-row">
+                                        <div class="layui-col-md1" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span style="">姓名</span></div>
+                                        <div class="layui-col-md1">
+                                            <input type="text" v-model="policeName" class="layui-input" />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span>单位:</span>
-                                        <input/>
+                                    <div class="layui-form-item layui-row">
+                                        <div class="layui-col-md1" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span style="">单位</span></div>
+                                        <div class="layui-col-md1">
+                                            <input type="text" v-model="stationName" class="layui-input" />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span>岗位:</span>
-                                        <select v-model="stationId">
-                                            <option value="">未选择</option>
-                                            <option v-for="(station,index) in allStations" :value="station.id" :key="index">{{station.name}}</option>
-                                        </select>
+                                    <div class="layui-form-item layui-row">
+                                        <label class="layui-col-md1" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span style="">岗位</span></label>
+                                        <div class="layui-col-md1">
+                                            <select v-model="stationId" class="layui-input layui-col-md12">
+                                                <option value="">未选择</option>
+                                                <option v-for="(station,index) in allStations" :value="station.id" :key="index">{{station.name}}</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span>角色:</span>
-                                        <select v-model="roleId">
-                                            <option value="">未选择</option>
-                                            <option v-for="(role,index) in allRoles" :value="role.id" :key="index">{{role.name}}</option>
-                                        </select>
+                                    <div class="layui-form-item layui-row">
+                                        <label class="layui-col-md1" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span style="">角色</span></label>
+                                        <div class="layui-col-md1">
+                                            <select v-model="roleId" class="layui-input layui-col-md12">
+                                                <option value="">未选择</option>
+                                                <option v-for="(role,index) in allRoles" :value="role.id" :key="index">{{role.name}}</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span>当前班:</span>
-                                        <select v-model="dutyId">
-                                            <option value="">未选择</option>
-                                            <option v-for="(duty,index) in allDutys" :value="duty.id" :key="index">{{duty.name}}</option>
-                                        </select>
+                                    <div class="layui-form-item layui-row">
+                                        <label class="layui-col-md1" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span style="">当前班</span></label>
+                                        <div class="layui-col-md1">
+                                            <select v-model="dutyId" class="layui-input layui-col-md12">
+                                                <option value="">未选择</option>
+                                                <option v-for="(duty,index) in allDutys" :value="duty.id" :key="index">{{duty.name}}</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span>状态:</span>
-                                        <select v-model="stateId">
-                                            <option value="">未选择</option>
-                                            <option v-for="(state,index) in allStates" :value="state.id" :key="index">{{state.name}}</option>
-                                        </select>
+                                    <div class="layui-form-item layui-row">
+                                        <label class="layui-col-md1" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span style="">状态</span></label>
+                                        <div class="layui-col-md1">
+                                            <select v-model="stateId" class="layui-input layui-col-md12">
+                                                <option value="">未选择</option>
+                                                <option v-for="(state,index) in allStates" :value="state.id" :key="index">{{state.name}}</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span>通信:</span>
-                                        <input type="text" />
+                                    <div class="layui-form-item layui-row">
+                                        <div class="layui-col-md1" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span style="">通信</span></div>
+                                        <div class="layui-col-md1">
+                                            <input type="text" class="layui-input" />
+                                        </div>
                                     </div>
-                                    <input type="submit" />
+                                    <input type="submit" class="layui-btn layui-btn-normal" />
                                 </form>
                             </div>
 
