@@ -144,7 +144,7 @@
 
                     <div class="layui-body">
                         <!-- 内容主体区域 -->
-                        <div>
+                        <div style="position:absolute;top:100px;">
                             <!--条件查询-->
                             <div class="search_bar">
                                 <form @submit.prevent="policeSearch">
