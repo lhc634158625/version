@@ -87,6 +87,8 @@ const vue = new Vue({
     data: {
         //警员名称
         policeName: '',
+        //单位
+        stationName:'',
         //岗位下拉列表
         allStations: [{ id: 1, name: '无岗位' }, { id: 2, name: '警员' }, { id: 3, name: '值班领导' }],
         stationId: '',
