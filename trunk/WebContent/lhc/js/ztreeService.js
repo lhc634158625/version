@@ -39,6 +39,7 @@ function StationSelector() {
             },
             callback: {
                 onClick: SelectStation,
+                onClick:TreeOnClick,
                 onExpand: onExpandforchangeWidth,
                 onCollapse: onExpandforchangeWidth
             }
@@ -182,6 +183,7 @@ function StationSelector() {
     //展示树
     this.ShowTree = function (datas) {
         $("#tree").html("");
+        //树对象
         zTree = $.fn.zTree.init($("#tree"), _self.setting, datas);
         if (request("selectedIds") != null)
             _self.RefreshChecked(request("selectedIds"));
@@ -229,6 +231,12 @@ function StationSelector() {
             parent.onExpandforchangeWidth1();
         }
     }
+
+    //点击节点
+    function TreeOnClick(event, treeId, treeNode) {
+        console.log(treeNode.tId + ", " + treeNode.name);
+    };
+    
 
     // 画警员搜索
     this.AddOption = function () {
