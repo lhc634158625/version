@@ -41,12 +41,22 @@
 
                 .layui-laypage a,
                 .layui-laypage span {
-                    margin: 0 100px 5px 100px;
-                    border: 1px solid blue
+                    margin: 0px 10px 5px 10px;
+                    border: 0px solid blue
+                }
+
+                a.layui-laypage-prev {
+                    background-color: #3F69BA;
+                    color: white;
+                }
+
+                a.layui-laypage-next {
+                    background-color: #3F69BA;
+                    color: white;
                 }
 
                 .layui-laypage select {
-                    margin: 0 100px 5px 100px;
+                    margin: 0 10px 5px 10px;
                 }
 
                 .search_bar {
@@ -78,8 +88,38 @@
                 #addPolice {
                     background-color: #90B2F1;
                 }
+
+                .ztree_select {
+                    display: none;
+                    position: absolute;
+                    left: 300px;
+                    top: 300px;
+
+                }
+
+                .laytable {
+                    position: absolute;
+                    left: 0px;
+                    top: 100px;
+                }
+
+                th {
+                    background-color: #90B2F1;
+                }
+
+                .page_head_btn{
+                    width: 68px;
+                    height: 28px;
+                    border: 0px solid blue;
+                    background-color:#3F69BA; 
+                    color: white;
+                    margin-top:10px;
+                    margin-right:10px;  
+                }
             </style>
         </head>
+
+
 
         <!--新增警员-->
         <div id="add_police_view" style="display:none">
@@ -108,6 +148,7 @@
                             height: 38px;"><span style="">单位</span></div>
                     <div class="layui-col-md6">
                         <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+
                     </div>
                 </div>
 
@@ -163,7 +204,7 @@
                     </div>
                 </div>
 
-                <button class="layui-btn" lay-submit lay-filter="formDemo" style="position:absolute;top:200px;right:20px">立即提交</button>
+                <button class="layui-btn" lay-submit lay-filter="formDemo" style="text-align:center;width:70px;height:50px;background-color:#3F69BA;position:absolute;top:200px;right:40px">保存</button>
         </div>
 
         </form>
@@ -173,9 +214,38 @@
             <div class="layui-layout layui-layout-admin">
                 <%@ include file="../shared/pageHeader1.jsp"%>
 
-                    <div class="layui-body">
+                    <div class="ztree_select">
+                        <%@ include file="./ztreeCtrl.jsp"%>
+                    </div>
+
+
+
+
+                    <div class="layui-body" style="position: absolute;left:0px;">
                         <!-- 内容主体区域 -->
-                        <div style="position:absolute;top:100px;">
+                        <div style="position:absolute;top:70px;width: 100%">
+
+                            <!--表格操作,新增,批量-->
+                            <div class="layui-row">
+                                <div class="layui-btn-group demoTable">
+                                    <button id="layui_getSelectData_btn" class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+                                    <button id="layui_getSelectNums_btn" class="layui-btn" data-type="getCheckLength">获取选中数目</button>
+                                    <button id="layui_allSelect_btn" class="layui-btn" data-type="isAll">验证是否全选</button>
+                                    <button class="layui-btn" id="addPolice">新增警员</button>
+                                </div>
+                            </div>
+
+                            <!-- 分页条 -->
+                            <div class="layui-row">
+                                <div class="layui-col-md1 layui-col-md-offset8">
+                                    <button id="first_page_btn" class="page_head_btn">首页</button>
+                                    <button id="last_page_btn" class="page_head_btn">尾页</button>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div id="demo7"></div>
+                                </div>
+                            </div>
+
                             <!--条件查询-->
                             <div class="search_bar" class="layui-row">
                                 <form @submit.prevent="policeSearch" class="layui-form layui-row ">
@@ -264,56 +334,42 @@
                                     <div class="layui-inline">
                                         <div class="layui-form-item layui-row">
                                             <div class="layui-col-md3">
-                                                <input type="submit" class="layui-btn layui-btn-normal" style="background-color:#3F69BA;"/>
+                                                <input type="submit" value="搜索" class="layui-btn" style="margin-left:30px;width:100px;height:35px;background-color:#3F69BA;"
+                                                />
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
 
-                            <!--表格操作,新增,批量-->
-                            <div class="layui-btn-group demoTable">
-                                <button id="layui_getSelectData_btn" class="layui-btn" data-type="getCheckData">获取选中行数据</button>
-                                <button id="layui_getSelectNums_btn" class="layui-btn" data-type="getCheckLength">获取选中数目</button>
-                                <button id="layui_allSelect_btn" class="layui-btn" data-type="isAll">验证是否全选</button>
-                                <button class="layui-btn" id="addPolice">新增警员</button>
+                            <div class="layui-row">
+                                <table class="layui-table" lay-data="{width: 1980, page:false, id:'idTest'}" lay-filter="demo" lay-size="lg">
+                                    <thead>
+                                        <tr>
+                                            <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+                                            <th lay-data="{width:278,align:'center', toolbar: '#barDemo'}">操作</th>
+                                            <th lay-data="{field:'code', align:'center',width:120}">警号</th>
+                                            <th lay-data="{field:'name', align:'center',width:150}">姓名/名称</th>
+
+                                            <th lay-data="{field:'gender',align:'center', width:80}">单位</th>
+                                            <th lay-data="{field:'gender', align:'center',width:80}">岗位</th>
+
+                                            <th lay-data="{field:'telephone', align:'center',width:220}">电话</th>
+                                            <th lay-data="{field:'leaderPost', align:'center',width:100}">领导职位</th>
+                                            <th lay-data="{field:'nonLeaderPost', align:'center',width:100}">非领导职务</th>
+                                            <th lay-data="{field:'idCode', align:'center',width:205}">身份证</th>
+                                            <th lay-data="{field:'gender',align:'center', width:80}">角色</th>
+
+                                            <th lay-data="{field:'deviceInfos',align:'center', width:123, toolbar: '#barDemo3'}">设备</th>
+
+                                            <th lay-data="{field:'state',align:'center', width:100,}">当前状态</th>
+                                            <th lay-data="{width:123,align:'center', toolbar: '#barDemo1'}">排班情况</th>
+                                            <th lay-data="{width:123,align:'center', toolbar: '#barDemo2'}">工作日志</th>
+
+                                        </tr>
+                                    </thead>
+                                </table>
                             </div>
-
-
-
-                            <!-- 分页条 -->
-                            <div id="demo7"></div>
-                            <!---首页尾页-->
-                            <span id="first_page_btn" class="layui-btn layui-btn-primary layui-btn-sm">首页</span>
-                            <span id="last_page_btn" class="layui-btn layui-btn-primary layui-btn-sm">尾页</span>
-
-
-                            <table class="layui-table" lay-data="{width: 1800, page:false, id:'idTest'}" lay-filter="demo">
-                                <thead>
-                                    <tr>
-                                        <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-                                        <th lay-data="{width:278,align:'center', toolbar: '#barDemo'}">操作</th>
-                                        <th lay-data="{field:'code', width:80, sort: true}">警号</th>
-                                        <th lay-data="{field:'name', width:100}">姓名/名称</th>
-
-                                        <th lay-data="{field:'gender', width:80}">单位</th>
-                                        <th lay-data="{field:'gender', width:80}">岗位</th>
-
-                                        <th lay-data="{field:'telephone', width:160}">电话</th>
-                                        <th lay-data="{field:'leaderPost', width:100}">领导职位</th>
-                                        <th lay-data="{field:'nonLeaderPost', width:100}">非领导职务</th>
-                                        <th lay-data="{field:'idCode', width:135}">身份证</th>
-                                        <th lay-data="{field:'gender', width:80}">角色</th>
-
-                                        <th lay-data="{field:'deviceInfos', width:123, toolbar: '#barDemo3'}">设备</th>
-
-                                        <th lay-data="{field:'state', width:100,}">当前状态</th>
-                                        <th lay-data="{width:123,align:'center', toolbar: '#barDemo1'}">排班情况</th>
-                                        <th lay-data="{width:123,align:'center', toolbar: '#barDemo2'}">工作日志</th>
-
-                                    </tr>
-                                </thead>
-                            </table>
 
                         </div>
                     </div>

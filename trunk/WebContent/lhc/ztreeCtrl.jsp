@@ -19,7 +19,7 @@
 
         /*定义滚动滑块*/
         #divTree::-webkit-scrollbar-thumb {
-            border-radius: 10px;
+            border-radius: 0px;
             -webkit-box-shadow: inset 0 0 5px #cccccc;
             background: #90B2F1;
         }
@@ -27,7 +27,7 @@
         /*滚动条里面轨道*/
         #divTree::-webkit-scrollbar-track {
             -webkit-box-shadow: inset 0 0 5px #cccccc;
-            border-radius: 10px;
+            border-radius: 0px;
             background: #EDEDED;
         }
 
@@ -72,57 +72,7 @@
                 </div>
             </div>
         </section>
-        <script id="tmpStateOption" type="text/html">
-     <option value="">全部</option>    
- {{#  layui.each(d.datas, function(index, item){ }}
-     <option value="{{item.code}}">{{item.name}}</option>
-     {{#  }); }}
-     </script>
-        <script>
-            window.onload = function () {
-                onExpandforchangeWidth1();
-            }
-
-            //随左侧菜单栏的变化，右边主页面宽度随之改变
-            function onExpandforchangeWidth1() {
-                var width_left = document.getElementById("width_left");
-                var width_right = document.getElementById("width_right");
-                if (width_left != null && width_right != null) {
-                    var wd = width_left.offsetWidth;
-                    var windowWidth = window.innerWidth;
-                    var wr = windowWidth - wd;
-                    width_right.style.width = wr + "px";
-                }
-
-            }
-
-            //树于各个显示控件联动
-            function changeStation(obj) {
-                var selectv = $('#stationSearch');
-                selectv.val(obj.id);
-                if (typeof selectRender == "function") {
-                    selectRender();
-                }
-                if (typeof SelectStation == "function") {
-                    SelectStation(obj);
-                }
-            }
-        </script>
-        <script>
-            function showAndHidMean() {
-                var lt_mean_body = document.getElementById('left_mean_body');
-                var sw_span = document.getElementById('show_span')
-                if (lt_mean_body.style.display == 'block' || lt_mean_body.style.display == "") {
-                    lt_mean_body.style.display = 'none';
-                    sw_span.style.display = 'none';
-                }
-                else {
-                    lt_mean_body.style.display = 'block';
-                    sw_span.style.display = 'inline';
-                }
-                onExpandforchangeWidth1();
-            }
-        </script>
+       
         <script src="../js/layui2/layui.js"></script>
         <!--添加的-->
         <script src="../js/jquery/jquery.min.js"></script>
