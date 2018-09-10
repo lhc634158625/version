@@ -42,7 +42,7 @@
 
 
 		<%@ include file="../shared/pageHeader1.jsp"%>
-		<jsp:include page="../shared/alarmaSituationMenu.jsp" flush="true">
+		<jsp:include page="../shared/policeSituationMenu.jsp" flush="true">
 			<jsp:param name="multi" value="1" />
 		</jsp:include>
 		<div id="mianBody">

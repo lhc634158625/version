@@ -117,7 +117,7 @@
 												<div class="layui-form-item" pane="">
 													<div class="layui-inline"
 														style="color: #666; border-bottom: 1px solid #ccc; height: 40px; line-height: 40px; text-align: center; width: 100%;">
-														视频设备</div>
+														警情信息</div>
 													<div class="layui-input-inline"
 														style="width: 100%; text-align: left; padding-left: 15px;border-bottom: 1px solid #ccc;padding-bottom: 5px">
 														<ul>
@@ -428,7 +428,7 @@
 												<div class="layui-form-item" pane="">
 													<div class="layui-inline"
 														style="color: #666; border-bottom: 1px solid #ccc; height: 40px; line-height: 40px; text-align: center; width: 100%;">
-														警用装备</div>
+														警力布防</div>
 													<div class="layui-input-inline"
 														style="width: 100%; text-align: left; padding-left: 15px;border-bottom: 1px solid #ccc;padding-bottom: 5px">
 														<ul>
@@ -629,8 +629,8 @@
 													</div>
 													<div class="layui-input-inline"
 														style="width: 100px; text-align: left; padding-left: 1em;">
-														<input type="checkbox" name=""
-															lay-filter="alarmBox2" lay-skin="primary" title="清除">
+														<input type="checkbox"  name=""
+															lay-filter="ClearMap" lay-skin="primary" title="清除">
 													</div>
 													<div class="layui-input-inline"
 														style="width: 100px; text-align: left; padding-left: 1em;">
@@ -792,6 +792,9 @@
 				map.Map.clearDragMode();
 			}
 		});
+		form.on('checkbox(ClearMap)', function(data) {
+			map.Map.removeOverlay(PGISHelper.Map.Rect);
+		});
 	});
 	function _show(n) {
 		var a = document.getElementById("m" + n);
@@ -839,16 +842,6 @@
 			}
 		}
 		cancelBubble();
-	}
-
-	// 阻止外层onclick发生
-	function cancelBubble(e) {
-		var evt = e ? e : window.event;
-		if (evt.stopPropagation) { //W3C 
-			evt.stopPropagation();
-		} else { //IE      
-			evt.cancelBubble = true;
-		}
 	}
 </script>
 </html>

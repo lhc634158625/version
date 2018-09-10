@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>加密巡区排班</title>
+<title>综合武装设卡盘查</title>
 <link rel="stylesheet" href="../layui/css/layui.css">
 <link rel="stylesheet" href="../css/fastReverseShift.css">
 <script src="../js/jquery/jquery.js"></script>
@@ -23,7 +23,7 @@
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin">
 		<%@ include file="../shared/pageHeader1.jsp"%>
-		<%@ include file="../shared/encryptPatrolAreaMenu.jsp"%>
+		<%@ include file="../shared/armedCheckMenu.jsp"%>
 		<div id="mainBody">
 			<div class="layui-tab" lay-filter="demo" lay-allowclose="true">
 				<ul class="layui-tab-title" style="background: #92b4f4;"
@@ -34,12 +34,14 @@
 					style="border: 1px solid #ccc; border-top: none;" id="tabContent">
 					<div class="layui-tab-item layui-show">
 						<div id="mapTop"
-							style="position: fixed; width: 60%; height: auto; z-index: 2; right: 30px; background: white; border-radius: 5px; padding: 5px;">
+							style="position: fixed; width: auto; height: auto; z-index: 2; right: 30px; background: white; border-radius: 5px; padding: 5px;">
 							<form class="layui-form" action="">
 								<div class="layui-inline">
 									<div class="layui-input-inline" style="margin-top: 5px;">
-										<input type="checkbox" name="" lay-skin="primary"
-											title="<img src='../images/gray.png'><img src='../images/blue.png'>&nbsp;加密巡逻 ">
+										<input type="checkbox" name="like1[read]" lay-skin="primary"
+											title="<img src='../images/gray.png'><img src='../images/blue.png'>&nbsp;检查站">
+										<input type="checkbox" name="like1[read]" lay-skin="primary"
+											title="<img src='../images/gray.png'><img src='../images/blue.png'>&nbsp;临时">
 									</div>
 								</div>
 								<div class="layui-inline" style="z-index: 5;">
@@ -147,21 +149,7 @@
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">巡逻区域</label>
-						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
-						</div>
-					</div>
-					<div class="layui-form-item">
-						<label class="layui-form-label">区域以辐射范围</label>
-						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
-						</div>
-					</div>
-					<div class="layui-form-item">
-						<label class="layui-form-label">区域类型</label>
+						<label class="layui-form-label">设卡点位</label>
 						<div class="layui-input-inline" style="width: 278px;">
 							<input type="text" name="title" required lay-verify="required"
 								placeholder="请输入标题" autocomplete="off" class="layui-input">
@@ -170,33 +158,29 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">X坐标</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
+							<input type="text" id="coordinateX" name="title" required
+								lay-verify="required" placeholder="请输入标题" autocomplete="off"
+								class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">Y坐标</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
+							<input type="text" id="coordinateY" name="title" required
+								lay-verify="required" placeholder="请输入标题" autocomplete="off"
+								class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">卡点类型</label>
+						<div class="layui-input-inline" style="width: 278px;">
+							<input id="showTree" onclick="showTreemMean(this,this.id)"
+								type="text" name="title" required lay-verify="required"
 								placeholder="请输入标题" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">关联单位</label>
-						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
-						</div>
-					</div>
-					<div class="layui-form-item">
-						<label class="layui-form-label">代码</label>
-						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
-						</div>
-					</div>
-					<div class="layui-form-item">
-						<label class="layui-form-label">电台值守组</label>
 						<div class="layui-input-inline" style="width: 278px;">
 							<input type="text" name="title" required lay-verify="required"
 								placeholder="请输入标题" autocomplete="off" class="layui-input">
@@ -212,8 +196,8 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label"></label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<button class="layui-btn" lay-submit lay-filter="formChose"
-								style="background: #4472ca;">选择坐标</button>
+							<button onclick="selectMapLG()" class="layui-btn" lay-submit
+								lay-filter="formSave" style="background: #4472ca;">选择坐标</button>
 							<button class="layui-btn" lay-submit lay-filter="formSave"
 								style="background: #4472ca;">保存信息</button>
 							<button class="layui-btn" lay-submit lay-filter="formStop"
@@ -224,8 +208,13 @@
 			</div>
 		</div>
 	</div>
+	<div id="textTree"
+		style="position: absolute; overflow: auto; border: solid 1px #ccc; background-color: #fff; height: 200px;">
+		<ul id="tree" class="ztree"></ul>
+	</div>
 </body>
 <script type="text/javascript">
+	var map;
 	layui
 			.use(
 					[ 'form', 'layedit', 'laydate' ],
@@ -256,7 +245,7 @@
 		mapDiv.style.height = (height * 0.8 - 30) + "px";
 		mapDiv.style.width = (width - 20) + "px";
 		mapTop.style.maxWidth = (width - 50) + "px";
-		var map = PGISHelper.Init("mapDiv");
+		map = PGISHelper.Init("mapDiv");
 	});
 
 	// 关闭详情页
@@ -301,17 +290,18 @@
 </script>
 <script type="text/javascript">
 	// 画表格
-	function showTable() {
+	function showTable(obj) {
 		var tabTitles = document.getElementById("tabTitle").children;
 		var tabContents = document.getElementById("tabContent").children;
-		for(var i=0;i<tabTitles.length;i++){
+		for (var i = 0; i < tabTitles.length; i++) {
 			tabTitles[i].classList.remove("layui-this");
 		}
-		for(var j=0;j<tabContents.length;j++){
+		for (var j = 0; j < tabContents.length; j++) {
 			tabContents[j].classList.remove("layui-show");
 		}
 		var html1 = "";// tabTitle
-		var html2 = "";// tabContent
+		var html2 = "";// tabContentTop
+		var html3 = "";// tabContentBody
 		html1 += "<li class='layui-this'>某某辖区</li>"
 		$("#tabTitle").append(html1);
 		html2 += "<div class='layui-tab-item layui-show'>";
@@ -338,63 +328,233 @@
 		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm'>后一天</button>";
 		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm'>今天</button>";
 		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm'>本周</button>";
-		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm'>本月</button>";
-		html2 += "</div><div class='layui-inline' style='width: 100%;'><div class='tableTitle'>机场辖区排班安排表</div></div>";
-		html2 += "<table class='layui-table' style='text-align: center;'>";
-		html2 += "<tbody>";
-		html2 += "<tr>";
-		html2 += "<td colspan='16'>各分局加密巡逻安排表2018-08-28</td>";
-		html2 += "</tr>"
-		html2 += "<tr>";
-		html2 += "<td rowspan='2'>分局(队伍驻地)</td>";
-		html2 += "<td rowspan='2'>巡逻类型</td>";
-		html2 += "<td rowspan='2'>巡逻区域</td>";
-		html2 += "<td rowspan='2'>巡逻及辐射范围</td>";
-		html2 += "<td rowspan='2'>巡逻时段</td>";
-		html2 += "<td colspan='3'>带队民警</td>";
-		html2 += "<td rowspan='2'>车号</td>";
-		html2 += "<td colspan='2'>通信</td>";
-		html2 += "<td colspan='3'>执勤人数</td>";
-		html2 += "<td colspan='2'>携带装备</td>";
-		html2 += "</tr>";
-		html2 += "<tr>";
-		html2 += "<td>姓名</td>";
-		html2 += "<td>职务</td>";
-		html2 += "<td>电话</td>";
-		html2 += "<td>代码</td>";
-		html2 += "<td>电台值守组</td>";
-		html2 += "<td>民警</td>";
-		html2 += "<td>武警</td>";
-		html2 += "<td>协警</td>";
-		html2 += "<td>长枪</td>";
-		html2 += "<td>短枪</td>";
-		html2 += "</tr>";
-		html2 += "</tbody>";
-		html2 += "</table>";
-		html2 += "</div>";
+		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm'>本月</button></div>";
+		html2 += "<div id='tableDiv'></div>";
 		$("#tabContent").append(html2);
-		layui.use([ 'form', 'layedit', 'laydate', 'element' ], function() {
-			var form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
-			var element = layui.element;
-			element.init();
-			laydate.render({
-				elem : '#test3',
-				theme : '#4472ca'
-			});
-			laydate.render({
-				elem : '#test4',
-				theme : '#4472ca'
-			});
-			laydate.render({
-				elem : '#test5',
-				theme : '#4472ca'
-			});
-			laydate.render({
-				elem : '#test6',
-				theme : '#4472ca'
-			});
-		});
+		if (obj == 1) {
+			html3 += "<div class='layui-inline' style='width: 100%;margin-top: 20px;'><div style='float:right'><button id='temporary' onclick='creatTable(2)' class='layui-btn layui-btn-primary'>临时卡点</button></div></div>";
+			html3 += "<table class='layui-table' style='text-align: center;'>";
+			html3 += "<tbody>";
+			html3 += "<tr>";
+			html3 += "<td colspan='14'>检查站路面综合设卡武装盘查工作表</td>";
+			html3 += "</tr>"
+			html3 += "<tr>";
+			html3 += "<td rowspan='2'>分局</td>";
+			html3 += "<td rowspan='2'>卡点类型</td>";
+			html3 += "<td rowspan='2'>设卡点位</td>";
+			html3 += "<td rowspan='2'>组织单位</td>";
+			html3 += "<td rowspan='2'>行动日期</td>";
+			html3 += "<td rowspan='2'>行动时间</td>";
+			html3 += "<td colspan='3'>带队领导</td>";
+			html3 += "<td colspan='3'>出动警力(名)</td>";
+			html3 += "<td rowspan='2'>简要战果</td>";
+			html3 += "<td rowspan='2'>备注</td>";
+			html3 += "</tr>";
+			html3 += "<tr>";
+			html3 += "<td>姓名</td>";
+			html3 += "<td>职务</td>";
+			html3 += "<td>电话</td>";
+			html3 += "<td>民警</td>";
+			html3 += "<td>特警</td>";
+			html3 += "<td>协警</td>";
+			html3 += "</tr>";
+			html3 += "</tbody>";
+			html3 += "</table>";
+			html3 += "</div>";
+		} else if (obj == 2) {
+			html3 += "<div class='layui-inline' style='width: 100%;margin-top: 20px;'><div style='float:right'><button id='temporary' onclick='creatTable(1)' class='layui-btn layui-btn-primary'>检查站</button></div></div>";
+			html3 += "<table class='layui-table' style='text-align: center;'>";
+			html3 += "<tbody>";
+			html3 += "<tr>";
+			html3 += "<td colspan='13'>临时卡点路面综合设卡武装盘查工作表</td>";
+			html3 += "</tr>"
+			html3 += "<tr>";
+			html3 += "<td rowspan='2'>分局</td>";
+			html3 += "<td rowspan='2'>组织单位</td>";
+			html3 += "<td rowspan='2'>行动日期</td>";
+			html3 += "<td rowspan='2'>行动时间</td>";
+			html3 += "<td rowspan='2'>设卡点位</td>";
+			html3 += "<td colspan='3'>带队领导</td>";
+			html3 += "<td colspan='3'>出动警力(名)</td>";
+			html3 += "<td rowspan='2'>简要战果</td>";
+			html3 += "<td rowspan='2'>备注</td>";
+			html3 += "</tr>";
+			html3 += "<tr>";
+			html3 += "<td>姓名</td>";
+			html3 += "<td>职务</td>";
+			html3 += "<td>电话</td>";
+			html3 += "<td>民警</td>";
+			html3 += "<td>特警</td>";
+			html3 += "<td>协警</td>";
+			html3 += "</tr>";
+			html3 += "</tbody>";
+			html3 += "</table>";
+			html3 += "</div>";
+		}
+		$("#tableDiv").append(html3);
+		layui
+				.use(
+						[ 'form', 'layedit', 'laydate', 'element' ],
+						function() {
+							var form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
+							var element = layui.element;
+							element.init();
+							laydate.render({
+								elem : '#test3',
+								theme : '#4472ca'
+							});
+							laydate.render({
+								elem : '#test4',
+								theme : '#4472ca'
+							});
+							laydate.render({
+								elem : '#test5',
+								theme : '#4472ca'
+							});
+							laydate.render({
+								elem : '#test6',
+								theme : '#4472ca'
+							});
+						});
 		cancelBubble();
 	}
+
+	function creatTable(obj) {
+		$("#tableDiv").empty();
+		var html = "";
+		if (obj == 1) {
+			html += "<div class='layui-inline' style='width: 100%;margin-top: 20px;'><div style='float:right'><button id='temporary' onclick='creatTable(2)' class='layui-btn layui-btn-primary'>临时卡点</button></div></div>";
+			html += "<table class='layui-table' style='text-align: center;'>";
+			html += "<tbody>";
+			html += "<tr>";
+			html += "<td colspan='14'>临时卡点路面综合设卡武装盘查工作表</td>";
+			html += "</tr>"
+			html += "<tr>";
+			html += "<td rowspan='2'>分局</td>";
+			html += "<td rowspan='2'>卡点类型</td>";
+			html += "<td rowspan='2'>设卡点位</td>";
+			html += "<td rowspan='2'>组织单位</td>";
+			html += "<td rowspan='2'>行动日期</td>";
+			html += "<td rowspan='2'>行动时间</td>";
+			html += "<td colspan='3'>带队领导</td>";
+			html += "<td colspan='3'>出动警力(名)</td>";
+			html += "<td rowspan='2'>简要战果</td>";
+			html += "<td rowspan='2'>备注</td>";
+			html += "</tr>";
+			html += "<tr>";
+			html += "<td>姓名</td>";
+			html += "<td>职务</td>";
+			html += "<td>电话</td>";
+			html += "<td>民警</td>";
+			html += "<td>特警</td>";
+			html += "<td>协警</td>";
+			html += "</tr>";
+			html += "</tbody>";
+			html += "</table>";
+			html += "</div>";
+		} else if (obj == 2) {
+			html += "<div class='layui-inline' style='width: 100%;margin-top: 20px;'><div style='float:right'><button id='temporary' onclick='creatTable(1)' class='layui-btn layui-btn-primary'>检查站</button></div></div>";
+			html += "<table class='layui-table' style='text-align: center;'>";
+			html += "<tbody>";
+			html += "<tr>";
+			html += "<td colspan='13'>临时卡点路面综合设卡武装盘查工作表</td>";
+			html += "</tr>"
+			html += "<tr>";
+			html += "<td rowspan='2'>分局</td>";
+			html += "<td rowspan='2'>组织单位</td>";
+			html += "<td rowspan='2'>行动日期</td>";
+			html += "<td rowspan='2'>行动时间</td>";
+			html += "<td rowspan='2'>设卡点位</td>";
+			html += "<td colspan='3'>带队领导</td>";
+			html += "<td colspan='3'>出动警力(名)</td>";
+			html += "<td rowspan='2'>简要战果</td>";
+			html += "<td rowspan='2'>备注</td>";
+			html += "</tr>";
+			html += "<tr>";
+			html += "<td>姓名</td>";
+			html += "<td>职务</td>";
+			html += "<td>电话</td>";
+			html += "<td>民警</td>";
+			html += "<td>特警</td>";
+			html += "<td>协警</td>";
+			html += "</tr>";
+			html += "</tbody>";
+			html += "</table>";
+			html += "</div>";
+		}
+		$("#tableDiv").append(html);
+
+	}
 </script>
+<script>
+	function showTreemMean(obj, Id) {
+		var cityObj = $("#" + Id);
+		var cityOffset = $("#" + Id).offset();
+		var leftv = cityOffset.left;
+		var topv = cityOffset.top;
+		var oh = cityObj.outerHeight();
+		$('#textTree').css({
+			left : leftv + "px",
+			top : topv + oh + "px"
+		}).slideDown("fast");
+		;
+		$("body").bind("mousedown", onBodyDown);
+		gTargetId = Id;
+	}
+
+	function onBodyDown(event) {
+		var str = event.target.id.substring(0, 4);
+		if (str == "tree" && !(event.target.id.indexOf("span") > -1)) {
+			return;
+		} else {
+			hideMenu();
+		}
+	}
+
+	function hideMenu() {
+		$('#textTree').fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDown);
+	}
+
+	function changeStation(treeNode) {
+		var selectv = document.getElementById('showTree');
+		selectv.value = treeNode.name;
+	}
+</script>
+<script>
+	//点击事件变量，为true时在，则将坐标值赋予X，Y坐标
+	var select_mapLG = false;
+	var move = false;
+	//选择坐标点击事件，修改变量select_mapLG 为true
+	function selectMapLG() {
+		if (move) {
+			//delete
+			var CoordinateY = document.getElementById('coordinateY');
+			var CoordinateX = document.getElementById('coordinateX');
+			map.PanAndZoom(CoordinateX.value, CoordinateY.value);
+		}
+		select_mapLG = true;
+
+	}
+
+	//赋予坐标行函数
+	function getMapLGByClickFromOther(obj) {
+		if (select_mapLG) {
+			var CoordinateY = document.getElementById('coordinateY');
+			var CoordinateX = document.getElementById('coordinateX');
+			CoordinateX.value = obj[0];
+			CoordinateY.value = obj[1];
+		}
+		select_mapLG = false;
+		move = true;
+	}
+</script>
+<script src="../js/jquery.ztree.all-3.1.min.js"></script>
+<script src="../js/dateTime.js"></script>
+<script src="../js/common.js?v=180725" type="text/javascript"></script>
+<script src="../js/linq/linq.min.js"></script>
+<script src="../js/dictCache.js"></script>
+<script src="../js/IndexDB.js"></script>
+<script src="../js/common/stationSelector.js?v=180612" charset="gb2312"></script>
 </html>
+

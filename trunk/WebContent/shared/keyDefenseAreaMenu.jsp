@@ -20,38 +20,47 @@
 					<li><button class="layui-btn" style="background: #4472ca;">重点防务区排班</button></li>
 				</ul>
 				<ul id="stationType">
-					<li><a>巡逻特警支队</a><img src="../images/starlogo.png" onclick="showTable()"></li>
-					<li><a>集美分局</a><img src="../images/starlogo.png" onclick="showTable()"></li>
-					<li><a>思明分局</a><img src="../images/starlogo.png" onclick="showTable()"></li>
-					<li><a>海沧分局</a><img src="../images/starlogo.png" onclick="showTable()"></li>
-					<li><a>湖里分局</a><img src="../images/starlogo.png" onclick="showTable()"></li>
-					<li><a>同安分局</a><img src="../images/starlogo.png" onclick="showTable()"></li>
-					<li><a>翔安分局</a><img src="../images/starlogo.png" onclick="showTable()"></li>
-					<li><a>交通分局</a><img src="../images/starlogo.png" onclick="showTable()"></li>
-					<li><a onclick="showAll(this)">机场分局</a><img
+					<li>巡逻特警支队<img class="common_img" src="../images/starlogo.png"
+						onclick="showTable()"></li>
+					<li>集美分局<img class="common_img" src="../images/starlogo.png"
+						onclick="showTable()"></li>
+					<li>思明分局<img class="common_img" src="../images/starlogo.png"
+						onclick="showTable()"></li>
+					<li>海沧分局<img class="common_img" src="../images/starlogo.png"
+						onclick="showTable()"></li>
+					<li>湖里分局<img class="common_img" src="../images/starlogo.png"
+						onclick="showTable()"></li>
+					<li>同安分局<img class="common_img" src="../images/starlogo.png"
+						onclick="showTable()"></li>
+					<li>翔安分局<img class="common_img" src="../images/starlogo.png"
+						onclick="showTable()"></li>
+					<li>交通分局<img class="common_img" src="../images/starlogo.png"
+						onclick="showTable()"></li>
+					<li onclick="showAll(this)">机场分局<img class="common_img"
 						src="../images/starlogo.png" onclick="showTable()">
-						<ul style="display: none; width: 273px;margin-left: -20px;background: white;">
-							<li
-								style="width: 100%; height: auto; background: white; padding-left: 0;padding-left: 20px;">
+						<ul style="display: none; width: 100%; background: white;"
+							onclick="notReturn()">
+							<li style="width: 100%; height: auto; background: white;">
+								<div>分局(队伍驻地):</div>
 								<form class="layui-form"
-									style="padding-bottom: 8px; width: 232px;">
-									<div>分局(队伍驻地):</div>
+									style="padding-bottom: 8px; width: 232px; margin-left: 20px;">
 									<textarea placeholder="请输入内容" class="layui-textarea"
 										style="resize: none;"></textarea>
 									<button class="layui-btn layui-btn-primary layui-btn-xs"
 										style="width: 232px; margin-top: 5px;">保存信息</button>
 								</form>
-								<button class="layui-btn layui-btn-primary">增加巡逻点</button>
-								<button class="layui-btn layui-btn-primary"
-									onclick="showAllBtn(this)">
-									<img src="../images/checked.png"
-										style="float: left; margin-right: 0;">显示全部
-								</button>
-								<ul style="padding-right: 20px;">
-									<li style="width: 100%; background: white; padding-left: 0;"><img
-										style="float: left; margin-right: 0;"
-										src="../images/diamond.png"><a onclick="showMess()">机场辖区</a><img
-										src="../images/starlogo.png" onclick="showTable()"></li>
+								<div>
+									<button class="layui-btn layui-btn-primary">增加巡逻点</button>
+									<button class="layui-btn layui-btn-primary"
+										onclick="showAllBtn(this)">
+										<img class="form_img" src="../images/checked.png">显示全部
+									</button>
+								</div>
+								<ul>
+									<li onclick="showMess()" class="areaStyle"><img
+										class="areaStyle_img" src="../images/diamond.png">机场辖区<img
+										class="common_img" src="../images/starlogo.png"
+										onclick="showTable()"></li>
 								</ul>
 							</li>
 						</ul></li>
@@ -67,13 +76,19 @@
      </script>
 	<script>
 		function showAll(obj) {
-			var tag = $(obj).parent().children();
+			var bro = $(obj).siblings();
+			for (var i = 0; i < bro.length; i++) {
+				bro[i].classList.remove("liL1");
+			}
+			var tag = $(obj).children();
 			for (var i = 0; i < tag.length; i++) {
 				if (tag[i].localName == "ul") {
 					var display = tag[i].style.display;
 					if (display == "block") {
+						$(obj).removeClass("liL1");
 						tag[i].style.display = "none";
 					} else if (display == "none") {
+						$(obj).addClass("liL1");
 						tag[i].style.display = "block";
 					}
 				}
@@ -92,6 +107,10 @@
 		function showMess() {
 			var formDiv = document.getElementById("formDiv");
 			formDiv.style.display = "block";
+		}
+
+		function notReturn() {
+			cancelBubble();
 		}
 	</script>
 </aside>

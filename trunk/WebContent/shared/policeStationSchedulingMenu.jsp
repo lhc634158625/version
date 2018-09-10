@@ -110,8 +110,7 @@
     		sw_span.style.display='inline';
     	}		
     	onExpandforchangeWidth1();
-	}
-	//搜索下拉
+    }
     function AddOption(allStations) {
     	$("#stationSearch").empty();
     	var data=allStations;
@@ -138,8 +137,6 @@
 	<div class="Mask">
 		<i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#x1002;</i>刷新
 	</div>
-	<script src="../js/layui2/layui.js"></script><!--添加的-->
-	<script src="../js/jquery/jquery.min.js"></script><!--添加的-->
 	<script src="../js/jquery.ztree.all-3.1.min.js"></script>
 	<script src="../js/dateTime.js"></script>
 	<script src="../js/common.js?v=180725" type="text/javascript"></script>

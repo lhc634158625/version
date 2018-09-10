@@ -9,7 +9,7 @@
 
 #width_left {
 	background: #ffffff;
-	width: 275px;
+	width: 280px;
 	padding-right: 10px;
 	margin-top: 40px;
 }
@@ -55,26 +55,29 @@
 }
 
 #stationType li {
-	min-height: 40px;
+	min-height: 32px;
 	height: auto;
-	line-height: 40px;
+	line-height: 32px;
 	font-size: 16px;
-	padding-left: 20px;
+	text-indent: 20px;
 	vertical-align: middle;
-	line-height: 40px;
 }
 
-#stationType li img {
+.common_img {
 	width: 15px;
 	height: 15px;
 	float: right;
 	margin-right: 20px;
-	margin-top: 12px;
+	margin-top: 8px;
 }
 
 #stationType li:hover {
 	background: #7fa7fe;
 	cursor: pointer;
+}
+
+.liL1 {
+	background-color: #7fa7fe;
 }
 
 #mainBody {
@@ -90,7 +93,7 @@ ul.layui-tab-title li:first-child i {
 	background: white;
 }
 
-#formDiv {
+#formDiv, #pointDiv, #taskDiv {
 	position: fixed;
 	border: 1px #ccc solid;
 	bottom: 50px;
@@ -191,4 +194,21 @@ ul.layui-tab-title li:first-child i {
 #stationType li a {
 	display: inline-block;
 	width: 80%;
+}
+
+.areaStyle {
+	width: 100%;
+	background: white;
+	text-indent: 0;
+	font-size: 14px;
+}
+
+.areaStyle_img {
+	margin-right: 0;
+}
+
+.form_img {
+	width: 15px;
+	height: 15px;
+	vertical-align: middle;
 }

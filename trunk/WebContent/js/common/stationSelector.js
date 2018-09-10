@@ -158,7 +158,6 @@ function StationSelector() {
     this.ShowData = function () {
        // var keyword = $("#txtKeyword").val().toUpperCase();
         _currDatas = _allStations;// Enumerable.From(_allStations).Where(function (x) { return x.code.indexOf(keyword) >= 0 || x.name.indexOf(keyword) >= 0 || x.pyCode.toUpperCase().indexOf(keyword) >= 0; }).OrderBy("x=>x.code").Take(10).ToArray();
-        console.log(_currDatas);      
         _self.ShowTree(_currDatas);
     }
     this.ShowTree = function (datas) {      

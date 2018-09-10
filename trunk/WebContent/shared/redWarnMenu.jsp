@@ -11,16 +11,11 @@
 			<div
 				style="color: #000; border-radius: 0 10px 10px 0; border: 1px #cccccc solid; margin: 19px 0 2px 0; height: 4%;"
 				class="menu_top">
-				<span id="show_span" style="line-height: 30px;">135</span> <input
+				<span id="show_span" style="line-height: 30px;">红色预警巡防部署</span> <input
 					id="show_hid" onclick="showAndHidMean()" type="button"
 					style="width: 30px; height: 30px; border: none; border-radius: 0 10px 10px 0; float: right; background-image: url(../images/sh.png);"></input>
 			</div>
 			<div id="left_mean_body">
-				<ul id="sType">
-					<li><button class="layui-btn" style="background: #4472ca">1'</button></li>
-					<li><button class="layui-btn" style="background: #4472ca">3'</button></li>
-					<li><button class="layui-btn" style="background: #4472ca">5'</button></li>
-				</ul>
 				<ul id="stationType">
 					<li>巡逻特警支队<img class="common_img" src="../images/starlogo.png"
 						onclick="showTable()"></li>

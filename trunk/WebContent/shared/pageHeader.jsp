@@ -154,7 +154,7 @@
 				<li class="layui-nav-item"><a href="javascript:;"><img style="width: 22%;height: 22%;" src="../images/xtgl.png">&nbsp;系统管理</a>
 					<dl class="layui-nav-child" style="float:left">
 						<dd>
-							<a href="<c:url value='/lhc/polistList.jsp'/>">警员列表</a>
+							<a href="">警员列表</a>
 						</dd>
 						<dd>
 							<a href="">组织管理</a>

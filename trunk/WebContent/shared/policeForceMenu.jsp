@@ -42,6 +42,14 @@
 	border-radius: 0 10px 10px 0;
 	background: #ffffff;
 }
+
+#stationSelect .layui-anim-upbit {
+	width: 100%;
+}
+
+#stationSelect .layui-anim-upbit::-webkit-scrollbar {
+	display: none;
+}
 </style>
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
@@ -55,7 +63,8 @@
 					id="show_hid" onclick="showAndHidMean()" type="button"
 					style="width: 30px; height: 30px; border: none; border-radius: 0 10px 10px 0; float: right; background-image: url(../images/sh.png);"></input>
 			</div>
-			<div id="left_mean_body">
+			<div id="left_mean_body"
+				style="border: solid 1px #cccccc; border-radius: 0 10px 10px 0;">
 				<form class="layui-form" action="" method="post">
 					<div id="stationSelect">
 						<div class="layui-input-inline" style="width: 100%;">
@@ -66,8 +75,7 @@
 						</div>
 					</div>
 				</form>
-				<div id="divTree"
-					style="height: auto; max-height: 700px; overflow: auto;">
+				<div id="divTree" style="height: 700px; overflow: auto;">
 					<ul id="tree" class="ztree"></ul>
 				</div>
 			</div>
@@ -81,11 +89,11 @@
      </script>
 	<script>
 		window.onload = function() {
-			onExpandforchangeWidth();
+			onExpandforchangeWidth1();
 		}
 
 		//随左侧菜单栏的变化，右边主页面宽度随之改变
-		function onExpandforchangeWidth() {
+		function onExpandforchangeWidth1() {
 			var width_left = document.getElementById("width_left");
 			var width_right = document.getElementById("width_right");
 			if (width_left != null && width_right != null) {
@@ -96,8 +104,19 @@
 			}
 
 		}
-	</script>
-	<script>
+
+		//树于各个显示控件联动
+		function changeStation(obj) {
+			var selectv = $('#stationSearch');
+			selectv.val(obj.id);
+			if (typeof selectRender == "function") {
+				selectRender();
+			}
+			if (typeof SelectStation == "function") {
+				SelectStation(obj);
+			}
+		}
+
 		function showAndHidMean() {
 			var lt_mean_body = document.getElementById('left_mean_body');
 			var sw_span = document.getElementById('show_span')
@@ -109,7 +128,30 @@
 				lt_mean_body.style.display = 'block';
 				sw_span.style.display = 'inline';
 			}
-			onExpandforchangeWidth();
+			onExpandforchangeWidth1();
+		}
+		function AddOption(allStations) {
+			$("#stationSearch").empty();
+			var data = allStations;
+			var manList = new Array();
+			var IdList = new Array();
+			for (var i = 0; i < data.length; i++) {
+				if (!isInArray(manList, data[i].staffName)) {
+					manList.push(data[i].name);
+					IdList.push(data[i].id);
+				}
+			}
+			var html = "";
+			html += "<option value=''></option>";
+			for (var j = 0; j < manList.length; j++) {
+				html += "<option value='"+ IdList[j] +"'>" + manList[j]
+						+ "</option>";
+			}
+			$("#stationSearch").append(html);
+
+			if (typeof selectRender == "function") {
+				selectRender();
+			}
 		}
 	</script>
 	<div class="Mask">
@@ -121,5 +163,7 @@
 	<script src="../js/linq/linq.min.js"></script>
 	<script src="../js/dictCache.js"></script>
 	<script src="../js/IndexDB.js"></script>
-	<script src="../js/common/stationSelector.js?v=180612&&multi=${param.multi}" charset="gb2312"></script>
+	<script
+		src="../js/common/stationSelector.js?v=180612&&multi=${param.multi}"
+		charset="gb2312"></script>
 </aside>

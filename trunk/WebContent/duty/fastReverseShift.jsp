@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>135快反圈排班排班</title>
+<title>135快反圈排班</title>
 <link rel="stylesheet" href="../layui/css/layui.css">
 <link rel="stylesheet" href="../css/fastReverseShift.css">
 <script src="../js/jquery/jquery.js"></script>
@@ -34,7 +34,7 @@
 					style="border: 1px solid #ccc; border-top: none;" id="tabContent">
 					<div class="layui-tab-item layui-show">
 						<div id="mapTop"
-							style="position: fixed; width: auto ; height: auto; z-index: 2; right: 30px; background: white; border-radius: 5px; padding: 5px;">
+							style="position: fixed; width: auto; height: auto; z-index: 2; right: 30px; background: white; border-radius: 5px; padding: 5px;">
 							<form class="layui-form" action="">
 								<div class="layui-inline">
 									<div class="layui-input-inline" style="margin-top: 5px;">
@@ -174,21 +174,24 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">X坐标</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" id="coordinateX" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
+							<input type="text" id="coordinateX" name="title" required
+								lay-verify="required" placeholder="请输入标题" autocomplete="off"
+								class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">Y坐标</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" id="coordinateY" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
+							<input type="text" id="coordinateY" name="title" required
+								lay-verify="required" placeholder="请输入标题" autocomplete="off"
+								class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">关联单位</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input id="showTree" onclick="showTreemMean(this,this.id)" type="text" name="title" required lay-verify="required"
+							<input id="showTree" onclick="showTreemMean(this,this.id)"
+								type="text" name="title" required lay-verify="required"
 								placeholder="请输入标题" autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -216,8 +219,8 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label"></label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input onclick="selectMapLG()" type="button" class="layui-btn"  value="选择坐标"
-								style="background: #4472ca;width:92px;"></input>
+							<input onclick="selectMapLG()" type="button" class="layui-btn"
+								value="选择坐标" style="background: #4472ca; width: 92px;"></input>
 							<button class="layui-btn" lay-submit lay-filter="formSave"
 								style="background: #4472ca;">保存信息</button>
 							<button class="layui-btn" lay-submit lay-filter="formStop"
@@ -228,12 +231,13 @@
 			</div>
 		</div>
 	</div>
-	<div id="textTree" style="position: absolute; overflow:auto;border:solid 1px #ccc; background-color:#fff; height:200px;">
+	<div id="textTree"
+		style="position: absolute; overflow: auto; border: solid 1px #ccc; background-color: #fff; height: 200px;">
 		<ul id="tree" class="ztree"></ul>
-	</div>	
+	</div>
 </body>
 <script type="text/javascript">
-var map;
+	var map;
 	layui
 			.use(
 					[ 'form', 'layedit', 'laydate' ],
@@ -264,7 +268,7 @@ var map;
 		mapDiv.style.height = (height * 0.8 - 30) + "px";
 		mapDiv.style.width = (width - 20) + "px";
 		mapTop.style.maxWidth = (width - 50) + "px";
-	    map = PGISHelper.Init("mapDiv");
+		map = PGISHelper.Init("mapDiv");
 	});
 
 	// 关闭详情页
@@ -308,14 +312,56 @@ var map;
 	}
 </script>
 <script type="text/javascript">
+	var whole_shift;// 字典排班类型
+	var whole_station;// 字典单位
+	$(function() {
+		PostData("base/baseDict/filter",createRequest(0,10,"id","name,string,=,135排班"),function(result){
+			if(result.data.length>0){
+				whole_code=result.data[0].code;
+				PostData("base/baseDict/filter",createRequest(0,10,"id","name,string,=,分局"),function(result){
+					if(result.data.length>0){
+						whole_station=result.data[0].code;
+						var strConditions="pointType,string,=,"+whole_shift+";PointInfoType,string,=,"+whole_station;
+						PostData("point/point/filter",createRequest(0,1000,"id",strConditions),function(result){
+							if(result.data.length>0){
+								whole_station=result.data[0].code;
+							}
+						});
+					}
+				});
+			}
+		});
+	})
+	
+	function createRequest(page,pageSize,orderField,strCondition) {
+		var request=new Object();
+		var condition=new Object();
+		var conditions= new Array();
+		request.page=page;
+		request.pageSize=pageSize;
+		request.orderField=orderField;
+		var items=strCondition.split(";")
+		for(var i=0;i<items.length;i++){
+			var temps=items[i].split(",");
+			condition.fieldName=temps[0];
+			condition.fieldType=temps[1];
+			condition.opt=temps[2];
+			condition.value=temps[3];
+			conditions.push(condition);
+			request.conditions=conditions;
+		}
+		return request;
+	}
+</script>
+<script type="text/javascript">
 	// 画表格
 	function showTable() {
 		var tabTitles = document.getElementById("tabTitle").children;
 		var tabContents = document.getElementById("tabContent").children;
-		for(var i=0;i<tabTitles.length;i++){
+		for (var i = 0; i < tabTitles.length; i++) {
 			tabTitles[i].classList.remove("layui-this");
 		}
-		for(var j=0;j<tabContents.length;j++){
+		for (var j = 0; j < tabContents.length; j++) {
 			tabContents[j].classList.remove("layui-show");
 		}
 		var html1 = "";// tabTitle
@@ -383,91 +429,97 @@ var map;
 		html2 += "</table>";
 		html2 += "</div>";
 		$("#tabContent").append(html2);
-		layui.use([ 'form', 'layedit', 'laydate', 'element' ], function() {
-			var form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
-			var element = layui.element;
-			element.init();
-			laydate.render({
-				elem : '#test3',
-				theme : '#4472ca'
-			});
-			laydate.render({
-				elem : '#test4',
-				theme : '#4472ca'
-			});
-			laydate.render({
-				elem : '#test5',
-				theme : '#4472ca'
-			});
-			laydate.render({
-				elem : '#test6',
-				theme : '#4472ca'
-			});
-		});
+		layui
+				.use(
+						[ 'form', 'layedit', 'laydate', 'element' ],
+						function() {
+							var form = layui.form, layer = layui.layer, layedit = layui.layedit, laydate = layui.laydate;
+							var element = layui.element;
+							element.init();
+							laydate.render({
+								elem : '#test3',
+								theme : '#4472ca'
+							});
+							laydate.render({
+								elem : '#test4',
+								theme : '#4472ca'
+							});
+							laydate.render({
+								elem : '#test5',
+								theme : '#4472ca'
+							});
+							laydate.render({
+								elem : '#test6',
+								theme : '#4472ca'
+							});
+						});
+		cancelBubble();
 	}
 </script>
 <script>
-	function showTreemMean(obj,Id){
+	function showTreemMean(obj, Id) {
 		var cityObj = $("#" + Id);
-        var cityOffset = $("#" + Id).offset();
-        var leftv = cityOffset.left;
-        var topv = cityOffset.top;
-        var oh = cityObj.outerHeight();
-       $('#textTree').css({ left: leftv + "px", top: topv + oh + "px" }).slideDown("fast");;
-       $("body").bind("mousedown", onBodyDown);
-       gTargetId = Id;
+		var cityOffset = $("#" + Id).offset();
+		var leftv = cityOffset.left;
+		var topv = cityOffset.top;
+		var oh = cityObj.outerHeight();
+		$('#textTree').css({
+			left : leftv + "px",
+			top : topv + oh + "px"
+		}).slideDown("fast");
+		;
+		$("body").bind("mousedown", onBodyDown);
+		gTargetId = Id;
 	}
 
-function onBodyDown(event) {
-	 var str = event.target.id.substring(0,4);
-	 if(str =="tree"&&!(event.target.id.indexOf("span")>-1)){
-		return;
-	 }else{
-	    hideMenu();
-	 } 
-    }
+	function onBodyDown(event) {
+		var str = event.target.id.substring(0, 4);
+		if (str == "tree" && !(event.target.id.indexOf("span") > -1)) {
+			return;
+		} else {
+			hideMenu();
+		}
+	}
 
- function hideMenu() {
-	 $('#textTree').fadeOut("fast");
-       $("body").unbind("mousedown", onBodyDown);
-   }
- 
- function changeStation(treeNode){
-	 var selectv = document.getElementById('showTree');
-	 selectv.value=treeNode.name;
- }
- </script>
- <script>
- 
- //点击事件变量，为true时在，则将坐标值赋予X，Y坐标
- var select_mapLG = false;
- var move = false;
- //选择坐标点击事件，修改变量select_mapLG 为true
- function selectMapLG(){
-	 if(move){
-		//delete
-		  var CoordinateY = document.getElementById('coordinateY');
-		  var CoordinateX = document.getElementById('coordinateX');	
-		  map.PanAndZoom(CoordinateX.value,CoordinateY.value);
-	 }
-	 select_mapLG = true;
-	 
- }
- 
- //赋予坐标行函数
- function getMapLGByClickFromOther(obj){
-	 if(select_mapLG){
-		 var CoordinateY = document.getElementById('coordinateY');
-		 var CoordinateX = document.getElementById('coordinateX');
-		 CoordinateX.value=obj[0];
-		 CoordinateY.value=obj[1];
-	 }
-	 select_mapLG = false;
-	 move = true;
- }
-  
- </script>
- <script src="../js/jquery.ztree.all-3.1.min.js"></script>
+	function hideMenu() {
+		$('#textTree').fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDown);
+	}
+
+	function changeStation(treeNode) {
+		var selectv = document.getElementById('showTree');
+		selectv.value = treeNode.name;
+	}
+</script>
+<script>
+	//点击事件变量，为true时在，则将坐标值赋予X，Y坐标
+	var select_mapLG = false;
+	var move = false;
+	//选择坐标点击事件，修改变量select_mapLG 为true
+	function selectMapLG() {
+		if (move) {
+			//delete
+			var CoordinateY = document.getElementById('coordinateY');
+			var CoordinateX = document.getElementById('coordinateX');
+			map.PanAndZoom(CoordinateX.value, CoordinateY.value);
+		}
+		select_mapLG = true;
+
+	}
+
+	//赋予坐标行函数
+	function getMapLGByClickFromOther(obj) {
+		if (select_mapLG) {
+			var CoordinateY = document.getElementById('coordinateY');
+			var CoordinateX = document.getElementById('coordinateX');
+			CoordinateX.value = obj[0];
+			CoordinateY.value = obj[1];
+		}
+		select_mapLG = false;
+		move = true;
+	}
+</script>
+<script src="../js/jquery.ztree.all-3.1.min.js"></script>
 <script src="../js/dateTime.js"></script>
 <script src="../js/common.js?v=180725" type="text/javascript"></script>
 <script src="../js/linq/linq.min.js"></script>

@@ -10,7 +10,6 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>警力布防</title>
-<link rel="stylesheet" href="../js/pgis/EzServerClient.min.css">
 <link rel="stylesheet" href="../layui/css/layui.css">
 <link rel="stylesheet" href="../css/trafficCondition.css">
 <script src="../js/jquery/jquery.js"></script>
@@ -19,8 +18,10 @@
 	<div class="layui-layout layui-layout-admin">
 
 
-		<%@ include file="../shared/pageHeader.jsp"%>
-		<%@ include file="../shared/trafficConditionMenu.jsp"%>
+		<%@ include file="../shared/pageHeader1.jsp"%>
+		<jsp:include page="../shared/policeForceMenu.jsp" flush="true">
+			<jsp:param name="multi" value="1" />
+		</jsp:include>
 
 		<div class="layui-body">
 			<!-- 内容主体区域 -->
@@ -55,68 +56,8 @@
 								刷新时间 18-07-26 03:50</div>
 
 						</div>
-						<div class="layui-row">
-							<div class="layui-col-md3" style="left: 1%; margin-top: 1%;">
-								<div class="left_top">
-									<ul class="left_top_2">
-										<li id="li1"><img src="../images/m1.png"
-											onmouseover="_show(1)" onmouseout="_hidden(1)"></li>
-										<li id="li2"><img src="../images/m2.png"
-											onmouseover="_show(2)" onmouseout="_hidden(2)"></li>
-										<li id="li3"><img src="../images/m3.png"
-											onmouseover="_show(3)" onmouseout="_hidden(3)"></li>
-										<li id="li4"><img src="../images/m4.png"
-											onmouseover="_show(4)" onmouseout="_hidden(4)"></li>
-										<li id="li5"><img src="../images/m5.png"
-											onmouseover="_show(5)" onmouseout="_hidden(5)"></li>
-										<li id="li6"><img src="../images/m6.png"
-											onmouseover="_show(6)" onmouseout="_hidden(6)"></li>
-										<li id="li7"><img src="../images/m7.png"
-											onmouseover="_show(7)" onmouseout="_hidden(7)"></li>
-										<li id="li8"><img src="../images/m8.png"
-											onmouseover="_show(8)" onmouseout="_hidden(8)"></li>
-									</ul>
-								</div>
-							</div>
-							<div class="layui-col-md2"
-								style="float: right; right: 2%; margin-top: 1%;">
-								<form class="right_top" action="#">
-									<div class="right_top_1">
-										<img alt="" src="../images/search.png" onclick="submit()">
-									</div>
-									<input class="right_top_2" style="color: white;"
-										placeholder="请输入警员号、设备号等">
-								</form>
-							</div>
-						</div>
-						<div class="layui-row">
-							<div class="layui-col-md1" style="left: 1%; margin-top: 2%;"></div>
-							<div class="layui-col-md3" style="float: right; margin-top: 5%;">
-								<div class="right">
-									<ul>
-										<li onmouseover="_elongation(this)"
-											onmouseout="_origina(this)"><a href="#"><img
-												src="../images/jl.png"></a></li>
-										<li onmouseover="_elongation(this)"
-											onmouseout="_origina(this)"><a href="#"><img
-												src="../images/zb.png"></a></li>
-										<li onmouseover="_elongation(this)"
-											onmouseout="_origina(this)"><a href="#"><img
-												src="../images/sp.png"></a></li>
-										<li onmouseover="_elongation(this)"
-											onmouseout="_origina(this)"><a href="#"><img
-												src="../images/lk.png"></a></li>
-										<li onmouseover="_elongation(this)"
-											onmouseout="_origina(this)"><a href="#"><img
-												src="../images/jq.png"></a></li>
-										<li onmouseover="_elongation(this)"
-											onmouseout="_origina(this)"><a href="#"><img
-												src="../images/bs.png"></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="layui-row">
+						
+						<div class="layui-row" style="display: none;">
 							<div class="layui-col-md5" style="left: 1%; margin-top: 2%;"></div>
 							<div class="layui-col-md3" style="margin-top: 2%;"></div>
 							<div class="layui-col-md3" style="margin-top: 0%; right: 1%">
@@ -139,11 +80,8 @@
 		</div>
 	</div>
 </body>
-
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.8&key=dcd6434328f0d0deab0be97b7f209f5b"></script> 
 <script src="../layui/layui.js"></script>
-<script src="../js/pgis/mypgis.js"></script>
-<script src="../js/pgis/EzMapAPI.js"></script>
-<script src="../js/pgis/EzServerClient.min.js"></script>
 <script>
 	function _show(n) {
 		var a = document.getElementById("li" + n);
@@ -179,6 +117,54 @@
 	$("#mapDiv").css("height", "auto");
 </script>
 <script type="text/javascript">
-	var map = PGISHelper.Init("mapDiv");
+	var district, map = new AMap.Map('mapDiv', {
+		resizeEnable: true,	
+   		center:[118.1217384338379,24.4822758436203],
+   		zoom:11,
+   		zooms:[11,20]
+ 	});
+	addXiaMen();
+    function addXiaMen() {
+        //加载行政区划插件
+        AMap.service('AMap.DistrictSearch', function() {
+            var opts = {
+                subdistrict: 0,   //返回下一级行政区
+                extensions: 'all',  //返回行政区边界坐标组等具体信息
+                level: 'city'  //查询行政级别为 市
+            };
+            //实例化DistrictSearch
+            district = new AMap.DistrictSearch(opts);
+            district.setLevel('district');
+            //行政区查询
+            district.search('厦门市', function(status, result) {
+                var bounds = result.districtList[0].boundaries;
+                var polygons = [];
+                if (bounds) {
+                    for (var i = 0, l = bounds.length; i < l; i++) {
+                        //生成行政区划polygon
+                        var polygon = new AMap.Polygon({
+                            map: map,
+                            strokeWeight: 1,
+                            path: bounds[i],                            
+                            fillOpacity: 0,
+                            fillColor: '#CCF3FF',
+                            strokeColor: '#B72927',
+                            strokeWeight: 5,
+                            strokeStyle: "dashed"//
+                        });
+                        polygons.push(polygon);
+                    }
+                    map.setFitView();//地图自适应
+                }
+            });
+        });
+    }
+    //实时路况图层
+    var trafficLayer = new AMap.TileLayer.Traffic({
+        zIndex: 10
+    });
+    trafficLayer.setMap(map);
+    trafficLayer.show();
+	//var map = PGISHelper.Init("mapDiv");
 </script>
 </html>

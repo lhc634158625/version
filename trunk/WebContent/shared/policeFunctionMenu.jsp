@@ -81,35 +81,45 @@
 	background: #7fa7fe;
 	cursor: pointer;
 }
-.level1{
-	background-color:#fff;
-	border-radius:5px;
-	margin-top:6px;
+
+._level1 {
+	background-color: #fff;
+	border-radius: 5px;
+	margin-top: 6px;
 	border-bottom: 1px solid #ccc;
 }
-.level2{
-	background-color:#ecf1f9;
-	padding:0px;
-}
-.level3{
-	padding:0px;
-	background-color:#ecf1f9;
-}
-#left_mean_body li{
-	border-radius:5px;
-    border-top: 1px #ccc solid;
-    line-height:  40px;
-    padding-left: 80px;
-	
-}
-#left_mean_body i{
-position: absolute;
-    left: 250px;
-}
-.active_color{
-	background-color:#92b4f4;
+
+._level1 a {
+	display: block;
+	width: auto;
+	height: 100%;
+	padding-left: 80px;
 }
 
+._level2 {
+	background-color: #ecf1f9;
+	padding: 0px;
+}
+
+._level3 {
+	padding: 0px;
+	background-color: #ecf1f9;
+}
+
+#left_mean_body li {
+	border-radius: 5px;
+	border-top: 1px #ccc solid;
+	line-height: 40px;
+}
+
+#left_mean_body i {
+	position: absolute;
+	left: 250px;
+}
+
+.active_color {
+	background-color: #92b4f4;
+}
 </style>
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
@@ -126,150 +136,188 @@ position: absolute;
 					style="width: 30px; height: 30px; border: none; border-radius: 0 10px 10px 0; float: right; background-image: url(../images/sh.png);"></input>
 			</div>
 			<div id="left_mean_body">
-				<div class="layui-collapse level1" lay-accordion="">
-					  <div class="layui-colla-item">
-					    <h2 class="layui-colla-title level1">勤务态势</h2>
-					    <div class="layui-colla-content level3">
-					    	<ul>
-					    		<li style="border:none;"><a>警力部署</a></li>
-					    		<li><a>警情态势</a></li>
-					    		<li><a>接警情况</a></li>
-					    		<li><a>交通路况</a></li>
-					    		<li><a>四色预警</a></li>
-					    	</ul>
-					    </div>
-					  </div>
-					  <div class="layui-colla-item level1">
-					    <h2 class="layui-colla-title level1">勤务部署</h2>
-					 	   <div class="layui-colla-content level2">  
-					    	 <div class="layui-collapse" lay-accordion="" style="border:none;">
-					    	 <div class="layui-colla-item">
-				    			 <h2 class="layui-colla-title level2" style="padding-left: 50px;">日常勤务</h2>
-				   				 	<div class="layui-colla-content level3">
-							    		<ul class="">
-								    		<li id="policePB" onclick="changeType(this.id)" style="border:none;"><a>派出所排班</a></li>
-								    		<li id="first135" onclick="changeType(this.id)"><a>135快饭圈排班</a></li>
-								    		<li><a>重点防务区排班</a></li>
-								    		<li><a>加密巡区排班</a></li>
-								    		<li id="case_back" onclick="changeType(this.id)"><a>案件回返</a></li>
-							    		</ul>
-							    	</div>	    			
-					    	</div>
-				  			 <div class="layui-colla-item">
-				    		 	<h2 class="layui-colla-title level2" style="padding-left: 50px;">加强性勤务</h2>
-				   				 <div class="layui-colla-content level3">
-							    	<ul class="">
-							    		<li style="border:none;"><a>节假日机关增援基层</a></li>
-							    		<li><a>等级响应值班情况</a></li>
-							    		<li><a>红色预警巡防部署</a></li>
-							    	</ul>
-							    </div>	    	
-				    		</div>
-				    		 <div class="layui-colla-item">
-				    			 <h2 class="layui-colla-title level2" style="padding-left: 50px;">特殊勤务</h2>
-				   				 	<div class="layui-colla-content level3">
-							    		<ul class="">
-								    		<li style="border:none;"><a>综合武装设卡盘点</a></li>
-								    		<li><a>围村围点</a></li>
-								    		<li><a>自定义勤务</a></li>								    	
-							    		</ul>
-							    	</div>	    			
-					    	</div>
-					    	 <div class="layui-colla-item">
-				    			 <h2 class="layui-colla-title level2" style="padding-left: 50px;">站卡体系</h2>
-				   				 	<div class="layui-colla-content level3">
-							    		<ul class="">
-								    		<li style="border:none;"><a>时际区际检查站</a></li>
-								    		<li><a>围村围点</a></li>
-								    		<li><a>治安岗点</a></li>
-							    		</ul>
-							    	</div>	    			
-					    	 </div>					    	
-						  </div>
-					  </div>
-					  </div>
-					  <div class="layui-colla-item level1">
-					    <h2 class="layui-colla-title level1">勤务绩效</h2>
-					    <div class="layui-colla-content level2">
-					    	<div class="layui-collapse" lay-accordion="">
-					    	 <div class="layui-colla-item ">
-				    			 <h2 class="layui-colla-title level2" style="padding-left: 50px;">警务督导</h2>
-				   				 <div class="layui-colla-content level3">
-							    		<ul class="">
-								    		<li style="border:none;"><a>电台点名</a></li>
-								    		<li><a>视频巡查</a></li>
-								    		<li><a>GPS轨迹倒查</a></li>
-								    		<li><a>盘查督导</a></li>
-								    		<li><a>街面可防性警情倒查</a></li>
-								    		<li><a>上下勤报备</a></li>
-							    		</ul>
-							    </div>	    			
-					    	 </div>
-				  			 <div class="layui-colla-item level1">
-				    		 	<h2 class="layui-colla-title level2" style="padding-left: 50px;">统计分析</h2>
-				   				 <div class="layui-colla-content level3">
-							    	<ul class="">
-							    		<li style="border:none;"><a>警力统计</a></li>
-							    		<li><a>盘查量统计</a></li>
-							    		<li><a>综合武装设卡盘查</a></li>
-							    		<li><a>围村围点</a></li>
-							    	</ul>
-							    </div>	    	
-				    		</div>
-					   	  </div>
-					  </div>
-					  </div>
-					  <div class="layui-colla-item level1">
-					    <h2 class="layui-colla-title level1">勤务信息</h2>
-					    <div class="layui-colla-content level3">
-					    	<ul>
-					    		<li style="border:none;"><a>工作规范</a></li>
-					    		<li><a>勤务指令</a></li>
-					    		<li><a>警情通报</a></li>
-					    		<li><a>治安摘报</a></li>
-					    	</ul>
-					    </div>
-					  </div>
-					  <div class="layui-colla-item level1">
-					    <h2 class="layui-colla-title level1">勤务管理</h2>
-					    <div class="layui-colla-content level3">
-					   		 <ul>
-					    		<li style="border:none;"><a>警力部署</a></li>
-					    		<li><a>设备管理</a></li>
-					    		<li><a>巡逻必到点</a></li>
-					    		<li><a>高峰站点</a></li>
-					    		<li><a>签到登记</a></li>
-					    	</ul>
-					    </div>
-					  </div>
-					  <div class="layui-colla-item level1">
-					    <h2 class="layui-colla-title level1">系统管理</h2>
-					    <div class="layui-colla-content level3">
-					    	<ul>
-					    		<li style="border:none;"><a>角色权限</a></li>
-					    		<li><a>系统参数</a></li>
-					    		<li><a>系统日志</a></li>
-					    		<li><a>指令模板</a></li>
-					    		<li><a>消息模板</a></li>
-					    		<li><a>卡口对应路段设置</a></li>
-					    		<li><a>路线方案</a></li>
-					    		<li><a>清空缓存</a></li>
-					    		<li><a>单位视野</a></li>					    	
-					    	</ul>
-					    </div>
-					  </div>
+				<div class="layui-collapse _level1" lay-accordion="">
+					<div class="layui-colla-item _level1">
+						<h2 class="layui-colla-title _level1">勤务态势</h2>
+						<div class="layui-colla-content _level3">
+							<ul>
+								<li style="border: none;"><a
+									href="<c:url value='/duty/policeForce.jsp'/>"
+									onclick="showNameLeftLeft(this)">警力部署</a></li>
+								<li><a
+									href="<c:url value='/duty/policeSituationSituation.jsp'/>"
+									onclick="showNameLeft(this)">警情态势</a></li>
+								<li><a href="<c:url value='/duty/alarmSituation.jsp'/>"
+									onclick="showNameLeft(this)">接警情况</a></li>
+								<li><a href="<c:url value='/duty/trafficCondition.jsp'/>"
+									onclick="showNameLeft(this)">交通路况</a></li>
+								<li><a href="<c:url value='/duty/colorWarn.jsp'/>"
+									onclick="showNameLeft(this)">四色预警</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="layui-colla-item _level1">
+						<h2 class="layui-colla-title _level1">勤务部署</h2>
+						<div class="layui-colla-content _level2">
+							<div class="layui-collapse" lay-accordion=""
+								style="border: none;">
+								<div class="layui-colla-item">
+									<h2 class="layui-colla-title _level2"
+										style="padding-left: 50px;">日常勤务</h2>
+									<div class="layui-colla-content _level3">
+										<ul class="">
+											<li style="border: none;"><a
+												href="<c:url value='/duty/policeStationScheduling.jsp'/>"
+												onclick="showNameLeft(this)">派出所排班</a></li>
+											<li><a
+												href="<c:url value='/duty/fastReverseShift.jsp'/>"
+												onclick="showNameLeft(this)">135快饭圈排班</a></li>
+											<li><a href="<c:url value='/duty/keyDefenseArea.jsp'/>"
+												onclick="showNameLeft(this)">重点防务区排班</a></li>
+											<li><a
+												href="<c:url value='/duty/encryptPatrolArea.jsp'/>"
+												onclick="showNameLeft(this)">加密巡区排班</a></li>
+											<li><a href="<c:url value='/duty/caseCallback.jsp'/>"
+												onclick="showNameLeft(this)">案件回访</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="layui-colla-item">
+									<h2 class="layui-colla-title _level2"
+										style="padding-left: 50px;">加强性勤务</h2>
+									<div class="layui-colla-content _level3">
+										<ul class="">
+											<li style="border: none;"><a
+												href="<c:url value='/duty/holidaySupport.jsp'/>"
+												onclick="showNameLeft(this)">节假日机关增援基层</a></li>
+											<li><a
+												href="<c:url value='/duty/gradeResponseDuty.jsp'/>"
+												onclick="showNameLeft(this)">等级响应值班情况</a></li>
+											<li><a>红色预警巡防部署</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="layui-colla-item">
+									<h2 class="layui-colla-title _level2"
+										style="padding-left: 50px;">特殊勤务</h2>
+									<div class="layui-colla-content _level3">
+										<ul class="">
+											<li style="border: none;"><a
+												href="<c:url value='/duty/armedCheck.jsp'/>">综合武装设卡盘点</a></li>
+											<li><a>围村围点</a></li>
+											<li><a>自定义勤务</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="layui-colla-item">
+									<h2 class="layui-colla-title _level2"
+										style="padding-left: 50px;">站卡体系</h2>
+									<div class="layui-colla-content _level3">
+										<ul class="">
+											<li style="border: none;"><a>市际区际检查站</a></li>
+											<li><a>治安岗点</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="layui-colla-item _level1">
+						<h2 class="layui-colla-title _level1">勤务绩效</h2>
+						<div class="layui-colla-content _level2">
+							<div class="layui-collapse" lay-accordion="">
+								<div class="layui-colla-item ">
+									<h2 class="layui-colla-title _level2"
+										style="padding-left: 50px;">警务督导</h2>
+									<div class="layui-colla-content _level3">
+										<ul class="">
+											<li style="border: none;"><a>电台点名</a></li>
+											<li><a>视频巡查</a></li>
+											<li><a>GPS轨迹倒查</a></li>
+											<li><a>盘查督导</a></li>
+											<li><a>街面可防性警情倒查</a></li>
+											<li><a>上下勤报备</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="layui-colla-item _level1">
+									<h2 class="layui-colla-title _level2"
+										style="padding-left: 50px;">统计分析</h2>
+									<div class="layui-colla-content _level3">
+										<ul class="">
+											<li style="border: none;"><a>警力统计</a></li>
+											<li><a>盘查量统计</a></li>
+											<li><a>综合武装设卡盘查</a></li>
+											<li><a>围村围点</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="layui-colla-item _level1">
+						<h2 class="layui-colla-title _level1">勤务信息</h2>
+						<div class="layui-colla-content _level3">
+							<ul>
+								<li style="border: none;"><a>工作规范</a></li>
+								<li><a>勤务指令</a></li>
+								<li><a>警情通报</a></li>
+								<li><a>治安摘报</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="layui-colla-item _level1">
+						<h2 class="layui-colla-title _level1">勤务管理</h2>
+						<div class="layui-colla-content _level3">
+							<ul>
+								<li style="border: none;"><a
+									href="<c:url value='/duty/policeStationScheduling.jsp'/>"
+									onclick="showNameLeft(this)">警力部署</a></li>
+								<li><a>设备管理</a></li>
+								<li><a>巡逻必到点</a></li>
+								<li><a>高峰站点</a></li>
+								<li><a>签到登记</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="layui-colla-item _level1">
+						<h2 class="layui-colla-title _level1">系统管理</h2>
+						<div class="layui-colla-content _level3">
+							<ul>
+								<li style="border: none;"><a>角色权限</a></li>
+								<li><a>系统参数</a></li>
+								<li><a>系统日志</a></li>
+								<li><a>指令模板</a></li>
+								<li><a>消息模板</a></li>
+								<li><a>卡口对应路段设置</a></li>
+								<li><a>路线方案</a></li>
+								<li><a>清空缓存</a></li>
+								<li><a>单位视野</a></li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		
+
 	</section>
 </aside>
 <script>
-	function changeType(Id){
-		$("#left_mean_body ul li").each(function(i) {  
-			  $(this).removeClass();
-		});
-		var onchangeID = document.getElementById(Id);
-		onchangeID.classList.add("active_color");
+	function showNameLeft(obj) {
+		sessionStorage.removeItem("titleAdd");
+		var a = $(obj).parents();
+		var html = ' > ' + $(obj).text();
+		for (var i = 0; i < a.length; i++) {
+			if (a[i].className.indexOf("layui-colla-item") != -1) {
+				html = ' > ' + a[i].innerText.split("\n")[0] + html;
+			}
+			if (a[i].className.indexOf("layui-collapse _level1") != -1) {
+				break;
+			}
+		}
+		if (html != '' && html != null) {
+			html = html.substring(3);
+		}
+		sessionStorage.setItem("titleAdd", html);
 	}
 </script>

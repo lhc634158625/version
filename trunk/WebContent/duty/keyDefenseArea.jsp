@@ -394,6 +394,7 @@
 				theme : '#4472ca'
 			});
 		});
+		cancelBubble();
 	}
 </script>
 </html>

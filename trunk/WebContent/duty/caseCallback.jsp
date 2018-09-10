@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>派出所排班</title>
+<title>案件回访</title>
 <link rel="stylesheet" href="../layui/css/layui.css">
 <script src="../js/jquery/jquery.js"></script>
 <script src="../layui/layui.js"></script>
@@ -106,9 +106,6 @@ ul.layui-tab-title li:first-child i {
 .layui-form-item{
 	margin-bottom:10px;
 }
-.layui-table-main{
-	
-}
 </style>
 </head>
 <body class="layui-layout-body">
@@ -133,7 +130,7 @@ ul.layui-tab-title li:first-child i {
 								<a>使用帮助</a>
 							</div>
 							<div id="buttom_caseList">						
-								<div id="right_all_caseList_one" style="height:213px;width:100%;">
+								<div id="right_all_caseList_one" style="height:auto;width:100%;">
 								<form class="layui-form" action="" lay-filter="example">
 									<div class="layui-form-item">
 	  									<label class="layui-form-label">警情号：</label>
@@ -170,7 +167,7 @@ ul.layui-tab-title li:first-child i {
 									<div class="layui-form-item">
 										<label class="layui-form-label">单位：</label>
 								   		<div class="layui-input-inline">
-								      		<input type="text" name="username" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+								      		<input id="showTree1" onclick="showTreemMean(this,this.id)" type="text" name="username" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
 								    	</div>
 								    	<label class="layui-form-label">报警人：</label>
 								   		<div class="layui-input-inline">
@@ -274,7 +271,7 @@ ul.layui-tab-title li:first-child i {
 									<div class="layui-form-item">
 										<label class="layui-form-label">单位：</label>
 								   		<div class="layui-input-inline">
-								      		<input type="text" name="username" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+								      		<input id="showTree" onclick="showTreemMean(this,this.id)" type="text" name="username" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
 								    	</div>
 								    	<label class="layui-form-label">回访民警：</label>
 								   		<div class="layui-input-inline">
@@ -365,6 +362,9 @@ ul.layui-tab-title li:first-child i {
 				</div>
 			</div>
 		</div>
+		<div id="textTree" style="position: absolute; overflow:auto;border:solid 1px #ccc; background-color:#fff; height:200px;">
+		<ul id="tree" class="ztree"></ul>
+	</div>	
 	</div>
 </body>
 <script>
@@ -374,17 +374,17 @@ layui.use('table', function(){
 	  table.render({
 	    elem: '#demo'
 	    ,cols: [[ //标题栏
-	      {field: 'csum', title: '回访次数', width: 96, sort: true}
-	      ,{field: 'gsum', title: '抽查次数', width: 96}
-	      ,{field: 'id', title: '报警号', width: 176}
-	      ,{field: 'time', title: '报警时间', Width: 153}
-	      ,{field: 'type', title: '案件类别', width: 156}
-	      ,{field: 'people', title: '报警人', width: 100}
-	      ,{field: 'callphnoe', title: '报警电话', width: 120, sort: true}
-	      ,{field: 'selephnoe', title: '联系电话', width:120, sort: true}
-	      ,{field: 'tel', title: '报警地址', width: 270}
-	      ,{field: 'dw', title: '单位', width: 146}
-	      ,{field: 'creattime', title: '生成时间', width: 155, sort: true}
+	      {field: 'csum', title: '回访次数',  sort: true}
+	      ,{field: 'gsum', title: '抽查次数' }
+	      ,{field: 'id', title: '报警号' }
+	      ,{field: 'time', title: '报警时间'}
+	      ,{field: 'type', title: '案件类别'}
+	      ,{field: 'people', title: '报警人'}
+	      ,{field: 'callphnoe', title: '报警电话',sort: true}
+	      ,{field: 'selephnoe', title: '联系电话',sort: true}
+	      ,{field: 'tel', title: '报警地址'}
+	      ,{field: 'dw', title: '单位'}
+	      ,{field: 'creattime', title: '生成时间', sort: true}
 	    ]]
 	    ,data: [{
 	      "csum": "10"
@@ -683,12 +683,42 @@ function changeList(id_value){
 }
 </script>
 <script>
+function showTreemMean(obj,Id){
+	var cityObj = $("#" + Id);
+    var cityOffset = $("#" + Id).offset();
+    var leftv = cityOffset.left;
+    var topv = cityOffset.top;
+    var oh = cityObj.outerHeight();
+   $('#textTree').css({ left: leftv + "px", top: topv + oh + "px" }).slideDown("fast");;
+   $("body").bind("mousedown", onBodyDown);
+   gTargetId = Id;
+}
+function onBodyDown(event) {
+	 var str = event.target.id.substring(0,4);
+	 if(str =="tree"&&!(event.target.id.indexOf("span")>-1)){
+		return;
+	 }else{
+	    hideMenu();
+	 } 
+   }
+
+function hideMenu() {
+	 $('#textTree').fadeOut("fast");
+      $("body").unbind("mousedown", onBodyDown);
+  }
+
+function changeStation(treeNode){
+	 var selectv = document.getElementById('showTree');
+	 selectv.value=treeNode.name;
+}
+</script>
+<script>
 //调整内容表格的最大高度
 function ChangeTableHeight(){
 	var h= document.documentElement.clientHeight || document.body.clientHeight;	 
 	var bdr = document.getElementById('mainBody');
 	var bdrh = bdr.offsetTop;
-	var htwo = document.getElementById('right_all_two');
+	var htwo = document.getElementById('right_all_caseList_two');
 	var ht = htwo.offsetTop;
 	var tb=document.getElementsByClassName("layui-table-main");
 	if(tb!=null){	
@@ -703,4 +733,11 @@ function ChangeTableHeight(){
 	}
 }
 </script>
+ <script src="../js/jquery.ztree.all-3.1.min.js"></script>
+<script src="../js/dateTime.js"></script>
+<script src="../js/common.js?v=180725" type="text/javascript"></script>
+<script src="../js/linq/linq.min.js"></script>
+<script src="../js/dictCache.js"></script>
+<script src="../js/IndexDB.js"></script>
+<script src="../js/common/stationSelector.js?v=180612" charset="gb2312"></script>
 </html>
