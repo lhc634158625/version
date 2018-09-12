@@ -89,6 +89,16 @@
                     background-color: #90B2F1;
                 }
 
+<<<<<<< HEAD
+=======
+                /* .ztree_select {
+                    display: none;
+                    position: absolute;
+                    left: 200px;
+                    top: 300px;
+
+                } */
+>>>>>>> 997644d39e56144c676215b9178b38ff5cd7b875
 
                 .laytable {
                     position: absolute;
@@ -112,7 +122,10 @@
             </style>
         </head>
 
-
+        <!--单位下拉列表-->
+        <div id="ztree_select">
+            <%@ include file="./ztreeCtrl.jsp"%>
+        </div>
 
         <!--新增警员-->
         <div id="add_police_view" style="display:none">
@@ -251,7 +264,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">单位:</span></div>
                                             <div class="layui-col-md10">
-                                                <input name="stationName" type="text" v-model="stationName" class="layui-input" />
+                                                <input id="station_select_ztree" name="stationName" type="text" v-model="stationName" class="layui-input" />
                                             </div>
                                         </div>
                                     </div>
@@ -412,6 +425,10 @@
                 $('#addPolice').on('click', function () {
                     openLayer();
                 });
+                //点击单位下拉       
+                $('#station_select_ztree').on('click', function () {
+                    openSelect();
+                });
                 //layui弹出框
                 function openLayer() {
                     layer.open({
@@ -422,6 +439,19 @@
                         scrollbar: false,
                         shadeClose: false, //点击遮罩关闭
                         content: $("#add_police_view"),
+                    });
+                }
+                function openSelect() {
+                    $("#width_left").show();
+                    layer.open({
+                        type: 1,
+                        //title:,
+                        area: ['250px', '370px'],
+                        offset: ['200px', '50px'],
+                        shade: 0,//遮罩
+                        scrollbar: false,
+                        shadeClose: false, //点击遮罩关闭
+                        content: $("#ztree_select"),
                     });
                 }
 
