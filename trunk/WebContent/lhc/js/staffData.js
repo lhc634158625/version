@@ -1,6 +1,5 @@
 
 var _serviceUrl = "http://218.85.92.186:8081/api/";
-var tokenCode = '95012e7a-16d0-4521-a805-488c5dcdfa78';
 var result = sessionStorage.getItem("result");
 var dataObj;
 if (result != null) {
@@ -16,8 +15,9 @@ function loadData() { }
  * @param {*} callback 
  */
 loadData.prototype.PostData = function (method, data, callback) {
-    console.log(data);
+    
     let datajson = JSON.stringify(data);
+    console.log(datajson);
     let url = _serviceUrl + method;
 
 

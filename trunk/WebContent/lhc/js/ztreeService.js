@@ -235,6 +235,8 @@ function StationSelector() {
     //点击节点
     function TreeOnClick(event, treeId, treeNode) {
         console.log(treeNode.tId + ", " + treeNode.name);
+        let arr=treeNode.tId.split("_");
+        console.log(arr[1]);
     };
     
 

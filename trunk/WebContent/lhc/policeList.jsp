@@ -89,13 +89,23 @@
                     background-color: #90B2F1;
                 }
 
+<<<<<<< HEAD
                 /* .ztree_select {
                     display: none;
+=======
+                .ztree_select {
+                    display: block;
+>>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
                     position: absolute;
-                    left: 300px;
+                    left: 200px;
                     top: 300px;
+<<<<<<< HEAD
 
                 } */
+=======
+                    z-index: 100;
+                }
+>>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
 
                 .laytable {
                     position: absolute;
@@ -107,14 +117,14 @@
                     background-color: #90B2F1;
                 }
 
-                .page_head_btn{
+                .page_head_btn {
                     width: 68px;
                     height: 28px;
                     border: 0px solid blue;
-                    background-color:#3F69BA; 
+                    background-color: #3F69BA;
                     color: white;
-                    margin-top:10px;
-                    margin-right:10px;  
+                    margin-top: 10px;
+                    margin-right: 10px;
                 }
             </style>
         </head>
@@ -132,7 +142,7 @@
                     flex-flow:row column nowrap;align-items: center;justify-content :center;
                     height: 38px;"><span style="">警号</span></div>
                     <div class="layui-col-md6">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" name="policeCode" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
@@ -141,7 +151,7 @@
                         flex-flow:row column nowrap;align-items: center;justify-content :center;
                         height: 38px;"><span style="">姓名/名称</span></div>
                     <div class="layui-col-md6">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" name="policeName" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
@@ -150,7 +160,7 @@
                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                             height: 38px;"><span style="">单位</span></div>
                     <div class="layui-col-md6">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" name="unit" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
 
                     </div>
                 </div>
@@ -160,7 +170,7 @@
                     flex-flow:row column nowrap;align-items: center;justify-content :center;
                     height: 38px;"><span style="">岗位</span></label>
                     <div class="layui-col-md6">
-                        <select name="city" lay-verify="required">
+                        <select name="station" lay-verify="required">
                             <option value=""></option>
                             <option value="0">北京</option>
                             <option value="1">上海</option>
@@ -176,7 +186,7 @@
                                 flex-flow:row column nowrap;align-items: center;justify-content :center;
                                 height: 38px;"><span style="">电话</span></div>
                     <div class="layui-col-md6">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" name="tel" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
@@ -185,7 +195,7 @@
                                     flex-flow:row column nowrap;align-items: center;justify-content :center;
                                     height: 38px;"><span style="">领导职务</span></div>
                     <div class="layui-col-md6">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" name="lDuty" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
@@ -194,7 +204,7 @@
                                         flex-flow:row column nowrap;align-items: center;justify-content :center;
                                         height: 38px;"><span style="">非领导职位</span></div>
                     <div class="layui-col-md6">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" name="nDuty" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
@@ -203,7 +213,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">身份证</span></div>
                     <div class="layui-col-md6">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" name="idCode" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
@@ -217,6 +227,13 @@
             <div class="layui-layout layui-layout-admin">
                 <%@ include file="../shared/pageHeader1.jsp"%>
 
+<<<<<<< HEAD
+=======
+                    <div class="ztree_select">
+                       
+                    </div>
+
+>>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
                     <div class="layui-body" style="position: absolute;left:0px;">
                         <!-- 内容主体区域 -->
                         <div style="position:absolute;top:70px;width: 100%">
@@ -244,14 +261,14 @@
 
                             <!--条件查询-->
                             <div class="search_bar" class="layui-row">
-                                <form @submit.prevent="policeSearch" class="layui-form layui-row ">
+                                <form @submit.prevent="" class="layui-form layui-row ">
                                     <div class="layui-inline">
                                         <div class="layui-form-item layui-row">
                                             <div class="layui-col-md2" style="display:-webkit-flex;
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">姓名:</span></div>
                                             <div class="layui-col-md10">
-                                                <input type="text" v-model="policeName" class="layui-input" />
+                                                <input name="policeName" type="text" v-model="policeName" class="layui-input" />
                                             </div>
                                         </div>
                                     </div>
@@ -261,7 +278,21 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">单位:</span></div>
                                             <div class="layui-col-md10">
+<<<<<<< HEAD
                                                 <input id="station_select_ztree" type="text" v-model="stationName" class="layui-input" />
+=======
+                                                <input name="stationName" type="text" v-model="stationName" class="layui-input" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <div class="layui-form-item layui-row">
+                                            <div class="layui-col-md2" style="display:-webkit-flex;
+                                                flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                                height: 38px;"><span style="">警号:</span></div>
+                                            <div class="layui-col-md10">
+                                                <input name="code" type="text" class="layui-input" v-model="telNumber" />
+>>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
                                             </div>
                                         </div>
                                     </div>
@@ -271,7 +302,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">岗位:</span></label>
                                             <div class="layui-col-md10">
-                                                <select v-model="stationId" class="layui-input layui-col-md12">
+                                                <select name="stationId" v-model="stationId" lay-filter="myselect1" class="layui-input layui-col-md12">
                                                     <option value="">未选择</option>
                                                     <option v-for="(station,index) in allStations" :value="station.id" :key="index">{{station.name}}</option>
                                                 </select>
@@ -284,7 +315,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">角色:</span></label>
                                             <div class="layui-col-md10">
-                                                <select v-model="roleId" class="layui-input layui-col-md12">
+                                                <select name="roleId" v-model="roleId" lay-filter="myselect2" class="layui-input layui-col-md12">
                                                     <option value="">未选择</option>
                                                     <option v-for="(role,index) in allRoles" :value="role.id" :key="index">{{role.name}}</option>
                                                 </select>
@@ -297,7 +328,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">当前班:</span></label>
                                             <div class="layui-col-md9">
-                                                <select v-model="dutyId" class="layui-input layui-col-md12">
+                                                <select name="dutyId" v-model="dutyId" lay-filter="myselect3" class="layui-input layui-col-md12">
                                                     <option value="">未选择</option>
                                                     <option v-for="(duty,index) in allDutys" :value="duty.id" :key="index">{{duty.name}}</option>
                                                 </select>
@@ -310,7 +341,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">状态:</span></label>
                                             <div class="layui-col-md10">
-                                                <select v-model="stateId" class="layui-input layui-col-md12">
+                                                <select name="stateId" v-model="stateId" lay-filter="myselect4" class="layui-input layui-col-md12">
                                                     <option value="">未选择</option>
                                                     <option v-for="(state,index) in allStates" :value="state.id" :key="index">{{state.name}}</option>
                                                 </select>
@@ -319,18 +350,8 @@
                                     </div>
                                     <div class="layui-inline">
                                         <div class="layui-form-item layui-row">
-                                            <div class="layui-col-md2" style="display:-webkit-flex;
-                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
-                                            height: 38px;"><span style="">通信:</span></div>
-                                            <div class="layui-col-md10">
-                                                <input type="text" class="layui-input" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="layui-inline">
-                                        <div class="layui-form-item layui-row">
                                             <div class="layui-col-md3">
-                                                <input type="submit" value="搜索" class="layui-btn" style="margin-left:30px;width:100px;height:35px;background-color:#3F69BA;"
+                                                <input type="submit" value="搜索" lay-submit lay-filter="sr" class="layui-btn" style="margin-left:30px;width:100px;height:35px;background-color:#3F69BA;"
                                                 />
                                             </div>
                                         </div>
@@ -408,6 +429,7 @@
                     // SelectPoliceNum(25);//总数几条
                     SelectPoliceNum(pageLimit)
                     GetPolice(1, 25);//第几页,一页几条    
+                    subForm();
                 });
 
                 function AfterInitial() {
@@ -437,6 +459,7 @@
                         content: $("#add_police_view"),
                     });
                 }
+<<<<<<< HEAD
                 function openSelect() {
                     $("#width_left ").show();
                     layer.open({
@@ -461,8 +484,40 @@
                         // AddNewPolice(JSON.stringify(data.field))
                         layer.msg(JSON.stringify(data.field));
                         return false;
+=======
+
+                //表单提交
+                function subForm() {
+                    layui.use('form', function () {
+                        var form = layui.form;
+                        // form.render('select')
+                        //新增警员提交
+                        form.on('submit(formDemo)', function (data) {
+                            //添加ajax
+                            // AddNewPolice(JSON.stringify(data.field))
+                            layer.msg(JSON.stringify(data.field));
+                            return false;
+                        });
+
+                        //警员搜索提交
+                        form.on('submit(sr)', function (data) {
+                            layer.msg(JSON.stringify(data.field));
+                            sessionStorage.setItem("conditinos", data.field);
+                            if (sessionStorage.getItem("pageLimit") != null) {
+                                pageLimit = sessionStorage.getItem("pageLimit");
+                            }
+                            let cobj=new Object()
+                            cobj.conditions=data.field;
+                            cobj.pageNum=1;
+                            cobj.pageSize=parseInt(pageLimit);
+                            PagiNationSelect(null,cobj)
+                            return false;
+                        });
+
+>>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
                     });
-                });
+                }
+
 
 
                 //独立分页控件
