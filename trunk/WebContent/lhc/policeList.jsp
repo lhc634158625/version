@@ -89,13 +89,6 @@
                     background-color: #90B2F1;
                 }
 
-                .ztree_select {
-                    display: block;
-                    position: absolute;
-                    left: 200px;
-                    top: 300px;
-                    z-index: 100;
-                }
 
                 .laytable {
                     position: absolute;
@@ -213,10 +206,6 @@
         <body class="layui-layout-body">
             <div class="layui-layout layui-layout-admin">
                 <%@ include file="../shared/pageHeader1.jsp"%>
-
-                    <div class="ztree_select">
-                       
-                    </div>
 
                     <div class="layui-body" style="position: absolute;left:0px;">
                         <!-- 内容主体区域 -->
