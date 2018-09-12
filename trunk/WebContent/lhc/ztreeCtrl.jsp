@@ -40,6 +40,7 @@
         }
 
         #width_left {
+            display: none;
             background: #ffffff;
             width: auto;
             padding-right: 10px;
@@ -63,7 +64,7 @@
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
             <!-- sidebar menu: : style can be found in sidebar.less -->
-            <div id="width_left" class="layui-side">
+            <div id="width_left">
                 <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                 <div id="left_mean_body" style="">
                     <div id="divTree">

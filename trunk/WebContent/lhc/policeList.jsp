@@ -89,13 +89,13 @@
                     background-color: #90B2F1;
                 }
 
-                .ztree_select {
+                /* .ztree_select {
                     display: none;
                     position: absolute;
                     left: 300px;
                     top: 300px;
 
-                }
+                } */
 
                 .laytable {
                     position: absolute;
@@ -119,7 +119,10 @@
             </style>
         </head>
 
-
+        <!--单位下拉列表-->
+        <div id="ztree_select">
+            <%@ include file="./ztreeCtrl.jsp"%>
+        </div>
 
         <!--新增警员-->
         <div id="add_police_view" style="display:none">
@@ -214,13 +217,6 @@
             <div class="layui-layout layui-layout-admin">
                 <%@ include file="../shared/pageHeader1.jsp"%>
 
-                    <div class="ztree_select">
-                        <%@ include file="./ztreeCtrl.jsp"%>
-                    </div>
-
-
-
-
                     <div class="layui-body" style="position: absolute;left:0px;">
                         <!-- 内容主体区域 -->
                         <div style="position:absolute;top:70px;width: 100%">
@@ -265,7 +261,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">单位:</span></div>
                                             <div class="layui-col-md10">
-                                                <input type="text" v-model="stationName" class="layui-input" />
+                                                <input id="station_select_ztree" type="text" v-model="stationName" class="layui-input" />
                                             </div>
                                         </div>
                                     </div>
@@ -425,6 +421,10 @@
                 $('#addPolice').on('click', function () {
                     openLayer();
                 });
+                //点击单位下拉       
+                $('#station_select_ztree').on('click', function () {
+                    openSelect();
+                });
                 //layui弹出框
                 function openLayer() {
                     layer.open({
@@ -437,6 +437,20 @@
                         content: $("#add_police_view"),
                     });
                 }
+                function openSelect() {
+                    $("#width_left ").show();
+                    layer.open({
+                        type: 1,
+                        //title:,
+                        area: ['232px', '374px'],
+                        shade: 0,//遮罩
+                        scrollbar: false,
+                        shadeClose: false, //点击遮罩关闭
+                        offset: ['300px', '50px'],
+                        content: $("#ztree_select"),
+                    });
+                }
+
                 //警员表单提交
                 layui.use('form', function () {
                     var form = layui.form;
