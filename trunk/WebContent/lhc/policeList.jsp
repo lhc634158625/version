@@ -89,23 +89,13 @@
                     background-color: #90B2F1;
                 }
 
-<<<<<<< HEAD
                 /* .ztree_select {
                     display: none;
-=======
-                .ztree_select {
-                    display: block;
->>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
                     position: absolute;
                     left: 200px;
                     top: 300px;
-<<<<<<< HEAD
 
                 } */
-=======
-                    z-index: 100;
-                }
->>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
 
                 .laytable {
                     position: absolute;
@@ -227,13 +217,6 @@
             <div class="layui-layout layui-layout-admin">
                 <%@ include file="../shared/pageHeader1.jsp"%>
 
-<<<<<<< HEAD
-=======
-                    <div class="ztree_select">
-                       
-                    </div>
-
->>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
                     <div class="layui-body" style="position: absolute;left:0px;">
                         <!-- 内容主体区域 -->
                         <div style="position:absolute;top:70px;width: 100%">
@@ -278,10 +261,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">单位:</span></div>
                                             <div class="layui-col-md10">
-<<<<<<< HEAD
-                                                <input id="station_select_ztree" type="text" v-model="stationName" class="layui-input" />
-=======
-                                                <input name="stationName" type="text" v-model="stationName" class="layui-input" />
+                                                <input id="station_select_ztree" name="stationName" type="text" v-model="stationName" class="layui-input" />
                                             </div>
                                         </div>
                                     </div>
@@ -292,7 +272,6 @@
                                                 height: 38px;"><span style="">警号:</span></div>
                                             <div class="layui-col-md10">
                                                 <input name="code" type="text" class="layui-input" v-model="telNumber" />
->>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
                                             </div>
                                         </div>
                                     </div>
@@ -459,32 +438,19 @@
                         content: $("#add_police_view"),
                     });
                 }
-<<<<<<< HEAD
                 function openSelect() {
-                    $("#width_left ").show();
+                    $("#width_left").show();
                     layer.open({
                         type: 1,
                         //title:,
-                        area: ['232px', '374px'],
+                        area: ['250px', '370px'],
+                        offset: ['200px', '50px'],
                         shade: 0,//遮罩
                         scrollbar: false,
                         shadeClose: false, //点击遮罩关闭
-                        offset: ['300px', '50px'],
                         content: $("#ztree_select"),
                     });
                 }
-
-                //警员表单提交
-                layui.use('form', function () {
-                    var form = layui.form;
-
-                    //监听提交
-                    form.on('submit(formDemo)', function (data) {
-                        //添加ajax
-                        // AddNewPolice(JSON.stringify(data.field))
-                        layer.msg(JSON.stringify(data.field));
-                        return false;
-=======
 
                 //表单提交
                 function subForm() {
@@ -514,7 +480,6 @@
                             return false;
                         });
 
->>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
                     });
                 }
 

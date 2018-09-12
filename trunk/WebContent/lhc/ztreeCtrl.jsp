@@ -60,16 +60,11 @@
         }
     </style>
     <aside class="main-sidebar">
-<<<<<<< HEAD
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <div id="width_left">
                 <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-=======
-
-            <div id="width_left" class="layui-side">
->>>>>>> 3cda36ed1c3d082d19635d41aa2837bb6c3e0d36
                 <div id="left_mean_body" style="">
                     <div id="divTree">
                         <ul id="tree" class="ztree"></ul>
