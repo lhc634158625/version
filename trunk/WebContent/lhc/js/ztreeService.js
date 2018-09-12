@@ -234,9 +234,15 @@ function StationSelector() {
 
     //点击节点
     function TreeOnClick(event, treeId, treeNode) {
+        //判断
         console.log(treeNode.tId + ", " + treeNode.name);
         let arr=treeNode.tId.split("_");
-        console.log(arr[1]);
+        //输入框中的值
+        $("#station_select_ztree").val(treeNode.name);
+        //发送给服务器的值
+        // $("#station_select_ztree").attr("stationId",parseInt(arr[1]))
+        sessionStorage.setItem("stationId",parseInt(arr[1]))
+        console.log(sessionStorage.getItem("stationId"));
     };
     
 

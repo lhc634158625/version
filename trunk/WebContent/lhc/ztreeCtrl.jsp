@@ -41,7 +41,6 @@
 
         #width_left {
             display: none;
-            background: #ffffff;
             width: hidden;
             /* padding-right: 10px; */
         }
@@ -52,9 +51,9 @@
 
         #divTree {
             height: 372px;
-            width: 230px;
+            width: 200px;
             overflow: auto;
-            border: solid 1px #cccccc;
+            /* border: solid 1px #cccccc; */
             border-radius: 0 10px 10px 0;
             z-index: 10;
         }

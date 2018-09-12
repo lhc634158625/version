@@ -38,8 +38,12 @@ function PagiNationSelect(obj, cobj) {
     if (cobj != null) {
         //搜索条件
         console.log(cobj.conditions);
-        pageFilter.page=cobj.pageNum;
-        pageFilter.pageSize=cobj.pageSize
+        pageFilter.page = cobj.pageNum;
+        pageFilter.pageSize = cobj.pageSize
+        if(sessionStorage.getItem("stationId")!=null){
+            cobj.conditions.stationName=sessionStorage.getItem("stationId");
+        }
+        // cobj.conditions.code=$("#station_select_ztree").attr("stationId");
         let arr = [
             { "fieldName": "name", "fieldType": "string", "opt": "=", "value": cobj.conditions.policeName },
             { "fieldName": "stationId", "fieldType": "integer", "opt": "=", "value": cobj.conditions.stationName },
@@ -49,7 +53,7 @@ function PagiNationSelect(obj, cobj) {
             // { "fieldName": "state", "fieldType": "string", "opt": "=", "value": stateId },
             // { "fieldName": "pid", "fieldType": "string", "opt": "=", "value": telNumber },
         ]
-        arr=arr.filter((item)=>{return item.value!==""});
+        arr = arr.filter((item) => { return item.value !== "" });
         pageFilter.conditions = arr;
         // let datajson = JSON.stringify(data);
         // console.log(datajson);
@@ -135,65 +139,8 @@ const vue = new Vue({
     },
     methods: {
         policeSearch() {
-            //验证条件
-            let _serviceUrl = "http://218.85.92.186:8081/api/";
-            let result = sessionStorage.getItem("result");
-            let dataObj;
-            if (result != null) {
-                dataObj = eval("(" + result + ")");
-                console.log(dataObj)
-            }
-            let method = "sys/staff/filter";
-            let url = _serviceUrl + method;
-
-            console.log("roleId:" + this.roleId);
-            // layui.use('form', function () {
-            //     var form = layui.form;
-            //     form.on('select(myselect)', function (data) {
-            //         console.log(data.value.field);
-            //         form.render('select');
-            //     });
-            // });
-
-            //搜索条件
-            let data = new Object();
-            data.page = 1;
-            data.pageSize = 25;
-            let arr = [
-                { "fieldName": "name", "fieldType": "string", "opt": "=", "value": this.policeName },
-                { "fieldName": "station", "fieldType": "string", "opt": "=", "value": this.stationName },
-                { "fieldName": "pid", "fieldType": "string", "opt": "=", "value": this.stationId },
-                { "fieldName": "pid", "fieldType": "string", "opt": "=", "value": this.roleId },
-                { "fieldName": "pid", "fieldType": "string", "opt": "=", "value": this.dutyId },
-                { "fieldName": "state", "fieldType": "string", "opt": "=", "value": this.stateId },
-                { "fieldName": "pid", "fieldType": "string", "opt": "=", "value": this.telNumber },
-            ]
-            sessionStorage.setItem("conditions", arr);
-            data.conditions = arr;
-            let datajson = JSON.stringify(data);
-            console.log(datajson);
-
-            //请求
-            $.ajax({
-                cache: false,
-                type: "POST",
-                async: true,
-                headers: {
-                    'token': dataObj.token,
-                    "userId": dataObj.id
-                },
-                url: url,
-                data: datajson,
-                contentType: "application/json",
-                dataType: "json",
-                success: function (result) {
-                    console.log(result.data);
-                }
-
-            });
 
         }
-
     },
     mounted: function () {
 

@@ -89,16 +89,10 @@
                     background-color: #90B2F1;
                 }
 
-<<<<<<< HEAD
-=======
-                /* .ztree_select {
+                #ztree_select {
                     display: none;
-                    position: absolute;
-                    left: 200px;
-                    top: 300px;
-
-                } */
->>>>>>> 997644d39e56144c676215b9178b38ff5cd7b875
+                    overflow: hidden;
+                }
 
                 .laytable {
                     position: absolute;
@@ -254,7 +248,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">姓名:</span></div>
                                             <div class="layui-col-md10">
-                                                <input name="policeName" type="text" v-model="policeName" class="layui-input" />
+                                                <input name="policeName" type="text" v-model="policeName" autocomplete="off" class="layui-input" />
                                             </div>
                                         </div>
                                     </div>
@@ -264,7 +258,8 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">单位:</span></div>
                                             <div class="layui-col-md10">
-                                                <input id="station_select_ztree" name="stationName" type="text" v-model="stationName" class="layui-input" />
+                                                <input id="station_select_ztree" name="stationName" type="text" v-model="stationName" autocomplete="off" class="layui-input"
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -274,7 +269,7 @@
                                                 flex-flow:row column nowrap;align-items: center;justify-content :center;
                                                 height: 38px;"><span style="">警号:</span></div>
                                             <div class="layui-col-md10">
-                                                <input name="code" type="text" class="layui-input" v-model="telNumber" />
+                                                <input name="code" type="text" class="layui-input" autocomplete="off" v-model="telNumber" />
                                             </div>
                                         </div>
                                     </div>
@@ -429,9 +424,13 @@
                 $('#station_select_ztree').on('click', function () {
                     openSelect();
                 });
+                // $('#station_select_ztree').on('blur', function () {
+                //     layer.close(select_station_tree);
+                //     console.log("关闭");
+                // });
                 //layui弹出框
                 function openLayer() {
-                    layer.open({
+                    var add_police_form = layer.open({
                         type: 1,
                         //title:,
                         area: ['600px', '500px'],
@@ -441,16 +440,24 @@
                         content: $("#add_police_view"),
                     });
                 }
+                var select_station_tree
                 function openSelect() {
                     $("#width_left").show();
-                    layer.open({
+                    select_station_tree = layer.open({
                         type: 1,
                         //title:,
-                        area: ['250px', '370px'],
-                        offset: ['200px', '50px'],
+                        area: ['200px', '380px'],
+                        offset: ['263px', '260px'],
                         shade: 0,//遮罩
                         scrollbar: false,
-                        shadeClose: false, //点击遮罩关闭
+                        title: false,
+                        closeBtn: 0,
+                        resize:false,
+                        fixed: false,
+                        shade: [0.0001, '#393D49'],
+                        shadeClose:true,
+                        isOutAnim: false,
+                        anim: -1 ,
                         content: $("#ztree_select"),
                     });
                 }
@@ -475,11 +482,11 @@
                             if (sessionStorage.getItem("pageLimit") != null) {
                                 pageLimit = sessionStorage.getItem("pageLimit");
                             }
-                            let cobj=new Object()
-                            cobj.conditions=data.field;
-                            cobj.pageNum=1;
-                            cobj.pageSize=parseInt(pageLimit);
-                            PagiNationSelect(null,cobj)
+                            let cobj = new Object()
+                            cobj.conditions = data.field;
+                            cobj.pageNum = 1;
+                            cobj.pageSize = parseInt(pageLimit);
+                            PagiNationSelect(null, cobj)
                             return false;
                         });
 
