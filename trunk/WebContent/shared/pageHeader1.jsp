@@ -189,7 +189,7 @@
 							<a href="<c:url value='/lhc/policeList.jsp'/>" onclick="showName(this)">警员列表</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">组织管理</a>
+							<a href="<c:url value='/lhc/stationManage.jsp'/>" onclick="showName(this)">组织管理</a>
 						</dd>
 						<dd>
 							<a href="" onclick="showName(this)">用户列表</a>

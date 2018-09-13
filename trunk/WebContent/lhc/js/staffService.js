@@ -43,6 +43,9 @@ function PagiNationSelect(obj, cobj) {
         if(sessionStorage.getItem("stationId")!=null){
             cobj.conditions.stationName=sessionStorage.getItem("stationId");
         }
+        if($("station_select_ztree").val()==""){
+            cobj.conditions.stationName="";
+        }
         // cobj.conditions.code=$("#station_select_ztree").attr("stationId");
         let arr = [
             { "fieldName": "name", "fieldType": "string", "opt": "=", "value": cobj.conditions.policeName },
@@ -63,6 +66,10 @@ function PagiNationSelect(obj, cobj) {
         dataPolice = result.data;
         sessionStorage.setItem("pageLimit", pageFilter.pageSize);
         laytab.loadTab();//上下也加载   
+        //清理缓存
+        if(sessionStorage.getItem("stationId")!=null){
+            sessionStorage.removeItem("stationId");
+        }
     });
 }
 

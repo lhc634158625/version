@@ -117,10 +117,10 @@
  		var manList=new Array();
  		var IdList=new Array();
  		for(var i=0;i<data.length;i++){
- 			if(!isInArray(manList,data[i].staffName)){					
- 				manList.push(data[i].name);
- 				IdList.push(data[i].id);
- 			}
+ 			// if(!isInArray(manList,data[i].staffName)){					
+ 			// 	manList.push(data[i].name);
+ 			// 	IdList.push(data[i].id);
+ 			// }
  		}
  		var html = "";
  		html += "<option value=''></option>";
@@ -144,4 +144,5 @@
 	<script src="../js/dictCache.js"></script>
 	<script src="../js/IndexDB.js"></script>
 	<script src="../js/common/stationSelector.js?v=180612&&multi=${param.multi}" charset="gb2312"></script>
+	<!-- <script src="../lhc/js/stationService.js"></script> -->
 </aside>
