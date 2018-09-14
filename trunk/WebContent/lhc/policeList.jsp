@@ -452,12 +452,12 @@
                         scrollbar: false,
                         title: false,
                         closeBtn: 0,
-                        resize:false,
+                        resize: false,
                         fixed: false,
                         shade: [0.0001, '#393D49'],
-                        shadeClose:true,
+                        shadeClose: true,
                         isOutAnim: false,
-                        anim: -1 ,
+                        anim: -1,
                         content: $("#ztree_select"),
                     });
                 }
@@ -486,6 +486,7 @@
                             cobj.conditions = data.field;
                             cobj.pageNum = 1;
                             cobj.pageSize = parseInt(pageLimit);
+                            sessionStorage.setItem("search_data", cobj)
                             PagiNationSelect(null, cobj)
                             return false;
                         });
@@ -545,7 +546,17 @@
                             console.log(obj);
                             if (!first) {
                                 layer.msg('第 ' + obj.curr + ' 页');
-                                PagiNationSelect(obj);
+                                if (sessionStorage.getItem("search_data") != null) {
+                                    let cobj = sessionStorage.getItem("search_data");
+                                    let data = eval(obj);
+                                    cobj.pageNum=data.curr;
+                                    cobj.pageSize=data.limit;
+                                    console.log(cobj);
+                                    PagiNationSelect(null, cobj);
+
+                                } else {
+                                    PagiNationSelect(obj, null);
+                                }
                             }
                         }
                     });

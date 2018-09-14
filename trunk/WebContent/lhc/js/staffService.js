@@ -58,10 +58,9 @@ function PagiNationSelect(obj, cobj) {
         ]
         arr = arr.filter((item) => { return item.value !== "" });
         pageFilter.conditions = arr;
-        // let datajson = JSON.stringify(data);
+        SelectPoliceNum(cobj.pageSize)//给搜索警员数量conditions
         // console.log(datajson);
     }
-
     load.PostData("sys/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
         sessionStorage.setItem("pageLimit", pageFilter.pageSize);
@@ -72,17 +71,6 @@ function PagiNationSelect(obj, cobj) {
         }
     });
 }
-
-
-/**
- * 
- */
-// function* GetData(){
-//     yield SelectPoliceNum(limitNum)
-//     yield PagiNationSelect(obj)
-// }
-// let GD=GetData()
-// GD.next
 
 /**
  * 查询警员总条数,总页数
@@ -116,10 +104,8 @@ function AddNewPolice(formJson) {
     });
 }
 
-
-
 /**
- * 条件查询
+ * 条件查询下拉
  */
 const vue = new Vue({
     el: ".search_bar",

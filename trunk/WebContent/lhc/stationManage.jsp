@@ -98,8 +98,21 @@
                     top: 20px;
                     left: 20px;
                     width: 900px;
-                    /* height: 700px; */
-                    border: 1px solid black;
+                    margin-top:40px;
+                }
+
+                .manager_btn {
+                    position: relative;
+                    top: 20px;
+                    left: 20px;
+                    width: 500px;
+                }
+
+                .manager_tip {
+                    position: relative;
+                    top: 20px;
+                    left: 20px;
+                    width: 20px;
                 }
 
                 .layui-form-checked[lay-skin=primary] i {
@@ -122,6 +135,17 @@
                         </div>
                     </aside>
                     <section class="section">
+                        <div class="manager_btn">
+                            <input type="button" class="layui-btn layui-btn-sm" style="background-color:#3F69BA" value="基本信息" />
+                            <input type="button" class="layui-btn layui-btn-primary layui-btn-sm" value="班别设置" />
+                        </div>
+                        <div class="manager_tip">
+                            <div style="width: 250px">
+                                <input class="layui-btn layui-btn-disabled layui-row" style="border:0px;background-color:white;color:black;width: 245px" value="* 可使用拖拽节点来改变从属关系" />
+                                <input class="layui-btn layui-btn-disabled layui-row" style="border:0px;background-color:white;color:black;margin: 0px" value="* 请先从左边选择一个节点" />
+                            </div>
+                            <div style="width: 200px;margin-left:20px "><span style="color:#3F69BA;font-size: 20px;font-weight:bolder;">新增</span></div>
+                        </div>
                         <div class="manager_form">
                             <form class="layui-form" action="">
 
@@ -130,7 +154,7 @@
                                         flex-flow:row column nowrap;align-items: center;justify-content :center;
                                         height: 38px;"><span style="">上一级</span></label>
                                     <div class="layui-col-md3">
-                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" type="text">
+                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" type="text">
                                     </div>
                                 </div>
 
@@ -139,7 +163,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">编号</span></label>
                                     <div class="layui-col-md3">
-                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" type="text">
+                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" type="text">
                                     </div>
                                 </div>
 
@@ -148,7 +172,7 @@
                                                 flex-flow:row column nowrap;align-items: center;justify-content :center;
                                                 height: 38px;"><span style="">名称</span></label>
                                     <div class="layui-col-md3">
-                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" type="text">
+                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" type="text">
                                     </div>
                                 </div>
 
@@ -157,7 +181,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">单位号</span></label>
                                     <div class="layui-col-md3">
-                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" type="text">
+                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" type="text">
                                     </div>
                                 </div>
 
@@ -166,7 +190,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">联系人</span></label>
                                     <div class="layui-col-md3">
-                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" type="text">
+                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" type="text">
                                     </div>
                                 </div>
 
@@ -175,7 +199,7 @@
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span style="">电话</span></label>
                                     <div class="layui-col-md3">
-                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" type="text">
+                                        <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" type="text">
                                     </div>
                                 </div>
 
@@ -210,10 +234,10 @@
                                         height: 38px;"><span style="">组别</span></label>
                                     <div class="layui-input-block">
                                         <input name="like1[write]" lay-skin="primary" title="组织结构" checked="" type="checkbox">
-                                        <input name="like1[read]" lay-skin="primary" title="下拉框组" type="checkbox" >
-                                        <input name="like1[read]" lay-skin="primary" title="警力部署组" type="checkbox" >
-                                        <input name="like1[read]" lay-skin="primary" title="巡逻片区组" type="checkbox" >
-                                        <input name="like1[read]" lay-skin="primary" title="电台点名" type="checkbox" >
+                                        <input name="like1[read]" lay-skin="primary" title="下拉框组" type="checkbox">
+                                        <input name="like1[read]" lay-skin="primary" title="警力部署组" type="checkbox">
+                                        <input name="like1[read]" lay-skin="primary" title="巡逻片区组" type="checkbox">
+                                        <input name="like1[read]" lay-skin="primary" title="电台点名" type="checkbox">
                                         <input name="like1[read]" lay-skin="primary" title="辖区刑案" type="checkbox">
                                     </div>
                                 </div>
