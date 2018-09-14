@@ -7,7 +7,7 @@ function GetPolice(page_num, pageSize_num, condition) {
     let pageFilter = new Object();
     pageFilter.page = page_num;
     pageFilter.pageSize = pageSize_num;
-    SelectPoliceNum(pageSize_num);
+    SelectPoliceNum(pageSize_num, null);
     load.PostData("sys/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
         sessionStorage.setItem("pageLimit", pageFilter.pageSize);
@@ -29,7 +29,7 @@ function PagiNationSelect(obj, cobj) {
         let page_num = data.curr;
 
         let pageSize_num = data.limit;
-        SelectPoliceNum(pageSize_num)
+        SelectPoliceNum(pageSize_num, null);
 
         pageFilter.page = page_num;
         pageFilter.pageSize = pageSize_num;
@@ -40,11 +40,11 @@ function PagiNationSelect(obj, cobj) {
         console.log(cobj.conditions);
         pageFilter.page = cobj.pageNum;
         pageFilter.pageSize = cobj.pageSize
-        if(sessionStorage.getItem("stationId")!=null){
-            cobj.conditions.stationName=sessionStorage.getItem("stationId");
+        if (sessionStorage.getItem("stationId") != null) {
+            cobj.conditions.stationName = sessionStorage.getItem("stationId");
         }
-        if($("station_select_ztree").val()==""){
-            cobj.conditions.stationName="";
+        if ($("station_select_ztree").val() == "") {
+            cobj.conditions.stationName = "";
         }
         // cobj.conditions.code=$("#station_select_ztree").attr("stationId");
         let arr = [
@@ -58,7 +58,7 @@ function PagiNationSelect(obj, cobj) {
         ]
         arr = arr.filter((item) => { return item.value !== "" });
         pageFilter.conditions = arr;
-        SelectPoliceNum(cobj.pageSize)//给搜索警员数量conditions
+        SelectPoliceNum(cobj.pageSize, pageFilter);//给搜索警员数量conditions
         // console.log(datajson);
     }
     load.PostData("sys/staff/filter", pageFilter, function (result) {
@@ -66,7 +66,7 @@ function PagiNationSelect(obj, cobj) {
         sessionStorage.setItem("pageLimit", pageFilter.pageSize);
         laytab.loadTab();//上下也加载   
         //清理缓存
-        if(sessionStorage.getItem("stationId")!=null){
+        if (sessionStorage.getItem("stationId") != null) {
             sessionStorage.removeItem("stationId");
         }
     });
@@ -75,9 +75,13 @@ function PagiNationSelect(obj, cobj) {
 /**
  * 查询警员总条数,总页数
  */
-function SelectPoliceNum(limitNum) {
+function SelectPoliceNum(limitNum, sobj) {
     let pageFilter = new Object();
     let num;
+    // let limitNum=sobj.pageSize;
+    if (sobj != null) {
+        pageFilter = sobj;
+    }
     load.GetPoliceNum("sys/staff/filterCount", pageFilter, function (result) {
         policeNum = result.data; //条
         var y = policeNum % limitNum //余

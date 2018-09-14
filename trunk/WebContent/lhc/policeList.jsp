@@ -404,9 +404,9 @@
                 $(function () {
                     // laytab.loadTab();//静态
                     // SelectPoliceNum(25);//总数几条
-                    SelectPoliceNum(pageLimit)
+                    SelectPoliceNum(pageLimit, null)
                     GetPolice(1, 25);//第几页,一页几条    
-                    subForm();
+                    sessionStorage.removeItem("search_data");
                 });
 
                 function AfterInitial() {
@@ -424,10 +424,7 @@
                 $('#station_select_ztree').on('click', function () {
                     openSelect();
                 });
-                // $('#station_select_ztree').on('blur', function () {
-                //     layer.close(select_station_tree);
-                //     console.log("关闭");
-                // });
+
                 //layui弹出框
                 function openLayer() {
                     var add_police_form = layer.open({
@@ -463,36 +460,36 @@
                 }
 
                 //表单提交
-                function subForm() {
-                    layui.use('form', function () {
-                        var form = layui.form;
-                        // form.render('select')
-                        //新增警员提交
-                        form.on('submit(formDemo)', function (data) {
-                            //添加ajax
-                            // AddNewPolice(JSON.stringify(data.field))
-                            layer.msg(JSON.stringify(data.field));
-                            return false;
-                        });
-
-                        //警员搜索提交
-                        form.on('submit(sr)', function (data) {
-                            layer.msg(JSON.stringify(data.field));
-                            sessionStorage.setItem("conditinos", data.field);
-                            if (sessionStorage.getItem("pageLimit") != null) {
-                                pageLimit = sessionStorage.getItem("pageLimit");
-                            }
-                            let cobj = new Object()
-                            cobj.conditions = data.field;
-                            cobj.pageNum = 1;
-                            cobj.pageSize = parseInt(pageLimit);
-                            sessionStorage.setItem("search_data", cobj)
-                            PagiNationSelect(null, cobj)
-                            return false;
-                        });
-
+                layui.use('form', function () {
+                    var form = layui.form;
+                    // form.render('select')
+                    //新增警员提交
+                    form.on('submit(formDemo)', function (data) {
+                        //添加ajax
+                        // AddNewPolice(JSON.stringify(data.field))
+                        layer.msg(JSON.stringify(data.field));
+                        return false;
                     });
-                }
+
+                    //警员搜索提交
+                    form.on('submit(sr)', function (data) {
+                        layer.msg(JSON.stringify(data.field));
+                        sessionStorage.setItem("conditinos", data.field);
+                        if (sessionStorage.getItem("pageLimit") != null) {
+                            pageLimit = sessionStorage.getItem("pageLimit");
+                        }
+                        let cobj = new Object()
+                        cobj.conditions = data.field;
+                        cobj.pageNum = 1;
+                        cobj.pageSize = parseInt(pageLimit);
+                        sessionStorage.setItem("search_data", JSON.stringify(cobj));
+                        console.log(sessionStorage.getItem("search_data"));
+                        PagiNationSelect(null, cobj)
+                        return false;
+                    });
+
+                });
+
 
 
 
@@ -549,9 +546,9 @@
                                 if (sessionStorage.getItem("search_data") != null) {
                                     let cobj = sessionStorage.getItem("search_data");
                                     let data = eval(obj);
-                                    cobj.pageNum=data.curr;
-                                    cobj.pageSize=data.limit;
-                                    console.log(cobj);
+                                    cobj.pageNum = data.curr;
+                                    cobj.pageSize = data.limit;
+                                    console.log(sessionStorage.getItem("search_data").conditions);
                                     PagiNationSelect(null, cobj);
 
                                 } else {
