@@ -40,13 +40,18 @@ function PagiNationSelect(obj, cobj) {
         console.log(cobj.conditions);
         pageFilter.page = cobj.pageNum;
         pageFilter.pageSize = cobj.pageSize
+
         if (sessionStorage.getItem("stationId") != null) {
-            cobj.conditions.stationName = sessionStorage.getItem("stationId");
-            console.log("/////"+ cobj.conditions.stationName);
+            if ($("#station_select_ztree").val() == "") {
+                cobj.conditions.stationName = "";
+                // 清理缓存
+                sessionStorage.removeItem("stationId");
+            } else {
+                cobj.conditions.stationName = sessionStorage.getItem("stationId");
+                console.log("/////" + cobj.conditions.stationName);
+            }
         }
-        if ($("station_select_ztree").val() == "") {
-            cobj.conditions.stationName = "";
-        }
+
         // cobj.conditions.code=$("#station_select_ztree").attr("stationId");
         let arr = [
             { "fieldName": "name", "fieldType": "string", "opt": "=", "value": cobj.conditions.policeName },
@@ -77,7 +82,7 @@ function SelectPoliceNum(limitNum, sobj) {
     // let limitNum=sobj.pageSize;
     if (sobj != null) {
         pageFilter = sobj;
-        
+
     }
     load.GetPoliceNum("staff/staff/filterCount", pageFilter, function (result) {
         policeNum = result.data; //条
