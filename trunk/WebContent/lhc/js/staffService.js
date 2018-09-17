@@ -8,7 +8,7 @@ function GetPolice(page_num, pageSize_num, condition) {
     pageFilter.page = page_num;
     pageFilter.pageSize = pageSize_num;
     SelectPoliceNum(pageSize_num, null);
-    load.PostData("sys/staff/filter", pageFilter, function (result) {
+    load.PostData("staff/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
         sessionStorage.setItem("pageLimit", pageFilter.pageSize);
         laytab.loadTab();
@@ -42,6 +42,7 @@ function PagiNationSelect(obj, cobj) {
         pageFilter.pageSize = cobj.pageSize
         if (sessionStorage.getItem("stationId") != null) {
             cobj.conditions.stationName = sessionStorage.getItem("stationId");
+            console.log("/////"+ cobj.conditions.stationName);
         }
         if ($("station_select_ztree").val() == "") {
             cobj.conditions.stationName = "";
@@ -59,16 +60,11 @@ function PagiNationSelect(obj, cobj) {
         arr = arr.filter((item) => { return item.value !== "" });
         pageFilter.conditions = arr;
         SelectPoliceNum(cobj.pageSize, pageFilter);//给搜索警员数量conditions
-        // console.log(datajson);
     }
-    load.PostData("sys/staff/filter", pageFilter, function (result) {
+    load.PostData("staff/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
         sessionStorage.setItem("pageLimit", pageFilter.pageSize);
         laytab.loadTab();//上下也加载   
-        //清理缓存
-        if (sessionStorage.getItem("stationId") != null) {
-            sessionStorage.removeItem("stationId");
-        }
     });
 }
 
@@ -81,8 +77,9 @@ function SelectPoliceNum(limitNum, sobj) {
     // let limitNum=sobj.pageSize;
     if (sobj != null) {
         pageFilter = sobj;
+        
     }
-    load.GetPoliceNum("sys/staff/filterCount", pageFilter, function (result) {
+    load.GetPoliceNum("staff/staff/filterCount", pageFilter, function (result) {
         policeNum = result.data; //条
         var y = policeNum % limitNum //余
         var policePageNum = parseInt(policeNum / limitNum); //页
@@ -103,7 +100,7 @@ function SelectPoliceNum(limitNum, sobj) {
  * 编辑,添加警员(后端格式,单位下拉树)
  */
 function AddNewPolice(formJson) {
-    load.AddPolice("sys/staff/save", pageFiler, function (result) {
+    load.AddPolice("staff/staff/save", pageFiler, function (result) {
 
     });
 }
