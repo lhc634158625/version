@@ -111,6 +111,35 @@ function AddNewPolice(formJson) {
 }
 
 /**
+ * 新增警员,加载树的搜索下拉框
+ */
+function loadTreeSelect() {
+    var indDB = new IndexDB();
+    indDB.GetData("treeData", function (datas) {
+        _allStations = datas;
+        $("#station_select_ztree2").empty();
+        for (let item of _allStations) {
+            // console.log(eval(item).name + "_" + eval(item).id);
+            var op = $("<option></option>");
+            op.attr("value", eval(item).id);
+            op.append(eval(item).name);
+            $("#station_select_ztree2").append(op);        
+        }
+        layui.use('form', function () {
+            var form = layui.form;
+            form.render('select', 'add_form');
+        });
+        if (_allStations == null) {
+            _allStations = new Array();
+            console.log("null");
+            return;
+        }
+    });
+}
+
+
+
+/**
  * 条件查询下拉
  */
 const vue = new Vue({

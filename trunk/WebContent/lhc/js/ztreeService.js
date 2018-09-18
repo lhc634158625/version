@@ -39,7 +39,7 @@ function StationSelector() {
             },
             callback: {
                 onClick: SelectStation,
-                onClick:TreeOnClick,
+                onClick: TreeOnClick,
                 onExpand: onExpandforchangeWidth,
                 onCollapse: onExpandforchangeWidth
             }
@@ -177,6 +177,8 @@ function StationSelector() {
         // var keyword = $("#txtKeyword").val().toUpperCase();
         _currDatas = _allStations;// Enumerable.From(_allStations).Where(function (x) { return x.code.indexOf(keyword) >= 0 || x.name.indexOf(keyword) >= 0 || x.pyCode.toUpperCase().indexOf(keyword) >= 0; }).OrderBy("x=>x.code").Take(10).ToArray();
         console.log(_currDatas);
+        var indDB = new IndexDB();
+        indDB.SaveData("treeData", _currDatas);
         _self.ShowTree(_currDatas);
     }
 
@@ -235,16 +237,16 @@ function StationSelector() {
     //点击节点
     function TreeOnClick(event, treeId, treeNode) {
         //判断
-        console.log(treeNode.tId + ", " + treeNode.name);
-        let arr=treeNode.tId.split("_");
+        // console.log(treeNode);
+        console.log(treeNode.id + ", " + treeNode.name);
+        // let arr = treeNode.tId.split("_");
         //输入框中的值
         $("#station_select_ztree").val(treeNode.name);
         //发送给服务器的值
-        // $("#station_select_ztree").attr("stationId",parseInt(arr[1]))
-        sessionStorage.setItem("stationId",parseInt(arr[1]))
-        console.log(sessionStorage.getItem("stationId"));
+        // $("#station_select_ztree").attr("stationId",parseInt(arr[1])).id
+        sessionStorage.setItem("stationId", treeNode.id);
     };
-    
+
 
     // 画警员搜索
     this.AddOption = function () {

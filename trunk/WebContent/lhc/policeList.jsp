@@ -123,7 +123,7 @@
 
 <!--新增警员-->
 <div id="add_police_view" style="display:none">
-    <form class="layui-form" action="">
+    <form class="layui-form" action="" lay-filter="add_form">
         <div class="layui-form-item layui-row">
             <div class="layui-col-md3" style="display:-webkit-flex;
                     flex-flow:row column nowrap;align-items: center;justify-content :center;
@@ -152,9 +152,11 @@
                             height: 38px;"><span
                     style="">单位</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="stationId" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
-                    class="layui-input">
-
+                <!-- <input type="text" name="stationId" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
+                    class="layui-input"> -->
+                <select name="stationId" lay-verify="required" lay-search="" id="station_select_ztree2">
+                    <option value="">直接选择或搜索选择</option>
+                </select>
             </div>
         </div>
 
@@ -166,11 +168,9 @@
             <div class="layui-col-md6">
                 <select name="position" lay-verify="required">
                     <option value=""></option>
-                    <option value="0">北京</option>
-                    <option value="1">上海</option>
-                    <option value="2">广州</option>
-                    <option value="3">深圳</option>
-                    <option value="4">杭州</option>
+                    <option value="0">无岗位</option>
+                    <option value="1">警员</option>
+                    <option value="2">值班领导</option>
                 </select>
             </div>
         </div>
@@ -363,7 +363,7 @@
                         <thead>
                             <tr>
                                 <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-                                <th lay-data="{width:238,align:'center', toolbar: '#barDemo'}">操作</th>
+                                <th lay-data="{width:218,align:'center', toolbar: '#barDemo'}">操作</th>
                                 <th lay-data="{field:'code', align:'center',width:120}">警号</th>
                                 <th lay-data="{field:'name', align:'center',width:150}">姓名/名称</th>
 
@@ -406,6 +406,7 @@
     <script src="./js/vue.js"></script>
     <script src="../My97DatePicker/WdatePicker.js"></script>
     <script src="../js/layui2/layui.js"></script>
+    <script src="../js/IndexDB.js"></script>
     <script src="./js/staffService.js"></script>
     <script src="./js/staffData.js"></script>
     <script>
@@ -420,15 +421,31 @@
         var y;
         var policePageNum;
 
+        var initGT;
 
+        // console.log(initGT);
+        // console.log(initGT.next);
+        // console.log(initGT.next);
 
         //jq初始化加载 
         $(function () {
-            // laytab.loadTab();//静态
-            // SelectPoliceNum(25);//总数几条
-            SelectPoliceNum(pageLimit, null)
-            GetPolice(1, 25);//第几页,一页几条    
-            sessionStorage.removeItem("search_data");
+            // SelectPoliceNum(pageLimit, null)
+            // GetPolice(1, 25);//第几页,一页几条    
+            // sessionStorage.removeItem("search_data");
+            //异步
+            function* initGenerator() {
+                yield SelectPoliceNum(pageLimit, null)
+                yield GetPolice(1, 25);//第几页,一页几条    
+                yield sessionStorage.removeItem("search_data");
+                console.log("111");
+                yield loadTreeSelect();
+                console.log("222");
+            }
+            initGT = initGenerator();
+            initGT;
+            initGT.next();
+            initGT.next();
+            initGT.next();
         });
 
         function AfterInitial() {
@@ -436,6 +453,9 @@
             //stationSelector._ismulti=true;
             stationSelector.Initial();
         }
+
+
+
 
 
         //点击新增按钮
@@ -449,10 +469,12 @@
 
         //layui弹出框
         function openLayer() {
+            // loadTreeSelect();
+            initGT.next();
             var add_police_form = layer.open({
                 type: 1,
                 //title:,
-                area: ['600px', '500px'],
+                area: ['600px', '530px'],
                 shade: 0,//遮罩
                 scrollbar: false,
                 shadeClose: false, //点击遮罩关闭
@@ -480,6 +502,7 @@
                 content: $("#ztree_select"),
             });
         }
+
 
         //表单提交
         layui.use('form', function () {
@@ -648,7 +671,7 @@
         var laytab = new layTab();
 
 
-
+        
 
     </script>
 </body>
