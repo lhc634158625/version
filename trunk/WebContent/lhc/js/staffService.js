@@ -102,11 +102,20 @@ function SelectPoliceNum(limitNum, sobj) {
 }
 
 /**
- * 编辑,添加警员(后端格式,单位下拉树)
+ * 编辑,添加警员
  */
-function AddNewPolice(formJson) {
-    load.AddPolice("staff/staff/save", pageFiler, function (result) {
-
+function AddNewPolice(formData) {
+    let pageFilter = new Object();
+    pageFilter=formData;
+    sessionStorage.setItem("add_new_name",formData.name);
+    console.log(typeof formData.name);
+    load.AddPolice("staff/staff/save", pageFilter, function (result) {
+         if(result.message=="Success"){
+             $("#search_name").val(sessionStorage.getItem("add_new_name"));
+             $('#search_btn').trigger("click");
+         }else{
+             
+         }
     });
 }
 
@@ -115,7 +124,7 @@ function AddNewPolice(formJson) {
  */
 function loadTreeSelect() {
     var indDB = new IndexDB();
-    indDB.GetData("treeData", function (datas) {
+    indDB.GetData("AllStation", function (datas) {
         _allStations = datas;
         $("#station_select_ztree2").empty();
         for (let item of _allStations) {

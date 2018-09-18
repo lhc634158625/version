@@ -130,7 +130,7 @@
                     height: 38px;"><span
                     style="">警号</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="code" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
+                <input type="text" name="code" lay-verify="required"  placeholder="请输入标题" autocomplete="off"
                     class="layui-input">
             </div>
         </div>
@@ -154,7 +154,7 @@
             <div class="layui-col-md6">
                 <!-- <input type="text" name="stationId" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
                     class="layui-input"> -->
-                <select name="stationId" lay-verify="required" lay-search="" id="station_select_ztree2">
+                <select name="stationId"  lay-search="" lay-verify="required"  id="station_select_ztree2">
                     <option value="">直接选择或搜索选择</option>
                 </select>
             </div>
@@ -181,7 +181,7 @@
                                 height: 38px;"><span
                     style="">电话</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="telephone" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
+                <input type="text" name="telephone" lay-verify="required"  placeholder="请输入标题" autocomplete="off"
                     class="layui-input">
             </div>
         </div>
@@ -192,7 +192,7 @@
                                     height: 38px;"><span
                     style="">领导职务</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="leaderPost" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
+                <input type="text" name="leaderPost"   placeholder="请输入标题" autocomplete="off"
                     class="layui-input">
             </div>
         </div>
@@ -203,7 +203,7 @@
                                         height: 38px;"><span
                     style="">非领导职位</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="nonLeaderPost" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
+                <input type="text" name="nonLeaderPost"  placeholder="请输入标题" autocomplete="off"
                     class="layui-input">
             </div>
         </div>
@@ -214,12 +214,12 @@
                                             height: 38px;"><span
                     style="">身份证</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="idCode" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
+                <input type="text" name="idCode" lay-verify="required"  placeholder="请输入标题" autocomplete="off"
                     class="layui-input">
             </div>
         </div>
 
-        <button class="layui-btn" lay-submit lay-filter="formDemo" style="text-align:center;width:70px;height:50px;background-color:#3F69BA;position:absolute;top:200px;right:40px">保存</button>
+        <input type="button" class="layui-btn" lay-submit lay-filter="formDemo" style="text-align:center;width:70px;height:50px;background-color:#3F69BA;position:absolute;top:200px;right:40px" value="保存"/>
 </div>
 
 </form>
@@ -264,7 +264,7 @@
                                             height: 38px;"><span
                                         style="">姓名:</span></div>
                                 <div class="layui-col-md10">
-                                    <input name="policeName" type="text" v-model="policeName" autocomplete="off" class="layui-input" />
+                                    <input name="policeName" id="search_name" type="text" v-model="policeName" autocomplete="off" class="layui-input" />
                                 </div>
                             </div>
                         </div>
@@ -350,7 +350,7 @@
                         <div class="layui-inline">
                             <div class="layui-form-item layui-row">
                                 <div class="layui-col-md3">
-                                    <input type="submit" value="搜索" lay-submit lay-filter="sr" class="layui-btn" style="margin-left:30px;width:100px;height:35px;background-color:#3F69BA;" />
+                                    <input type="button" value="搜索" id="search_btn" lay-submit lay-filter="sr" class="layui-btn" style="margin-left:30px;width:100px;height:35px;background-color:#3F69BA;" />
                                 </div>
                             </div>
                         </div>
@@ -429,23 +429,23 @@
 
         //jq初始化加载 
         $(function () {
-            // SelectPoliceNum(pageLimit, null)
-            // GetPolice(1, 25);//第几页,一页几条    
-            // sessionStorage.removeItem("search_data");
+            SelectPoliceNum(pageLimit, null)
+            GetPolice(1, 25);//第几页,一页几条    
+            sessionStorage.removeItem("cobj");
             //异步
-            function* initGenerator() {
-                yield SelectPoliceNum(pageLimit, null)
-                yield GetPolice(1, 25);//第几页,一页几条    
-                yield sessionStorage.removeItem("search_data");
-                console.log("111");
-                yield loadTreeSelect();
-                console.log("222");
-            }
-            initGT = initGenerator();
-            initGT;
-            initGT.next();
-            initGT.next();
-            initGT.next();
+            // function* initGenerator() {
+            //     yield SelectPoliceNum(pageLimit, null)
+            //     yield GetPolice(1, 25);//第几页,一页几条    
+            //     yield sessionStorage.removeItem("cobj");
+            //     console.log("111");
+            //     yield loadTreeSelect();
+            //     console.log("222");
+            // }
+            // initGT = initGenerator();
+            // initGT;
+            // initGT.next();
+            // initGT.next();
+            // initGT.next();
         });
 
         function AfterInitial() {
@@ -469,8 +469,8 @@
 
         //layui弹出框
         function openLayer() {
-            // loadTreeSelect();
-            initGT.next();
+            loadTreeSelect();
+            // initGT.next();
             var add_police_form = layer.open({
                 type: 1,
                 //title:,
@@ -511,9 +511,9 @@
             //新增警员提交
             form.on('submit(formDemo)', function (data) {
                 //添加ajax
-                // layer.msg(JSON.stringify(data.field));
+                layer.msg(JSON.stringify(data.field));
                 console.log(data.field);
-                // AddNewPolice(JSON.stringify(data.field))
+                AddNewPolice(data.field);
                 return false;
             });
 
@@ -529,7 +529,6 @@
                 cobj.pageNum = 1;
                 cobj.pageSize = parseInt(pageLimit);
                 sessionStorage.cobj = JSON.stringify(cobj);
-                console.log(sessionStorage.getItem("search_data"));
                 PagiNationSelect(null, cobj)
                 return false;
             });
@@ -570,6 +569,7 @@
             if (sessionStorage.getItem("policeNums") != null) {
 
                 var countNums = sessionStorage.getItem("policeNums");
+                console.log(countNums);
             }
             if (sessionStorage.getItem("pageLimit") != null) {
                 pageLimit = sessionStorage.getItem("pageLimit");

@@ -82,7 +82,6 @@ loadData.prototype.AddPolice = function (method, data, callback) {
  */
 loadData.prototype.GetPoliceNum = function (method, data, callback) {
 
-    console.log(data);
     let datajson = JSON.stringify(data);
     let url = _serviceUrl + method;
     // let result = sessionStorage.getItem("result");
