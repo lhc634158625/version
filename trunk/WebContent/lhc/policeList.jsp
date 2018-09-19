@@ -130,8 +130,7 @@
                     height: 38px;"><span
                     style="">警号</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="code" lay-verify="required"  placeholder="请输入标题" autocomplete="off"
-                    class="layui-input">
+                <input type="text" name="code" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -154,7 +153,7 @@
             <div class="layui-col-md6">
                 <!-- <input type="text" name="stationId" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
                     class="layui-input"> -->
-                <select name="stationId"  lay-search="" lay-verify="required"  id="station_select_ztree2">
+                <select name="stationId" lay-search="" lay-verify="required" id="station_select_ztree2">
                     <option value="">直接选择或搜索选择</option>
                 </select>
             </div>
@@ -181,8 +180,7 @@
                                 height: 38px;"><span
                     style="">电话</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="telephone" lay-verify="required"  placeholder="请输入标题" autocomplete="off"
-                    class="layui-input">
+                <input type="text" name="telephone" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -192,8 +190,7 @@
                                     height: 38px;"><span
                     style="">领导职务</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="leaderPost"   placeholder="请输入标题" autocomplete="off"
-                    class="layui-input">
+                <input type="text" name="leaderPost" placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -203,8 +200,7 @@
                                         height: 38px;"><span
                     style="">非领导职位</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="nonLeaderPost"  placeholder="请输入标题" autocomplete="off"
-                    class="layui-input">
+                <input type="text" name="nonLeaderPost" placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -214,12 +210,12 @@
                                             height: 38px;"><span
                     style="">身份证</span></div>
             <div class="layui-col-md6">
-                <input type="text" name="idCode" lay-verify="required"  placeholder="请输入标题" autocomplete="off"
-                    class="layui-input">
+                <input type="text" name="idCode" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
             </div>
         </div>
 
-        <input type="button" class="layui-btn" lay-submit lay-filter="formDemo" style="text-align:center;width:70px;height:50px;background-color:#3F69BA;position:absolute;top:200px;right:40px" value="保存"/>
+        <input type="button" class="layui-btn" lay-submit lay-filter="formDemo" style="text-align:center;width:70px;height:50px;background-color:#3F69BA;position:absolute;top:200px;right:40px"
+            value="保存" />
 </div>
 
 </form>
@@ -264,7 +260,8 @@
                                             height: 38px;"><span
                                         style="">姓名:</span></div>
                                 <div class="layui-col-md10">
-                                    <input name="policeName" id="search_name" type="text" v-model="policeName" autocomplete="off" class="layui-input" />
+                                    <input name="policeName" id="search_name" type="text" v-model="policeName"
+                                        autocomplete="off" class="layui-input" />
                                 </div>
                             </div>
                         </div>
@@ -350,7 +347,8 @@
                         <div class="layui-inline">
                             <div class="layui-form-item layui-row">
                                 <div class="layui-col-md3">
-                                    <input type="button" value="搜索" id="search_btn" lay-submit lay-filter="sr" class="layui-btn" style="margin-left:30px;width:100px;height:35px;background-color:#3F69BA;" />
+                                    <input type="button" value="搜索" id="search_btn" lay-submit lay-filter="sr" class="layui-btn"
+                                        style="margin-left:30px;width:100px;height:35px;background-color:#3F69BA;" />
                                 </div>
                             </div>
                         </div>
@@ -405,7 +403,7 @@
             </script>
     <script src="./js/vue.js"></script>
     <script src="../My97DatePicker/WdatePicker.js"></script>
-    <script src="../js/layui2/layui.js"></script>
+    <script src="./js/layui/layui.js"></script>
     <script src="../js/IndexDB.js"></script>
     <script src="./js/staffService.js"></script>
     <script src="./js/staffData.js"></script>
@@ -640,7 +638,26 @@
                             layer.close(index);
                         });
                     } else if (obj.event === 'edit') {
-                        layer.alert('编辑行：<br>' + JSON.stringify(data))
+                        console.log(data);
+                        // layer.alert('编辑行：<br>' + JSON.stringify(data))
+                        //赋值
+                        layui.use('form', function () {
+                            var form = layui.form;
+                            form.val("add_form",{
+                                "code": data.code,
+                                "name": data.name,
+                                "stationId": data.stationId,
+                                "position": data.position,
+                                "telephone": data.telephone,
+                                "leaderPost": data.leaderPost,
+                                "nonLeaderPost": data.nonLeaderPost,
+                                "idCode": data.idCode
+                            })
+                        })
+                        $('#addPolice').trigger("click");
+                        //设置数据
+                        sessionStorage.setItem("edit_data",JSON.stringify(data));
+
                     }
                 });
 
@@ -671,7 +688,7 @@
         var laytab = new layTab();
 
 
-        
+
 
     </script>
 </body>

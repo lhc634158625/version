@@ -102,22 +102,46 @@ function SelectPoliceNum(limitNum, sobj) {
 }
 
 /**
- * 编辑,添加警员
+ * 添加警员(无id),编辑警员(有id)
  */
 function AddNewPolice(formData) {
+    if(sessionStorage.getItem("edit_data")!=null){
+        let editData=eval(sessionStorage.getItem("edit_data"));
+        editData.code=formData.code;
+        // formData=editData;
+    }
     let pageFilter = new Object();
-    pageFilter=formData;
-    sessionStorage.setItem("add_new_name",formData.name);
+    // $("#emps_table tbody").empty();
+    pageFilter = formData;
+    sessionStorage.setItem("add_new_name", formData.name);
     console.log(typeof formData.name);
     load.AddPolice("staff/staff/save", pageFilter, function (result) {
-         if(result.message=="Success"){
-             $("#search_name").val(sessionStorage.getItem("add_new_name"));
-             $('#search_btn').trigger("click");
-         }else{
-             
-         }
+        if (result.message == "Success") {
+            $("#search_name").val(sessionStorage.getItem("add_new_name"));
+            $('#search_btn').trigger("click");
+        } else {
+
+        }
     });
 }
+
+/**
+ * 编辑警员,多一个id
+ */
+// function UpdatePolice(obj) {
+//     let pageFilter = new Object();
+//     // $("#emps_table tbody").empty();
+//     pageFilter = formData;
+//     sessionStorage.setItem("add_new_name", formData.name);
+//     load.AddPolice("staff/staff/save", pageFilter, function (result) {
+//         if (result.message == "Success") {
+//             $("#search_name").val(sessionStorage.getItem("add_new_name"));
+//             $('#search_btn').trigger("click");
+//         } else {
+
+//         }
+//     });
+// }
 
 /**
  * 新增警员,加载树的搜索下拉框
@@ -132,7 +156,7 @@ function loadTreeSelect() {
             var op = $("<option></option>");
             op.attr("value", eval(item).id);
             op.append(eval(item).name);
-            $("#station_select_ztree2").append(op);        
+            $("#station_select_ztree2").append(op);
         }
         layui.use('form', function () {
             var form = layui.form;
