@@ -10,6 +10,7 @@
 <title>节假日机关增援基层</title>
 <link rel="stylesheet" href="../layui/css/layui.css">
 <link rel="stylesheet" href="../css/fastReverseShift.css">
+<link href="../css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
 <script src="../js/jquery/jquery.js"></script>
 <script src="../layui/layui.js"></script>
 <script src="../js/pgis/mypgis.js"></script>
@@ -17,12 +18,153 @@
 <script src="../js/pgis/EzServerClient.min.js"></script>
 <script src="../js/jquery/jquery.js"></script>
 <style>
+#pointMess {
+	margin-top: 16px;
+	max-height: 600px;
+	overflow-y: scroll;
+	padding-bottom: 10px;
+}
+
+#pointMess::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
+#pointMess li {
+	min-height: 24px;
+	height: auto;
+	line-height: 24px;
+	font-size: 14px;
+	padding-left: 20px;
+	vertical-align: middle;
+}
+
+#pointMess li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	word-break: keep-all; /* 不换行 */
+	white-space: nowrap; /* 不换行 */
+	overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+	text-overflow: ellipsis;
+	/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+
+#pointMess li:hover {
+	background: #7fa7fe;
+	cursor: pointer;
+}
+
+#taskMess {
+	margin-top: 16px;
+	max-height: 600px;
+	overflow-y: scroll;
+	padding-bottom: 10px;
+}
+
+#taskMess::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
+#fontSize tr:hover {
+	cursor: pointer;
+}
+
+#fontSize tr td {
+	font-size: 12px;
+}
 </style>
 </head>
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin">
 		<%@ include file="../shared/pageHeader1.jsp"%>
-		<%@ include file="../shared/holidaySupportMenu.jsp"%>
+		<aside class="main-sidebar">
+			<!-- sidebar: style can be found in sidebar.less -->
+			<section class="sidebar">
+				<!-- sidebar menu: : style can be found in sidebar.less -->
+				<div id="width_left" class="layui-side">
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<div
+						style="color: #000; border-radius: 0 10px 10px 0; border: 1px #cccccc solid; margin: 19px 0 2px 0; height: 4%;"
+						class="menu_top">
+						<span id="show_span" style="line-height: 30px;">节假日机关增援基层</span> <input
+							id="show_hid" onclick="showAndHidMean()" type="button"
+							style="width: 30px; height: 30px; border: none; border-radius: 0 10px 10px 0; float: right; background-image: url(../images/sh.png);"></input>
+					</div>
+					<div id="left_mean_body">
+						<div style="display: block; text-align: center; margin-top: 10px;">
+							<button class="layui-btn" style="background: #4472ca"
+								onclick="changeUl(1)">点位</button>
+							<button class="layui-btn" style="background: #4472ca"
+								onclick="changeUl(2)">任务</button>
+						</div>
+						<div id="point_btn_div" style="text-align: center;padding-top:10px;"  >
+							<button id="showAllBtn_4" class="layui-btn layui-btn-primary"
+								onclick="show_all_point()">
+								<img id="show_all_img" src="../images/unchecked.png">显示全部
+							</button>
+							<button class="layui-btn layui-btn-primary" onclick="showMessByPoint()">新增点位</button>
+						</div>
+						<ul id="pointMess" style="display: block;">
+						</ul>
+						<div id="taskMess" style="display: none;">
+							<form class="layui-form">
+								<div class="layui-inline" style="margin-top: 5px;">
+									<label class="layui-form-label" style="width: 30px;">名称</label>
+									<div class="layui-input-inline">
+										<input type="text" placeholder="请输入" autocomplete="off"
+											class="layui-input">
+									</div>
+								</div>
+								<div class="layui-inline" style="margin-top: 5px;">
+									<label class="layui-form-label" style="width: 30px;">时间</label>
+									<div class="layui-input-inline" style="width: 100px;">
+										<input type="text" id="date1" lay-verify="date1"
+											placeholder="yyyy-MM-dd" autocomplete="off"
+											class="layui-input">
+									</div>
+									<label>-</label>
+									<div class="layui-input-inline"
+										style="width: 100px; margin-top: 5px;">
+										<input type="text" id="date2" lay-verify="date2"
+											placeholder="yyyy-MM-dd" autocomplete="off"
+											class="layui-input">
+									</div>
+								</div>
+								<div
+									style="display: block; text-align: center; margin-top: 5px;">
+									<button class="layui-btn layui-btn-primary">搜索</button>
+									<button class="layui-btn layui-btn-primary"
+										onclick="showMessByTask()">新建</button>
+								</div>
+							</form>
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>名称</th>
+										<th>起始时间</th>
+										<th>截至时间</th>
+									</tr>
+								</thead>
+								<tbody id="fontSize">
+									<tr onclick="showMessByTask()">
+										<td>抗战胜利日</td>
+										<td>2015-09-03</td>
+										<td>2015-09-05</td>
+									</tr>
+									<tr>
+										<td>劳动节</td>
+										<td>2015-05-01</td>
+										<td>2015-05-03</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</section>
+		</aside>
 		<div id="mainBody">
 			<div class="layui-tab" lay-filter="demo" lay-allowclose="true">
 				<ul class="layui-tab-title" style="background: #92b4f4;"
@@ -45,52 +187,43 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">编号</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
+							<input hidden id="id"> <input id="code" type="text"
+								autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">点位名称</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
+							<input id="name" type="text" name="title" autocomplete="off"
+								class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">X坐标</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" id="coordinateX" name="title" required
-								lay-verify="required" placeholder="请输入标题" autocomplete="off"
-								class="layui-input">
+							<input type="text" id="coordinateX" name="title"
+								autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">Y坐标</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" id="coordinateY" name="title" required
-								lay-verify="required" placeholder="请输入标题" autocomplete="off"
-								class="layui-input">
+							<input type="text" id="coordinateY" name="title"
+								autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">关联单位</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input id="showTree" onclick="showTreemMean(this,this.id)"
-								type="text" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
-						</div>
-					</div>
-					<div class="layui-form-item">
-						<label class="layui-form-label">负责领导</label>
-						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
+							<input id="stationName" data-id=""
+								onclick="showTreemMean(this,this.id)" readonly="readonly"
+								type="text" name="title" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item layui-form-text">
 						<label class="layui-form-label">备注</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<textarea name="desc" placeholder="请输入内容" class="layui-textarea"
+							<textarea id="memo" name="desc" class="layui-textarea"
 								style="width: 100%; resize: none;"></textarea>
 						</div>
 					</div>
@@ -99,9 +232,9 @@
 						<div class="layui-input-inline" style="width: 278px;">
 							<input onclick="selectMapLG()" type="button" class="layui-btn"
 								value="选择坐标" style="background: #4472ca; width: 92px;"></input>
-							<button class="layui-btn" lay-submit lay-filter="formSave"
-								style="background: #4472ca;">保存信息</button>
-							<button class="layui-btn" lay-submit lay-filter="formStop"
+							<button id="savePoint" class="layui-btn"
+								onclick="update_add_Point()" style="background: #4472ca;">保存信息</button>
+							<button id="state" class="layui-btn" onclick="close_open()"
 								style="background: #4472ca;">停用</button>
 						</div>
 					</div>
@@ -223,11 +356,7 @@
 							theme : '#4472ca'
 						});
 						//监听提交
-						form.on('submit(_search)', function(data) {
-							return false;
-						});
-						form.on('submit(_new)', function(data) {
-							showMessByTask();
+						form.on('submit', function(data) {
 							return false;
 						});
 						form
@@ -336,6 +465,44 @@
 		map = PGISHelper.Init("mapDiv");
 	});
 
+	function update_add_Point() {
+		var id = document.getElementById("id").value;
+		var request = new Object();
+		if (document.getElementById("code").value) {
+			request.code = document.getElementById("code").value;
+		}
+		if (document.getElementById("coordinateX").value) {
+			request.longitude = document.getElementById("coordinateX").value;
+		}
+		if (document.getElementById("coordinateY").value) {
+			request.latitude = document.getElementById("coordinateY").value;
+		}
+		if (document.getElementById("memo").value) {
+			request.memo = document.getElementById("memo").value;
+		}
+		if (document.getElementById("name").value) {
+			request.name = document.getElementById("name").value;
+		}
+		if (document.getElementById("stationName").getAttribute("data-id")) {
+			request.stationId = document.getElementById("stationName")
+					.getAttribute("data-id");
+		}
+		request.type = type;
+		if (id) {//update
+			request.id = id;
+			PostData("point/point/save", request, function(result) {
+				closeMess(1);
+				reset_point();
+			});
+		} else {//add
+			request.state = "启用";
+			PostData("point/point/save", request, function(result) {
+				closeMess(1);
+				reset_point();
+			});
+		}
+	}
+
 	// 关闭详情页
 	function closeMess(obj) {
 		var pointDiv = document.getElementById("pointDiv");
@@ -380,8 +547,7 @@
 		makeOrder.removeAttribute("style");
 		makeSave.style.display = "none";
 	}
-</script>
-<script>
+
 	function showTreemMean(obj, Id) {
 		var cityObj = $("#" + Id);
 		var cityOffset = $("#" + Id).offset();
@@ -412,11 +578,11 @@
 	}
 
 	function changeStation(treeNode) {
-		var selectv = document.getElementById('showTree');
+		var selectv = document.getElementById('stationName');
 		selectv.value = treeNode.name;
+		selectv.setAttribute("data-id", treeNode.id);
 	}
-</script>
-<script>
+
 	//点击事件变量，为true时在，则将坐标值赋予X，Y坐标
 	var select_mapLG = false;
 	var move = false;
@@ -443,6 +609,243 @@
 		select_mapLG = false;
 		move = true;
 	}
+
+	function close_open() {
+		var state = document.getElementById("state").innerHTML;
+		var request = new Object();
+		request.id = document.getElementById("id").value;
+		request.state = state == "启用" ? "启用" : "停用";
+		PostData("point/point/save", request, function(result) {
+			if (document.getElementById("state").innerHTML == "启用") {
+				document.getElementById("state").innerHTML = "停用";
+			} else {
+				document.getElementById("state").innerHTML = "启用";
+			}
+			reset_point();
+			closeMess(1);
+		});
+	}
+
+	function reset_point() {
+		var strConditions
+		if (document.getElementById("show_all_img").src.indexOf("unchecked") != -1) {
+			strConditions = "Type,string,=," + type + ";state,string,=,启用";
+		} else {
+			strConditions = "Type,string,=," + type;
+		}
+		var holiday_pointList = new Array()
+		PostData("point/point/filter", createRequest(0, 1000, "id",
+				strConditions), function(result) {
+			var pointsMess = result.data;
+			$("#pointMess").empty();
+			var html = '';
+			for (var i = 0; i < pointsMess.length; i++) {
+				var pointMess = pointsMess[i];
+				if (pointMess.name) {
+					html += '<li id="point_' + pointMess.id
+							+ '" onclick="showMessByPoint(' + pointMess.id
+							+ ')"><a>市局_' + pointMess.name;
+				} else {
+					html += '<li id="point_' + pointMess.id
+							+ '" onclick="showMessByPoint(' + pointMess.id
+							+ ')"><a>市局_未命名';
+				}
+				html += '</a></li>';
+			}
+			$("#pointMess").append(html);
+		});
+	}
+
+	function show_all_point() {
+		var strConditions
+		if (document.getElementById("show_all_img").src.indexOf("unchecked") != -1) {
+			strConditions = "Type,string,=," + type;
+			document.getElementById("show_all_img").setAttribute("src",
+					"../images/checked.png");
+		} else {
+			strConditions = "Type,string,=," + type + ";state,string,=,启用";
+			document.getElementById("show_all_img").setAttribute("src",
+					"../images/unchecked.png");
+		}
+		var holiday_pointList = new Array()
+		PostData("point/point/filter", createRequest(0, 1000, "id",
+				strConditions), function(result) {
+			var pointsMess = result.data;
+			$("#pointMess").empty();
+			var html = '';
+			for (var i = 0; i < pointsMess.length; i++) {
+				var pointMess = pointsMess[i];
+				if (pointMess.name) {
+					html += '<li id="point_' + pointMess.id
+							+ '" onclick="showMessByPoint(' + pointMess.id
+							+ ')"><a>市局_' + pointMess.name;
+				} else {
+					html += '<li id="point_' + pointMess.id
+							+ '" onclick="showMessByPoint(' + pointMess.id
+							+ ')"><a>市局_未命名';
+				}
+				html += '</a></li>';
+			}
+			$("#pointMess").append(html);
+		});
+	}
+	function showAll(obj) {
+		var tag = $(obj).parent().children();
+		for (var i = 0; i < tag.length; i++) {
+			if (tag[i].localName == "ul") {
+				var display = tag[i].style.display;
+				if (display == "block") {
+					tag[i].style.display = "none";
+				} else if (display == "none") {
+					tag[i].style.display = "block";
+				}
+			}
+		}
+	}
+
+	function showAllBtn(obj) {
+		var src = $(obj).children().attr("src");
+		if (src == "../images/checked.png") {
+			$(obj).children().attr("src", "../images/unchecked.png");
+		} else if (src == "../images/unchecked.png") {
+			$(obj).children().attr("src", "../images/checked.png");
+		}
+	}
+
+	function showMessByPoint(data) {
+		var type = data;
+		var pointDiv = document.getElementById("pointDiv");
+		if (type) {
+			var strConditions = "id,string,=," + type;
+			PostData(
+					"point/point/filter",
+					createRequest(0, 1000, "id", strConditions),
+					function(result) {
+						pointDiv.style.display = "block";
+						document.getElementById("savePoint").innerHTML = "保存信息";
+						document.getElementById("state").style.display = "inline";
+						document.getElementById("id").value = result.data[0].id;
+						document.getElementById("code").value = result.data[0].code == undefined ? ""
+								: result.data[0].code;
+						document.getElementById("coordinateY").value = result.data[0].latitude == undefined ? ""
+								: result.data[0].latitude;
+						document.getElementById("coordinateX").value = result.data[0].longitude == undefined ? ""
+								: result.data[0].longitude;
+						document.getElementById("memo").value = result.data[0].memo == undefined ? ""
+								: result.data[0].memo;
+						document.getElementById("name").value = result.data[0].name == undefined ? ""
+								: result.data[0].name;
+						document.getElementById("stationName").value = result.data[0].stationName == undefined ? ""
+								: result.data[0].stationName;
+						if (result.data[0].stationId) {
+							document.getElementById("stationName")
+									.setAttribute("data-id",
+											result.data[0].stationId);
+						} else {
+							document.getElementById("stationName")
+									.setAttribute("data-id", "");
+						}
+						if (result.data[0].state == "启用") {
+							document.getElementById("state").innerHTML = "停用";
+						} else if (result.data[0].state == "停用") {
+							document.getElementById("state").innerHTML = "启用";
+						}
+					})
+		} else {
+			pointDiv.style.display = "block";
+			document.getElementById("state").style.display = "none";
+			document.getElementById("savePoint").innerHTML = "新增保存";
+			document.getElementById("code").value = "";
+			document.getElementById("id").value = "";
+			document.getElementById("coordinateY").value = "";
+			document.getElementById("coordinateX").value = "";
+			document.getElementById("memo").value = "";
+			document.getElementById("name").value = "";
+			document.getElementById("stationName").value = "";
+			document.getElementById("stationName").setAttribute("data-id", "");
+		}
+	}
+
+	function showMessByTask() {
+		var taskDiv = document.getElementById("taskDiv");
+		taskDiv.style.display = "block";
+	}
+
+	function changeUl(obj) {
+		var pointMess = document.getElementById("pointMess");
+		var taskMess = document.getElementById("taskMess");
+		var point_btn_div = document.getElementById("point_btn_div");
+		if (obj == 1) {
+			taskMess.style.display = "none";
+			pointMess.style.display = "block";
+			point_btn_div.style.display = "block";
+		} else if (obj == 2) {
+			pointMess.style.display = "none";
+			taskMess.style.display = "block";
+			point_btn_div.style.display  = "none";
+		}
+	}
+
+	// 请求参数
+	function createRequest(page, pageSize, orderField, strCondition) {
+		var request = new Object();
+		var conditions = new Array();
+		request.page = page;
+		request.pageSize = pageSize;
+		request.orderField = orderField;
+		var items = strCondition.split(";")
+		for (var i = 0; i < items.length; i++) {
+			var temps = items[i].split(",");
+			var condition = new Object();
+			condition.fieldName = temps[0];
+			condition.fieldType = temps[1];
+			condition.opt = temps[2];
+			condition.value = temps[3];
+			if (temps.length > 4) {
+				for (var j = 0; j < temps.length - 4; j++) {
+					condition.value += "," + temps[4 + j];
+				}
+			}
+			conditions.push(condition);
+		}
+		request.conditions = conditions;
+		return request;
+	}
+	var type;
+	$(function() {
+		var holiday_pointList = new Array()
+		PostData("base/baseDict/filter", createRequest(0, 10, "id",
+				"name,string,=,节假日机关增援基层"), function(result) {
+			type = result.data[0].id;
+			var strConditions = "Type,string,=," + type + ";state,string,=,启用";
+			PostData("point/point/filter", createRequest(0, 1000, "id",
+					strConditions), function(result) {
+				var pointsMess = result.data;
+				$("#pointMess").empty();
+				var html = '';
+				for (var i = 0; i < pointsMess.length; i++) {
+					var pointMess = pointsMess[i];
+					if (pointMess.name) {
+						html += '<li id="point_' + pointMess.id
+								+ '" onclick="showMessByPoint(' + pointMess.id
+								+ ')"><a>市局_' + pointMess.name;
+					} else {
+						html += '<li id="point_' + pointMess.id
+								+ '" onclick="showMessByPoint(' + pointMess.id
+								+ ')"><a>市局_未命名';
+					}
+					html += '</a></li>';
+				}
+				$("#pointMess").append(html);
+			});
+		})
+	})
+</script>
+<script id="tmpStateOption" type="text/html">
+     <option value="">全部</option>    
+ 	 {{#  layui.each(d.datas, function(index, item){ }}
+     <option value="{{item.code}}">{{item.name}}</option>
+     {{#  }); }}
 </script>
 <script src="../js/jquery.ztree.all-3.1.min.js"></script>
 <script src="../js/dateTime.js"></script>

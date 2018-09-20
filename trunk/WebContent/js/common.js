@@ -232,7 +232,7 @@ var _serviceUrl = "http://218.85.92.186:8081/api/";
 var _uploadUrl = "";
 var _EMPTYGUID = "00000000-0000-0000-0000-000000000000";
 
-function PostData(method, data, callback) {
+function PostData(method, data, callback,basync) {
     var station = new Object();
     var result = sessionStorage.getItem("result");
     var dataObj;
@@ -243,11 +243,16 @@ function PostData(method, data, callback) {
     //var token = window.localStorage.getItem("token");
     //$(".Mask").show();
     var url = _serviceUrl + method ;
+    var basynctemp=true;
+    if(typeof basync!="undefined"){
+    	basynctemp=basync;
+    }
+    	
     $.ajax({
         cache: false,
         type: "POST",
         headers: {'token': dataObj.token,"userId":dataObj.id},
-        async: true,
+        async: basynctemp,
         url: url,
         data: datajson, // JSON.stringify(obj),
         contentType: "application/json",

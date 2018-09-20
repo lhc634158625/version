@@ -17,55 +17,11 @@
 			</div>
 			<div id="left_mean_body">
 				<ul id="sType">
-					<li><button class="layui-btn" style="background: #4472ca">1'</button></li>
-					<li><button class="layui-btn" style="background: #4472ca">3'</button></li>
-					<li><button class="layui-btn" style="background: #4472ca">5'</button></li>
+					<li><button class="layui-btn" style="background: #4472ca" onclick="shiftTypeClict(1);">1'</button></li>
+					<li><button class="layui-btn" style="background: #4472ca" onclick="shiftTypeClict(3);">3'</button></li>
+					<li><button class="layui-btn" style="background: #4472ca" onclick="shiftTypeClict(5);">5'</button></li>
 				</ul>
 				<ul id="stationType">
-					<li>巡逻特警支队<img class="common_img" src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>集美分局<img class="common_img" src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>思明分局<img class="common_img" src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>海沧分局<img class="common_img" src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>湖里分局<img class="common_img" src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>同安分局<img class="common_img" src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>翔安分局<img class="common_img" src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>交通分局<img class="common_img" src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li onclick="showAll(this)">机场分局<img class="common_img"
-						src="../images/starlogo.png" onclick="showTable()">
-						<ul style="display: none; width: 100%; background: white;"
-							onclick="notReturn()">
-							<li style="width: 100%; height: auto; background: white;">
-								<div>分局(队伍驻地):</div>
-								<form class="layui-form"
-									style="padding-bottom: 8px; width: 232px; margin-left: 20px;">
-									<textarea placeholder="请输入内容" class="layui-textarea"
-										style="resize: none;"></textarea>
-									<button class="layui-btn layui-btn-primary layui-btn-xs"
-										style="width: 232px; margin-top: 5px;">保存信息</button>
-								</form>
-								<div>
-									<button class="layui-btn layui-btn-primary">增加巡逻点</button>
-									<button class="layui-btn layui-btn-primary"
-										onclick="showAllBtn(this)">
-										<img class="form_img" src="../images/checked.png">显示全部
-									</button>
-								</div>
-								<ul>
-									<li onclick="showMess()" class="areaStyle"><img
-										class="areaStyle_img" src="../images/diamond.png">机场辖区<img
-										class="common_img" src="../images/starlogo.png"
-										onclick="showTable()"></li>
-								</ul>
-							</li>
-						</ul></li>
 				</ul>
 			</div>
 		</div>
@@ -76,43 +32,36 @@
      <option value="{{item.code}}">{{item.name}}</option>
      {{#  }); }}
      </script>
-	<script>
-		function showAll(obj) {
-			var bro = $(obj).siblings();
-			for (var i = 0; i < bro.length; i++) {
-				bro[i].classList.remove("liL1");
-			}
-			var tag = $(obj).children();
-			for (var i = 0; i < tag.length; i++) {
-				if (tag[i].localName == "ul") {
-					var display = tag[i].style.display;
-					if (display == "block") {
-						$(obj).removeClass("liL1");
-						tag[i].style.display = "none";
-					} else if (display == "none") {
-						$(obj).addClass("liL1");
-						tag[i].style.display = "block";
-					}
-				}
-			}
+	<script src="../js/jquery.ztree.all-3.1.min.js"></script>
+	<script src="../js/dateTime.js"></script>
+	<script src="../js/common.js?v=180725" type="text/javascript"></script>
+	<script src="../js/linq/linq.min.js"></script>
+	<script src="../js/dictCache.js"></script>
+	<script src="../js/IndexDB.js"></script>
+	<script
+		src="../js/common/stationSelector.js?v=180612&&multi=${param.multi}"
+		charset="gb2312"></script>
+	<script type="text/javascript">
+	function shiftTypeClict(type) {
+		var itemid = whole_pointInfoMap.get("135排班")+"-"+whole_pointInfoMap.get("辖区")+"-";
+		var minutesType = 2;
+		var title="";
+		if(type==1){
+			itemid += whole_pointInfoMap.get("1分钟");
+			minutesType = 1;
+			title="1分钟";
 		}
+		else if(type==3){
+			itemid += whole_pointInfoMap.get("3分钟");
+			title="3分钟";
+		}
+		else if(type==5){
+			itemid += whole_pointInfoMap.get("5分钟");
+			title="5分钟";
+		}
+		
+		showTable(itemid,1,minutesType,title);
+	}
 
-		function showAllBtn(obj) {
-			var src = $(obj).children().attr("src");
-			if (src == "../images/checked.png") {
-				$(obj).children().attr("src", "../images/unchecked.png");
-			} else if (src == "../images/unchecked.png") {
-				$(obj).children().attr("src", "../images/checked.png");
-			}
-		}
-
-		function showMess() {
-			var formDiv = document.getElementById("formDiv");
-			formDiv.style.display = "block";
-		}
-
-		function notReturn() {
-			cancelBubble();
-		}
-	</script>
+</script>
 </aside>
