@@ -44,6 +44,12 @@
 .layui-nav-child {
 	padding: 0
 }
+
+.layui-nav .layui-nav-child dd.layui-this a, .layui-nav-child dd.layui-this
+	{
+	background-color: white;
+	color: black;
+}
 </style>
 <header class="main-header" style="height: 110px; width: 100%">
 
@@ -58,66 +64,69 @@
 					<dl class="layui-nav-child">
 						<dd>
 							<a href="<c:url value='/duty/policeForce.jsp'/>"
-								onclick="showName(this)">警力布防</a>
+								onclick="showNameTop(this)">警力布防</a>
 						</dd>
 						<dd>
-							<a href="<c:url value='/duty/policeSituationSituation.jsp'/>"
-								onclick="showName(this)">警情态势</a>
+							<a href="<c:url value='/duty/policeSituation.jsp'/>"
+								onclick="showNameTop(this)">警情态势</a>
 						</dd>
 						<dd>
 							<a href="<c:url value='/duty/alarmSituation.jsp'/>"
-								onclick="showName(this)">接警情况</a>
+								onclick="showNameTop(this)">接警情况</a>
 						</dd>
 						<dd>
 							<a href="<c:url value='/duty/trafficCondition.jsp'/>"
-								onclick="showName(this)">交通路况</a>
+								onclick="showNameTop(this)">交通路况</a>
 						</dd>
 						<dd>
 							<a href="<c:url value='/duty/colorWarn.jsp'/>"
-								onclick="showName(this)">四色预警</a>
+								onclick="showNameTop(this)">四色预警</a>
 						</dd>
 					</dl></li>
 				<li class="layui-nav-item"><a href="javascript:;"><img
 						style="width: 21%; height: 23%;" src="../images/qwbs.png">&nbsp;勤务部署</a>
 					<dl class="layui-nav-child">
 						<dd>
-							<a href="javascript:;" onclick="showName(this)">日常勤务</a>
+							<a href="javascript:;" onclick="showNameTop(this)">日常勤务</a>
 							<ul class="ul_header">
 								<li><a
 									href="<c:url value='/duty/policeStationScheduling.jsp'/>"
-									onclick="showName(this)">派出所排班</a></li>
+									onclick="showNameTop(this)">派出所排班</a></li>
 								<li><a href="<c:url value='/duty/fastReverseShift.jsp'/>"
-									onclick="showName(this)">135快反圈排班</a></li>
+									onclick="showNameTop(this)">135快反圈排班</a></li>
 								<li><a href="<c:url value='/duty/keyDefenseArea.jsp'/>"
-									onclick="showName(this)">重点防务区排班</a></li>
+									onclick="showNameTop(this)">重点防务区排班</a></li>
 								<li><a href="<c:url value='/duty/encryptPatrolArea.jsp'/>"
-									onclick="showName(this)">加密巡区排班</a></li>
+									onclick="showNameTop(this)">加密巡区排班</a></li>
 								<li><a href="<c:url value='/duty/caseCallback.jsp'/>"
-									onclick="showName(this)">案件回访</a></li>
+									onclick="showNameTop(this)">案件回访</a></li>
 							</ul>
 						</dd>
 						<dd>
-							<a href="javascript:;" onclick="showName(this)">加强性勤务</a>
+							<a href="javascript:;" onclick="showNameTop(this)">加强性勤务</a>
 							<ul class="ul_header">
-								<li><a href="" onclick="showName(this)">节假日机关增援基层</a></li>
-								<li><a href="" onclick="showName(this)">等级响应值班情况</a></li>
-								<li><a href="" onclick="showName(this)">红色预警巡防部署</a></li>
+								<li><a href="<c:url value='/duty/holidaySupport.jsp'/>"
+									onclick="showNameTop(this)">节假日机关增援基层</a></li>
+								<li><a href="<c:url value='/duty/gradeResponseDuty.jsp'/>"
+									onclick="showNameTop(this)">等级响应值班情况</a></li>
+								<li><a href="<c:url value='/duty/redWarning.jsp'/>"
+									onclick="showNameTop(this)">红色预警巡防部署</a></li>
 							</ul>
 						</dd>
 						<dd>
-							<a href="javascript:;" onclick="showName(this)">特殊勤务</a>
+							<a href="javascript:;" onclick="showNameTop(this)">特殊勤务</a>
 							<ul class="ul_header">
-								<li><a href="" onclick="showName(this)">综合武装设卡盘查</a></li>
-								<li><a href="" onclick="showName(this)">围村围点</a></li>
+								<li><a href="<c:url value='/duty/armedCheck.jsp'/>"
+									onclick="showNameTop(this)">综合武装设卡盘查</a></li>
+								<li><a href="<c:url value='/duty/CirclingPoint.jsp'/>" onclick="showNameTop(this)">围村围点</a></li>
 								<li><a href="">自定义勤务</a></li>
 							</ul>
 						</dd>
 						<dd>
-							<a href="javascript:;" onclick="showName(this)">站卡体系</a>
+							<a href="javascript:;" onclick="showNameTop(this)">站卡体系</a>
 							<ul class="ul_header">
-								<li><a href="" onclick="showName(this)">时际区际检查站</a></li>
-								<li><a href="" onclick="showName(this)">围村围点</a></li>
-								<li><a href="" onclick="showName(this)">治安岗点</a></li>
+								<li><a href="<c:url value='/duty/checkPointShift.jsp'/>" onclick="showNameTop(this)">市际区际检查站</a></li>
+								<li><a href="<c:url value='/duty/policeBoxShift.jsp'/>" onclick="showNameTop(this)">治安岗点</a></li>
 							</ul>
 						</dd>
 					</dl></li>
@@ -125,23 +134,23 @@
 						style="width: 25%; height: 25%;" src="../images/qwjx.png">&nbsp;勤务绩效</a>
 					<dl class="layui-nav-child">
 						<dd>
-							<a href="javascript:;" onclick="showName(this)">勤务督导</a>
+							<a href="javascript:;" onclick="showNameTop(this)">勤务督导</a>
 							<ul class="ul_header">
-								<li><a href="" onclick="showName(this)">电台点名</a></li>
-								<li><a href="" onclick="showName(this)">视频巡查</a></li>
-								<li><a href="" onclick="showName(this)">GPS轨迹倒查</a></li>
-								<li><a href="" onclick="showName(this)">盘查督导</a></li>
-								<li><a href="" onclick="showName(this)">街面可防性警情倒查</a></li>
-								<li><a href="" onclick="showName(this)">上下勤报备</a></li>
+								<li><a href="" onclick="showNameTop(this)">电台点名</a></li>
+								<li><a href="" onclick="showNameTop(this)">视频巡查</a></li>
+								<li><a href="" onclick="showNameTop(this)">GPS轨迹倒查</a></li>
+								<li><a href="" onclick="showNameTop(this)">盘查督导</a></li>
+								<li><a href="" onclick="showNameTop(this)">街面可防性警情倒查</a></li>
+								<li><a href="" onclick="showNameTop(this)">上下勤报备</a></li>
 							</ul>
 						</dd>
 						<dd>
-							<a href="javascript:;" onclick="showName(this)">统计分析</a>
+							<a href="javascript:;" onclick="showNameTop(this)">统计分析</a>
 							<ul class="ul_header">
-								<li><a href="" onclick="showName(this)">警力统计</a></li>
-								<li><a href="" onclick="showName(this)">盘查量统计</a></li>
-								<li><a href="" onclick="showName(this)">综合武装设卡盘查</a></li>
-								<li><a href="" onclick="showName(this)">围村围点</a></li>
+								<li><a href="" onclick="showNameTop(this)">警力统计</a></li>
+								<li><a href="" onclick="showNameTop(this)">盘查量统计</a></li>
+								<li><a href="" onclick="showNameTop(this)">综合武装设卡盘查</a></li>
+								<li><a href="" onclick="showNameTop(this)">围村围点</a></li>
 							</ul>
 						</dd>
 					</dl></li>
@@ -149,16 +158,16 @@
 						style="width: 22%; height: 20%;" src="../images/qwxx.png">&nbsp;勤务信息</a>
 					<dl class="layui-nav-child">
 						<dd>
-							<a href="" onclick="showName(this)">工作规范</a>
+							<a href="" onclick="showNameTop(this)">工作规范</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">勤务指令</a>
+							<a href="" onclick="showNameTop(this)">勤务指令</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">警情通报</a>
+							<a href="" onclick="showNameTop(this)">警情通报</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">治安摘报</a>
+							<a href="" onclick="showNameTop(this)">治安摘报</a>
 						</dd>
 					</dl></li>
 				<li class="layui-nav-item"><a href="javascript:;"><img
@@ -166,60 +175,60 @@
 					<dl class="layui-nav-child">
 						<dd>
 							<a href="<c:url value='/duty/policeStationScheduling.jsp'/>"
-								onclick="showName(this)">警力部署</a>
+								onclick="showNameTop(this)">警力部署</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">设备管理</a>
+							<a href="" onclick="showNameTop(this)">设备管理</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">巡逻必到点</a>
+							<a href="" onclick="showNameTop(this)">巡逻必到点</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">高峰站点</a>
+							<a href="" onclick="showNameTop(this)">高峰站点</a>
 						</dd>
 						<dd>
 							<a href="<c:url value='/home/outLogin'/>"
-								onclick="showName(this)">签到登记</a>
+								onclick="showNameTop(this)">签到登记</a>
 						</dd>
 					</dl></li>
 				<li class="layui-nav-item"><a href="javascript:;"><img
 						style="width: 22%; height: 22%;" src="../images/xtgl.png">&nbsp;系统管理</a>
 					<dl class="layui-nav-child" style="float: left">
 						<dd>
-							<a href="<c:url value='/lhc/policeList.jsp'/>" onclick="showName(this)">警员列表</a>
+							<a href="<c:url value='/lhc/policeList.jsp'/>" onclick="showNameTop(this)">警员列表</a>
 						</dd>
 						<dd>
-							<a href="<c:url value='/lhc/stationManage.jsp'/>" onclick="showName(this)">组织管理</a>
+							<a href="<c:url value='/lhc/stationManage.jsp'/>" onclick="showNameTop(this)">组织管理</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">用户列表</a>
+							<a href="" onclick="showNameTop(this)">用户列表</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">角色权限</a>
+							<a href="" onclick="showNameTop(this)">角色权限</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">系统参数</a>
+							<a href="" onclick="showNameTop(this)">系统参数</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">系统日志</a>
+							<a href="" onclick="showNameTop(this)">系统日志</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">指令模版</a>
+							<a href="" onclick="showNameTop(this)">指令模版</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">消息模版</a>
+							<a href="" onclick="showNameTop(this)">消息模版</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">卡口对应路段设置</a>
+							<a href="" onclick="showNameTop(this)">卡口对应路段设置</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">路线方案</a>
+							<a href="" onclick="showNameTop(this)">路线方案</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">清空缓存</a>
+							<a href="" onclick="showNameTop(this)">清空缓存</a>
 						</dd>
 						<dd>
-							<a href="" onclick="showName(this)">单位视野</a>
+							<a href="" onclick="showNameTop(this)">单位视野</a>
 						</dd>
 					</dl></li>
 			</ul>
@@ -317,7 +326,7 @@
 			});
 		}
 
-		function showName(obj) {
+		function showNameTop(obj) {
 			sessionStorage.removeItem("titleAdd");
 			var a = $(obj).parents();
 			var html = '';
@@ -331,6 +340,27 @@
 				html = html.substring(3);
 			}
 			sessionStorage.setItem("titleAdd", html);
+		}
+
+		// 阻止外层onclick发生
+		function cancelBubble(e) {
+			$("body").trigger("click");
+			var evt = e ? e : window.event;
+			if (evt.stopPropagation) { //W3C 
+				evt.stopPropagation();
+			} else { //IE      
+				evt.cancelBubble = true;
+			}
+		}
+		
+		// 提取不重复的数据存入数组
+		function isInArray(arr,value){
+			for(var i = 0; i < arr.length; i++){
+			    if(value === arr[i]){
+			        return true;
+			    }
+			}
+			return false;
 		}
 	</script>
 </header>
