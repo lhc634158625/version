@@ -105,13 +105,10 @@ function SelectPoliceNum(limitNum, sobj) {
  * 添加警员(无id),编辑警员(有id)
  */
 function AddNewPolice(formData) {
-    if(sessionStorage.getItem("edit_data")!=null){
-        let editData=eval(sessionStorage.getItem("edit_data"));
-        editData.code=formData.code;
-        // formData=editData;
-    }
+    if (sessionStorage.getItem("edit_id") != null) {
+        formData.id = sessionStorage.getItem("edit_id");
+    } 
     let pageFilter = new Object();
-    // $("#emps_table tbody").empty();
     pageFilter = formData;
     sessionStorage.setItem("add_new_name", formData.name);
     console.log(typeof formData.name);

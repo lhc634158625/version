@@ -123,7 +123,7 @@
 
 <!--新增警员-->
 <div id="add_police_view" style="display:none">
-    <form class="layui-form" action="" lay-filter="add_form">
+    <form class="layui-form" action="" lay-filter="add_form" id="add_police_form">
         <div class="layui-form-item layui-row">
             <div class="layui-col-md3" style="display:-webkit-flex;
                     flex-flow:row column nowrap;align-items: center;justify-content :center;
@@ -458,6 +458,10 @@
 
         //点击新增按钮
         $('#addPolice').on('click', function () {
+            if (sessionStorage.getItem("edit_id") != null) {
+                sessionStorage.removeItem("edit_id");
+            }
+            $("#add_police_form")[0].reset();
             openLayer();
         });
         //点击单位下拉       
@@ -643,7 +647,7 @@
                         //赋值
                         layui.use('form', function () {
                             var form = layui.form;
-                            form.val("add_form",{
+                            form.val("add_form", {
                                 "code": data.code,
                                 "name": data.name,
                                 "stationId": data.stationId,
@@ -654,9 +658,12 @@
                                 "idCode": data.idCode
                             })
                         })
-                        $('#addPolice').trigger("click");
+                        // $('#addPolice').trigger("click");
                         //设置数据
-                        sessionStorage.setItem("edit_data",JSON.stringify(data));
+                        sessionStorage.setItem("edit_id", data.id);
+                        //
+                        openLayer();
+
 
                     }
                 });
