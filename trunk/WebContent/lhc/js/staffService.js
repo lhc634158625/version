@@ -84,7 +84,7 @@ function SelectPoliceNum(limitNum, sobj) {
         pageFilter = sobj;
 
     }
-    load.GetPoliceNum("staff/staff/filterCount", pageFilter, function (result) {
+    load.PostData("staff/staff/filterCount", pageFilter, function (result) {
         policeNum = result.data; //条
         var y = policeNum % limitNum //余
         var policePageNum = parseInt(policeNum / limitNum); //页
@@ -115,7 +115,7 @@ function AddNewPolice(formData) {
     pageFilter = formData;
     sessionStorage.setItem("add_new_name", formData.name);
     console.log(typeof formData.name);
-    load.AddPolice("staff/staff/save", pageFilter, function (result) {
+    load.PostData("staff/staff/save", pageFilter, function (result) {
         if (result.message == "Success") {
             $("#search_name").val(sessionStorage.getItem("add_new_name"));
             $('#search_btn').trigger("click");
@@ -125,23 +125,6 @@ function AddNewPolice(formData) {
     });
 }
 
-/**
- * 编辑警员,多一个id
- */
-// function UpdatePolice(obj) {
-//     let pageFilter = new Object();
-//     // $("#emps_table tbody").empty();
-//     pageFilter = formData;
-//     sessionStorage.setItem("add_new_name", formData.name);
-//     load.AddPolice("staff/staff/save", pageFilter, function (result) {
-//         if (result.message == "Success") {
-//             $("#search_name").val(sessionStorage.getItem("add_new_name"));
-//             $('#search_btn').trigger("click");
-//         } else {
-
-//         }
-//     });
-// }
 
 /**
  * 新增警员,加载树的搜索下拉框
@@ -169,6 +152,10 @@ function loadTreeSelect() {
         }
     });
 }
+
+/**
+ * 删除警员
+ */
 
 
 

@@ -9,7 +9,7 @@ if (result != null) {
 
 function loadData() { }
 /**
- * 警员搜索
+ * 警员数据请求
  * @param {*} method 
  * @param {*} data 
  * @param {*} callback 
@@ -42,94 +42,6 @@ loadData.prototype.PostData = function (method, data, callback) {
     });
 }
 
-/**
- * 添加警员
- * @param {*} method 
- * @param {*} data 
- * @param {*} callback 
- */
-loadData.prototype.AddPolice = function (method, data, callback) {
-    console.log(data);
-    let datajson = JSON.stringify(data);
-    let url = _serviceUrl + method;
-
-    $.ajax({
-        cache: false,
-        type: "POST",
-        async: true,
-        headers: {
-            'token': dataObj.token,
-            "userId": dataObj.id
-        },
-        url: url,
-        data: datajson, // JSON.stringify(obj),
-        contentType: "application/json",
-        dataType: "json",
-        success: function (result) {
-            console.log(result.data);
-            callback(result);
-        }
-
-    });
-}
-
-
-/**
- * 查询警员数量
- * @param {*} method 
- * @param {*} data 
- * @param {*} callback 
- */
-loadData.prototype.GetPoliceNum = function (method, data, callback) {
-
-    let datajson = JSON.stringify(data);
-    let url = _serviceUrl + method;
-    // let result = sessionStorage.getItem("result");
-    // let dataObj;
-    // if (result != null) {
-    //     dataObj = eval("(" + result + ")");
-    //     console.log(dataObj)
-    // }
-
-
-    // let promise=new promise((resolve,reject)=>{
-    //     $.ajax({
-    //         cache: false,
-    //         type: "POST",
-    //         async: true,
-    //         headers: { 'token': tokenCode, "userId": "1" },
-    //         url: url,
-    //         data: datajson, // JSON.stringify(obj),
-    //         contentType: "application/json",
-    //         dataType: "json",
-    //         success: function (result) {
-    //             console.log(result.data);
-    //             callback(result);
-    //         }
-
-    //     });
-    // })
-    // return promise
-
-    $.ajax({
-        cache: false,
-        type: "POST",
-        async: true,
-        headers: {
-            'token': dataObj.token,
-            "userId": dataObj.id
-        },
-        url: url,
-        data: datajson, // JSON.stringify(obj),
-        contentType: "application/json",
-        dataType: "json",
-        success: function (result) {
-            console.log(result.data);
-            callback(result);
-        }
-
-    });
-}
 
 //加载数据对象
 var load = new loadData();
