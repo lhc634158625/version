@@ -51,7 +51,7 @@
 
         #divTree {
             height: 372px;
-            width: 200px;
+            width: 300px;
             overflow: auto;
             /* border: solid 1px #cccccc; */
             border-radius: 0 10px 10px 0;

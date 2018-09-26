@@ -57,8 +57,8 @@ function PagiNationSelect(obj, cobj) {
             { "fieldName": "name", "fieldType": "string", "opt": "=", "value": cobj.conditions.policeName },
             { "fieldName": "stationId", "fieldType": "integer", "opt": "=", "value": cobj.conditions.stationName },
             { "fieldName": "code", "fieldType": "string", "opt": "=", "value": cobj.conditions.code },
-            { "fieldName": "state", "fieldType": "string", "opt": "=", "value": "备勤" },
-            // { "fieldName": "pid", "fieldType": "string", "opt": "=", "value": dutyId },
+            { "fieldName": "state", "fieldType": "string", "opt": "=", "value": cobj.conditions.stateId },
+            { "fieldName": "positionName", "fieldType": "string", "opt": "=", "value": cobj.conditions.stationId },   
             // { "fieldName": "state", "fieldType": "string", "opt": "=", "value": stateId },
             // { "fieldName": "pid", "fieldType": "string", "opt": "=", "value": telNumber },
         ]
@@ -151,7 +151,7 @@ function loadTreeSelect(data) {
         }
         layui.use('form', function () {
             var form = layui.form;
-            if (data!=null) {
+            if (data != null) {
                 $("#station_select_ztree2").val(data.stationId);
             }
             form.render('select', 'add_form');
@@ -167,23 +167,25 @@ function loadTreeSelect(data) {
 /**
  * 删除警员
  */
-function delPolice(del_id) {
-    load.PostData("staff/staff/delete", del_id, function (result) {
+function deletePolice(policeId) {
+    load.PostData("staff/staff/delete", policeId, function (result) {
         if (result.message == "Success") {
             if (sessionStorage.getItem("search_conditions") != null) {
-                let pageFilter = sessionStorage.getItem("search_conditions");
-                load.PostData("staff/staff/filter", pageFilter, function (result) {
+                let condition = JSON.parse(sessionStorage.getItem("search_conditions"));
+                load.PostData("staff/staff/filter", condition, function (result) {
                     dataPolice = result.data;
-                    sessionStorage.setItem("pageLimit", pageFilter.pageSize);
+                    console.log(dataPolice);
+                    sessionStorage.setItem("pageLimit", condition.pageSize);
                     laytab.loadTab();//上下也加载   
                 });
+            } else {
+                GetPolice(1, 25);
             }
         } else {
 
         }
     });
 }
-
 
 
 /**
@@ -199,13 +201,45 @@ const vue = new Vue({
         //单位
         stationName: '',
         //岗位下拉列表
-        allStations: [{ id: 1, name: '无岗位' }, { id: 2, name: '警员' }, { id: 3, name: '值班领导' }],
+        allStations:
+            [
+                { id: 1, name: '无岗位' },
+                { id: 2, name: '警员' },
+                { id: 3, name: '值班领导' }
+            ],
         stationId: '',
         //角色下拉列表
-        allRoles: [{ id: 1, name: '通信' }, { id: 2, name: '值班长' }, { id: 3, name: '指挥车' }],
+        allRoles:
+            [
+                { id: 1, name: '管理员' },
+                { id: 2, name: '工作指导' },
+                { id: 3, name: '分局管理员' },
+                { id: 4, name: '科所队管理员' },
+                { id: 5, name: '操作员' },
+                { id: 6, name: '信通' },
+                { id: 7, name: '指挥车' },
+                { id: 8, name: '视频巡查席' },
+                { id: 9, name: '值班长' },
+                { id: 10, name: '特警队管理员' },
+                { id: 11, name: '纪检督察' },
+                { id: 12, name: '研判' }
+            ],
         roleId: '',
         //当前班下拉列表
-        allDutys: [{ id: 1, name: '领导' }, { id: 2, name: '正班' }, { id: 3, name: '副班' }],
+        allDutys:
+            [
+                { id: 1, name: '领导' },
+                { id: 2, name: '正班' },
+                { id: 3, name: '副班' },
+                { id: 4, name: '巡逻车' },
+                { id: 5, name: '摩托车' },
+                { id: 6, name: '下社区班' },
+                { id: 7, name: '步巡(高峰站点)' },
+                { id: 8, name: '110接处警' },
+                { id: 9, name: '一警' },
+                { id: 10, name: '二警' },
+                { id: 11, name: '三警' }
+            ],
         dutyId: '',
         //状态下拉列表
         allStates:
@@ -213,7 +247,10 @@ const vue = new Vue({
                 { id: 1, name: '待警' },
                 { id: 2, name: '110' },
                 { id: 3, name: '自接' },
-                { id: '', name: '' }
+                { id: 4, name: '移交' },
+                { id: 5, name: '故障' },
+                { id: 6, name: '其他勤务' },
+                { id: 7, name: '备勤' }
             ],
         stateId: '',
         //通信

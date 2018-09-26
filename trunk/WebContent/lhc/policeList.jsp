@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="../layui/css/layui.css">
     <link rel="stylesheet" href="../css/policeStationScheduling.css">
 
+    <!-- <link rel="stylesheet" href="./js/ztree/demo.css" type="text/css">
+    <link rel="stylesheet" href="./js/ztree/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="./js/ztree/jquery.ztree.core.js"></script> -->
+
     <style>
         html {
                     font-family: "Times New Roman", Georgia, Serif;
@@ -308,7 +312,7 @@
                                 <div class="layui-col-md10">
                                     <select name="stationId" v-model="stationId" lay-filter="myselect1" class="layui-input layui-col-md12">
                                         <option value="">未选择</option>
-                                        <option v-for="(station,index) in allStations" :value="station.id" :key="index">{{station.name}}</option>
+                                        <option v-for="(station,index) in allStations" :value="station.name" :key="index">{{station.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -322,7 +326,7 @@
                                 <div class="layui-col-md10">
                                     <select name="roleId" v-model="roleId" lay-filter="myselect2" class="layui-input layui-col-md12">
                                         <option value="">未选择</option>
-                                        <option v-for="(role,index) in allRoles" :value="role.id" :key="index">{{role.name}}</option>
+                                        <option v-for="(role,index) in allRoles" :value="role.name" :key="index">{{role.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -336,7 +340,7 @@
                                 <div class="layui-col-md9">
                                     <select name="dutyId" v-model="dutyId" lay-filter="myselect3" class="layui-input layui-col-md12">
                                         <option value="">未选择</option>
-                                        <option v-for="(duty,index) in allDutys" :value="duty.id" :key="index">{{duty.name}}</option>
+                                        <option v-for="(duty,index) in allDutys" :value="duty.name" :key="index">{{duty.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -350,19 +354,34 @@
                                 <div class="layui-col-md10">
                                     <select name="stateId" v-model="stateId" lay-filter="myselect4" class="layui-input layui-col-md12">
                                         <option value="">未选择</option>
-                                        <option v-for="(state,index) in allStates" :value="state.id" :key="index">{{state.name}}</option>
+                                        <option v-for="(state,index) in allStates" :value="state.name" :key="index">{{state.name}}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="layui-inline">
                             <div class="layui-form-item layui-row">
-                                <div class="layui-col-md3">
+                                <div class="layui-col-md1">
                                     <input type="button" value="搜索" id="search_btn" lay-submit lay-filter="sr" class="layui-btn"
-                                        style="margin-left:30px;width:100px;height:35px;background-color:#3F69BA;" />
+                                        style="margin-left:10px;width:60px;height:35px;background-color:#3F69BA;" />
                                 </div>
                             </div>
                         </div>
+                        <!-- <div class="layui-inline">
+                            <div class="content_wrap">
+                                <div class="zTreeDemoBackground left">
+                                    <ul class="list">
+                                        <li class="title">&nbsp;&nbsp;城市：<input id="citySel" type="text" readonly value=""
+                                                style="width:120px;" />
+                                            &nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">选择</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+                                <ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
+                            </div>
+                        </div> -->
                     </form>
                 </div>
 
@@ -501,7 +520,7 @@
             select_station_tree = layer.open({
                 type: 1,
                 //title:,
-                area: ['200px', '380px'],
+                area: ['300px', '380px'],
                 offset: ['263px', '260px'],
                 shade: 0,//遮罩
                 scrollbar: false,
@@ -653,6 +672,7 @@
                         layer.confirm('真的删除行么', function (index) {
                             obj.del();
                             layer.close(index);
+                            deletePolice(data.id);
                         });
                     } else if (obj.event === 'edit') {
                         console.log(data);
@@ -660,7 +680,7 @@
                         //赋值
 
                         layui.use('form', function () {
-                            var form = layui.form;                    
+                            var form = layui.form;
                             form.val("add_form", {
                                 "code": data.code,
                                 "name": data.name,
@@ -673,8 +693,8 @@
 
                             })
                             console.log(data.stationId);
-                            loadTreeSelect(data);          
-                            
+                            loadTreeSelect(data);
+
                         })
                         //设置数据
                         sessionStorage.setItem("edit_id", data.id);
@@ -715,6 +735,88 @@
 
 
     </script>
+    <!-- <SCRIPT type="text/javascript">
+
+        var setting = {
+            view: {
+                dblClickExpand: false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                beforeClick: beforeClick,
+                onClick: onClick
+            }
+        };
+
+        var zNodes = [
+            { id: 1, pId: 0, name: "北京" },
+            { id: 2, pId: 0, name: "天津" },
+            { id: 3, pId: 0, name: "上海" },
+            { id: 6, pId: 0, name: "重庆" },
+            { id: 4, pId: 0, name: "河北省", open: true },
+            { id: 41, pId: 4, name: "石家庄" },
+            { id: 42, pId: 4, name: "保定" },
+            { id: 43, pId: 4, name: "邯郸" },
+            { id: 44, pId: 4, name: "承德" },
+            { id: 5, pId: 0, name: "广东省", open: true },
+            { id: 51, pId: 5, name: "广州" },
+            { id: 52, pId: 5, name: "深圳" },
+            { id: 53, pId: 5, name: "东莞" },
+            { id: 54, pId: 5, name: "佛山" },
+            { id: 6, pId: 0, name: "福建省", open: true },
+            { id: 61, pId: 6, name: "福州" },
+            { id: 62, pId: 6, name: "厦门" },
+            { id: 63, pId: 6, name: "泉州" },
+            { id: 64, pId: 6, name: "三明" }
+        ];
+
+        function beforeClick(treeId, treeNode) {
+            var check = (treeNode && !treeNode.isParent);
+            if (!check) alert("只能选择城市...");
+            return check;
+        }
+
+        function onClick(e, treeId, treeNode) {
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                nodes = zTree.getSelectedNodes(),
+                v = "";
+            nodes.sort(function compare(a, b) { return a.id - b.id; });
+            for (var i = 0, l = nodes.length; i < l; i++) {
+                v += nodes[i].name + ",";
+            }
+            if (v.length > 0) v = v.substring(0, v.length - 1);
+            var cityObj = $("#citySel");
+            cityObj.attr("value", v);
+        }
+
+        function showMenu() {
+            var cityObj = $("#citySel");
+            var cityOffset = $("#citySel").offset();
+            $("#menuContent").css({ left: cityOffset.left + "px", top: cityOffset.top + cityObj.outerHeight() + "px" }).slideDown("fast");
+
+            $("body").bind("mousedown", onBodyDown);
+        }
+        function hideMenu() {
+            $("#menuContent").fadeOut("fast");
+            $("body").unbind("mousedown", onBodyDown);
+        }
+        function onBodyDown(event) {
+            if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+                hideMenu();
+            }
+        }
+
+        $(document).ready(function () {
+            var indDB = new IndexDB();
+            indDB.GetData("treeData", function (datas) {
+                $.fn.zTree.init($("#treeDemo"), setting, datas);
+            });
+        });
+    </SCRIPT> -->
 </body>
 
 </html>
