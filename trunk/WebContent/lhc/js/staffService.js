@@ -57,7 +57,7 @@ function PagiNationSelect(obj, cobj) {
             { "fieldName": "name", "fieldType": "string", "opt": "=", "value": cobj.conditions.policeName },
             { "fieldName": "stationId", "fieldType": "integer", "opt": "=", "value": cobj.conditions.stationName },
             { "fieldName": "code", "fieldType": "string", "opt": "=", "value": cobj.conditions.code },
-            // { "fieldName": "pid", "fieldType": "string", "opt": "=", "value": roleId },
+            { "fieldName": "state", "fieldType": "string", "opt": "=", "value": "备勤" },
             // { "fieldName": "pid", "fieldType": "string", "opt": "=", "value": dutyId },
             // { "fieldName": "state", "fieldType": "string", "opt": "=", "value": stateId },
             // { "fieldName": "pid", "fieldType": "string", "opt": "=", "value": telNumber },
@@ -65,7 +65,9 @@ function PagiNationSelect(obj, cobj) {
         arr = arr.filter((item) => { return item.value !== "" });
         pageFilter.conditions = arr;
         SelectPoliceNum(cobj.pageSize, pageFilter);//给搜索警员数量conditions
+        sessionStorage.setItem("search_conditions", JSON.stringify(pageFilter));//刷新所需条件
     }
+    // sessionStorage.setItem("conditions",pageFilter)
     load.PostData("staff/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
         sessionStorage.setItem("pageLimit", pageFilter.pageSize);
@@ -107,15 +109,24 @@ function SelectPoliceNum(limitNum, sobj) {
 function AddNewPolice(formData) {
     if (sessionStorage.getItem("edit_id") != null) {
         formData.id = sessionStorage.getItem("edit_id");
-    } 
+    }
     let pageFilter = new Object();
     pageFilter = formData;
-    sessionStorage.setItem("add_new_name", formData.name);
-    console.log(typeof formData.name);
+    sessionStorage.setItem("skip_stationName", formData.stationId);
+    console.log(formData.stationId);
     load.PostData("staff/staff/save", pageFilter, function (result) {
         if (result.message == "Success") {
-            $("#search_name").val(sessionStorage.getItem("add_new_name"));
-            $('#search_btn').trigger("click");
+            if (sessionStorage.getItem("search_conditions") != null) {
+                let condition = JSON.parse(sessionStorage.getItem("search_conditions"));
+                load.PostData("staff/staff/filter", condition, function (result) {
+                    dataPolice = result.data;
+                    console.log(dataPolice);
+                    sessionStorage.setItem("pageLimit", condition.pageSize);
+                    laytab.loadTab();//上下也加载   
+                });
+            } else {
+                GetPolice(1, 25);
+            }
         } else {
 
         }
@@ -126,7 +137,7 @@ function AddNewPolice(formData) {
 /**
  * 新增警员,加载树的搜索下拉框
  */
-function loadTreeSelect() {
+function loadTreeSelect(data) {
     var indDB = new IndexDB();
     indDB.GetData("AllStation", function (datas) {
         _allStations = datas;
@@ -140,6 +151,9 @@ function loadTreeSelect() {
         }
         layui.use('form', function () {
             var form = layui.form;
+            if (data!=null) {
+                $("#station_select_ztree2").val(data.stationId);
+            }
             form.render('select', 'add_form');
         });
         if (_allStations == null) {
@@ -153,6 +167,22 @@ function loadTreeSelect() {
 /**
  * 删除警员
  */
+function delPolice(del_id) {
+    load.PostData("staff/staff/delete", del_id, function (result) {
+        if (result.message == "Success") {
+            if (sessionStorage.getItem("search_conditions") != null) {
+                let pageFilter = sessionStorage.getItem("search_conditions");
+                load.PostData("staff/staff/filter", pageFilter, function (result) {
+                    dataPolice = result.data;
+                    sessionStorage.setItem("pageLimit", pageFilter.pageSize);
+                    laytab.loadTab();//上下也加载   
+                });
+            }
+        } else {
+
+        }
+    });
+}
 
 
 
@@ -164,6 +194,8 @@ const vue = new Vue({
     data: {
         //警员名称
         policeName: '',
+        //警号
+        code: '',
         //单位
         stationName: '',
         //岗位下拉列表
@@ -176,7 +208,13 @@ const vue = new Vue({
         allDutys: [{ id: 1, name: '领导' }, { id: 2, name: '正班' }, { id: 3, name: '副班' }],
         dutyId: '',
         //状态下拉列表
-        allStates: [{ id: 1, name: '待警' }, { id: 2, name: '110' }, { id: 3, name: '自接' }],
+        allStates:
+            [
+                { id: 1, name: '待警' },
+                { id: 2, name: '110' },
+                { id: 3, name: '自接' },
+                { id: '', name: '' }
+            ],
         stateId: '',
         //通信
         telNumber: '',

@@ -153,7 +153,7 @@
             <div class="layui-col-md6">
                 <!-- <input type="text" name="stationId" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
                     class="layui-input"> -->
-                <select name="stationId" lay-search="" lay-verify="required" id="station_select_ztree2">
+                <select name="stationId" lay-filter="stationId" lay-search="" lay-verify="required" id="station_select_ztree2">
                     <option value="">直接选择或搜索选择</option>
                 </select>
             </div>
@@ -284,7 +284,18 @@
                                                 height: 38px;"><span
                                         style="">警号:</span></div>
                                 <div class="layui-col-md10">
-                                    <input name="code" type="text" class="layui-input" autocomplete="off" v-model="telNumber" />
+                                    <input name="code" type="text" class="layui-input" autocomplete="off" v-model="code" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-form-item layui-row">
+                                <div class="layui-col-md2" style="display:-webkit-flex;
+                                                flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                                height: 38px;"><span
+                                        style="">电话:</span></div>
+                                <div class="layui-col-md10">
+                                    <input name="tel" type="text" class="layui-input" autocomplete="off" v-model="telNumber" />
                                 </div>
                             </div>
                         </div>
@@ -430,6 +441,8 @@
             SelectPoliceNum(pageLimit, null)
             GetPolice(1, 25);//第几页,一页几条    
             sessionStorage.removeItem("cobj");
+            sessionStorage.removeItem("search_conditions");
+            sessionStorage.removeItem("pageLimit");
             //异步
             // function* initGenerator() {
             //     yield SelectPoliceNum(pageLimit, null)
@@ -463,6 +476,7 @@
             }
             $("#add_police_form")[0].reset();
             openLayer();
+            loadTreeSelect(null);
         });
         //点击单位下拉       
         $('#station_select_ztree').on('click', function () {
@@ -471,8 +485,6 @@
 
         //layui弹出框
         function openLayer() {
-            loadTreeSelect();
-            // initGT.next();
             var add_police_form = layer.open({
                 type: 1,
                 //title:,
@@ -622,6 +634,7 @@
                 if (sessionStorage.getItem("pageLimit") != null) {
                     pageLimit = sessionStorage.getItem("pageLimit");
                 }
+                console.log(pageLimit);
                 //表格重载,自定义表格与分页
                 table.reload('idTest', {
                     limit: pageLimit,//控制表格实际加载
@@ -645,8 +658,9 @@
                         console.log(data);
                         // layer.alert('编辑行：<br>' + JSON.stringify(data))
                         //赋值
+
                         layui.use('form', function () {
-                            var form = layui.form;
+                            var form = layui.form;                    
                             form.val("add_form", {
                                 "code": data.code,
                                 "name": data.name,
@@ -655,10 +669,13 @@
                                 "telephone": data.telephone,
                                 "leaderPost": data.leaderPost,
                                 "nonLeaderPost": data.nonLeaderPost,
-                                "idCode": data.idCode
+                                "idCode": data.idCode,
+
                             })
+                            console.log(data.stationId);
+                            loadTreeSelect(data);          
+                            
                         })
-                        // $('#addPolice').trigger("click");
                         //设置数据
                         sessionStorage.setItem("edit_id", data.id);
                         //
