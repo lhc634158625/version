@@ -13,6 +13,7 @@
             <link rel="stylesheet" href="../css/policeStationScheduling.css">
             <script src="../js/layui2/layui.js"></script>
 
+
             <style>
                 html {
                     /* width: 1920px;
@@ -255,8 +256,9 @@
                 </div>
                 <!-- <script src="./js/vue.js"></script> -->
                 <script src="../My97DatePicker/WdatePicker.js"></script>
-
-                <!-- <script src="./js/stationService.js"></script> -->
+                <script src="./js/stationService.js"></script>  
+                <script src="./js/ztreeData.js"></script>
+                <script src="./js/dataInterface.js"></script>
                 <script>
                     $("#show_hid").attr({ "disabled": "disabled" });
 

@@ -90,12 +90,13 @@
                 }
 
                 #addPolice {
-                    background-color: #90B2F1;
+                    background-color: #3F69BA;
                 }
 
                 #ztree_select {
                     display: none;
                     overflow: hidden;
+                    border: 1px solid #e6e6e6;
                 }
 
                 .laytable {
@@ -233,12 +234,17 @@
             <!-- 内容主体区域 -->
             <div style="position:absolute;top:70px;width: 100%">
 
+                <!--警员列表显示数量-->
+                <div class="layui-row">
+                </div>
                 <!--表格操作,新增,批量-->
                 <div class="layui-row">
                     <div class="layui-btn-group demoTable">
-                        <button id="layui_getSelectData_btn" class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+                        <!-- <button id="layui_getSelectData_btn" class="layui-btn" data-type="getCheckData">获取选中行数据</button>
                         <button id="layui_getSelectNums_btn" class="layui-btn" data-type="getCheckLength">获取选中数目</button>
-                        <button id="layui_allSelect_btn" class="layui-btn" data-type="isAll">验证是否全选</button>
+                        <button id="layui_allSelect_btn" class="layui-btn" data-type="isAll">验证是否全选</button> -->
+                        <button id="layui_getSelectData_btn" class="layui-btn">警员列表</button>
+                        <button id="layui_getSelectNums_btn" class="layui-btn">总共:5196项</button>
                         <button class="layui-btn" id="addPolice">新增警员</button>
                     </div>
                 </div>
@@ -436,7 +442,7 @@
     <script src="./js/layui/layui.js"></script>
     <script src="../js/IndexDB.js"></script>
     <script src="./js/staffService.js"></script>
-    <script src="./js/staffData.js"></script>
+    <script src="./js/dataInterface.js"></script>
     <script>
 
         var data_lists;
