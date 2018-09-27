@@ -1,3 +1,10 @@
+/**
+ * 单位树
+ */
+
+/**
+ * ztree树
+ */
 function AfterInitial() {		
     stationSelector = new StationSelector();    
     stationSelector.Initial();	    
