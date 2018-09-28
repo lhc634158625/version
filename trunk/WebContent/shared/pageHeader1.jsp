@@ -195,10 +195,10 @@
 						style="width: 22%; height: 22%;" src="../images/xtgl.png">&nbsp;系统管理</a>
 					<dl class="layui-nav-child" style="float: left">
 						<dd>
-							<a href="<c:url value='/lhc/policeList.jsp'/>" onclick="showNameTop(this)">警员列表</a>
+							<a href="<c:url value='/sys/policeList.jsp'/>" onclick="showNameTop(this)">警员列表</a>
 						</dd>
 						<dd>
-							<a href="<c:url value='/lhc/stationManage.jsp'/>" onclick="showNameTop(this)">组织管理</a>
+							<a href="<c:url value='/sys/stationManage.jsp'/>" onclick="showNameTop(this)">组织管理</a>
 						</dd>
 						<dd>
 							<a href="" onclick="showNameTop(this)">用户列表</a>
