@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+   
+<select id="Getvw_allPointByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.duty.PointInfo"  statementType="STATEMENT">
+        SELECT ownerId,ownerName,type,name,longitude,latitude,stationId FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from vw_allPoint  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ 
+</mapper>
+

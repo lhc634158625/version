@@ -121,7 +121,7 @@ function StationSelector() {
     //��ѡ�¼�����
     function SelectStation(event, treeId, treeNode) {
     	if(typeof parent.changeStation=="function"){
-    		parent.changeStation(treeNode);//在policeStationSchedulingMenu.jsp中
+    		parent.changeStation(treeNode);
     	}
     }
     function SelectStationById(id) {

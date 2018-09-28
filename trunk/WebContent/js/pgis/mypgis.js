@@ -60,7 +60,19 @@
     				return feature;
     			}
             });
-
+            if (marker && (marker.type == "135"||marker.type == "keyDefense" || marker.type == "encrypt")) {
+            	DrawPGISInfo.onClickPointInfo(marker);
+            }
+            
+            if (marker && marker.type == "staff") {
+                try {
+                	//marker.showTitle();
+                	marker.openInfoWindow(marker.content,marker.getPoint(),'ez-popup');
+                } catch (e) {
+                	alert(e.message);
+                }
+                return;
+            }
             if (marker && marker.type == "place") {
                 try {
                     LineListHelper.Logic.ShowPlaceInfo(marker.ID);
@@ -289,15 +301,41 @@
         marker.uuid = obj.uuid || "-1";
         marker.lineid = obj.lineid || "-1";
         marker.ID=obj.ID;
+        marker.type=obj.type;
         PGISHelper.Points.push(marker);
         return marker;
-    },    
+    },
+    ReShowMarkByType:function(type,showType,showTypeHas){
+    	var points = Enumerable.From(PGISHelper.Points).Where("x=>x.type =='" + type + "'").ToArray();
+    	for (var i = 0; i < points.length; i++) {
+            PGISHelper.Map.removeOverlay(points[i]);
+        }
+    	for (var i = 0; i < points.length; i++) {
+    		var flag=(points[i].SX/4*4) & showType;
+    		var flag1= (points[i].SX % 4) & showTypeHas;
+    		if(showType==0){
+    			flag=1;
+    		}
+    		if(showTypeHas==0)
+    			flag1=1;
+    		if(flag>0 && flag1>0){
+    			PGISHelper.Map.addOverlay(points[i]);
+    		}
+        } 
+    	
+    },
+    RemoveMarkByType: function (type) {
+        var points = Enumerable.From(PGISHelper.Points).Where("x=>x.type =='" + type + "'").ToArray();
+        for (var i = 0; i < points.length; i++) {
+            PGISHelper.Map.removeOverlay(points[i]);
+        } 
+        PGISHelper.Points = Enumerable.From(PGISHelper.Points).Where("x=>x.type !='" + type + "'").ToArray();
+    },
     RemoveMark: function (uuid) {
         var points = Enumerable.From(PGISHelper.Points).Where("x=>x.uuid =='" + uuid + "'").ToArray();
-        for (var i = 0; i < points; i++) {
-            PGISHelper.Map.removeOverlay(points);
-        }
-        
+        for (var i = 0; i < points.length; i++) {
+            PGISHelper.Map.removeOverlay(points[i]);
+        }        
     },
     AddLine: function (points, color, width, line, markmodel, type) {
         var style_opts = {

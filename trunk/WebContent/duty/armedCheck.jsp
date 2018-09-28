@@ -549,6 +549,209 @@
 		move = true;
 	}
 </script>
+<script type="text/javascript">
+var whole_shiftId;// 字典排班类型code
+var whole_stationId;// 字典单位code
+var whole_pointInfoMap=new Map();
+//动态生成左部菜单栏内容
+$(function() {
+		whole_patrolTypeList = new Array()
+		PostData("base/baseDict/filter", createRequest(0, 20, "id",
+				"DictName,string,=,PointInfo"),
+				function(result) {					
+					for (var i=0;i<result.data.length;i++) {
+						if(result.data[i].name == "综合武装设卡盘查"){
+							whole_shiftId = result.data[i].id;
+							whole_pointInfoMap.set(result.data[i].name,result.data[i].id);
+							break;
+						}
+					}
+					whole_pointInfoMap = getPointInfo(result.data, whole_shiftId, whole_pointInfoMap);
+					whole_stationId = whole_pointInfoMap.get("分局");
+					var strConditions = "Type,string,=," + whole_stationId;
+					PostData(
+							"point/point/filter",
+							createRequest(0, 1000, "id",
+									strConditions),
+							function(result) {
+								var stationsMess = result.data;
+								$("#stationL1").empty();								
+								for (var i = 0; i < stationsMess.length; i++) {
+									var stationMess = stationsMess[i];
+									createChild("stationL1",stationMess);
+								}
+									
+							});
+				});
+	});
+	
+//动态创建分局及其子元素
+function createChild(fatherId,elementMessage){
+	var father = document.getElementById(fatherId);
+	var child = document.createElement("li");
+	child.setAttribute("onclick", "showL2(this)");
+	child.setAttribute("id", elementMessage.id);
+	child.innerHTML=elementMessage.name+'<img src="../images/starlogo.png" onclick="showTable()">';
+	
+	var obj_ul = document.createElement("ul");
+	obj_ul.setAttribute("id", "stationL2");
+	obj_ul.setAttribute("title", elementMessage.id);
+	child.appendChild(obj_ul);
+	
+	father.appendChild(child);
+}
+
+//动态创建分局及其子元素2
+function createChild_ul_li(obj,elementMessage){
+	var father = obj;
+	var fobj = document.getElementById(obj.id);
+	var name = fobj.getAttribute("name");
+	$(".div-info").attr("testAttr");
+	var child = document.createElement("li");
+	child.setAttribute("onclick", "showL3(this)");
+	child.setAttribute("id", elementMessage.id);
+	child.setAttribute("title",obj.title);
+	child.innerHTML=elementMessage.name+'<img src="../images/starlogo.png" onclick="showTable(1)">';
+		
+	var obj_ul = document.createElement("ul");
+	obj_ul.setAttribute("id", "stationL3");
+	child.appendChild(obj_ul);
+	
+	var add_input = document.createElement("input");
+	add_input.setAttribute("type", "button");
+	add_input.setAttribute("class", "layui-btn layui-btn-primary");
+	add_input.setAttribute("value", "添加");
+	obj_ul.appendChild(add_input);
+	
+	father.appendChild(child);
+}
+
+//动态创建分局及其子元素
+function createChild3_ul_li(obj,elementMessage){
+	var father = obj;
+	var child = document.createElement("li");
+	child.setAttribute("onclick", "showMess(this)");
+	child.setAttribute("id", elementMessage.id);
+	//child.innerHTML=elementMessage.name+'<img src="../images/starlogo.png" onclick="showTable()">';
+	
+	var li_span = document.createElement("span");
+	li_span.setAttribute("id", "stationL2");
+	li_span.setAttribute("title", elementMessage.name);
+	li_span.innerHTML=elementMessage.name 
+	child.appendChild(li_span);
+	
+	var li_img = document.createElement("img");
+	li_img.setAttribute("src", "../images/starlogo.png");
+	li_img.setAttribute("onclick", "showTable()");
+	child.appendChild(li_img);
+	
+	father.appendChild(child);
+}
+
+//点击分局获取检查点和卡口信息
+
+function showL2(obj) {	
+		var tag = $(obj).children();
+		for (var i = 0; i < tag.length; i++) {
+			if (tag[i].localName == "ul") {
+				var ul = tag[i];
+				var display = tag[i].style.display;
+				if (display == "block") {
+					var child = tag[i].children;
+					var count = child.length;
+					for(var c=0;c<count;c++){
+						tag[i].removeChild(child[0]);
+					}
+					
+					$(obj).removeClass("liL1");
+					tag[i].style.display = "none";
+				} else {
+					PostData("base/baseDict/filter", createRequest(0, 20, "id",
+					"DictName,string,=,PointInfo"),
+					function(result) {
+						for (var j=0;j<result.data.length;j++) {
+							if(result.data[j].name == "检查站" || result.data[j].name == "临时卡点"){
+								createChild_ul_li(ul,result.data[j]);
+							}
+						}
+						
+					});
+					$(obj).addClass("liL1");
+					tag[i].style.display = "block";
+				}
+			}
+		}
+	}
+
+function showL3(obj) {
+	var tag = $(obj).children();
+	for (var i = 0; i < tag.length; i++) {
+		if (tag[i].localName == "ul") {
+			var ul = tag[i];
+			var display = tag[i].style.display;
+			if (display == "block") {
+				var child = tag[i].children;
+				var count = child.length;
+				for(var c=0;c<count;c++){
+					if(null != child[1] )
+					tag[i].removeChild(child[1]);
+				}
+				$(obj).removeClass("liL1");
+				tag[i].style.display = "none";
+			} else {
+				var strConditions = "Type,string,=," + obj.id+";Pid,string,=,"+obj.title;
+				PostData("point/point/filter",
+						createRequest(0, 1000, "id",strConditions),
+				function(result) {
+					for (var j=0;j<result.data.length;j++) {
+							createChild3_ul_li(ul,result.data[j]);
+					}
+				});
+				$(obj).addClass("liL1");
+				tag[i].style.display = "block";
+			}
+		}
+	}
+	cancelBubble();
+}
+
+//获取综合武装设卡盘查所有的id
+function getPointInfo(result, id, pointInfoMap) {
+	for(var i=0;i<result.length;i++){	
+		if(result[i].pid==id){
+			pointInfoMap.set(result[i].name, result[i].id);
+			getPointInfo(result, result[i].id, pointInfoMap);				
+		}
+	}
+	return pointInfoMap;
+}
+
+// 请求参数
+function createRequest(page, pageSize, orderField, strCondition) {
+	var request = new Object();
+	var conditions = new Array();
+	request.page = page;
+	request.pageSize = pageSize;
+	request.orderField = orderField;
+	var items = strCondition.split(";")
+	for (var i = 0; i < items.length; i++) {
+		var temps = items[i].split(",");
+		var condition = new Object();
+		condition.fieldName = temps[0];
+		condition.fieldType = temps[1];
+		condition.opt = temps[2];
+		condition.value = temps[3];
+		if(temps.length>4){
+			for(var j=0;j<temps.length-4;j++){
+				condition.value +=","+temps[4+j];
+			}
+		}
+		conditions.push(condition);
+	}
+	request.conditions = conditions;
+	return request;
+}
+</script>
 <script src="../js/jquery.ztree.all-3.1.min.js"></script>
 <script src="../js/dateTime.js"></script>
 <script src="../js/common.js?v=180725" type="text/javascript"></script>

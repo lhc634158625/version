@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+
+<select id="GetStationDutyStateReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.common.ReportItem"  >
+   select groupName,name,value from(
+   select Name groupName,'派出所' name,  dbo.GetTotalCount(id,name,'派出所')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   union all
+    select Name groupName,'警务区' name,  dbo.GetTotalCount(id,name,'警务区')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+    select Name groupName,'在岗' name,  dbo.GetTotalCount(id,name,'在岗')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   
+    union all
+    select Name groupName,'备勤' name,  dbo.GetTotalCount(id,name,'备勤')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   
+    union all
+    select Name groupName,'巡逻车' name,  dbo.GetTotalCount(id,name,'巡逻车')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+    select Name groupName,'单兵设备' name,  dbo.GetSingleTotalCount(id,name,'单兵设备')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+    select Name groupName,'ll0' name,  dbo.GetTotalCount(id,name,'ll0')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   
+   union all
+    select Name groupName,'24小时接处警' name,  dbo.GetTotalCount(id,name,'24小时接处警')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+    select Name groupName,'自接' name,  dbo.GetTotalCount(id,name,'自接')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+ ) a order by groupName
+</select>
+
+<select id="GetStationShiftReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.common.ReportItem"  >
+     select b.name groupName,ShiftState name,cast(value as float) value from(
+  	select ShiftType ,ShiftState ,count(Id) value from staff
+	where exists(select id from dbo.getChildIds(#{stationId},'1'))	
+	group by ShiftType,ShiftState   ) a,shiftType b
+	where a.shiftType=b.id 
+	order by b.name
+</select>
+<select id="GetStationCaseReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.common.ReportItem"  >
+select groupName,name,cast(value as float) value from(
+   select Name groupName,'派出所' name,  dbo.GetTotalCount(id,name,'派出所')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   union all
+    select Name groupName,'警务区' name,  dbo.GetTotalCount(id,name,'警务区')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+    select Name groupName,'刑事' name, dbo.GetTotalCount(id,name,'刑事')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   
+    union all
+    select Name groupName,'治安' name,  dbo.GetTotalCount(id,name,'治安')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   
+    union all
+    select Name groupName,'民事' name,  dbo.GetTotalCount(id,name,'民事')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+     select Name groupName,'交通' name,  dbo.GetTotalCount(id,name,'交通')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+    select Name groupName,'ll0' name,  dbo.GetTotalCount(id,name,'ll0')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+    select Name groupName,'24小时接处警' name,  dbo.GetTotalCount(id,name,'24小时接处警')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   
+    union all
+    select Name groupName,'自接' name,  dbo.GetTotalCount(id,name,'自接')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+ ) a order by groupName
+</select>
+
+<select id="GetStationDeviceReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.common.ReportItem"  >
+select groupName,name,cast(value as float) value from(
+   select Name groupName,'派出所' name,  dbo.GetTotalCount(id,name,'派出所')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   union all
+    select Name groupName,'警务区' name,  dbo.GetTotalCount(id,name,'警务区')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+    select Name groupName,'巡逻车' name, dbo.GetTotalCount(id,name,'巡逻车')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   
+    union all
+    select Name groupName,'巡逻车在线' name,  dbo.GetTotalCount(id,name,'巡逻车在线')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   
+    union all
+    select Name groupName,'单兵设备' name,  dbo.GetTotalCount(id,name,'单兵设备')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+     select Name groupName,'单兵设备在线' name,  dbo.GetTotalCount(id,name,'单兵设备在线')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+    union all
+    select Name groupName,'ll0' name,  dbo.GetTotalCount(id,name,'ll0')  value
+   from station where isuse=1  
+   and exists (select id from StationGroup where groupid=5 and stationid=station.id) and (id=#{stationId} or pId=#{stationId}) 
+   
+ ) a order by groupName
+</select>
+
+
+</mapper>
+

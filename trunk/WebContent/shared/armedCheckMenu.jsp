@@ -36,6 +36,11 @@
 	cursor: pointer;
 }
 
+#stationL2{
+	background-color:#fff;
+	display: none;
+}
+
 #stationL2 li {
 	min-height: 28px;
 	height: auto;
@@ -45,6 +50,11 @@
 	text-indent: 36px;
 }
 
+#stationL3{
+	display: none; 
+	background-color: white;
+}
+
 #stationL3 li {
 	min-height: 24px;
 	height: auto;
@@ -52,6 +62,10 @@
 	font-size: 12px;
 	vertical-align: middle;
 	text-indent: 50px;
+}
+#stationL3 span:hover {
+	background: #7fa7fe;
+	cursor: pointer;
 }
 
 #stationL3 li img {
@@ -90,45 +104,7 @@
 					<li><button class="layui-btn" style="background: #4472ca">分局盘查勤务查看</button></li>
 				</ul>
 				<ul id="stationL1">
-					<li onclick="showL2(this)">集美分局<img
-						src="../images/starlogo.png" onclick="showTable()"></li>
-					<li onclick="showL2(this)">思明分局<img
-						src="../images/starlogo.png" onclick="showTable()"></li>
-					<li>海沧分局<img src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>湖里分局<img src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>同安分局<img src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>翔安分局<img src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li>交通分局<img src="../images/starlogo.png"
-						onclick="showTable()"></li>
-					<li onclick="showL2(this)">机场分局<img
-						src="../images/starlogo.png" onclick="showTable()">
-						<ul id="stationL2" style="display: none; background-color: white;">
-							<li onclick="showL3(this)">检查站<img
-								src="../images/starlogo.png" onclick="showTable(1)">
-								<ul id="stationL3"
-									style="display: none; background-color: white;">
-									<li onclick="showMess(1)"><span title="思明分局交警大队机动中队_厦大隧道">思明分局交警大队机动中队_厦大隧道</span><img
-										src="../images/starlogo.png" onclick="showTable()"></li>
-									<li onclick="showMess(1)"><span title="梧村所_火车站">梧村所_火车站</span><img
-										src="../images/starlogo.png" onclick="showTable()"></li>
-								</ul>
-							</li>
-							<li onclick="showL3(this)">临时卡点<img
-								src="../images/starlogo.png" onclick="showTable(2)">
-								<ul id="stationL3"
-									style="display: none; background-color: white;">
-									<li onclick="showMess()"><span title="滨北所_湖滨中路仙岳路口">滨北所_湖滨中路仙岳路口</span><img
-										src="../images/starlogo.png" onclick="showTable(2)"></li>
-									<li onclick="showMess()"><span title="市局_黄厝路口">市局_黄厝路口</span><img
-										src="../images/starlogo.png" onclick="showTable(2)"></li>
-								</ul>
-							</li>
-						</ul>
-					</li>
+				
 				</ul>
 			</div>
 		</div>
@@ -140,39 +116,7 @@
      {{#  }); }}
      </script>
 	<script>
-		function showL2(obj) {
-			var tag = $(obj).children();
-			for (var i = 0; i < tag.length; i++) {
-				if (tag[i].localName == "ul") {
-					var display = tag[i].style.display;
-					if (display == "block") {
-						$(obj).removeClass("liL1");
-						tag[i].style.display = "none";
-					} else if (display == "none") {
-						$(obj).addClass("liL1");
-						tag[i].style.display = "block";
-					}
-				}
-			}
-		}
-
-		function showL3(obj) {
-			var tag = $(obj).children();
-			for (var i = 0; i < tag.length; i++) {
-				if (tag[i].localName == "ul") {
-					var display = tag[i].style.display;
-					if (display == "block") {
-						$(obj).removeClass("liL1");
-						tag[i].style.display = "none";
-					} else if (display == "none") {
-						$(obj).addClass("liL1");
-						tag[i].style.display = "block";
-					}
-				}
-			}
-			cancelBubble();
-		}
-
+	
 		function showAllBtn(obj) {
 			var src = $(obj).children().attr("src");
 			if (src == "../images/checked.png") {

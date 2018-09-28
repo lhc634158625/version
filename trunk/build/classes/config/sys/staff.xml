@@ -2,24 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="config">
-    <select id="GetStaffById" parameterType="int" resultType="teamwish.dataContracts.sys.Staff">
-        select id,name,gender,state,longitude,latitude,stationId,telephone,position,shiftType,regionId,code,pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,leaderPost,nonLeaderPost,posType,shiftState,updateDt,shiftInfos from Staff where id = #{id}
+    <select id="GetStaffById" parameterType="int" resultType="teamwish.duty.dataContracts.sys.Staff">
+        select id,s.name,gender,state,longitude,latitude,stationId,telephone,position,shiftType,regionId,code,pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,ISNULL(leaderPost,''),ISNULL(nonLeaderPost,''),posType,shiftState,updateDt,shiftInfos,d.Name as deviceInfos, st.name as stationName
+        from Staff s 
+        left join station st on st.id = s.stationId
+        left join VStaffDevices d on d.staffcode = s.Code 
+        where id = #{id}
     </select>
-    <select id="GetStaffByCode" parameterType="String" resultType="teamwish.dataContracts.sys.Staff">
-        select id,name,gender,state,longitude,latitude,stationId,telephone,position,shiftType,regionId,code,pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,leaderPost,nonLeaderPost,posType,shiftState,updateDt,shiftInfos from Staff where code = #{code}
+    <select id="GetStaffByCode" parameterType="String" resultType="teamwish.duty.dataContracts.sys.Staff">
+        select id,s.name,gender,state,longitude,latitude,stationId,telephone,position,shiftType,regionId,code,pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,leaderPost,nonLeaderPost,posType,shiftState,updateDt,shiftInfos,d.Name as deviceInfos from Staff s left join VStaffDevices d on d.staffcode = s.Code where code = #{code}
     </select>
-<select id="GetStaffByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.sys.Staff"  statementType="STATEMENT">
-        SELECT id,name,gender,state,longitude,latitude,stationId,telephone,position,shiftType,regionId,code,pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,leaderPost,nonLeaderPost,posType,shiftState,updateDt,shiftInfos FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from Staff  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+<select id="GetStaffByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.sys.Staff"  statementType="STATEMENT">
+        SELECT id,name,gender,state,longitude,latitude,stationId,telephone,position,shiftType,regionId,code,pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,leaderPost,nonLeaderPost,posType,shiftState,updateDt,shiftInfos FROM 
+        (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from staff a left join (select id as _stationId, name as stationName from station ) b on b._stationId=a.stationId where ${filter}) tb 
+        where rowNum between ${fromRecord} and ${toRecord}
     </select>
- <insert useGeneratedKeys="true" keyProperty="id" id="InsertStaff" parameterType="teamwish.dataContracts.sys.Staff">
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertStaff" parameterType="teamwish.duty.dataContracts.sys.Staff">
         insert into Staff(name,gender,state,longitude,latitude,stationId,telephone,position,shiftType,regionId,code,pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,leaderPost,nonLeaderPost,posType,shiftState,updateDt,shiftInfos) values(#{name},#{gender},#{state},#{longitude},#{latitude},#{stationId},#{telephone},#{position},#{shiftType},#{regionId},#{code},#{pyCode},#{address},#{timeType},#{serviceId},#{lastPosTime},#{isDel},#{idCode},#{leaderPost},#{nonLeaderPost},#{posType},#{shiftState},#{updateDt},#{shiftInfos})
     </insert>
  <delete id="DeleteStaff" parameterType="int">
         delete from Staff where id=#{id}
     </delete>
- <update id="UpdateStaff" parameterType="teamwish.dataContracts.sys.Staff">
+ <update id="UpdateStaff" parameterType="teamwish.duty.dataContracts.sys.Staff">
         update Role set 
-  
    name=#{name},
    gender=#{gender},
    state=#{state},
@@ -47,6 +52,24 @@
   where id=#{id}
     </update>
 
+<select id="GetStaffState" parameterType="teamwish.duty.dataContracts.common.Request" resultType="teamwish.duty.dataContracts.duty.ArrangeInfoReport" > 
+
+select s.stationId ,st.Name as stationName, s.Id as staffId, s.stationid as staffStationid, s.name as staffName, s.code as staffCode,s.telephone as staffPhone, ISNULL(s.LeaderPost,'')+ ISNULL(s.NonLeaderPost,'') as post, s.shiftInfos, ISNULL(s.shiftState,'备勤') as shiftState, s.lastPosTime, s.state
+from staff s 
+left join Position p on p.Id = s.Position
+left join Station st on  st.Id = s.stationId
+where ISNULL(s.IsDel,0)=0 
+and exists(select * from dbo.GetChildIds(#{stationId},'1') where a.id=st.id)
+
+<if test="shiftState != null and shiftState != ''">
+	and ISNULL(s.shiftState,'备勤')  = #{shiftState}
+</if>
+<if test="state != null and state != ''">
+	and s.state = #{state}
+</if>
+
+
+    </select>
 
 </mapper>
 

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetCameraInfoById" parameterType="int" resultType="teamwish.duty.dataContracts.device.CameraInfo">
+        select id,communityName,channelName,pCode,stationCode,regionName,deviceType,gisId,longitude,latitude,peakSite,stationId,regionId,updateTime,matrixPort,state from CameraInfo where id = #{id}
+    </select>
+<select id="GetCameraInfoByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.device.CameraInfo"  statementType="STATEMENT">
+        SELECT id,communityName,channelName,pCode,stationCode,regionName,deviceType,gisId,longitude,latitude,peakSite,stationId,regionId,updateTime,matrixPort,state FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from CameraInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertCameraInfo" parameterType="teamwish.duty.dataContracts.device.CameraInfo">
+        insert into CameraInfo(communityName,channelName,pCode,stationCode,regionName,deviceType,gisId,longitude,latitude,peakSite,stationId,regionId,updateTime,matrixPort,state) values(#{communityName},#{channelName},#{pCode},#{stationCode},#{regionName},#{deviceType},#{gisId},#{longitude},#{latitude},#{peakSite},#{stationId},#{regionId},#{updateTime},#{matrixPort},#{state})
+    </insert>
+ <delete id="DeleteCameraInfo" parameterType="int">
+        delete from CameraInfo where id=#{id}
+    </delete>
+ <update id="UpdateCameraInfo" parameterType="teamwish.duty.dataContracts.device.CameraInfo">
+        update CameraInfo set 
+ <if test="communityName != null and communityName!= ''">
+   communityName=#{communityName},
+</if>
+ <if test="channelName != null and channelName!= ''">
+   channelName=#{channelName},
+</if>
+ <if test="pCode != null and pCode!= ''">
+   pCode=#{pCode},
+</if>
+ <if test="stationCode != null and stationCode!= ''">
+   stationCode=#{stationCode},
+</if>
+ <if test="regionName != null and regionName!= ''">
+   regionName=#{regionName},
+</if>
+ <if test="deviceType != null and deviceType!= ''">
+   deviceType=#{deviceType},
+</if>
+ <if test="gisId != null and gisId!= ''">
+   gisId=#{gisId},
+</if>
+ <if test="longitude != null and longitude!= ''">
+   longitude=#{longitude},
+</if>
+ <if test="latitude != null and latitude!= ''">
+   latitude=#{latitude},
+</if>
+ <if test="peakSite != null and peakSite!= ''">
+   peakSite=#{peakSite},
+</if>
+ <if test="stationId != null and stationId!= ''">
+   stationId=#{stationId},
+</if>
+ <if test="regionId != null and regionId!= ''">
+   regionId=#{regionId},
+</if>
+ <if test="updateTime != null and updateTime!= ''">
+   updateTime=#{updateTime},
+</if>
+ <if test="matrixPort != null and matrixPort!= ''">
+   matrixPort=#{matrixPort},
+</if>
+ <if test="state != null and state!= ''">
+   state=#{state}
+</if>
+  where id=#{id}
+    </update>
+
+
+</mapper>
+

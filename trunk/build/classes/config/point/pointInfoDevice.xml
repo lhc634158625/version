@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetPointInfoDeviceById" parameterType="int" resultType="teamwish.duty.dataContracts.point.PointInfoDevice">
+        select id,pointInfoId,deviceTypeCode,deviceTypeName,value,staffId,staffCode,staffName,workDt,fromTime,toTime from PointInfoDevice where id = #{id} and ISNULL(IsDefault,0)=0
+    </select>
+<select id="GetPointInfoDeviceByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.point.PointInfoDevice"  statementType="STATEMENT">
+        ;with cte as
+(
+	select  id, pid, cast('' as nvarchar(max)) as path
+	from PointInfo
+	where isnull(pid,0)=0 
+    
+	union all
+	select c.id,c.pid, p.path+cast(c.id as nvarchar(max))+'-' as path
+	from cte P
+	inner join PointInfo c on p.id=c.pid
+)
+        
+        SELECT id,pointInfoId,deviceTypeCode,deviceTypeName,value,staffId,staffCode,staffName,workDt,fromTime,toTime,pointInfoIdPath FROM 
+        (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * 
+        from PointInfoDevice a 
+		inner join (select id as _id, path as pointInfoIdPath from cte ) c on c._id = a.pointInfoId
+        where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertPointInfoDevice" parameterType="teamwish.duty.dataContracts.point.PointInfoDevice">
+        insert into PointInfoDevice(pointInfoId,deviceTypeCode,deviceTypeName,value,staffId,staffCode,staffName,workDt,fromTime,toTime,isDefault) values(#{pointInfoId},#{deviceTypeCode},#{deviceTypeName},#{value},#{staffId},#{staffCode},#{staffName},#{workDt},#{fromTime},#{toTime},#{isDefault})
+    </insert>
+ <delete id="DeletePointInfoDevice" parameterType="int">
+        delete from PointInfoDevice where id=#{id}
+    </delete>
+ <update id="UpdatePointInfoDevice" parameterType="teamwish.duty.dataContracts.point.PointInfoDevice">
+        update PointInfoDevice 
+        <set>
+        <if test="pointInfoId != null" >
+        pointInfoId=#{pointInfoId},
+	   </if>
+	   <if test="deviceTypeCode != null" >
+	       deviceTypeCode=#{deviceTypeCode},
+	   </if>
+	   <if test="deviceTypeCode != null" >
+	       deviceTypeCode=#{deviceTypeCode},
+	   </if>
+   	   <if test="value != null" >
+	       value=#{value},
+	   </if>   
+	   <if test="staffId != null" >
+	      staffId=#{staffId},
+	   </if>
+	   <if test="staffCode != null" >
+	       staffCode=#{staffCode},
+	   </if>   
+	   <if test="staffName != null" >
+	      staffName=#{staffName},
+	   </if>
+	   <if test="workDt != null" >
+	      workDt=#{workDt},
+	   </if>
+	   <if test="fromTime != null" >
+	       fromTime=#{fromTime},
+	   </if>   
+	   <if test="toTime != null" >
+	      toTime=#{toTime},
+	   </if>
+	   <if test="isDefault != null" >
+	      IsDefault=#{isDefault},
+	   </if>	   
+	 </set>
+  	where id=#{id}
+    </update>
+    
+     <delete id="DeletePointInfoDeviceByFilter" parameterType="teamwish.duty.dataContracts.point.RequestPointDelete">
+        delete from PointInfoDevice where ISNULL(IsDefault,0)=0 and pointInfoId=#{pointInfoId} 
+	    <if test="fromTime != null" >
+        and fromTime &gt;= #{fromTime}
+	   </if>
+	    <if test="toTime != null" >
+        and toTime &lt;= #{toTime}
+	   </if>
+    </delete>
+</mapper>
+

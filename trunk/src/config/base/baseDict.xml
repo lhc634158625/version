@@ -2,24 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="config">
-    <select id="GetBaseDictById" parameterType="int" resultType="teamwish.dataContracts.base.BaseDict">
-        select id,dictName,code,name,parameter from BaseDict where id = #{id}
+    <select id="GetBaseDictById" parameterType="int" resultType="teamwish.duty.dataContracts.base.BaseDict">
+        select id,dictName,code,name,parameter,pId,orderIndex,remark from BaseDict where id = #{id}
     </select>
-<select id="GetBaseDictByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.base.BaseDict"  statementType="STATEMENT">
-        SELECT id,dictName,code,name,parameter FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from BaseDict  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+<select id="GetBaseDictByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.base.BaseDict"  statementType="STATEMENT">
+         ;with cte as
+(
+	select  id, pid, cast('' as nvarchar(max)) as path
+	from BaseDict
+	where ISNULL(pid,0)=0 
+    
+	union all
+	select c.id,c.pid, p.path+cast(c.id as nvarchar(max))+'-' as path
+	from cte P
+	inner join BaseDict c on p.id=c.pid
+)
+        SELECT id,dictName,code,name,parameter,pId,orderIndex,remark, idPath FROM 
+        (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * 
+        from BaseDict a 
+        inner join (select id as _id, path as idPath from cte ) c on c._id = a.id
+        where ${filter}        
+        ) tb 
+        where rowNum between ${fromRecord} and ${toRecord}
     </select>
- <insert useGeneratedKeys="true" keyProperty="id" id="InsertBaseDict" parameterType="teamwish.dataContracts.base.BaseDict">
-        insert into BaseDict(dictName,code,name,parameter) values(#{dictName},#{code},#{name},#{parameter})
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertBaseDict" parameterType="teamwish.duty.dataContracts.base.BaseDict">
+        insert into BaseDict(dictName,code,name,parameter,pId,orderIndex,remark) values(#{dictName},#{code},#{name},#{parameter},#{pId},#{orderIndex},#{remark})
     </insert>
  <delete id="DeleteBaseDict" parameterType="int">
         delete from BaseDict where id=#{id}
     </delete>
- <update id="UpdateBaseDict" parameterType="teamwish.dataContracts.base.BaseDict">
+ <update id="UpdateBaseDict" parameterType="teamwish.duty.dataContracts.base.BaseDict">
         update BaseDict set 
    dictName=#{dictName},
    code=#{code},
    name=#{name},
-   parameter=#{parameter}
+   parameter=#{parameter},
+   pId=#{pId},
+   orderIndex=#{orderIndex},
+   remark=#{remark}
   where id=#{id}
     </update>
 

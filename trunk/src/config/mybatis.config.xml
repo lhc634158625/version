@@ -4,37 +4,21 @@
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
- <settings>
-        <setting name="logImpl" value="STDOUT_LOGGING" />
-    </settings>
-	<!-- MyBatis针对SqlServer进行的配置 -->
-
-	<environments default="development">
-		<environment id="development">
-			<transactionManager type="JDBC" />
-			<dataSource type="POOLED">
-				<property name="driver"
-					value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-				<!-- <property name="url" value="jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=mydbname"/> -->
-				<property name="url"
-					value="jdbc:sqlserver://teamwish.cn:14333;DatabaseName=dutydb" />
-				<property name="username" value="sa" />
-				<property name="password" value="teamwish" />
-			</dataSource>
-		</environment>
-	</environments>
 	<mappers>
+		<mapper resource="config/base.xml" />
+		<mapper resource="config/base/baseDict.xml" />
 		<mapper resource="config/sys/userInfo.xml" />
-		<mapper resource="config/sys/staff.xml" />
+		<mapper resource="config/staff/staff.xml" />
 		<mapper resource="config/sys/station.xml" />
 		<mapper resource="config/sys/role.xml" />
-		<mapper resource="config/sys/module.xml" />		
-		<mapper resource="config/base/baseDict.xml" />		
-		<mapper resource="config/base.xml" />
-		<mapper resource="config/duty/arrangeInfo.xml" />		
-		<mapper resource="config/duty/regionService.xml" />
-		
-		<mapper resource="config/map/pointInfo.xml" />
+		<mapper resource="config/sys/module.xml" />	
+		<mapper resource="config/duty/arrangeInfo.xml" />
+		<mapper resource="config/duty/shiftType.xml" />
+		<mapper resource="config/duty/vw_allPoint.xml" />		
+		<mapper resource="config/point/pointInfo.xml" />
+		<mapper resource="config/point/pointInfoDevice.xml" />	
+		<mapper resource="config/device/deviceInfo.xml" />	
+		<mapper resource="config/device/cameraInfo.xml" />	
+		<mapper resource="config/report/report.xml" />	
 	</mappers>
-
 </configuration>

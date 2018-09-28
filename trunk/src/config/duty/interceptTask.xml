@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetInterceptTaskById" parameterType="int" resultType="teamwish.duty.dataContracts.duty.InterceptTask">
+        select id,name,code,type,state,fromTime,toTime,stationId,stationName,leaderId,leader,leaderCode,phone,contactPersonId,contactPerson,contactPersonCode,contactPhone,count,memo,creater,created,updater,updateDt from InterceptTask where id = #{id}
+    </select>
+<select id="GetInterceptTaskByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.duty.InterceptTask"  statementType="STATEMENT">
+        SELECT id,name,code,type,state,fromTime,toTime,stationId,stationName,leaderId,leader,leaderCode,phone,contactPersonId,contactPerson,contactPersonCode,contactPhone,count,memo,creater,created,updater,updateDt FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from InterceptTask  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertInterceptTask" parameterType="teamwish.duty.dataContracts.duty.InterceptTask">
+        insert into InterceptTask(name,code,type,state,fromTime,toTime,stationId,stationName,leaderId,leader,leaderCode,phone,contactPersonId,contactPerson,contactPersonCode,contactPhone,count,memo,creater,created,updater,updateDt) values(#{name},#{code},#{type},#{state},#{fromTime},#{toTime},#{stationId},#{stationName},#{leaderId},#{leader},#{leaderCode},#{phone},#{contactPersonId},#{contactPerson},#{contactPersonCode},#{contactPhone},#{count},#{memo},#{creater},#{created},#{updater},#{updateDt})
+    </insert>
+ <delete id="DeleteInterceptTask" parameterType="int">
+        delete from InterceptTask where id=#{id}
+    </delete>
+ <update id="UpdateInterceptTask" parameterType="teamwish.duty.dataContracts.duty.InterceptTask">
+        update InterceptTask <set> 
+ <if test="name != null ">
+   name=#{name},
+</if>
+ <if test="code != null ">
+   code=#{code},
+</if>
+ <if test="type != null ">
+   type=#{type},
+</if>
+ <if test="state != null ">
+   state=#{state},
+</if>
+ <if test="fromTime != null ">
+   fromTime=#{fromTime},
+</if>
+ <if test="toTime != null ">
+   toTime=#{toTime},
+</if>
+ <if test="stationId != null ">
+   stationId=#{stationId},
+</if>
+ <if test="stationName != null ">
+   stationName=#{stationName},
+</if>
+ <if test="leaderId != null ">
+   leaderId=#{leaderId},
+</if>
+ <if test="leader != null ">
+   leader=#{leader},
+</if>
+ <if test="leaderCode != null ">
+   leaderCode=#{leaderCode},
+</if>
+ <if test="phone != null ">
+   phone=#{phone},
+</if>
+ <if test="contactPersonId != null ">
+   contactPersonId=#{contactPersonId},
+</if>
+ <if test="contactPerson != null ">
+   contactPerson=#{contactPerson},
+</if>
+ <if test="contactPersonCode != null ">
+   contactPersonCode=#{contactPersonCode},
+</if>
+ <if test="contactPhone != null ">
+   contactPhone=#{contactPhone},
+</if>
+ <if test="count != null ">
+   count=#{count},
+</if>
+ <if test="memo != null ">
+   memo=#{memo},
+</if>
+ <if test="creater != null ">
+   creater=#{creater},
+</if>
+ <if test="created != null ">
+   created=#{created},
+</if>
+ <if test="updater != null ">
+   updater=#{updater},
+</if>
+ <if test="updateDt != null ">
+   updateDt=#{updateDt}
+</if>
+ </set> where id=#{id}
+    </update>
+</mapper>
+

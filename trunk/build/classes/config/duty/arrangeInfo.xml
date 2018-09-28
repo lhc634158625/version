@@ -2,48 +2,306 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="config">
-    <select id="GetArrangeInfoById" parameterType="int" resultType="teamwish.dataContracts.duty.ArrangeInfo">
-        select id,staffId,workDt,shiftType,staffName,regionId,stationId,timeType,timeName,fromTime,toTime from ArrangeInfo where id = #{id}
+   <select id="GetArrangeInfoById" parameterType="int" resultType="teamwish.duty.dataContracts.duty.ArrangeInfo">
+        select id,stationId,staffId,staffName,staffCode,staffIDCard,staffPhone,staffPost,workDt,fromTime,toTime,state,code,regionId,regionCode,regionName,shiftType,serviceName,groupName,teamName,shiftName,carNo,callNo,pointInfoId from ArrangeInfo where id = #{id}
     </select>
-<select id="GetArrangeInfoByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.duty.ArrangeInfo"  statementType="STATEMENT">
-        SELECT id,staffId,workDt,shiftType,staffName,regionId,stationId,timeType,timeName,fromTime,toTime FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from ArrangeInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+<select id="GetArrangeInfoByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.duty.ArrangeInfo"  statementType="STATEMENT">
+        SELECT id,stationId,staffId,staffName,staffCode,staffIDCard,staffPhone,staffPost,workDt,fromTime,toTime,state,code,regionId,regionCode,regionName,shiftType,serviceName,groupName,teamName,shiftName,carNo,callNo,pointInfoId FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from ArrangeInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
     </select>
- <insert useGeneratedKeys="true" keyProperty="id" id="InsertArrangeInfo" parameterType="teamwish.dataContracts.duty.ArrangeInfo">
-        insert into ArrangeInfo(staffId,workDt,shiftType,staffName,regionId,stationId,timeType,timeName,fromTime,toTime) values(#{staffId},#{workDt},#{shiftType},#{staffName},#{regionId},#{stationId},#{timeType},#{timeName},#{fromTime},#{toTime})
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertArrangeInfo" parameterType="teamwish.duty.dataContracts.duty.ArrangeInfo">
+        insert into ArrangeInfo(stationId,staffId,staffName,staffCode,staffIDCard,staffPhone,staffPost,workDt,fromTime,toTime,state,code,regionId,regionCode,regionName,shiftType,serviceName,groupName,teamName,shiftName,carNo,callNo,pointInfoId) values(#{stationId},#{staffId},#{staffName},#{staffCode},#{staffIDCard},#{staffPhone},#{staffPost},#{workDt},#{fromTime},#{toTime},#{state},#{code},#{regionId},#{regionCode},#{regionName},#{shiftType},#{serviceName},#{groupName},#{teamName},#{shiftName},#{carNo},#{callNo},#{pointInfoId})
     </insert>
  <delete id="DeleteArrangeInfo" parameterType="int">
         delete from ArrangeInfo where id=#{id}
     </delete>
-    <select id="GetArrangeReport" parameterType="teamwish.dataContracts.common.Request" resultType="teamwish.dataContracts.duty.ArrangeInfoReport" >        
-        with cte as
+    
+   <update id="UpdateArrangeInfo" parameterType="teamwish.duty.dataContracts.duty.ArrangeInfo">
+        update ArrangeInfo <set> 
+ <if test="stationId != null ">
+   stationId=#{stationId},
+</if>
+ <if test="staffId != null ">
+   staffId=#{staffId},
+</if>
+ <if test="staffName != null ">
+   staffName=#{staffName},
+</if>
+ <if test="staffCode != null ">
+   staffCode=#{staffCode},
+</if>
+ <if test="staffIDCard != null ">
+   staffIDCard=#{staffIDCard},
+</if>
+ <if test="staffPhone != null ">
+   staffPhone=#{staffPhone},
+</if>
+ <if test="staffPost != null ">
+   staffPost=#{staffPost},
+</if>
+ <if test="workDt != null ">
+   workDt=#{workDt},
+</if>
+ <if test="fromTime != null ">
+   fromTime=#{fromTime},
+</if>
+ <if test="toTime != null ">
+   toTime=#{toTime},
+</if>
+ <if test="state != null ">
+   state=#{state},
+</if>
+ <if test="code != null ">
+   code=#{code},
+</if>
+ <if test="regionId != null ">
+   regionId=#{regionId},
+</if>
+ <if test="regionCode != null ">
+   regionCode=#{regionCode},
+</if>
+ <if test="regionName != null ">
+   regionName=#{regionName},
+</if>
+ <if test="shiftType != null ">
+   shiftType=#{shiftType},
+</if>
+ <if test="serviceName != null ">
+   serviceName=#{serviceName},
+</if>
+ <if test="groupName != null ">
+   groupName=#{groupName},
+</if>
+ <if test="teamName != null ">
+   teamName=#{teamName},
+</if>
+ <if test="shiftName != null ">
+   shiftName=#{shiftName},
+</if>
+ <if test="carNo != null ">
+   carNo=#{carNo},
+</if>
+ <if test="callNo != null ">
+   callNo=#{callNo},
+</if>
+ <if test="pointInfoId != null ">
+   pointInfoId=#{pointInfoId}
+</if>
+ </set> where id=#{id}
+    </update>
+    
+    <select id="GetStationStaffCount" parameterType="teamwish.duty.dataContracts.duty.RequestDuty" resultType="teamwish.duty.dataContracts.duty.ArrangeInfoReportCount" > 
+if exists (select * from tempdb.dbo.sysobjects where id = object_id(N'tempdb..#tb_station') and type='U') drop table #tb_station
+<if test="isChild == 1">
+;with cte as
 (
-	select id,pid,name,name as pname,cast(id as nvarchar(max)) as ReportPath,1 as TLevel
+	select  id, pid, cast(id as nvarchar(max)) as path, 1 as TLevel, id as mapping
 	from dbo.station
-	where pid=#{stationId} or id=#{stationId}
-
+	where id = #{stationId}  
+    
 	union all
-	select c.id,c.pid,c.Name,p.name as ManagerName,p.ReportPath+'-'+cast(c.id as nvarchar(max)) as ReportPath, p.TLevel+1 as TLevel
+	select c.id,c.pid, p.path+'-'+cast(c.id as nvarchar(max)) as path,p.TLevel+1 as TLevel, case when p.TLevel &lt; 2 then c.id else p.mapping end as mapping
 	from cte P
-	inner join dbo.station c
-		on p.id=c.pid
+	inner join dbo.station c on p.id=c.pid
 )
-select s.Id as stationId ,s.Name as stationName, a.staffId, a.staffName,a.staffCode,a.staffPhone, a.post, a.shiftInfos, a.shiftState,a.lastPosTime,a.workDt, a.fromTime,a.toTime,a.state, a.shiftType, a.Name as shiftName, a.PId,a.namePath
-from cte c
-left join (
+</if>
+<if test="isChild != 1">
+;with cte as
+(
+	select  id, pid, cast(id as nvarchar(max)) as path, 1 as TLevel, id as mapping
+	from dbo.station
+	where id = #{stationId}	
+)
+</if>
+select * into #tb_station  from cte 
 
-select a.stationid, a.staffid,a.staffName, a.staffCode, isnull(s.LeaderPost,'')+ isnull(s.NonLeaderPost,'') as post, a.staffPhone ,s.ShiftInfos, s.ShiftState, s.LastPosTime, a.workdt, a.fromtime,a.totime, a.state,a.shiftType,st.Name, st.PId,st.NamePath
+select id as stationId, Name as stationName,shiftType, shiftName, idPath ,namePath, count(*) count from (
+select distinct s.Id,s.name, a.staffId,a.namePath,a.IdPath,a.name as shiftName, a.ShiftType
+from #tb_station c
+inner join (
+<if test="isShow == null or isShow == 0">
+select  a.stationid, a.staffid,a.shiftType,st.Name, st.PId,st.IdPath, st.NamePath
+</if>
+<if test="isShow == 1">
+select  a.stationid, a.staffid,a.shiftType,st.Name, st.PId,st.RIdPath as IdPath, st.RNamePath as NamePath
+</if>
 		from arrangeInfo a
 		left join staff s on s.id= a.StaffId
 		left join VTShiftType st on st.Id = a.ShiftType
-		where a.fromTime &gt; =#{fromDt} and a.toTime &lt;=#{toDt}
+		where 1=1
+		<if test="fromDt != null and fromDt != ''">
+			and ( '${fromDt}' &lt;= a.fromTime or ('${fromDt}' &gt; a.fromTime and '${fromDt}' &lt; a.ToTime))
+		</if>
+		<if test="toDt != null and toDt != ''">
+			and ( '${toDt}' &gt;= a.toTime or ('${toDt}' &gt; a.fromTime and '${toDt}' &lt; a.ToTime))
+		</if>
+		<if test="fromTime != null and fromTime != ''">
+			and ( CONVERT(datetime,concat(concat(WorkDt,' '),'${fromTime}'),101) &lt;=  a.fromTime or (CONVERT(datetime,concat(concat(WorkDt,' '),'${fromTime}'),101) &gt; a.fromTime and CONVERT(datetime,concat(concat(WorkDt,' '),'${fromTime}'),101) &lt; a.ToTime))
+		</if>
+		<if test="toTime != null and toTime != ''">
+			and ( 
+			 ( DATEDIFF(Minute, '${fromTime}', '${toTime}') &gt; 0 and ( CONVERT(datetime,concat(concat(WorkDt,' '),'${toTime}'),101) &gt;= a.toTime or ( CONVERT(datetime,concat(concat(WorkDt,' '),'${toTime}'),101) &gt; a.fromTime and CONVERT(datetime,concat(concat(WorkDt,' '),'${toTime}'),101) &lt; a.ToTime)) )
+			or   ( DATEDIFF(Minute, '${fromTime}', '${toTime}') &lt;= 0 and ( CONVERT(datetime,concat(concat(DATEADD(DAY,1,WorkDt),' '),'${toTime}'),101) &gt;= a.toTime or (CONVERT(datetime,concat(concat(DATEADD(DAY,1,WorkDt),' '),'${toTime}'),101) &gt; a.fromTime and CONVERT(datetime,concat(concat(DATEADD(DAY,1,WorkDt),' '),'${toTime}'),101) &lt; a.ToTime)) )
+			)
+		</if>	
+		<if test="shiftTypeIdPath != null and shiftTypeIdPath != '' and isChildShiftType == 1">			
+        		and st.IdPath like concat('${shiftTypeIdPath}','%')
+		</if>
+		<if test="shiftTypeIdPath != null and shiftTypeIdPath != '' and isChildShiftType != 1">			
+        		and st.IdPath ='${shiftTypeIdPath}'
+		</if>
 )
-		 a on a.stationid = c.Id
-left join Station s on  s.Id = case when c.TLevel > 1 then c.PId  else c.Id end
-where a.StationId is not null
-order by a.PId,a.namePath        
+a on a.stationid = c.Id
+inner join Station s on  s.Id = c.mapping
+) a
+group by a.NamePath, a.Id,a.Name, a.IdPath,shiftName,ShiftType
+order by a.id, a.IdPath
+drop table #tb_station
     </select>
     
-        <select id="GetSubArrange" parameterType="teamwish.dataContracts.common.Request" resultType="teamwish.dataContracts.duty.ArrangeInfo" >        
+	<select id="GetStationStaff" parameterType="teamwish.duty.dataContracts.duty.RequestDuty" resultType="teamwish.duty.dataContracts.duty.ArrangeInfoReport" > 
+if exists (select * from tempdb.dbo.sysobjects where id = object_id(N'tempdb..#tb_station') and type='U') drop table #tb_station
+<if test="isChild == 1">
+;with cte as
+(
+	select  id, pid, cast(id as nvarchar(max)) as path, 1 as TLevel, id as mapping
+	from dbo.station
+	where id = #{stationId}  
+    
+	union all
+	select c.id,c.pid, p.path+'-'+cast(c.id as nvarchar(max)) as path,p.TLevel+1 as TLevel, case when p.TLevel &lt; 2 then c.id else p.mapping end as mapping
+	from cte P
+	inner join dbo.station c on p.id=c.pid
+)
+</if>
+<if test="isChild != 1">
+;with cte as
+(
+	select  id, pid, cast(id as nvarchar(max)) as path, 1 as TLevel, id as mapping
+	from dbo.station
+	where id = #{stationId}	
+)
+</if>
+select * into #tb_station  from cte
+ 
+select s.Id as stationId ,s.Name as stationName, a.staffId,a.stationid as staffStationid, a.staffName,a.staffCode,a.staffPhone, a.post, a.shiftInfos, a.shiftState,a.lastPosTime,a.workDt, a.fromTime,a.toTime,a.state, a.shiftType, a.Name as shiftName, a.PId, a.idpath, a.namePath,a.Position,a.PositionName
+from #tb_station c
+inner join Station s on  s.Id = c.mapping
+inner join (
+<if test="isShow == null or isShow == 0">
+select a.stationid, a.staffid,a.staffName, a.staffCode, isnull(s.LeaderPost,'')+ isnull(s.NonLeaderPost,'') as post, a.staffPhone ,s.ShiftInfos, ISNULL(s.shiftState,'备勤') as ShiftState, s.LastPosTime, a.workdt, a.fromtime,a.totime, a.state,a.shiftType,st.Name, st.PId,st.IdPath, st.NamePath, ISNULL(p.MapperId,ISNULL(P.Id,0)) as Position, ISNULL(p.MapperName, ISNULL(p.Name,'其它')) as PositionName
+</if>
+<if test="isShow == 1">
+select a.stationid, a.staffid,a.staffName, a.staffCode, isnull(s.LeaderPost,'')+ isnull(s.NonLeaderPost,'') as post, a.staffPhone ,s.ShiftInfos, ISNULL(s.shiftState,'备勤') as ShiftState, s.LastPosTime, a.workdt, a.fromtime,a.totime, a.state,a.shiftType,st.Name, st.PId,st.RIdPath as IdPath, st.RNamePath as NamePath, ISNULL(p.MapperId,ISNULL(P.Id,0)) as Position, ISNULL(p.MapperName, ISNULL(p.Name,'其它')) as PositionName
+</if>
+		from arrangeInfo a
+		left join staff s on s.id= a.StaffId
+		left join Position p on p.Id = s.Position
+		left join VTShiftType st on st.Id = a.ShiftType
+		where 1=1
+		<if test="fromDt != null and fromDt != ''">
+			and ( '${fromDt}' &lt;= a.fromTime or ('${fromDt}' &gt; a.fromTime and '${fromDt}' &lt; a.ToTime))
+		</if>
+		<if test="toDt != null and toDt != ''">
+			and ( '${toDt}' &gt;= a.toTime or ('${toDt}' &gt; a.fromTime and '${toDt}' &lt; a.ToTime))
+		</if>
+		<if test="fromTime != null and fromTime != ''">
+			and ( CONVERT(datetime,concat(concat(WorkDt,' '),'${fromTime}'),101) &lt;=  a.fromTime or (CONVERT(datetime,concat(concat(WorkDt,' '),'${fromTime}'),101) &gt; a.fromTime and CONVERT(datetime,concat(concat(WorkDt,' '),'${fromTime}'),101) &lt; a.ToTime))
+		</if>
+		<if test="toTime != null and toTime != ''">
+			and ( 
+			 ( DATEDIFF(Minute, '${fromTime}', '${toTime}') &gt; 0 and ( CONVERT(datetime,concat(concat(WorkDt,' '),'${toTime}'),101) &gt;= a.toTime or ( CONVERT(datetime,concat(concat(WorkDt,' '),'${toTime}'),101) &gt; a.fromTime and CONVERT(datetime,concat(concat(WorkDt,' '),'${toTime}'),101) &lt; a.ToTime)) )
+			or   ( DATEDIFF(Minute, '${fromTime}', '${toTime}') &lt;= 0 and ( CONVERT(datetime,concat(concat(DATEADD(DAY,1,WorkDt),' '),'${toTime}'),101) &gt;= a.toTime or (CONVERT(datetime,concat(concat(DATEADD(DAY,1,WorkDt),' '),'${toTime}'),101) &gt; a.fromTime and CONVERT(datetime,concat(concat(DATEADD(DAY,1,WorkDt),' '),'${toTime}'),101) &lt; a.ToTime)) )
+			)
+		</if>		
+		<if test="shiftTypeIdPath != null and shiftTypeIdPath != '' and isChildShiftType == 1">			
+        		and st.IdPath like concat('${shiftTypeIdPath}','%')
+		</if>
+		<if test="shiftTypeIdPath != null and shiftTypeIdPath != '' and isChildShiftType != 1">			
+        		and st.IdPath ='${shiftTypeIdPath}'
+		</if>
+		<if test="postion != null and postion != -1">
+        	and p.MapperId=${postion}
+		</if>
+)
+a on a.stationid = c.Id
+order by c.mapping, a.idpath
+drop table #tb_station
+    </select>
+    
+   
+    
+     <select id="GetStationShiftTypeCount" parameterType="teamwish.duty.dataContracts.duty.RequestDuty" resultType="teamwish.duty.dataContracts.duty.StaffPositionShiftReport" >
+     	if exists (select * from tempdb.dbo.sysobjects where id = object_id(N'tempdb..#tb_station') and type='U') drop table #tb_station
+<if test="isChild == 1">
+;with cte as
+(
+	select  id, pid, cast(id as nvarchar(max)) as path, 1 as TLevel, id as mapping
+	from dbo.station
+	where id = #{stationId}  
+    
+	union all
+	select c.id,c.pid, p.path+'-'+cast(c.id as nvarchar(max)) as path,p.TLevel+1 as TLevel, case when p.TLevel &lt; 2 then c.id else p.mapping end as mapping
+	from cte P
+	inner join dbo.station c on p.id=c.pid
+)
+</if>
+<if test="isChild != 1">
+;with cte as
+(
+	select  id, pid, cast(id as nvarchar(max)) as path, 1 as TLevel, id as mapping
+	from dbo.station
+	where id = #{stationId}	
+)
+</if>
+select * into #tb_station  from cte 
+
+select ISNULL(a.Position,'0') code , ISNULL(a.PositionName,'其它') name,'警员' as type, count(*) count from (
+select distinct a.StaffId, CAST(a.Position AS nvarchar(MAX)) as Position,a.PositionName
+from #tb_station c
+inner join (
+select  a.StationId, s.id as staffId, ISNULL(p.MapperId,P.Id) as Position, ISNULL(p.MapperName, p.Name) as PositionName
+		from arrangeInfo a
+		left join staff s on s.id= a.StaffId
+		left join Position p on p.Id = s.Position
+		left join VTShiftType st on st.Id = a.ShiftType
+		where 1=1
+		<if test="fromDt != null and fromDt != ''">
+			and ( '${fromDt}' &lt;= a.fromTime or ('${fromDt}' &gt; a.fromTime and '${fromDt}' &lt; a.ToTime))
+		</if>
+		<if test="toDt != null and toDt != ''">
+			and ( '${toDt}' &gt;= a.toTime or ('${toDt}' &gt; a.fromTime and '${toDt}' &lt; a.ToTime))
+		</if>
+		<if test="fromTime != null and fromTime != ''">
+			and ( CONVERT(datetime,concat(concat(WorkDt,' '),'${fromTime}'),101) &lt;=  a.fromTime or (CONVERT(datetime,concat(concat(WorkDt,' '),'${fromTime}'),101) &gt; a.fromTime and CONVERT(datetime,concat(concat(WorkDt,' '),'${fromTime}'),101) &lt; a.ToTime))
+		</if>
+		<if test="toTime != null and toTime != ''">
+			and ( 
+			 ( DATEDIFF(Minute, '${fromTime}', '${toTime}') &gt; 0 and ( CONVERT(datetime,concat(concat(WorkDt,' '),'${toTime}'),101) &gt;= a.toTime or ( CONVERT(datetime,concat(concat(WorkDt,' '),'${toTime}'),101) &gt; a.fromTime and CONVERT(datetime,concat(concat(WorkDt,' '),'${toTime}'),101) &lt; a.ToTime)) )
+			or   ( DATEDIFF(Minute, '${fromTime}', '${toTime}') &lt;= 0 and ( CONVERT(datetime,concat(concat(DATEADD(DAY,1,WorkDt),' '),'${toTime}'),101) &gt;= a.toTime or (CONVERT(datetime,concat(concat(DATEADD(DAY,1,WorkDt),' '),'${toTime}'),101) &gt; a.fromTime and CONVERT(datetime,concat(concat(DATEADD(DAY,1,WorkDt),' '),'${toTime}'),101) &lt; a.ToTime)) )
+			)
+		</if>		
+		<if test="shiftTypeIdPath != null and shiftTypeIdPath != ''">
+        	and st.IdPath like concat('${shiftTypeIdPath}','%')
+		</if>
+)
+a on a.stationid = c.Id
+inner join Station s on  s.Id = c.mapping
+) a group by ISNULL(a.Position,'0')  , ISNULL(a.PositionName,'其它')
+
+union all
+
+select code,name,'班别'  as type, count(*) count from (
+select  s.Id,
+		ISNULL(s.shiftState,'备勤') as code,
+		ISNULL(s.shiftState,'备勤') as name
+		from staff s 
+		inner join #tb_station t on t.id = s.stationid
+		where ISNULL(s.IsDel,0)=0	
+) a group by a.code, a.name
+drop table #tb_station
+     </select>
+    
+        <select id="GetSubArrange" parameterType="teamwish.duty.dataContracts.duty.RequestDuty" resultType="teamwish.duty.dataContracts.duty.ArrangeInfo" >        
         
        SELECT arrangeInfo.shiftType shiftTypeId,shifttype.name shiftTypename,workdt,arrangeInfo.fromTime,arrangeInfo.toTime,stationId,station.name stationName  from arrangeInfo,station,shifttype
  where 
@@ -54,21 +312,35 @@ order by a.PId,a.namePath
 		and  station.pid=#{stationId}
     </select>
     
- <update id="UpdateArrangeInfo" parameterType="teamwish.dataContracts.duty.ArrangeInfo">
-        update ArrangeInfo set 
-   staffId=#{staffId},
-   workDt=#{workDt},
-   shiftType=#{shiftType},
-   staffName=#{staffName},
-   regionId=#{regionId},
-   stationId=#{stationId},
-   timeType=#{timeType},
-   timeName=#{timeName},
-   fromTime=#{fromTime},
-   toTime=#{toTime}
-  where id=#{id}
-    </update>
-
-
+    <select id="GetStationStaffCountReport" parameterType="teamwish.duty.dataContracts.common.RequestDuty" resultType="teamwish.duty.dataContracts.duty.ArrangeInfoReportCount" >        
+     <if test="isShow == null or isShow == 0">
+select distinct 0 as count, s.id as stationId, s.name as stationName, vst.idPath, vst.namePath, vst.orderIndex
+</if>
+<if test="isShow == 1">
+select distinct 0 as count, s.id as stationId, s.name as stationName, vst.RIdPath as idPath, vst.RNamePath as namePath, vst.orderIndex
+</if>
+from VTShiftType vst left join ShiftType st on st.Id = vst.Id,
+VTStation vts left join Station s on s.Id = vts.Id 
+inner join StationGroup g on g.Stationid = vts.Id and g.GroupId = ${stationGroupId}
+where vts.[path] like '${path}%' and vts.TLevel &lt;${tLevel} 
+<if test="shiftTypeIdPath != null and shiftTypeIdPath != ''">
+        	and vst.idPath like concat('${shiftTypeIdPath}','%')
+</if>
+order by stationId, vst.orderIndex
+    </select>
+    
+    <select id="GetVTStationById" parameterType="teamwish.duty.dataContracts.duty.RequestDuty" resultType="teamwish.duty.dataContracts.duty.VTStation" >        
+      select [id],[pid],[path],[tLevel] from VTStation where id = #{stationId}
+    </select>
+    
+     <delete id="DeleteArrangeInfoByFilter" parameterType="teamwish.duty.dataContracts.duty.RequestArrangeDelete">
+        delete from ArrangeInfo where pointInfoId=#{pointInfoId}
+        <if test="fromDt != null" >
+        and fromDt &gt;= #{fromDt}
+	   </if>
+	    <if test="toDt != null" >
+        and toDt &lt;= #{toDt}
+	   </if>
+    </delete>
 </mapper>
 

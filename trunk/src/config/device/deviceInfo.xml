@@ -2,51 +2,113 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="config">
-    <select id="GetDeviceInfoById" parameterType="int" resultType="teamwish.dataContracts.device.DeviceInfo">
-        select id,name,type,videoType,stationId,param,code,state,regionId,shiftType,longitude,latitude,address,lastPosTime,serviceId,staff_code,remark,isUse,userName,userId,bindType,deviceState,deviceLogId,updateDt,prevX,prevY,prePosTime,prior,manufacturer,assembleType,assembleCode,sCode from DeviceInfo where id = #{id}
+    <select id="GetDeviceInfoById" parameterType="int" resultType="teamwish.duty.dataContracts.device.DeviceInfo">
+        select id,name,type,videoType,stationId,param,code,state,regionId,shiftType,longitude,latitude,address,lastPosTime,serviceId,staffCode,remark,isUse,updateDt,prevX,prevY,prePosTime,prior,manufacturer,assembleType,assembleCode,sCode,staff_code,userName,userId,deviceState,deviceLogId from DeviceInfo where id = #{id}
     </select>
-<select id="GetDeviceInfoByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.device.DeviceInfo"  statementType="STATEMENT">
-        SELECT id,name,type,videoType,stationId,param,code,state,regionId,shiftType,longitude,latitude,address,lastPosTime,serviceId,staff_code,remark,isUse,userName,userId,bindType,deviceState,deviceLogId,updateDt,prevX,prevY,prePosTime,prior,manufacturer,assembleType,assembleCode,sCode FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from DeviceInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+<select id="GetDeviceInfoByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.device.DeviceInfo"  statementType="STATEMENT">
+        SELECT id,name,type,videoType,stationId,param,code,state,regionId,shiftType,longitude,latitude,address,lastPosTime,serviceId,staffCode,remark,isUse,updateDt,prevX,prevY,prePosTime,prior,manufacturer,assembleType,assembleCode,sCode,staff_code,userName,userId,deviceState,deviceLogId FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from DeviceInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
     </select>
- <insert useGeneratedKeys="true" keyProperty="id" id="InsertDeviceInfo" parameterType="teamwish.dataContracts.device.DeviceInfo">
-        insert into DeviceInfo(name,type,videoType,stationId,param,code,state,regionId,shiftType,longitude,latitude,address,lastPosTime,serviceId,staff_code,remark,isUse,userName,userId,bindType,deviceState,deviceLogId,updateDt,prevX,prevY,prePosTime,prior,manufacturer,assembleType,assembleCode,sCode) values(#{name},#{type},#{videoType},#{stationId},#{param},#{code},#{state},#{regionId},#{shiftType},#{longitude},#{latitude},#{address},#{lastPosTime},#{serviceId},#{staff_code},#{remark},#{isUse},#{userName},#{userId},#{bindType},#{deviceState},#{deviceLogId},#{updateDt},#{prevX},#{prevY},#{prePosTime},#{prior},#{manufacturer},#{assembleType},#{assembleCode},#{sCode})
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertDeviceInfo" parameterType="teamwish.duty.dataContracts.device.DeviceInfo">
+        insert into DeviceInfo(name,type,videoType,stationId,param,code,state,regionId,shiftType,longitude,latitude,address,lastPosTime,serviceId,staffCode,remark,isUse,updateDt,prevX,prevY,prePosTime,prior,manufacturer,assembleType,assembleCode,sCode,staff_code,userName,userId,deviceState,deviceLogId) values(#{name},#{type},#{videoType},#{stationId},#{param},#{code},#{state},#{regionId},#{shiftType},#{longitude},#{latitude},#{address},#{lastPosTime},#{serviceId},#{staffCode},#{remark},#{isUse},#{updateDt},#{prevX},#{prevY},#{prePosTime},#{prior},#{manufacturer},#{assembleType},#{assembleCode},#{sCode},#{staff_code},#{userName},#{userId},#{deviceState},#{deviceLogId})
     </insert>
  <delete id="DeleteDeviceInfo" parameterType="int">
         delete from DeviceInfo where id=#{id}
     </delete>
- <update id="UpdateDeviceInfo" parameterType="teamwish.dataContracts.device.DeviceInfo">
+ <update id="UpdateDeviceInfo" parameterType="teamwish.duty.dataContracts.device.DeviceInfo">
         update DeviceInfo set 
+ <if test="name != null and name!= ''">
    name=#{name},
+</if>
+ <if test="type != null and type!= ''">
    type=#{type},
+</if>
+ <if test="videoType != null and videoType!= ''">
    videoType=#{videoType},
+</if>
+ <if test="stationId != null and stationId!= ''">
    stationId=#{stationId},
+</if>
+ <if test="param != null and param!= ''">
    param=#{param},
+</if>
+ <if test="code != null and code!= ''">
    code=#{code},
+</if>
+ <if test="state != null and state!= ''">
    state=#{state},
+</if>
+ <if test="regionId != null and regionId!= ''">
    regionId=#{regionId},
+</if>
+ <if test="shiftType != null and shiftType!= ''">
    shiftType=#{shiftType},
+</if>
+ <if test="longitude != null and longitude!= ''">
    longitude=#{longitude},
+</if>
+ <if test="latitude != null and latitude!= ''">
    latitude=#{latitude},
+</if>
+ <if test="address != null and address!= ''">
    address=#{address},
+</if>
+ <if test="lastPosTime != null and lastPosTime!= ''">
    lastPosTime=#{lastPosTime},
+</if>
+ <if test="serviceId != null and serviceId!= ''">
    serviceId=#{serviceId},
-   staff_code=#{staff_code},
+</if>
+ <if test="staffCode != null and staffCode!= ''">
+   staffCode=#{staffCode},
+</if>
+ <if test="remark != null and remark!= ''">
    remark=#{remark},
+</if>
+ <if test="isUse != null and isUse!= ''">
    isUse=#{isUse},
-   userName=#{userName},
-   userId=#{userId},
-   bindType=#{bindType},
-   deviceState=#{deviceState},
-   deviceLogId=#{deviceLogId},
+</if>
+ <if test="updateDt != null and updateDt!= ''">
    updateDt=#{updateDt},
+</if>
+ <if test="prevX != null and prevX!= ''">
    prevX=#{prevX},
+</if>
+ <if test="prevY != null and prevY!= ''">
    prevY=#{prevY},
+</if>
+ <if test="prePosTime != null and prePosTime!= ''">
    prePosTime=#{prePosTime},
+</if>
+ <if test="prior != null and prior!= ''">
    prior=#{prior},
+</if>
+ <if test="manufacturer != null and manufacturer!= ''">
    manufacturer=#{manufacturer},
+</if>
+ <if test="assembleType != null and assembleType!= ''">
    assembleType=#{assembleType},
+</if>
+ <if test="assembleCode != null and assembleCode!= ''">
    assembleCode=#{assembleCode},
-   sCode=#{sCode}
+</if>
+ <if test="sCode != null and sCode!= ''">
+   sCode=#{sCode},
+</if>
+ <if test="staff_code != null and staff_code!= ''">
+   staff_code=#{staff_code},
+</if>
+ <if test="userName != null and userName!= ''">
+   userName=#{userName},
+</if>
+ <if test="userId != null and userId!= ''">
+   userId=#{userId},
+</if>
+ <if test="deviceState != null and deviceState!= ''">
+   deviceState=#{deviceState},
+</if>
+ <if test="deviceLogId != null and deviceLogId!= ''">
+   deviceLogId=#{deviceLogId}
+</if>
   where id=#{id}
     </update>
 

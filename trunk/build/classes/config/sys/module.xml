@@ -4,18 +4,18 @@
 <mapper namespace="config">
 
 	<select id="GetModuleByFilter"
-		parameterType="teamwish.dataContracts.common.PageFilter"
-		resultType="teamwish.dataContracts.sys.Module"
+		parameterType="teamwish.duty.dataContracts.common.PageFilter"
+		resultType="teamwish.duty.dataContracts.sys.Module"
 		statementType="STATEMENT">
 		SELECT id,pId,name,url,target,sortNo,isMenu FROM (select ROW_NUMBER()
 		Over(order by ${orderField} ) as rowNum, * from Module where
 		${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
 	</select>
-<delete id="DeleteModuleByFilter" parameterType="teamwish.dataContracts.common.PageFilter" statementType="STATEMENT">
+<delete id="DeleteModuleByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" statementType="STATEMENT">
 		delete from module where where
 		${filter}
 	</delete>
-<!--  <insert useGeneratedKeys="true" keyProperty="id" id="InsertRoleModule" parameterType="teamwish.dataContracts.sys.RoleModule">
+<!--  <insert useGeneratedKeys="true" keyProperty="id" id="InsertRoleModule" parameterType="teamwish.duty.dataContracts.sys.RoleModule">
         insert into RoleModule(roleId,moduleId) values(#{roleId},#{moduleId})
     </insert> -->
 </mapper>

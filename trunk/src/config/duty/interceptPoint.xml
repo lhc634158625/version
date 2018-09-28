@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetInterceptPointById" parameterType="int" resultType="teamwish.duty.dataContracts.duty.InterceptPoint">
+        select id,type,pointInfoId,interceptTaskId,memo from InterceptPoint where id = #{id}
+    </select>
+<select id="GetInterceptPointByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.duty.InterceptPoint"  statementType="STATEMENT">
+        SELECT id,type,pointInfoId,interceptTaskId,memo FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from InterceptPoint  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertInterceptPoint" parameterType="teamwish.duty.dataContracts.duty.InterceptPoint">
+        insert into InterceptPoint(type,pointInfoId,interceptTaskId,memo) values(#{type},#{pointInfoId},#{interceptTaskId},#{memo})
+    </insert>
+ <delete id="DeleteInterceptPoint" parameterType="int">
+        delete from InterceptPoint where id=#{id}
+    </delete>
+ <update id="UpdateInterceptPoint" parameterType="teamwish.duty.dataContracts.duty.InterceptPoint">
+        update InterceptPoint <set> 
+ <if test="type != null ">
+   type=#{type},
+</if>
+ <if test="pointInfoId != null ">
+   pointInfoId=#{pointInfoId},
+</if>
+ <if test="interceptTaskId != null ">
+   interceptTaskId=#{interceptTaskId},
+</if>
+ <if test="memo != null ">
+   memo=#{memo}
+</if>
+ </set> where id=#{id}
+    </update>
+</mapper>
+

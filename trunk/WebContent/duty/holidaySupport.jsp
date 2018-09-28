@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="../layui/css/layui.css">
 <link rel="stylesheet" href="../css/fastReverseShift.css">
 <link href="../css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="../layui/css/formSelects-v4.css">
 <script src="../js/jquery/jquery.js"></script>
 <script src="../layui/layui.js"></script>
 <script src="../js/pgis/mypgis.js"></script>
@@ -67,11 +68,11 @@
 	height: 0;
 }
 
-#fontSize tr:hover {
+#task_talbe tr:hover {
 	cursor: pointer;
 }
 
-#fontSize tr td {
+#task_talbe tr td {
 	font-size: 12px;
 }
 </style>
@@ -99,12 +100,14 @@
 							<button class="layui-btn" style="background: #4472ca"
 								onclick="changeUl(2)">任务</button>
 						</div>
-						<div id="point_btn_div" style="text-align: center;padding-top:10px;"  >
+						<div id="point_btn_div"
+							style="text-align: center; padding-top: 10px;">
 							<button id="showAllBtn_4" class="layui-btn layui-btn-primary"
 								onclick="show_all_point()">
 								<img id="show_all_img" src="../images/unchecked.png">显示全部
 							</button>
-							<button class="layui-btn layui-btn-primary" onclick="showMessByPoint()">新增点位</button>
+							<button class="layui-btn layui-btn-primary"
+								onclick="showMessByPoint()">新增点位</button>
 						</div>
 						<ul id="pointMess" style="display: block;">
 						</ul>
@@ -113,7 +116,7 @@
 								<div class="layui-inline" style="margin-top: 5px;">
 									<label class="layui-form-label" style="width: 30px;">名称</label>
 									<div class="layui-input-inline">
-										<input type="text" placeholder="请输入" autocomplete="off"
+										<input id="search_task_name" type="text" autocomplete="off"
 											class="layui-input">
 									</div>
 								</div>
@@ -121,20 +124,19 @@
 									<label class="layui-form-label" style="width: 30px;">时间</label>
 									<div class="layui-input-inline" style="width: 100px;">
 										<input type="text" id="date1" lay-verify="date1"
-											placeholder="yyyy-MM-dd" autocomplete="off"
-											class="layui-input">
+											autocomplete="off" class="layui-input">
 									</div>
 									<label>-</label>
 									<div class="layui-input-inline"
 										style="width: 100px; margin-top: 5px;">
 										<input type="text" id="date2" lay-verify="date2"
-											placeholder="yyyy-MM-dd" autocomplete="off"
-											class="layui-input">
+											autocomplete="off" class="layui-input">
 									</div>
 								</div>
 								<div
 									style="display: block; text-align: center; margin-top: 5px;">
-									<button class="layui-btn layui-btn-primary">搜索</button>
+									<button class="layui-btn layui-btn-primary"
+										onclick="search_Task()">搜索</button>
 									<button class="layui-btn layui-btn-primary"
 										onclick="showMessByTask()">新建</button>
 								</div>
@@ -147,17 +149,7 @@
 										<th>截至时间</th>
 									</tr>
 								</thead>
-								<tbody id="fontSize">
-									<tr onclick="showMessByTask()">
-										<td>抗战胜利日</td>
-										<td>2015-09-03</td>
-										<td>2015-09-05</td>
-									</tr>
-									<tr>
-										<td>劳动节</td>
-										<td>2015-05-01</td>
-										<td>2015-05-03</td>
-									</tr>
+								<tbody id="task_table">
 								</tbody>
 							</table>
 						</div>
@@ -180,7 +172,7 @@
 			</div>
 			<div id="pointDiv">
 				<div id="formTop">
-					<span>机场辖区</span><img src="../images/starlogo.png"><span
+					<span>点位信息</span><img src="../images/starlogo.png"><span
 						onclick="closeMess(1)">X</span>
 				</div>
 				<form class="layui-form" action="">
@@ -242,84 +234,85 @@
 			</div>
 			<div id="taskDiv">
 				<div id="formTop">
-					<span>机场辖区</span><img src="../images/starlogo.png"><span
+					<span>任务信息</span><img src="../images/starlogo.png"><span
 						onclick="closeMess(2)">X</span>
 				</div>
 				<form class="layui-form" action="">
 					<div class="layui-form-item">
 						<label class="layui-form-label">名称</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" placeholder="请输入标题"
-								autocomplete="off" class="layui-input">
+							<input hidden id="task_id"> <input id="task_name"
+								type="text" name="title" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">起始时间</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" placeholder="请输入标题"
+							<input id="task_start_time" type="text" name="title"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">截至时间</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" placeholder="请输入标题"
+							<input id="task_stop_time" type="text" name="title"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">负责人</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" placeholder="请输入标题"
+							<input id="task_leader" type="text" name="title"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">电话</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" placeholder="请输入标题"
-								autocomplete="off" class="layui-input">
+							<input id="task_tel" type="text" name="title" autocomplete="off"
+								class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">联系人</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" placeholder="请输入标题"
+							<input id="task_linkman" type="text" name="title"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">要求人数</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" placeholder="请输入标题"
+							<input id="task_require_count" type="text" name="title"
 								autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">电话</label>
+						<label class="layui-form-label">选择点位</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" placeholder="请输入标题"
-								autocomplete="off" class="layui-input">
+							<select id="point_select" xm-select="point_select"
+								xm-select-search="" xm-select-height="36px">
+							</select>
 						</div>
 					</div>
 					<div class="layui-form-item layui-form-text">
 						<label class="layui-form-label">备注</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<textarea name="desc" placeholder="请输入内容" class="layui-textarea"
+							<textarea id="task_memo" name="desc" class="layui-textarea"
 								style="width: 100%; resize: none;"></textarea>
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<div class="layui-input-inline"
 							style="width: 354px; margin-right: 25px; float: right;">
-							<input onclick="selectMapLG()" type="button" class="layui-btn"
-								value="选择坐标" style="background: #4472ca; width: 92px;"></input>
+							<!-- 							<input onclick="selectMapLG()" type="button" class="layui-btn"
+								value="选择坐标" style="background: #4472ca; width: 92px;"></input> -->
 							<button class="layui-btn" lay-submit lay-filter="formSave"
-								style="background: #4472ca;">保存信息</button>
-							<button class="layui-btn" lay-submit lay-filter="shiftTypeByTask"
-								style="background: #4472ca;">排班</button>
-							<button class="layui-btn" lay-submit lay-filter="formStop"
-								style="background: #4472ca;">停用</button>
+								id="saveTask" onclick="task_save()" style="background: #4472ca;">保存信息</button>
+							<button id="scheduling" class="layui-btn" lay-submit
+								lay-filter="shiftTypeByTask" style="background: #4472ca;">排班</button>
+							<!-- 			<button class="layui-btn" lay-submit lay-filter="formStop"
+								style="background: #4472ca;">停用</button> -->
 						</div>
 					</div>
 				</form>
@@ -331,7 +324,10 @@
 		<ul id="tree" class="ztree"></ul>
 	</div>
 </body>
+<script src="../layui/formSelects-v4.js"></script>
 <script type="text/javascript">
+	var formSelects = layui.formSelects;
+	var arr = new Array();
 	var map;
 	layui
 			.use(
@@ -353,6 +349,14 @@
 						});
 						laydate.render({
 							elem : '#date2',
+							theme : '#4472ca'
+						});
+						laydate.render({
+							elem : '#task_start_time',
+							theme : '#4472ca'
+						});
+						laydate.render({
+							elem : '#task_stop_time',
 							theme : '#4472ca'
 						});
 						//监听提交
@@ -465,6 +469,89 @@
 		map = PGISHelper.Init("mapDiv");
 	});
 
+	/* 初始化点位和任务列表 */
+	var type;
+	$(function() {
+		PostData("base/baseDict/filter", createRequest(0, 10, "id",
+				"name,string,=,节假日机关增援基层"), function(result) {
+			type = result.data[0].id;
+			reset_list(1);
+			reset_list(2);
+		})
+	})
+
+	/* 保存或新增任务 */
+	function task_save() {
+		var task_id = $('#task_id').val();
+		var task_name = $('#task_name').val();
+		var task_start_time = $('#task_start_time').val();
+		var task_stop_time = $("#task_stop_time").val();
+		var task_leader = $("#task_leader").val();
+		var task_tel = $("#task_tel").val();
+		var task_linkman = $("#task_linkman").val();
+		var task_require_count = $("#task_require_count").val();
+		var task_memo = $("#task_memo").val();
+		var request = new Object();
+		if (task_name) {
+			request.name = task_name;
+		}
+		if (task_start_time) {
+			request.fromTime = task_start_time;
+		}
+		if (task_stop_time) {
+			request.toTime = task_stop_time;
+		}
+		if (task_leader) {
+			request.leader = task_leader;
+		}
+		if (task_tel) {
+			request.phone = task_tel;
+		}
+		if (task_linkman) {
+			request.contactPerson = task_linkman;
+		}
+		if (task_require_count) {
+			request.count = Number(task_require_count);
+		}
+		if (task_memo) {
+			request.memo = task_memo;
+		}
+		var selectVal = formSelects.value('point_select');
+		request.type = type;
+		if (task_id) {//update
+			request.id = task_id;
+			PostData("duty/interceptTask/save", request, function(result) {
+				/* for(var i = 0;i<selectVal.length;i++){
+					var bean = new Object();
+					bean.type=type;
+					bean.pointInfoId=selectVal[i].value;
+					bean.interceptTaskId=id;
+					PostData("duty/interceptPoint/save", bean, function(result) {
+					});
+				} */
+				/* 批量删除，批量增加 */
+				closeMess(2);
+				reset_list(2);
+			});
+		} else {//add
+			request.state = "启用";
+			PostData("duty/interceptTask/save", request, function(result) {
+				var interceptTaskId = result.data.id;
+				/* for(var i = 0;i<selectVal.length;i++){
+					var bean = new Object();
+					bean.type=type;
+					bean.pointInfoId=selectVal[i].value;
+					bean.interceptTaskId=interceptTaskId;
+					PostData("duty/interceptPoint/save", bean, function(result) {
+					});
+				} */
+				/*批量增加 */
+				closeMess(2);
+				reset_list(2);
+			});
+		}
+	}
+	/* 添加或更新点位信息 */
 	function update_add_Point() {
 		var id = document.getElementById("id").value;
 		var request = new Object();
@@ -492,13 +579,13 @@
 			request.id = id;
 			PostData("point/point/save", request, function(result) {
 				closeMess(1);
-				reset_point();
+				reset_list(1);
 			});
 		} else {//add
 			request.state = "启用";
 			PostData("point/point/save", request, function(result) {
 				closeMess(1);
-				reset_point();
+				reset_list(1);
 			});
 		}
 	}
@@ -548,6 +635,7 @@
 		makeSave.style.display = "none";
 	}
 
+	/* 生成关联单位下拉框 */
 	function showTreemMean(obj, Id) {
 		var cityObj = $("#" + Id);
 		var cityOffset = $("#" + Id).offset();
@@ -595,7 +683,6 @@
 			map.PanAndZoom(CoordinateX.value, CoordinateY.value);
 		}
 		select_mapLG = true;
-
 	}
 
 	//赋予坐标行函数
@@ -621,39 +708,75 @@
 			} else {
 				document.getElementById("state").innerHTML = "启用";
 			}
-			reset_point();
+			reset_list(1);
 			closeMess(1);
 		});
 	}
-
-	function reset_point() {
-		var strConditions
-		if (document.getElementById("show_all_img").src.indexOf("unchecked") != -1) {
-			strConditions = "Type,string,=," + type + ";state,string,=,启用";
-		} else {
-			strConditions = "Type,string,=," + type;
-		}
-		var holiday_pointList = new Array()
-		PostData("point/point/filter", createRequest(0, 1000, "id",
-				strConditions), function(result) {
-			var pointsMess = result.data;
-			$("#pointMess").empty();
-			var html = '';
-			for (var i = 0; i < pointsMess.length; i++) {
-				var pointMess = pointsMess[i];
-				if (pointMess.name) {
-					html += '<li id="point_' + pointMess.id
-							+ '" onclick="showMessByPoint(' + pointMess.id
-							+ ')"><a>市局_' + pointMess.name;
-				} else {
-					html += '<li id="point_' + pointMess.id
-							+ '" onclick="showMessByPoint(' + pointMess.id
-							+ ')"><a>市局_未命名';
-				}
-				html += '</a></li>';
+	/* 重置列表 */
+	function reset_list(obj) {
+		/* 重置点位列表 */
+		if (obj == 1) {
+			var strConditions
+			if (document.getElementById("show_all_img").src
+					.indexOf("unchecked") != -1) {
+				strConditions = "Type,string,=," + type + ";state,string,=,启用";
+			} else {
+				strConditions = "Type,string,=," + type;
 			}
-			$("#pointMess").append(html);
-		});
+			PostData("point/point/filter", createRequest(0, 1000, "id",
+					strConditions), function(result) {
+				var pointsMess = result.data;
+				$("#pointMess").empty();
+				var html = '';
+				for (var i = 0; i < pointsMess.length; i++) {
+					var pointMess = pointsMess[i];
+					if (pointMess.name) {
+						html += '<li id="point_' + pointMess.id
+								+ '" onclick="showMessByPoint(' + pointMess.id
+								+ ')"><a>市局_' + pointMess.name;
+					} else {
+						html += '<li id="point_' + pointMess.id
+								+ '" onclick="showMessByPoint(' + pointMess.id
+								+ ')"><a>市局_未命名';
+					}
+					html += '</a></li>';
+				}
+				$("#pointMess").append(html);
+			});
+			/* 重置任务列表 */
+		} else if (obj == 2) {
+			var strConditions2 = "Type,string,=," + type;
+			PostData("duty/interceptTask/filter", createRequest(0, 1000, "id",
+					strConditions2), function(result) {
+				var taskArray = result.data;
+				$("#task_table").empty();
+				var html = '';
+				for (var i = 0; i < taskArray.length; i++) {
+					var taskMess = taskArray[i];
+					html += '<tr onclick="showMessByTask(' + taskMess.id
+							+ ')">'
+					if (taskMess.name) {
+						html += '<td>' + taskMess.name + '</td>';
+					} else {
+						html += '<td>未命名</td>';
+					}
+					if (taskMess.fromTime) {
+						html += '<td>' + taskMess.fromTime.substring(0, 11)
+								+ '</td>';
+					} else {
+						html += '<td></td>';
+					}
+					if (taskMess.toTime) {
+						html += '<td>' + taskMess.toTime.substring(0, 11)
+								+ '</td>';
+					} else {
+						html += '<td></td>';
+					}
+					html += '</tr>';
+				}
+				$("#task_table").append(html);
+			});
+		}
 	}
 
 	function show_all_point() {
@@ -667,7 +790,6 @@
 			document.getElementById("show_all_img").setAttribute("src",
 					"../images/unchecked.png");
 		}
-		var holiday_pointList = new Array()
 		PostData("point/point/filter", createRequest(0, 1000, "id",
 				strConditions), function(result) {
 			var pointsMess = result.data;
@@ -713,10 +835,11 @@
 	}
 
 	function showMessByPoint(data) {
-		var type = data;
+		var id = data;
 		var pointDiv = document.getElementById("pointDiv");
-		if (type) {
-			var strConditions = "id,string,=," + type;
+		//回显数据
+		if (id) {
+			var strConditions = "id,string,=," + id;
 			PostData(
 					"point/point/filter",
 					createRequest(0, 1000, "id", strConditions),
@@ -751,6 +874,7 @@
 							document.getElementById("state").innerHTML = "启用";
 						}
 					})
+			//新增数据
 		} else {
 			pointDiv.style.display = "block";
 			document.getElementById("state").style.display = "none";
@@ -765,10 +889,95 @@
 			document.getElementById("stationName").setAttribute("data-id", "");
 		}
 	}
-
-	function showMessByTask() {
+	/* 显示任务详细 */
+	function showMessByTask(data) {
+		arr = new Array();
 		var taskDiv = document.getElementById("taskDiv");
-		taskDiv.style.display = "block";
+		var scheduling = document.getElementById("scheduling");
+		//回显数据
+		if (data) {
+			var id = data;
+			var strConditions = "id,string,=," + id;
+			PostData(
+					"duty/interceptTask/filter",
+					createRequest(0, 1000, "id", strConditions),
+					function(result) {
+						//更新点位下拉框option
+						PostData("point/point/filter", createRequest(0, 1000,
+								"id", "Type,string,=," + type + ""), function(
+								result) {
+							var data = result.data;
+							$("#point_select").empty();
+							var html = "";
+							for (var i = 0; i < data.length; i++) {
+								html += "<option value='"+data[i].id+"'>"
+										+ data[i].name + "</option>";
+							}
+							$("#point_select").append(html);
+							
+							formSelects.render("point_select");
+							//查找点位设置做回显
+							PostData("duty/interceptPoint/filter", createRequest(0, 1000,
+								"id", "Type,string,=," + type + ";interceptTaskId,string,=," + id), function(
+								result) {
+								var data = result.data;
+								for ( var i = 0;i<data.length;i++) {
+									arr[i]=data[i].pointInfoId;
+								}
+								formSelects.value('point_select', arr);
+							});
+						});
+						taskDiv.style.display = "block";
+						scheduling.style.display = "inline";
+						document.getElementById("saveTask").innerHTML = "保存信息";
+						document.getElementById("task_id").value = result.data[0].id;
+						document.getElementById("task_name").value = result.data[0].name == undefined ? ""
+								: result.data[0].name;
+						document.getElementById("task_start_time").value = result.data[0].fromTime == undefined ? ""
+								: result.data[0].fromTime.substring(0, 11);
+						document.getElementById("task_stop_time").value = result.data[0].toTime == undefined ? ""
+								: result.data[0].toTime.substring(0, 11);
+						document.getElementById("task_leader").value = result.data[0].leader == undefined ? ""
+								: result.data[0].leader;
+						document.getElementById("task_tel").value = result.data[0].phone == undefined ? ""
+								: result.data[0].phone;
+						document.getElementById("task_linkman").value = result.data[0].contactPerson == undefined ? ""
+								: result.data[0].contactPerson;
+						document.getElementById("task_require_count").value = result.data[0].count == undefined ? ""
+								: result.data[0].count;
+						document.getElementById("task_memo").value = result.data[0].memo == undefined ? ""
+								: result.data[0].memo;
+					});
+			//新增数据
+		} else {
+			//更新点位下拉框option
+			PostData("point/point/filter", createRequest(0, 1000,
+					"id", "Type,string,=," + type + ""), function(
+					result) {
+				var data = result.data;
+				$("#point_select").empty();
+				var html = "";
+				for (var i = 0; i < data.length; i++) {
+					html += "<option value='"+data[i].id+"'>"
+							+ data[i].name + "</option>";
+				}
+				$("#point_select").append(html);
+				formSelects.render("point_select");
+			});
+			taskDiv.style.display = "block";
+			scheduling.style.display = "none";
+			document.getElementById("saveTask").innerHTML = "新增保存";
+			document.getElementById("task_id").value = "";
+			document.getElementById("task_name").value = "";
+			document.getElementById("task_start_time").value = "";
+			document.getElementById("task_stop_time").value = "";
+			document.getElementById("task_leader").value = "";
+			document.getElementById("task_tel").value = "";
+			document.getElementById("task_linkman").value = "";
+			document.getElementById("task_require_count").value = "";
+			document.getElementById("task_memo").value = "";
+
+		}
 	}
 
 	function changeUl(obj) {
@@ -782,7 +991,7 @@
 		} else if (obj == 2) {
 			pointMess.style.display = "none";
 			taskMess.style.display = "block";
-			point_btn_div.style.display  = "none";
+			point_btn_div.style.display = "none";
 		}
 	}
 
@@ -811,41 +1020,53 @@
 		request.conditions = conditions;
 		return request;
 	}
-	var type;
-	$(function() {
-		var holiday_pointList = new Array()
-		PostData("base/baseDict/filter", createRequest(0, 10, "id",
-				"name,string,=,节假日机关增援基层"), function(result) {
-			type = result.data[0].id;
-			var strConditions = "Type,string,=," + type + ";state,string,=,启用";
-			PostData("point/point/filter", createRequest(0, 1000, "id",
-					strConditions), function(result) {
-				var pointsMess = result.data;
-				$("#pointMess").empty();
-				var html = '';
-				for (var i = 0; i < pointsMess.length; i++) {
-					var pointMess = pointsMess[i];
-					if (pointMess.name) {
-						html += '<li id="point_' + pointMess.id
-								+ '" onclick="showMessByPoint(' + pointMess.id
-								+ ')"><a>市局_' + pointMess.name;
-					} else {
-						html += '<li id="point_' + pointMess.id
-								+ '" onclick="showMessByPoint(' + pointMess.id
-								+ ')"><a>市局_未命名';
+
+	function search_Task() {
+		var search_task_name = $("#search_task_name").val();
+		var date1 = $("#date1").val();
+		var date2 = $("#date2").val();
+		var strConditions2 = "Type,string,=," + type;
+		if (search_task_name) {
+			strConditions2 += ";name,string,=," + search_task_name
+		}
+		if (date1) {
+			strConditions2 += ";fromTime,string,=," + date1
+		}
+		if (date2) {
+			strConditions2 += ";toTime,string,=," + date2
+		}
+		PostData("duty/interceptTask/filter", createRequest(0, 1000, "id",
+				strConditions2),
+				function(result) {
+					var taskArray = result.data;
+					$("#task_table").empty();
+					var html = '';
+					for (var i = 0; i < taskArray.length; i++) {
+						var taskMess = taskArray[i];
+						html += '<tr onclick="showMessByTask(' + taskMess.id
+								+ ')">'
+						if (taskMess.name) {
+							html += '<td>' + taskMess.name + '</td>';
+						} else {
+							html += '<td>未命名</td>';
+						}
+						if (taskMess.fromTime) {
+							html += '<td>' + taskMess.fromTime.substring(0, 11)
+									+ '</td>';
+						} else {
+							html += '<td></td>';
+						}
+						if (taskMess.toTime) {
+							html += '<td>' + taskMess.toTime.substring(0, 11)
+									+ '</td>';
+						} else {
+							html += '<td></td>';
+						}
+						html += '</tr>';
 					}
-					html += '</a></li>';
-				}
-				$("#pointMess").append(html);
-			});
-		})
-	})
-</script>
-<script id="tmpStateOption" type="text/html">
-     <option value="">全部</option>    
- 	 {{#  layui.each(d.datas, function(index, item){ }}
-     <option value="{{item.code}}">{{item.name}}</option>
-     {{#  }); }}
+					$("#task_table").append(html);
+				});
+	}
 </script>
 <script src="../js/jquery.ztree.all-3.1.min.js"></script>
 <script src="../js/dateTime.js"></script>

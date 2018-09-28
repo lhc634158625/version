@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetStaffById" parameterType="int" resultType="teamwish.duty.dataContracts.staff.Staff">
+        select s.id,s.name,gender,state,longitude,latitude,stationId,s.telephone,position,shiftType,regionId,s.code,s.pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,ISNULL(leaderPost,''),ISNULL(nonLeaderPost,''),posType,shiftState,s.updateDt,shiftInfos,d.Name as deviceInfos, st.name as stationName,p.name as positionName 
+        from Staff s 
+        left join station st on st.id = s.stationId
+        left join position p on p.id = s.position
+        left join VStaffDevices d on d.staffcode = s.Code 
+        where s.id = #{id}
+    </select>
+    <select id="GetStaffByCode" parameterType="String" resultType="teamwish.duty.dataContracts.staff.Staff">
+        select s.id,s.name,gender,state,longitude,latitude,stationId,s.telephone,position,shiftType,regionId,s.code,s.pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,ISNULL(leaderPost,''),ISNULL(nonLeaderPost,''),posType,shiftState,s.updateDt,shiftInfos,d.Name as deviceInfos, st.name as stationName,p.name as positionName 
+        from Staff s 
+        left join VStaffDevices d on d.staffcode = s.Code 
+        left join position p on p.id = s.position
+        where s.code = #{code}
+    </select>
+<select id="GetStaffByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.staff.Staff"  statementType="STATEMENT">
+        SELECT id,name,gender,state,longitude,latitude,stationId,telephone,position,shiftType,regionId,code,pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,leaderPost,nonLeaderPost,posType,shiftState,updateDt,shiftInfos,stationName,positionName FROM 
+        (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * 
+        from staff a 
+        left join (select id as _stationId, name as stationName from station ) b on b._stationId=a.stationId
+        left join (select id as _positionId, name as positionName from position) c on c._positionId=a.position 
+        where ${filter}) tb 
+        where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertStaff" parameterType="teamwish.duty.dataContracts.staff.Staff">
+        insert into Staff(name,gender,state,longitude,latitude,stationId,telephone,position,shiftType,regionId,code,pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,leaderPost,nonLeaderPost,posType,shiftState,updateDt,shiftInfos) values(#{name},#{gender},#{state},#{longitude},#{latitude},#{stationId},#{telephone},#{position},#{shiftType},#{regionId},#{code},#{pyCode},#{address},#{timeType},#{serviceId},#{lastPosTime},#{isDel},#{idCode},#{leaderPost},#{nonLeaderPost},#{posType},#{shiftState},#{updateDt},#{shiftInfos})
+    </insert>
+ <delete id="DeleteStaff" parameterType="int">
+        delete from Staff where id=#{id}
+    </delete>
+ <update id="UpdateStaff" parameterType="teamwish.duty.dataContracts.staff.Staff">
+          update Staff <set> 
+ <if test="name != null ">
+   name=#{name},
+</if>
+ <if test="gender != null ">
+   gender=#{gender},
+</if>
+ <if test="state != null ">
+   state=#{state},
+</if>
+ <if test="longitude != null ">
+   longitude=#{longitude},
+</if>
+ <if test="latitude != null ">
+   latitude=#{latitude},
+</if>
+ <if test="stationId != null ">
+   stationId=#{stationId},
+</if>
+ <if test="telephone != null ">
+   telephone=#{telephone},
+</if>
+ <if test="position != null ">
+   position=#{position},
+</if>
+ <if test="shiftType != null ">
+   shiftType=#{shiftType},
+</if>
+ <if test="regionId != null ">
+   regionId=#{regionId},
+</if>
+ <if test="code != null ">
+   code=#{code},
+</if>
+ <if test="pyCode != null ">
+   pyCode=#{pyCode},
+</if>
+ <if test="address != null ">
+   address=#{address},
+</if>
+ <if test="timeType != null ">
+   timeType=#{timeType},
+</if>
+ <if test="serviceId != null ">
+   serviceId=#{serviceId},
+</if>
+ <if test="lastPosTime != null ">
+   lastPosTime=#{lastPosTime},
+</if>
+ <if test="isDel != null ">
+   isDel=#{isDel},
+</if>
+ <if test="idCode != null ">
+   idCode=#{idCode},
+</if>
+ <if test="leaderPost != null ">
+   leaderPost=#{leaderPost},
+</if>
+ <if test="nonLeaderPost != null ">
+   nonLeaderPost=#{nonLeaderPost},
+</if>
+ <if test="posType != null ">
+   posType=#{posType},
+</if>
+ <if test="shiftState != null ">
+   shiftState=#{shiftState},
+</if>
+ <if test="updateDt != null ">
+   updateDt=#{updateDt},
+</if>
+ <if test="shiftInfos != null ">
+   shiftInfos=#{shiftInfos},
+</if>
+ </set> where id=#{id}
+    </update>
+
+<select id="GetStaffState" parameterType="teamwish.duty.dataContracts.staff.RequestStaff" resultType="teamwish.duty.dataContracts.duty.ArrangeInfoReport" > 
+
+select s.stationId ,st.Name as stationName, s.Id as staffId, s.stationid as staffStationid, s.name as staffName, s.code as staffCode,s.telephone as staffPhone, ISNULL(s.LeaderPost,'')+ ISNULL(s.NonLeaderPost,'') as post, s.shiftInfos, ISNULL(s.shiftState,'备勤') as shiftState, s.lastPosTime, s.state
+from staff s 
+left join Position p on p.Id = s.Position
+left join Station st on  st.Id = s.stationId
+where ISNULL(s.IsDel,0)=0 
+and exists(select * from dbo.GetChildIds(#{stationId},'1') where a.id=st.id)
+
+<if test="shiftState != null and shiftState != ''">
+	and ISNULL(s.shiftState,'备勤')  = #{shiftState}
+</if>
+<if test="state != null and state != ''">
+	and s.state = #{state}
+</if>
+
+
+    </select>
+
+</mapper>
+

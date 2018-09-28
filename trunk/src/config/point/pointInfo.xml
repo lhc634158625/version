@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetPointInfoById" parameterType="int" resultType="teamwish.duty.dataContracts.point.PointInfo">
+        SELECT tb.id,tb.pid,tb.code,tb.name,tb.state,tb.type,tb.description,tb.memo,tb.stationId,tb.shiftTypeId,tb.longitude,tb.latitude,tb.updateDt,tb.created, s.name as stationName  from PointInfo tb left join station s on s.id= tb.stationId where tb.id = #{id}
+    </select>
+<select id="GetPointInfoByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.point.PointInfo"  statementType="STATEMENT">
+        ;with cte as
+(
+	select  id, pid, cast('' as nvarchar(max)) as path
+	from BaseDict
+	where id = 102 
+    
+	union all
+	select c.id,c.pid, p.path+cast(c.id as nvarchar(max))+'-' as path
+	from cte P
+	inner join BaseDict c on p.id=c.pid
+)
+        SELECT id,pid,code,name,state,type,description,memo,stationId,shiftTypeId,longitude,latitude,updateDt,created,stationName,typePath FROM 
+        (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * 
+        from PointInfo a 
+        inner join (select id as _id, path as typePath from cte ) c on c._id = a.type
+        left join (select id as _stationId, name as stationName from station ) b on b._stationId=a.stationId where ${filter}) tb        
+        where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertPointInfo" parameterType="teamwish.duty.dataContracts.point.PointInfo">
+        insert into PointInfo
+        (pid,code,name,state,type,description,memo,stationId,longitude,latitude,updateDt,created) values(#{pid},#{code},#{name},#{state},#{type},#{description},#{memo},#{stationId},#{longitude},#{latitude},#{updateDt},#{created})
+    </insert>
+ <delete id="DeletePointInfo" parameterType="int">
+        delete from PointInfo where id=#{id}
+    </delete>
+ <update id="UpdatePointInfo" parameterType="teamwish.duty.dataContracts.point.PointInfo">
+        update PointInfo 
+ <set>
+ <if test="pid != null" >
+        pid = #{pid},
+   </if>
+    <if test="code != null" >
+        code=#{code},
+   </if> 
+   <if test="name != null" >
+         name=#{name},
+   </if>    
+   <if test="state != null" >
+       state=#{state},
+   </if>  
+    <if test="type != null" >
+        type=#{type},
+   </if>
+    <if test="description != null" >
+       description=#{description},
+   </if>
+    <if test="memo != null" >
+      memo=#{memo},
+   </if>
+    <if test="stationId != null" >
+       stationId=#{stationId},
+   </if>
+  <if test="longitude != null" >
+       longitude=#{longitude},
+   </if>
+   <if test="latitude != null" >
+       latitude=#{latitude},
+   </if>
+   <if test="shiftTypeId != null" >
+        shiftTypeId=#{shiftTypeId},
+   </if>
+    <if test="updateDt != null" >
+      updateDt=#{updateDt},
+   </if>
+    <if test="created != null" >
+       created=#{created},
+   </if>
+  </set>
+  where id=#{id}
+    </update>
+
+
+</mapper>
+

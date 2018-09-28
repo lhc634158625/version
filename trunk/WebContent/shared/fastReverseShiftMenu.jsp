@@ -38,9 +38,7 @@
 	<script src="../js/linq/linq.min.js"></script>
 	<script src="../js/dictCache.js"></script>
 	<script src="../js/IndexDB.js"></script>
-	<script
-		src="../js/common/stationSelector.js?v=180612&&multi=${param.multi}"
-		charset="gb2312"></script>
+
 	<script type="text/javascript">
 	function shiftTypeClict(type) {
 		var itemid = whole_pointInfoMap.get("135排班")+"-"+whole_pointInfoMap.get("辖区")+"-";

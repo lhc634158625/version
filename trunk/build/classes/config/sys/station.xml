@@ -2,19 +2,58 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="config">
-    <select id="GetStationById" parameterType="int" resultType="teamwish.dataContracts.sys.Station">
+    <select id="GetStationById" parameterType="int" resultType="teamwish.duty.dataContracts.sys.Station">
         select id,name,leader,telephone,centerX,centerY,pId,zoom,code,workTime,shiftDays,checkInTime,innerCode,pyCode,wbCode,shortName,isUse,sCode,radioNo,caseInfoStationCode,serviceStationCode,updateDt,groupIds from Station where id = #{id}
     </select>
-<select id="GetStationByFilter" parameterType="teamwish.dataContracts.common.PageFilter" resultType="teamwish.dataContracts.sys.Station"  statementType="STATEMENT">
+<select id="GetStationByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.sys.Station"  statementType="STATEMENT">
         SELECT id,name,leader,telephone,centerX,centerY,pId,zoom,code,workTime,shiftDays,checkInTime,innerCode,pyCode,wbCode,shortName,isUse,sCode,radioNo,caseInfoStationCode,serviceStationCode,updateDt,groupIds FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from Station  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
     </select>
- <insert useGeneratedKeys="true" keyProperty="id" id="InsertStation" parameterType="teamwish.dataContracts.sys.Station">
+    
+    <select id="GetSuperiorsById" parameterType="teamwish.duty.dataContracts.common.Request" resultType="teamwish.duty.dataContracts.sys.Station"  statementType="STATEMENT">
+ 	 with cte as
+(
+	select  id, pid, cast(id as nvarchar(max)) as path, 1 as TLevel, id as mapping
+	from dbo.station
+	where id = ${stationId}
+    
+	union all
+	select c.id,c.pid, p.path+'-'+cast(c.id as nvarchar(max)) as path,p.TLevel+1 as TLevel, case when p.TLevel &lt; 2 then c.id else p.mapping end as mapping
+	from cte P
+	inner join dbo.station c on p.pid=c.id
+)
+
+select s.Id, s.Name, s.PId from cte c
+left join dbo.station s on s.id=c.Id
+order by PId
+    </select>
+    
+    
+    <select id="GetStationTree" parameterType="teamwish.duty.dataContracts.common.Request" resultType="teamwish.duty.dataContracts.sys.Station"  statementType="STATEMENT">
+      with cte as
+(
+	select  id, pid, cast(id as nvarchar(max)) as path, 1 as TLevel, id as mapping
+	from dbo.station
+	where id = ${stationId}  
+    
+	union all
+	select c.id,c.pid, p.path+'-'+cast(c.id as nvarchar(max)) as path,p.TLevel+1 as TLevel, case when p.TLevel &lt; 2 then c.id else p.mapping end as mapping
+	from cte P
+	inner join dbo.station c on p.id=c.pid
+)
+        SELECT s.id,s.name,s.centerX,s.centerY,s.pId,s.zoom,s.code,s.shiftDays,s.isUse
+        FROM Station s
+        inner join cte c on c.id =s.id
+        inner join stationGroup g on g.stationId = s.Id
+        where g.GroupId = ${stationGroupId}
+        order by s.pid,s.id
+    </select>   
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertStation" parameterType="teamwish.duty.dataContracts.sys.Station">
         insert into Station(name,leader,telephone,centerX,centerY,pId,zoom,code,workTime,shiftDays,checkInTime,innerCode,pyCode,wbCode,shortName,isUse,sCode,radioNo,caseInfoStationCode,serviceStationCode,updateDt,groupIds) values(#{name},#{leader},#{telephone},#{centerX},#{centerY},#{pId},#{zoom},#{code},#{workTime},#{shiftDays},#{checkInTime},#{innerCode},#{pyCode},#{wbCode},#{shortName},#{isUse},#{sCode},#{radioNo},#{caseInfoStationCode},#{serviceStationCode},#{updateDt},#{groupIds})
     </insert>
  <delete id="DeleteStation" parameterType="int">
         delete from Station where id=#{id}
     </delete>
- <update id="UpdateStation" parameterType="teamwish.dataContracts.sys.Station">
+ <update id="UpdateStation" parameterType="teamwish.duty.dataContracts.sys.Station">
         update Role set 
   
    name=#{name},
