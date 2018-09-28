@@ -185,8 +185,8 @@ function StationSelector() {
     function TreeOnClick(event, treeId, treeNode) {
         console.log(treeNode);
         queryStationById(treeNode.pId);
-        $("#title").val("更新");
-        $("#post_data_btn").val("更新");
+        $("#title").html("更新");
+        $("#post_data_btn").html("更新");
     }
     function SelectStationById(id) {
         var _node = zTree.getNodeByParam("id", id, null);
@@ -362,8 +362,8 @@ function StationSelector() {
             // zTree.addNodes(treeNode, { id: (100 + newCount), pId: treeNode.id, name: "new node" + (newCount++) });
             console.log(treeNode);
             $("#pre_station").val(treeNode.name);
-            $("#title").val("新增");
-            $("#post_data_btn").val("新增");
+            $("#title").html("新增");
+            $("#post_data_btn").html("新增");
             return false;
         });
     };

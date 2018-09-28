@@ -212,7 +212,7 @@
                     <input class="layui-btn layui-btn-disabled layui-row" style="border:0px;background-color:white;color:black;margin: 0px"
                         value="* 请先从左边选择一个节点" />
                 </div>
-                <div style="width: 200px;margin-left:20px "><span id="title" style="color:#3F69BA;font-size: 20px;font-weight:bolder;">新增子单位</span></div><!--更新父级单位-->
+                <div style="width: 200px;margin-left:20px "><span id="title" style="color:#3F69BA;font-size: 20px;font-weight:bolder;">新增</span></div><!--更新父级单位-->
             </div>
             <!--表单-->
             <div class="manager_form">
@@ -329,7 +329,7 @@
 
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button id="post_data_btn" class="layui-btn" lay-submit="" lay-filter="demo1" style="background-color: #4472CA;">更新</button>
+                            <button id="post_data_btn" class="layui-btn" lay-submit="" lay-filter="demo1" style="background-color: #4472CA;">新增</button>
                             <button type="reset" class="layui-btn layui-btn-primary" style="background-color: #4472CA;color: white">取消</button>
                         </div>
                     </div>
