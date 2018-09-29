@@ -244,7 +244,7 @@
                         <button id="layui_getSelectNums_btn" class="layui-btn" data-type="getCheckLength">获取选中数目</button>
                         <button id="layui_allSelect_btn" class="layui-btn" data-type="isAll">验证是否全选</button> -->
                         <button id="layui_getSelectData_btn" class="layui-btn">警员列表</button>
-                        <button id="layui_getSelectNums_btn" class="layui-btn">总共:5196项</button>
+                        <button id="layui_getSelectNums_btn" class="layui-btn" ></button>
                         <button class="layui-btn" id="addPolice">新增警员</button>
                     </div>
                 </div>
@@ -684,7 +684,6 @@
                         console.log(data);
                         // layer.alert('编辑行：<br>' + JSON.stringify(data))
                         //赋值
-
                         layui.use('form', function () {
                             var form = layui.form;
                             form.val("add_form", {

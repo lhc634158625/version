@@ -4,39 +4,64 @@
  */
 function saveStation(obj) {
     let pageFilter = new Object();
+    pageFilter = obj;
+    //edit
+    if (sessionStorage.getItem("edit_id") != null) {
+        pageFilter.id = sessionStorage.getItem("edit_id");
+    }
     load.PostData("sys/station/save", pageFilter, function (result) {
         if (result.message == "Success") {
-
+            AfterInitial();
         } else {
 
         }
-        AfterInitial();
     });
 }
 
+/**
+ * del
+ * @param {*} id 
+ */
 function delStation(id) {
-    let del_id = id;
-    load.PostData("sys/station/delete", del_id, function (result) {
+    let pageFilter = new Object();
+    pageFilter.id = id;
+    load.PostData("sys/station/delete", pageFilter, function (result) {
         if (result.message == "Success") {
-
+            AfterInitial();
         } else {
 
         }
-        AfterInitial();
+
     });
 }
 
-function queryStationById(id) {
+/**
+ * query pre station 
+ * @param {*} id 
+ */
+function queryPreStationById(id) {
     let gete_id = id
     load.PostData("sys/station/get", gete_id, function (result) {
         if (result.message == "Success") {
             $("#pre_station").val(result.data.name);
+            initEditData(result.data);
         } else {
             layer.msg("无上级单位");
         }
     });
 }
 
+
+//edit station init data
+function initEditData(data) {
+    layui.use('form', function () {
+        var form = layui.form;
+        form.val("station_form", {
+            "code": data.code,
+            "isUse": true,
+        });
+    });
+}
 
 /**��ѡ�¼�����*/
 function AfterInitial() {
@@ -184,10 +209,16 @@ function StationSelector() {
     //��ѡ�¼�����
     function TreeOnClick(event, treeId, treeNode) {
         console.log(treeNode);
-        queryStationById(treeNode.pId);
+        queryPreStationById(treeNode.pId);
         $("#title").html("更新");
+        $("#station_name_input").val(treeNode.name);
         $("#post_data_btn").html("更新");
+        sessionStorage.setItem("edit_id", treeNode.pid);
+        //
+
+
     }
+
     function SelectStationById(id) {
         var _node = zTree.getNodeByParam("id", id, null);
         if (_node != null) {
@@ -318,12 +349,17 @@ function StationSelector() {
 
         var zTree = $.fn.zTree.getZTreeObj("tree");
         zTree.selectNode(treeNode);
-        console.log(treeNode.children);
+        console.log(treeNode);
         if (treeNode.children !== undefined) {
             layer.msg("无法删除,还有子节点");
             return false
         }
-        return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+        if (confirm("确认删除 节点 -- " + treeNode.name + " 吗？")) {
+            //delStation(treeNode.id);
+            return true;
+        } else {
+            return false;
+        }
     }
     function onRemove(e, treeId, treeNode) {
         console.log("onRemove");
@@ -361,6 +397,7 @@ function StationSelector() {
             var zTree = $.fn.zTree.getZTreeObj("tree");
             // zTree.addNodes(treeNode, { id: (100 + newCount), pId: treeNode.id, name: "new node" + (newCount++) });
             console.log(treeNode);
+            $("#station_form")[0].reset();
             $("#pre_station").val(treeNode.name);
             $("#title").html("新增");
             $("#post_data_btn").html("新增");

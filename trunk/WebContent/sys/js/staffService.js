@@ -88,6 +88,7 @@ function SelectPoliceNum(limitNum, sobj) {
     }
     load.PostData("staff/staff/filterCount", pageFilter, function (result) {
         policeNum = result.data; //条
+        $("#layui_getSelectNums_btn").html("总共:"+policeNum+"项");
         var y = policeNum % limitNum //余
         var policePageNum = parseInt(policeNum / limitNum); //页
         policePageNum = y > 0 ? policePageNum + 1 : policePageNum;

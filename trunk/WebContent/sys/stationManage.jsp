@@ -180,7 +180,7 @@
                         <div style="color:#000;border-radius:0 10px 10px 0; border:1px #cccccc solid; margin:19px 0 2px 0; height:4%;"
                             class="menu_top">
                             <span id="show_span" style="line-height:30px;">行政区域</span>
-                            <input id="show_hid" onclick="showAndHidMean()" type="button" style="width:30px;height: 30px; border:none;border-radius: 0 10px 10px 0;float:right;background-image:url(../images/sh.png);"></input>
+                            <input id="show_hid" onclick="showAndHidMean()" type="button" style="width:30px;height: 30px; border:none;border-radius: 0 10px 10px 0;float:right;background-image:url(../images/sh.png);" />
                         </div>
                         <div id="left_mean_body" style="border:solid 1px #cccccc; border-radius:0 10px 10px 0;">
                             <form class="layui-form" action="" method="post">
@@ -212,11 +212,13 @@
                     <input class="layui-btn layui-btn-disabled layui-row" style="border:0px;background-color:white;color:black;margin: 0px"
                         value="* 请先从左边选择一个节点" />
                 </div>
-                <div style="width: 200px;margin-left:20px "><span id="title" style="color:#3F69BA;font-size: 20px;font-weight:bolder;">新增</span></div><!--更新父级单位-->
+                <div style="width: 200px;margin-left:20px "><span id="title" style="color:#3F69BA;font-size: 20px;font-weight:bolder;">新增</span></div>
+                <!--更新父级单位-->
+                <!--新增子单位,并更新新增子单位的父级单位-->
             </div>
             <!--表单-->
-            <div class="manager_form">
-                <form class="layui-form" action="">
+            <div class="manager_form" >
+                <form class="layui-form" action="" lay-filter="station_form" id="station_form">
 
                     <div class="layui-form-item layui-row">
                         <label class="layui-col-md2" style="display:-webkit-flex;
@@ -224,8 +226,8 @@
                                         height: 38px;"><span
                                 style="">上一级</span></label>
                         <div class="layui-col-md3">
-                            <input name="title" id="pre_station" lay-verify="title" autocomplete="off" placeholder="请选择" class="layui-input"  disabled="disabled"
-                                type="text">
+                            <input name="" id="pre_station" lay-verify="" autocomplete="off" placeholder="请选择" class="layui-input"
+                                disabled="disabled" type="text">
                         </div>
                     </div>
 
@@ -235,7 +237,7 @@
                                             height: 38px;"><span
                                 style="">编号</span></label>
                         <div class="layui-col-md3">
-                            <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"
+                            <input name="code" lay-verify="code" autocomplete="off" placeholder="请输入" class="layui-input"
                                 type="text">
                         </div>
                     </div>
@@ -246,7 +248,7 @@
                                                 height: 38px;"><span
                                 style="">名称</span></label>
                         <div class="layui-col-md3">
-                            <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"
+                            <input name="name" lay-verify="name"  id="station_name_input" autocomplete="off" placeholder="请输入" class="layui-input"
                                 type="text">
                         </div>
                     </div>
@@ -255,9 +257,9 @@
                         <label class="layui-col-md2" style="display:-webkit-flex;
                                             flex-flow:row column nowrap;align-items: center;justify-content :center;
                                             height: 38px;"><span
-                                style="">单位号</span></label>
+                                style="">单呼号</span></label>
                         <div class="layui-col-md3">
-                            <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"
+                            <input name="" lay-verify="" autocomplete="off" placeholder="请输入" class="layui-input"
                                 type="text">
                         </div>
                     </div>
@@ -268,7 +270,7 @@
                                             height: 38px;"><span
                                 style="">联系人</span></label>
                         <div class="layui-col-md3">
-                            <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"
+                            <input name="" lay-verify="" autocomplete="off" placeholder="请输入" class="layui-input"
                                 type="text">
                         </div>
                     </div>
@@ -279,7 +281,7 @@
                                             height: 38px;"><span
                                 style="">电话</span></label>
                         <div class="layui-col-md3">
-                            <input name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"
+                            <input name="" lay-verify="" autocomplete="off" placeholder="请输入" class="layui-input"
                                 type="text">
                         </div>
                     </div>
@@ -290,7 +292,7 @@
                                     height: 38px;"><span
                                 style="">级别</span></label>
                         <div class="layui-col-md3">
-                            <select name="station" lay-verify="required">
+                            <select name="" >
                                 <option value=""></option>
                                 <option value="0">北京</option>
                                 <option value="1">上海</option>
@@ -307,7 +309,7 @@
                                             height: 38px;"><span
                                 style="">是否显示</span></label>
                         <div class="layui-input-block">
-                            <input name="like1[write]" lay-skin="primary" title="" checked="" type="checkbox">
+                            <input name="isUse" lay-skin="primary" title="" checked="" type="checkbox">
                         </div>
                     </div>
 
@@ -395,25 +397,37 @@
             });
 
             //表单初始赋值
-            form.val('example', {
-                "username": "贤心" // "name": "value"
-                , "password": "123456"
-                , "interest": 1
-                , "like[write]": true //复选框选中状态
-                , "close": true //开关状态
-                , "sex": "女"
-                , "desc": "我爱 layui"
-            })
+            // form.val('example', {
+            //     "username": "贤心" // "name": "value"
+            //     , "password": "123456"
+            //     , "interest": 1
+            //     , "like[write]": true //复选框选中状态
+            //     , "close": true //开关状态
+            //     , "sex": "女"
+            //     , "desc": "我爱 layui"
+            // })
 
 
         });
 
-    </script>
-
-
-    <script>
+        /**��ѡ�¼��*/
         window.onload = function () {
+            if (sessionStorage.getItem("key") != null) {
+                sessionStorage.removeItem("key");
+            }
             onExpandforchangeWidth1();
+        }
+
+
+        //edit station init data
+        function initEditData(data) {
+            layui.use('form', function () {
+                var form = layui.form;
+                form.val("station_form", {
+                    "code": data.code,
+                    "isUse": true,
+                });
+            });
         }
 
         //随左侧菜单栏的变化，右边主页面宽度随之改变
@@ -446,14 +460,15 @@
             }
         }
 
+        //layui refresh
         window.selectRender = function () {
             layui.use(['layer', 'form', 'laydate', 'code'], function () {
                 var form = layui.form, $ = layui.$;
                 form.render();
             });
         };
-    </script>
-    <script>
+
+
         function showAndHidMean() {
             var lt_mean_body = document.getElementById('left_mean_body');
             var sw_span = document.getElementById('show_span')
