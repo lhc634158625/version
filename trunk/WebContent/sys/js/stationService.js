@@ -5,12 +5,17 @@
 function saveStation(obj) {
     let pageFilter = new Object();
     pageFilter = obj;
-    //edit
-    if (sessionStorage.getItem("edit_id") != null) {
-        pageFilter.id = sessionStorage.getItem("edit_id");
+    //if edit pid=this pid,id=this id
+    if (sessionStorage.getItem("form_key") == "edit") {
+        pageFilter.id = sessionStorage.getItem("edit_stationId");
+        pageFilter.PId = sessionStorage.getItem("edit_stationpId");
+    } else if (sessionStorage.getItem("form_key") == "add") {
+        //if add pid=this id,id no need input 
+        pageFilter.PId = sessionStorage.getItem("add_stationpId");
     }
     load.PostData("sys/station/save", pageFilter, function (result) {
         if (result.message == "Success") {
+            layer.msg("保存成功");
             AfterInitial();
         } else {
 
@@ -209,14 +214,15 @@ function StationSelector() {
     //��ѡ�¼�����
     function TreeOnClick(event, treeId, treeNode) {
         console.log(treeNode);
+        $("#stationSearch").val(treeNode.name);
         queryPreStationById(treeNode.pId);
         $("#title").html("更新");
         $("#station_name_input").val(treeNode.name);
         $("#post_data_btn").html("更新");
-        sessionStorage.setItem("edit_id", treeNode.pid);
-        //
 
-
+        sessionStorage.setItem("form_key", "edit");
+        sessionStorage.setItem("edit_stationId", treeNode.id);
+        sessionStorage.setItem("edit_stationpId", treeNode.pId);
     }
 
     function SelectStationById(id) {
@@ -397,10 +403,13 @@ function StationSelector() {
             var zTree = $.fn.zTree.getZTreeObj("tree");
             // zTree.addNodes(treeNode, { id: (100 + newCount), pId: treeNode.id, name: "new node" + (newCount++) });
             console.log(treeNode);
+            sessionStorage.setItem("form_key", "add");
             $("#station_form")[0].reset();
             $("#pre_station").val(treeNode.name);
             $("#title").html("新增");
             $("#post_data_btn").html("新增");
+
+            sessionStorage.setItem("add_stationpId", treeNode.pId);
             return false;
         });
     };
@@ -422,14 +431,16 @@ function StationSelector() {
         return true;
     }
     function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+        console.log(treeNodes[0]);
         console.log(targetNode);
-        console.log(treeNodes);
+        treeNodes[0].PId=targetNode.id;
+        console.log(treeNodes[0]);
+        saveStation(treeNodes[0]);
         return targetNode ? targetNode.drop !== false : true;
     }
 
     function setCheck() {
         let zTree_obj = $.fn.zTree.getZTreeObj("tree");
-        console.log("1111");
         zTree_obj.setting.edit.drag.isCopy = true;
         zTree_obj.setting.edit.drag.isMove = true;
         zTree_obj.setting.edit.drag.prev = true;

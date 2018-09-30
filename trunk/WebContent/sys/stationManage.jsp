@@ -309,7 +309,7 @@
                                             height: 38px;"><span
                                 style="">是否显示</span></label>
                         <div class="layui-input-block">
-                            <input name="isUse" lay-skin="primary" title="" checked="" type="checkbox">
+                            <input name="RadioNo" lay-skin="primary" title="" checked="" type="checkbox">
                         </div>
                     </div>
 
@@ -319,7 +319,7 @@
                                         height: 38px;"><span
                                 style="">组别</span></label>
                         <div class="layui-input-block">
-                            <input name="like1[write]" lay-skin="primary" title="组织结构" checked="" type="checkbox">
+                            <input name="like1[write]" lay-skin="primary" title="组织结构"  type="checkbox"><!--checked="" -->
                             <input name="like1[read]" lay-skin="primary" title="下拉框组" type="checkbox">
                             <input name="like1[read]" lay-skin="primary" title="警力部署组" type="checkbox">
                             <input name="like1[read]" lay-skin="primary" title="巡逻片区组" type="checkbox">
@@ -390,23 +390,10 @@
 
             //监听提交
             form.on('submit(demo1)', function (data) {
-                layer.alert(JSON.stringify(data.field), {
-                    title: '最终的提交信息'
-                })
+                console.log(data.field);
+                saveStation(data.field);
                 return false;
             });
-
-            //表单初始赋值
-            // form.val('example', {
-            //     "username": "贤心" // "name": "value"
-            //     , "password": "123456"
-            //     , "interest": 1
-            //     , "like[write]": true //复选框选中状态
-            //     , "close": true //开关状态
-            //     , "sex": "女"
-            //     , "desc": "我爱 layui"
-            // })
-
 
         });
 
