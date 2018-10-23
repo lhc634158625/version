@@ -550,7 +550,8 @@
             //新增警员提交
             form.on('submit(formDemo)', function (data) {
                 //添加ajax
-                layer.msg(JSON.stringify(data.field));
+                // layer.msg(JSON.stringify(data.field));
+                layer.closeAll();
                 console.log(data.field);
                 AddNewPolice(data.field);
                 return false;
@@ -558,7 +559,7 @@
 
             //警员搜索提交
             form.on('submit(sr)', function (data) {
-                layer.msg(JSON.stringify(data.field));
+                // layer.msg(JSON.stringify(data.field));
                 sessionStorage.setItem("conditinos", data.field);
                 if (sessionStorage.getItem("pageLimit") != null) {
                     pageLimit = sessionStorage.getItem("pageLimit");
