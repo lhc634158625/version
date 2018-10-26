@@ -11,7 +11,7 @@ function GetPolice(page_num, pageSize_num, condition) {
     load.PostData("staff/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
         sessionStorage.setItem("pageLimit", pageFilter.pageSize);
-        laytab.loadTab();
+        // loadTab();
     });
 
 }
