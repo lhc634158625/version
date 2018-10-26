@@ -701,7 +701,9 @@ table thead, tbody {
 						}else{
 							item.iconUrl="../images/map/camera_04.gif";
 						}
-						whole_cameraInfoList.push(item);					
+						if(typeof item.lng !="undefined" && item.lng!=0){
+							whole_cameraInfoList.push(item);
+						}
 					}
 				}
 			},false);
@@ -744,6 +746,9 @@ table thead, tbody {
 						strConditions),
 				function(result) {
 					var allPointinfo=result.data;
+					if(allPointinfo.length==0){
+						return;
+					}
 					var strPointId="";
 					var pointIdShiftMap=new Map();//点位id班别类型
 					for(var i=0;i<allPointinfo.length;i++){						
@@ -786,6 +791,7 @@ table thead, tbody {
 									item.ID=allStaff[i].id;	
 									item.lineid="离线";
 									item.content="";
+									item.height=40;
 									var iconName="";
 									if(allStaff[i].lastPosTime!=null){
 										var timetemp=allStaff[i].lastPosTime.substr(0,allStaff[i].lastPosTime.length-5);										
@@ -801,7 +807,7 @@ table thead, tbody {
 									}
 									item.SX= getShowTypebyParam(pointIdShiftMap.get(staffIdMap.get(allStaff[i].id)),item.lineid);//排班类别
 									item.iconUrl="../images/map/"+iconName;	
-									if(item.lng!=0){
+									if(typeof item.lng !="undefined" && item.lng!=0){
 										map.AddMark(item);	
 									}
 								}
@@ -823,7 +829,9 @@ table thead, tbody {
 						item.SX=getShowTypeFromPointInfo(allPointinfo[i],arrngeInfosMap);
 						item.content="";
 						item.iconUrl="../images/"+getIconFromPointInfo(allPointinfo[i],arrngeInfosMap);
-						map.AddMark(item);						
+						if(typeof item.lng !="undefined" && item.lng!=0){
+							map.AddMark(item);	
+						}
 					}
 					
 				});
@@ -842,10 +850,10 @@ table thead, tbody {
 					
 					if(typeof carNo!="undefined" && carNo!=null  ){
 						var item=carNo.split(",");						
-						for(var i=0;i<item.length;i++){
-							if(item[i].length>0 && !carNoMap.has(item[i])){
-								carNoMap.set(item[i],deviceInfos[i].pointInfoId);
-								carNoStr += "'"+item[i]+"',";
+						for(var j=0;j<item.length;j++){
+							if(item[j].length>0 && !carNoMap.has(item[j])){
+								carNoMap.set(item[j],deviceInfos[i].pointInfoId);
+								carNoStr += "'"+item[j]+"',";
 							}
 						}
 					}
@@ -880,7 +888,7 @@ table thead, tbody {
 							iconName="shift4_3.gif";
 						}
 						item.iconUrl="../images/map/"+iconName;
-						if(item.lng!=0){
+						if(typeof item.lng !="undefined" && item.lng!=0){
 							map.AddMark(item);	
 						}
 					}
@@ -1139,7 +1147,7 @@ table thead, tbody {
 						}
 						if(typeof(popedom.stationId) != "undefined"){
 							whole_stationId = popedom.stationId;
-							whole_TopstationId=1;//关联单位默认所有的显示所有的单位
+							/* whole_TopstationId=1;//关联单位默认所有的显示所有的单位 */
 						}
 						if(typeof(popedom.memo) != "undefined"){
 							whole_memo.value = popedom.memo;
@@ -1177,7 +1185,7 @@ table thead, tbody {
 						whole_formDiv.style.display = "block";
 					});
 		}else{
-			whole_TopstationId=1;
+			/* whole_TopstationId=1; */
 			whole_savePopedomMess.setAttribute("onclick", "savePopedomMess("+stationPId+",\"\")");
 			whole_stop.setAttribute("onclick", "stopPopedom(-1)"); 
 			whole_topName.innerText = "新增巡逻点";
@@ -1409,7 +1417,7 @@ table thead, tbody {
 		var identify = showClickTimes;
 		showClickTimes ++;
 		var NowDate=new Date().Format("yyyy-MM-dd");
-		whole_ClickMenuMap.set(identify,itemId+","+type+","+minutesType);
+		whole_ClickMenuMap.set(identify,itemId+","+type+","+minutesType+","+title);
 				
 		var tabTitles = document.getElementById("tabTitle").children;
 		var tabContents = document.getElementById("tabContent").children;
@@ -1428,10 +1436,8 @@ table thead, tbody {
 		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm' onclick='makeOrder("+identify+")'>排班</button><button class='layui-btn layui-btn-primary layui-btn-sm'>导出</button>";
 		html2 += "</div>";
 		html2 += "<div class='layui-inline' id='makeSave_"+identify+"' style='display: none;'>";
-		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm' onclick='makeSave("+identify+")'>保存</button>";
-		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm' onclick='makeCancel("+identify+")'>取消</button>";
-		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm'>复制排班</button>";
-		html2 += "<label>原日期</label><div class='layui-input-inline' style='width: 120px;'>";
+		html2 += "<button style='margin-right: 20px;' class='layui-btn layui-btn-primary layui-btn-sm' onclick='makeCancel("+identify+")'>返回</button>";
+		html2 += "<label>复制排班：</label><label>原日期</label><div class='layui-input-inline' style='width: 120px;'>";
 		html2 += "<input type='text' class='layui-input' id='schedulBegin_"+identify+"' placeholder='yyyy-MM-dd'></div>";
 		html2 += "<label>目标日期</label><div class='layui-input-inline' style='width: 120px;'>";
 		html2 += "<input type='text' class='layui-input' id='schedulEnd_"+identify+"' placeholder='yyyy-MM-dd'></div>";
@@ -1448,9 +1454,9 @@ table thead, tbody {
 		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm' onclick='searchClick("+identify+",4)'>今天</button>";
 		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm' onclick='searchClick("+identify+",5)'>本周</button>";
 		html2 += "<button class='layui-btn layui-btn-primary layui-btn-sm' onclick='searchClick("+identify+",6)'>本月</button>";
-		html2 += "</div><div class='layui-inline' style='width: 100%;'><div class='tableTitle'>"+ title +"排班表</div></div>";
+		html2 += "</div><div class='layui-inline' style='width: 100%;'></div>";
 		html2 += "<div id='shiftTableDiv_"+identify+"'><div class='table-head'><table class='layui-table'>";
-		html2 += CreateHeadHtml(minutesType,NowDate);
+		html2 += CreateHeadHtml(type,title,minutesType,NowDate);
 		html2 += "</table></div>";
 		html2 += "<div class='table-body'><table class='layui-table' style='text-align: center;' id='shiftTable_"+identify+"'>";
 		html2 += CreateBodyHtml(itemId,type,NowDate,NowDate,1,identify);		
@@ -1482,7 +1488,7 @@ table thead, tbody {
 		var fromDate=document.getElementById('schedulBegin_'+index).value;
 		var toDate=document.getElementById('schedulEnd_'+index).value;
 		if(fromDate==null || toDate==null || fromDate.length==0 || toDate.length==0 || fromDate==toDate){
-			alert("日期错误，请检查日期！");
+			ShowTip("温馨提示","日期错误，请检查日期！");
 			return false;
 		}
 		if(typeof isCover!="undefined"){
@@ -1537,6 +1543,7 @@ table thead, tbody {
 						var saveArrangeFlag=saveArrangeInfos(arrangeInfos);
 						var saveDeviceFlag=saveDeviceInfos(deviceInfos);
 						if(saveArrangeFlag==true && saveDeviceFlag==true){
+							ShowTip("温馨提示","复制排班成功!");
 							return true;
 						}
 					}
@@ -1549,11 +1556,7 @@ table thead, tbody {
 			                //回调函数  
 			                yes: function(index1, layero){
 			                	//setData(3);
-			                	var tempitem=CopyShiftOk(index,true);
-			                	layer.closeAll();
-			                	if(tempitem==true){			                		
-			                		ShowTip("温馨提示","<div style='color:#767676'>复制排班成功!</div>");
-			                	}
+			                	var tempitem=CopyShiftOk(index,true);			                
 			                },  
 			                btn2: function(index, layero){
 			                },  
@@ -1728,7 +1731,7 @@ table thead, tbody {
 		if(item.length>=3){		
 			//$('#shiftTable_'+index).remove();
 			var html="<div class='table-head'><table class='layui-table'>";		
-			html += CreateHeadHtml(item[2],dateshow,isEdit);
+			html += CreateHeadHtml(item[1],item[3],item[2],dateshow,isEdit);
 			html += "</table></div>";
 			html += "<div class='table-body' id='shiftTableBodyDiv_"+index+"'><table class='layui-table' style='text-align: center;' id='shiftTable_"+index+"'>";
 			html += CreateBodyHtml(item[0],item[1],fromDate,toDate,isEdit,index);
@@ -1745,15 +1748,23 @@ table thead, tbody {
 		}
 	}
 	
-	function CreateHeadHtml(minutesType,strDate,isEdit) {
+	function CreateHeadHtml(type,title,minutesType,strDate,isEdit) {
 		var html = "";
 		if(minutesType == 1){
 			html += "<thead>";
 			html += "<tr>";
 			if(isEdit == 0){
-				html += "<td colspan='18'>特警支队常态化联勤武装巡逻警力部署表("+strDate+")</td>";
+				if(type==1||type==2){
+					html += "<td colspan='18'>特警支队常态化联勤武装巡逻警力部署表("+strDate+")</td>";
+				}else if(type==3){
+					html += "<td colspan='18'>特警支队"+title+"常态化联勤武装巡逻警力部署表("+strDate+")</td>";
+				}
 			}else{
-				html += "<td colspan='17'>特警支队常态化联勤武装巡逻警力部署表("+strDate+")</td>";
+				if(type==1||type==2){
+					html += "<td colspan='17'>特警支队常态化联勤武装巡逻警力部署表("+strDate+")</td>";
+				}else if(type==3){
+					html += "<td colspan='17'>特警支队"+title+"常态化联勤武装巡逻警力部署表("+strDate+")</td>";
+				}
 			}
 			html += "</tr>"
 			html += "<tr>";
@@ -1790,9 +1801,17 @@ table thead, tbody {
 			html += "<thead>";
 			html += "<tr>";
 			if(isEdit == 0){
-				html += "<td colspan='17'>各分局加密巡逻安排表("+strDate+")</td>";
+				if(type==1){
+					html += "<td colspan='17'>各分局"+title+"巡逻安排表("+strDate+")</td>";
+				}else if(type==2||type==3){
+					html += "<td colspan='17'>"+title+"巡逻安排表("+strDate+")</td>";
+				}
 			}else{
-				html += "<td colspan='16'>各分局加密巡逻安排表("+strDate+")</td>";
+				if(type==1){
+					html += "<td colspan='16'>各分局"+title+"巡逻安排表("+strDate+")</td>";
+				}else if(type==2||type==3){
+					html += "<td colspan='16'>"+title+"巡逻安排表("+strDate+")</td>";
+				}
 			}
 			html += "</tr>"
 			html += "<tr>";
@@ -1904,14 +1923,15 @@ table thead, tbody {
 	//获取排班数据
 	function getArrangeInfosData(fromTime,toTime,strPointId){
 		var arrangeInfos=new Array();	
-		
-		var strConditions = "pointInfoId,int,in,"+strPointId +";workDt,string,>=,"+fromTime+";workDt,string,<=,"+toTime;
-		
-		PostData("duty/arrange/filter",createRequest(0, 10000, "id", strConditions),function(result) {
-			if(result.data.length>0){
-				arrangeInfos=result.data;
-			}
-		},false);
+		if(strPointId.length>0){
+			var strConditions = "pointInfoId,int,in,"+strPointId +";workDt,string,>=,"+fromTime+";workDt,string,<=,"+toTime;
+			
+			PostData("duty/arrange/filter",createRequest(0, 10000, "id", strConditions),function(result) {
+				if(result.data.length>0){
+					arrangeInfos=result.data;
+				}
+			},false);
+		}
 		
 		return arrangeInfos;
 	}
@@ -2155,11 +2175,11 @@ table thead, tbody {
 	
 					html += "<tr>";
 					if(type!=1){					
-						html += "<td id='areaId_"+pageId+"_"+itemPoint.id+"'>"+substation.get(itemPoint.pid)+"</td>";
+						html += "<td id='areaId_"+pageId+"_"+itemPoint.pid+"'>"+substation.get(itemPoint.pid)+"</td>";
 							temp="3分钟反应圈";
 						if(itemPoint.type==whole_pointInfoMap.get("5分钟"))
 							temp="5分钟反应圈";						
-						html += "<td id='type_"+pageId+"_"+itemPoint.id+"'>" + temp + "</td>";
+						html += "<td id='type_"+pageId+"_"+itemPoint.pid+"'>" + temp + "</td>";
 					}
 					html += "<td id='name_"+pageId+"_"+itemPoint.id+"'>"+itemPoint.name+"</td>";
 					html += "<td id='description_"+pageId+"_"+itemPoint.id+"'>"+itemPoint.description+"</td>";
@@ -2216,7 +2236,7 @@ table thead, tbody {
 							}
 						}
 					}
-					html += "<td><div style='margin-top: 5px;'><button class='layui-btn layui-btn-normal layui-btn-small' onclick='addShift("+itemPoint.id+","+pageId+")'>增加</button></div>";
+					html += "<td><div style='margin-top: 5px;'><button class='layui-btn layui-btn-normal layui-btn-small' onclick='addShift("+itemPoint.pid+","+itemPoint.id+","+pageId+")'>增加</button></div>";
 					html += "<div style='margin-top: 5px;'><button class='layui-btn layui-btn-warm layui-btn-small' onclick='modifyStaffAndDeviceMess("+itemPoint.id+","+pageId+","+timeSpanIdx+",\""+strDeviceTypeCode+"\",\""+temp+"\",1)'>保存</button></div>";
 					html += "<div style='margin-top: 5px;'><button class='layui-btn layui-btn-small' onclick='delStaffAndDeviceMess("+itemPoint.id+",\""+fromTime+"\",\""+toTime+"\","+pageId+")'>删除</button></div></td>";
 					html += "</tr>";
@@ -2233,11 +2253,11 @@ table thead, tbody {
 				}
 				html += "<tr>";
 				if(type!=1){					
-					html += "<td id='areaId_"+pageId+"_"+itemPoint.id+"'>"+substation.get(itemPoint.pid)+"</td>";
+					html += "<td id='areaId_"+pageId+"_"+itemPoint.pid+"'>"+substation.get(itemPoint.pid)+"</td>";
 						temp="3分钟反应圈";
 					if(itemPoint.type==whole_pointInfoMap.get("5分钟"))
 						temp="5分钟反应圈";						
-					html += "<td id='type_"+pageId+"_"+itemPoint.id+"'>" + temp + "</td>";
+					html += "<td id='type_"+pageId+"_"+itemPoint.pid+"'>" + temp + "</td>";
 				}
 				html += "<td id='name_"+pageId+"_"+itemPoint.id+"'>"+itemPoint.name+"</td>";
 				html += "<td id='description_"+pageId+"_"+itemPoint.id+"'>"+itemPoint.description+"</td>";
@@ -2287,9 +2307,9 @@ table thead, tbody {
 						strDeviceTypeCode += pointInfoDeviceDict[m].code + "," +pointInfoDeviceDict[m].name + ";";
 					}
 				}
-				html += "<td><div style='margin-top: 5px;'><button class='layui-btn layui-btn-normal layui-btn-small' onclick='addShift("+itemPoint.id+","+pageId+")'>增加</button></div>";
+				html += "<td>";
 				html += "<div style='margin-top: 5px;'><button class='layui-btn layui-btn-warm layui-btn-small' onclick='modifyStaffAndDeviceMess("+itemPoint.id+","+pageId+","+timeSpanIdx+",\""+strDeviceTypeCode+"\",\""+temp+"\",0)'>保存</button></div>";
-				html += "<div style='margin-top: 5px;'><button class='layui-btn layui-btn-small' onclick='delStaffAndDeviceMess("+itemPoint.id+",\""+fromTime+"\",\""+toTime+"\","+pageId+")'>删除</button></div></td>";
+				html += "</td>";
 				html += "</tr>";
 				addTimeSpanList.push(itemPoint.id);
 				timeSpanIdx++;
@@ -2327,7 +2347,7 @@ table thead, tbody {
 		}
 		var id = $(obj).parent().attr("id");
 		if(typeof(id)=="undefined"){
-			$(obj).parent().empty();
+			$(obj).parent().remove();
 			cancelBubble();
 			return;
 		}
@@ -2368,7 +2388,7 @@ table thead, tbody {
 			html += "<td><input id='eLongGun_"+pageId+"_"+itemPoint.id+"' type='text' autocomplete='off' class='layui-input input-border'></td>";
 			html += "<td><input id='eHandGun_"+pageId+"_"+itemPoint.id+"' type='text' autocomplete='off' class='layui-input input-border'></td>";
 			html += "<td><div style='margin-top: 5px;'><button class='layui-btn layui-btn-warm layui-btn-small' onclick='saveShiftAndDeviceMess(\""+temp+"\","+pageId+","+itemPoint.id+","+itemPoint.stationId+")'>保存</button></div>";
-			html += "<div style='margin-top: 5px;'><button class='layui-btn layui-btn-small' onclick='cancelSaveMess("+itemPoint.id+","+pageId+")'>取消</button></div></td>";
+			html += "<div style='margin-top: 5px;'><button class='layui-btn layui-btn-small' onclick='cancelSaveMess("+itemPoint.pid+","+itemPoint.id+","+pageId+")'>取消</button></div></td>";
 			html += "</tr>";
 		}else{
 			
@@ -2387,7 +2407,7 @@ table thead, tbody {
 			html += "<td><input id='eLongGun_"+pageId+"_"+itemPoint.id+"' type='text' autocomplete='off'	class='layui-input input-border'></td>";
 			html += "<td><input id='eHandGun_"+pageId+"_"+itemPoint.id+"' type='text' autocomplete='off'	class='layui-input input-border'></td>";
 			html += "<td><div style='margin-top: 5px;'><button class='layui-btn layui-btn-warm layui-btn-small' onclick='saveShiftAndDeviceMess(\""+temp+"\","+pageId+","+itemPoint.id+","+itemPoint.stationId+")'>保存</button></div>";
-			html += "<div style='margin-top: 5px;'><button class='layui-btn layui-btn-small' onclick='cancelSaveMess("+itemPoint.id+","+pageId+")'>取消</button></div></td>";
+			html += "<div style='margin-top: 5px;'><button class='layui-btn layui-btn-small' onclick='cancelSaveMess("+itemPoint.pid+","+itemPoint.id+","+pageId+")'>取消</button></div></td>";
 			html += "</tr>";
 		}
 		return html;
@@ -2408,13 +2428,13 @@ table thead, tbody {
 	}
 	
 	// 点击增加按钮
-	function addShift(id,identify) {
+	function addShift(pid,id,identify) {
 		var tr = document.getElementById("tr_"+identify+"_"+id);
 		if(tr.style.display==""){
 			return;
 		}
-		var areaId = document.getElementById("areaId_"+identify+"_"+id);
-		var type = document.getElementById("type_"+identify+"_"+id);
+		var areaId = document.getElementById("areaId_"+identify+"_"+pid);
+		var type = document.getElementById("type_"+identify+"_"+pid);
 		var name = document.getElementById("name_"+identify+"_"+id);
 		var description = document.getElementById("description_"+identify+"_"+id);
 		if(areaId!=null){
@@ -2433,10 +2453,10 @@ table thead, tbody {
 	}
 	
 	// 取消保存
-	function cancelSaveMess(id,identify) {
+	function cancelSaveMess(pid,id,identify) {
 		var tr = document.getElementById("tr_"+identify+"_"+id);
-		var areaId = document.getElementById("areaId_"+identify+"_"+id);
-		var type = document.getElementById("type_"+identify+"_"+id);
+		var areaId = document.getElementById("areaId_"+identify+"_"+pid);
+		var type = document.getElementById("type_"+identify+"_"+pid);
 		var name = document.getElementById("name_"+identify+"_"+id);
 		var description = document.getElementById("description_"+identify+"_"+id);
 		if(areaId!=null){
@@ -2930,7 +2950,12 @@ table thead, tbody {
 <script>
 var whole_treeResultId="";
 	function showTreemMean(obj) {
-		SelectorItem.Initial(false,"tree",whole_TopstationId,0,whole_TopstationId); 
+		treeSelectId = obj.id;
+		if(treeSelectId=="stationName"){
+			SelectorItem.Initial(false,"tree",1,0,1);
+		}else{
+			SelectorItem.Initial(false,"tree",whole_TopstationId,0,whole_TopstationId); 	
+		}
 		var cityObj = $(obj);
 		var cityOffset = $(obj).offset();
 		var leftv = cityOffset.left;

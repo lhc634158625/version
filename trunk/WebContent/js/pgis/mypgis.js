@@ -292,10 +292,21 @@
         if (obj.lat == "" || obj.lat == 0) {
             obj.lat = 0;
         }
+       var heightTemp=-20;
+       if(typeof obj.height!="undefined"){
+    	   heightTemp=(-1)*Number(obj.height);    	   
+       }
         var position = new EzCoord(obj.lng, obj.lat);
-
-        var marker = new EzMarker(position, icon, obj.name);
+        var title=null;
+        if(typeof obj.name!="undefined" && obj.name.length>0){
+        	title=new EzTitle(obj.name,
+        		{"fontSize":14,"fontColor":"#FFFFFF","fillColor":"#5CAFF5","isStroke":true,
+        		"strokeColor":"d2d2d2","strokeWidth":1,"lineHeight":2.5,"paddingH":15,"offset":[0,heightTemp]
+        		});
+        }
+        var marker = new EzMarker(position, icon, title);
         PGISHelper.Map.addOverlay(marker);
+        marker.showTitle();
         marker.content = obj.content;
         marker.SX = obj.SX || 0;
         marker.uuid = obj.uuid || "-1";
@@ -320,6 +331,7 @@
     			flag1=1;
     		if(flag>0 && flag1>0){
     			PGISHelper.Map.addOverlay(points[i]);
+    			points[i].showTitle();
     		}
         } 
     	

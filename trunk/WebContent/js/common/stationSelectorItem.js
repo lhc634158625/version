@@ -1,5 +1,5 @@
 
-var stationSelectorItem;
+var SelectorItem;
 function stationSelectorItem() {
     var _self = this;
     var _allStations;
@@ -56,7 +56,8 @@ function stationSelectorItem() {
             _self.setting = {
                 check: {
                     enable: true,
-                    nocheckInherit: false
+                    nocheckInherit: false,
+                    chkboxType: {"Y":"", "N":""}
                 },
                 view: {
                     dblClickExpand: false,
@@ -111,27 +112,31 @@ function stationSelectorItem() {
     	}
     }
     function SelectStationById(id) {
-        var _node = zTree.getNodeByParam("id", id, null);
+        var _node = _zTree.getNodeByParam("id", id, null);
         if (_node != null) {
-            zTree.selectNode(_node);
-            zTree.expandNode(_node, true, true, true);
+        	_zTree.selectNode(_node);
+        	_zTree.expandNode(_node, true, true, true);
         }
     }
     function MultiSelectStation() {
-        var nodes = zTree.getCheckedNodes(true);
-        var ids = "", names = "";
-        var checkNames = "";
-        for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].check_Child_State == 1)
-                continue;
-            ids += nodes[i].id + ",";
-            names += nodes[i].name + ",";
-            checkNames += "<li>" + nodes[i].name + "</li>";
-        }
-        if (ids.length > 0) {
-            ids = ids.substr(0, ids.length - 1)
-            names = names.substr(0, names.length - 1)
-        }
+    	var nodes = _zTree.getCheckedNodes(true);
+    	if(typeof parent.changeStation=="function"){
+    		parent.changeMultiStation(nodes);
+    	}
+        
+//        var ids = "", names = "";
+//        var checkNames = "";
+//        for (var i = 0; i < nodes.length; i++) {
+//            if (nodes[i].check_Child_State == 1)
+//                continue;
+//            ids += nodes[i].id + ",";
+//            names += nodes[i].name + ",";
+//            checkNames += "<li>" + nodes[i].name + "</li>";
+//        }
+//        if (ids.length > 0) {
+//            ids = ids.substr(0, ids.length - 1)
+//            names = names.substr(0, names.length - 1)
+//        }
        // $("#ulSelectName").html(checkNames);
         // parent.SelectMultiStation(ids, names);
     }

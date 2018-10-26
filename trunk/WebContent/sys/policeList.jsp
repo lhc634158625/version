@@ -652,113 +652,142 @@
         //}
 
 
+        layui.use('table', function () {
+            var table = layui.table;
+            if (sessionStorage.getItem("pageLimit") != null) {
+                pageLimit = sessionStorage.getItem("pageLimit");
+            }
+            console.log(pageLimit);
+            //表格重载,自定义表格与分页
+            table.render({
+                elem: '#list',
+                cols: [[ //标题栏
+                    { type: 'checkbox', fixed: 'left', title: '' },
+                    { width: 218, align: 'center', toolbar: '#barDemo', title: '操作' },
+                    { field: 'code', align: 'center', width: 120, title: '警号' },
+                    { field: 'name', align: 'center', width: 150, title: '姓名/名称' },
+                    { field: 'stationName', align: 'center', width: 200, title: '单位' },
+                    { field: 'positionName', align: 'center', width: 100, title: '岗位' },
+                    { field: 'telephone', align: 'center', width: 150, title: '电话' },
+                    { field: 'leaderPost', align: 'center', width: 100, title: '领导职位' },
+                    { field: 'nonLeaderPost', align: 'center', width: 100, title: '非领导职务' },
+                    { field: 'idCode', align: 'center', width: 205, title: '身份证' },
+                    { field: 'gender', align: 'center', width: 80, title: '角色' },
+                    { field: 'deviceInfos', align: 'center', width: 123, toolbar: '#barDemo3', title: '' },
+                    { field: 'state', align: 'center', width: 100, title: '当前状态' },
+                    { width: 123, align: 'center', toolbar: '#barDemo1', title: '排班情况' },
+                    { width: 123, align: 'center', toolbar: '#barDemo2', title: '工作日志' }
+                ]],
+                data:[]
+            });
+        });
 
-        //layui表格渲染和控制
-        function layTab() { }
-        layTab.prototype.loadTab = function () {
-            layui.use('table', function () {
-                var table = layui.table;
-                if (sessionStorage.getItem("pageLimit") != null) {
-                    pageLimit = sessionStorage.getItem("pageLimit");
-                }
-                console.log(pageLimit);
-                //表格重载,自定义表格与分页
-                table.render({
-                    elem: '#list',
-                    cols: [[ //标题栏
-                        { type: 'checkbox', fixed: 'left',title: ''},
-                        { width: 218, align: 'center', toolbar: '#barDemo',title: '操作' },
-                        { field: 'code', align: 'center', width: 120,title: '警号' },
-                        { field: 'name', align: 'center', width: 150 ,title: '姓名/名称'},
-                        { field: 'stationName', align: 'center', width: 200 ,title: '单位'},
-                        { field: 'positionName', align: 'center', width: 100,title: '岗位' },
-                        { field: 'telephone', align: 'center', width: 150 ,title: '电话'},
-                        { field: 'leaderPost', align: 'center', width: 100,title: '领导职位' },
-                        { field: 'nonLeaderPost', align: 'center', width: 100,title: '非领导职务' },
-                        { field: 'idCode', align: 'center', width: 205,title: '身份证' },
-                        { field: 'gender', align: 'center', width: 80,title: '角色' },
-                        { field: 'deviceInfos', align: 'center', width: 123, toolbar: '#barDemo3',title: '' },
-                        { field: 'state', align: 'center', width: 100,title: '当前状态' },
-                        { width: 123, align: 'center', toolbar: '#barDemo1',title: '排班情况' },
-                        { width: 123, align: 'center', toolbar: '#barDemo2',title: '工作日志' }
-                    ]],
-                    data: dataPolice,
-                    // toolbar: '#barDemo',
-                });
-                // table.reload('idTest', {
-                //     limit: pageLimit,//控制表格实际加载
-                //     data: dataPolice//dataTest
-                // });
-                //监听表格复选框选择
-                table.on('checkbox(demo)', function (obj) {
-                    console.log(obj)
-                });
-                //监听工具条
-                table.on('tool(test)', function (obj) {
-                    var data = obj.data;
-                    if (obj.event === 'detail') {
-                        // layer.msg('ID：' + data.id + ' 的查看操作');
-                    } else if (obj.event === 'del') {
-                        layer.confirm('真的删除行么', function (index) {
-                            obj.del();
-                            layer.close(index);
-                            deletePolice(data.id);
-                        });
-                    } else if (obj.event === 'edit') {
-                        console.log(data);
-                        // layer.alert('编辑行：<br>' + JSON.stringify(data))
-                        //赋值
-                        layui.use('form', function () {
-                            var form = layui.form;
-                            form.val("add_form", {
-                                "code": data.code,
-                                "name": data.name,
-                                "stationId": data.stationId,
-                                "position": data.position,
-                                "telephone": data.telephone,
-                                "leaderPost": data.leaderPost,
-                                "nonLeaderPost": data.nonLeaderPost,
-                                "idCode": data.idCode,
+            //layui表格渲染和控制
+            function layTab() { }
+            layTab.prototype.loadTab = function () {
+                layui.use('table', function () {
+                    var table = layui.table;
+                    if (sessionStorage.getItem("pageLimit") != null) {
+                        pageLimit = sessionStorage.getItem("pageLimit");
+                    }
+                    console.log(pageLimit);
+                    //表格重载,自定义表格与分页
+                    table.render({
+                        elem: '#list',
+                        cols: [[ //标题栏
+                            { type: 'checkbox', fixed: 'left', title: '' },
+                            { width: 218, align: 'center', toolbar: '#barDemo', title: '操作' },
+                            { field: 'code', align: 'center', width: 120, title: '警号' },
+                            { field: 'name', align: 'center', width: 150, title: '姓名/名称' },
+                            { field: 'stationName', align: 'center', width: 200, title: '单位' },
+                            { field: 'positionName', align: 'center', width: 100, title: '岗位' },
+                            { field: 'telephone', align: 'center', width: 150, title: '电话' },
+                            { field: 'leaderPost', align: 'center', width: 100, title: '领导职位' },
+                            { field: 'nonLeaderPost', align: 'center', width: 100, title: '非领导职务' },
+                            { field: 'idCode', align: 'center', width: 205, title: '身份证' },
+                            { field: 'gender', align: 'center', width: 80, title: '角色' },
+                            { field: 'deviceInfos', align: 'center', width: 123, toolbar: '#barDemo3', title: '' },
+                            { field: 'state', align: 'center', width: 100, title: '当前状态' },
+                            { width: 123, align: 'center', toolbar: '#barDemo1', title: '排班情况' },
+                            { width: 123, align: 'center', toolbar: '#barDemo2', title: '工作日志' }
+                        ]],
+                        data: dataPolice,
+                        // toolbar: '#barDemo',
+                    });
+                    // table.reload('idTest', {
+                    //     limit: pageLimit,//控制表格实际加载
+                    //     data: dataPolice//dataTest
+                    // });
+                    //监听表格复选框选择
+                    table.on('checkbox(demo)', function (obj) {
+                        console.log(obj)
+                    });
+                    //监听工具条
+                    table.on('tool(test)', function (obj) {
+                        var data = obj.data;
+                        if (obj.event === 'detail') {
+                            // layer.msg('ID：' + data.id + ' 的查看操作');
+                        } else if (obj.event === 'del') {
+                            layer.confirm('真的删除行么', function (index) {
+                                obj.del();
+                                layer.close(index);
+                                deletePolice(data.id);
+                            });
+                        } else if (obj.event === 'edit') {
+                            console.log(data);
+                            // layer.alert('编辑行：<br>' + JSON.stringify(data))
+                            //赋值
+                            layui.use('form', function () {
+                                var form = layui.form;
+                                form.val("add_form", {
+                                    "code": data.code,
+                                    "name": data.name,
+                                    "stationId": data.stationId,
+                                    "position": data.position,
+                                    "telephone": data.telephone,
+                                    "leaderPost": data.leaderPost,
+                                    "nonLeaderPost": data.nonLeaderPost,
+                                    "idCode": data.idCode,
+
+                                })
+                                console.log(data.stationId);
+                                loadTreeSelect(data);
 
                             })
-                            console.log(data.stationId);
-                            loadTreeSelect(data);
-
-                        })
-                        //设置数据
-                        sessionStorage.setItem("edit_id", data.id);
-                        //
-                        openLayer();
+                            //设置数据
+                            sessionStorage.setItem("edit_id", data.id);
+                            //
+                            openLayer();
 
 
-                    }
+                        }
+                    });
+
+                    var $ = layui.$, active = {
+                        getCheckData: function () { //获取选中数据
+                            var checkStatus = table.checkStatus('idTest')
+                                , data = checkStatus.data;
+                            layer.alert(JSON.stringify(data));
+                        }
+                        , getCheckLength: function () { //获取选中数目
+                            var checkStatus = table.checkStatus('idTest')
+                                , data = checkStatus.data;
+                            layer.msg('选中了：' + data.length + ' 个');
+                        }
+                        , isAll: function () { //验证是否全选
+                            var checkStatus = table.checkStatus('idTest');
+                            layer.msg(checkStatus.isAll ? '全选' : '未全选')
+                        }
+                    };
+
+                    $('.demoTable .layui-btn').on('click', function () {
+                        var type = $(this).data('type');
+                        active[type] ? active[type].call(this) : '';
+                    });
                 });
 
-                var $ = layui.$, active = {
-                    getCheckData: function () { //获取选中数据
-                        var checkStatus = table.checkStatus('idTest')
-                            , data = checkStatus.data;
-                        layer.alert(JSON.stringify(data));
-                    }
-                    , getCheckLength: function () { //获取选中数目
-                        var checkStatus = table.checkStatus('idTest')
-                            , data = checkStatus.data;
-                        layer.msg('选中了：' + data.length + ' 个');
-                    }
-                    , isAll: function () { //验证是否全选
-                        var checkStatus = table.checkStatus('idTest');
-                        layer.msg(checkStatus.isAll ? '全选' : '未全选')
-                    }
-                };
-
-                $('.demoTable .layui-btn').on('click', function () {
-                    var type = $(this).data('type');
-                    active[type] ? active[type].call(this) : '';
-                });
-            });
-
-        }
-        var laytab = new layTab();
+            }
+            var laytab = new layTab();
 
 
 

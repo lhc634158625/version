@@ -137,71 +137,69 @@
 			</div>
 			<div id="formDiv">
 				<div id="formTop">
-					<span>机场辖区</span><img src="../images/starlogo.png"><span
+					<span id="topName"></span><img src="../images/starlogo.png"><span
 						onclick="closeMess()">X</span>
 				</div>
 				<form class="layui-form" action="">
 					<div class="layui-form-item">
 						<label class="layui-form-label">编号</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
+							<input type="text" name="number" id="number" 
 								placeholder="请输入标题" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">设卡点位</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
+							<input type="text" name="title" id="pointwhere"
 								placeholder="请输入标题" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">X坐标</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" id="coordinateX" name="title" required
-								lay-verify="required" placeholder="请输入标题" autocomplete="off"
+							<input type="text" name="latitude" id="latitude"  placeholder="请输入标题" autocomplete="off"
 								class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">Y坐标</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" id="coordinateY" name="title" required
-								lay-verify="required" placeholder="请输入标题" autocomplete="off"
+							<input type="text" name="longitude" id="longitude"  placeholder="请输入标题" autocomplete="off"
 								class="layui-input">
-						</div>
-					</div>
-					<div class="layui-form-item">
-						<label class="layui-form-label">卡点类型</label>
-						<div class="layui-input-inline" style="width: 278px;">
-							<input id="showTree" onclick="showTreemMean(this,this.id)"
-								type="text" name="title" required lay-verify="required"
-								placeholder="请输入标题" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">关联单位</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<input type="text" name="title" required lay-verify="required"
+							<input id="showTree" onclick="showTreemMean(this,this.id)"
+								type="text" readonly="readonly" 
 								placeholder="请输入标题" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div id="typeofpiont" class="layui-form-item">
+						<label class="layui-form-label">卡点类型</label>
+						<div class="layui-input-inline" style="width: 278px;">
+							<select name="patrolType" id="patrolType" lay-search="">
+							</select>
 						</div>
 					</div>
 					<div class="layui-form-item layui-form-text">
 						<label class="layui-form-label">备注</label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<textarea name="desc" placeholder="请输入内容" class="layui-textarea"
+							<textarea  name="memo" id="memo" placeholder="请输入内容" class="layui-textarea"
 								style="width: 100%; resize: none;"></textarea>
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label"></label>
 						<div class="layui-input-inline" style="width: 278px;">
-							<button onclick="selectMapLG()" class="layui-btn" lay-submit
-								lay-filter="formSave" style="background: #4472ca;">选择坐标</button>
+							<button class="layui-btn" lay-submit lay-filter="formChose"
+								style="background: #4472ca;" onclick="getCoordinate()">选择坐标</button>
 							<button class="layui-btn" lay-submit lay-filter="formSave"
-								style="background: #4472ca;">保存信息</button>
+								style="background: #4472ca;" id="whole_savePopedomMess">保存信息</button>
 							<button class="layui-btn" lay-submit lay-filter="formStop"
-								style="background: #4472ca;">停用</button>
+								style="background: #4472ca;" id="stop">停用</button>
 						</div>
 					</div>
 				</form>
@@ -213,6 +211,22 @@
 		<ul id="tree" class="ztree"></ul>
 	</div>
 </body>
+<script type="text/javascript">
+var whole_formDiv = document.getElementById("formDiv");// 详细信息框
+var whole_topName = document.getElementById("topName");// 详细框信息名称
+var whole_number = document.getElementById("number");// 编号
+var whole_pointwhere = document.getElementById("pointwhere");// 设卡点位
+var whole_latitude = document.getElementById("latitude");// x坐标
+var whole_longitude = document.getElementById("longitude");// y坐标
+var whole_stationName = document.getElementById("showTree");// 关联单位
+var whole_patrolType = document.getElementById("patrolType");// 卡点类型
+var whole_stationId;// 关联单位id
+var whole_memo = document.getElementById("memo");// 备注
+var whole_stop = document.getElementById("stop");// 停用
+var whole_savePopedomMess = document.getElementById("whole_savePopedomMess");// 保存信息按钮
+var whole_codeId = "";// 代码id typepoint
+var whole_patrolTypeList;
+</script>
 <script type="text/javascript">
 	var map;
 	layui
@@ -229,6 +243,15 @@
 							elem : '#test2',
 							theme : '#4472ca'
 						});
+						
+						form.on('submit', function(data){
+						    return false;
+						});
+
+						
+						window.layuiRender = function() {
+							form.render();
+						};
 					});
 
 	$(function() {
@@ -248,11 +271,6 @@
 		map = PGISHelper.Init("mapDiv");
 	});
 
-	// 关闭详情页
-	function closeMess() {
-		var formDiv = document.getElementById("formDiv");
-		formDiv.style.display = "none";
-	}
 
 	//提取不重复的数据存入数组
 	function isInArray(arr, value) {
@@ -519,6 +537,7 @@
 	function changeStation(treeNode) {
 		var selectv = document.getElementById('showTree');
 		selectv.value = treeNode.name;
+		whole_stationId = treeNode.id
 	}
 </script>
 <script>
@@ -528,7 +547,6 @@
 	//选择坐标点击事件，修改变量select_mapLG 为true
 	function selectMapLG() {
 		if (move) {
-			//delete
 			var CoordinateY = document.getElementById('coordinateY');
 			var CoordinateX = document.getElementById('coordinateX');
 			map.PanAndZoom(CoordinateX.value, CoordinateY.value);
@@ -555,34 +573,41 @@ var whole_stationId;// 字典单位code
 var whole_pointInfoMap=new Map();
 //动态生成左部菜单栏内容
 $(function() {
-		whole_patrolTypeList = new Array()
-		PostData("base/baseDict/filter", createRequest(0, 20, "id",
-				"DictName,string,=,PointInfo"),
-				function(result) {					
-					for (var i=0;i<result.data.length;i++) {
-						if(result.data[i].name == "综合武装设卡盘查"){
-							whole_shiftId = result.data[i].id;
-							whole_pointInfoMap.set(result.data[i].name,result.data[i].id);
-							break;
+var whole_typepoint = document.getElementById("patrolType");// 卡点类型
+whole_patrolTypeList = new Array()
+PostData("base/baseDict/filter", createRequest(0, 20, "id",
+		"DictName,string,=,PointInfo"),
+		function(result) {					
+			for (var i=0;i<result.data.length;i++) {
+				if(result.data[i].code == "05"){
+					whole_shiftId = result.data[i].id;
+					whole_pointInfoMap.set(result.data[i].name,result.data[i].id);
+					break;
+				}
+			}
+			for (var i=0;i<result.data.length;i++) {
+				if(result.data[i].code == "050101" || result.data[i].code == "050102"){
+					whole_patrolTypeList.push(result.data[i].code + "," +result.data[i].name);
+				}
+			}
+			createOpt(whole_patrolTypeList,0,whole_typepoint);
+			whole_pointInfoMap = getPointInfo(result.data, whole_shiftId, whole_pointInfoMap);
+			whole_stationId = whole_pointInfoMap.get("分局");
+			var strConditions = "Type,string,=," + whole_stationId;
+			PostData(
+					"point/point/filter",
+					createRequest(0, 1000, "id",
+							strConditions),
+					function(result) {
+						var stationsMess = result.data;
+						$("#stationL1").empty();								
+						for (var i = 0; i < stationsMess.length; i++) {
+							var stationMess = stationsMess[i];
+							createChild("stationL1",stationMess);
 						}
-					}
-					whole_pointInfoMap = getPointInfo(result.data, whole_shiftId, whole_pointInfoMap);
-					whole_stationId = whole_pointInfoMap.get("分局");
-					var strConditions = "Type,string,=," + whole_stationId;
-					PostData(
-							"point/point/filter",
-							createRequest(0, 1000, "id",
-									strConditions),
-							function(result) {
-								var stationsMess = result.data;
-								$("#stationL1").empty();								
-								for (var i = 0; i < stationsMess.length; i++) {
-									var stationMess = stationsMess[i];
-									createChild("stationL1",stationMess);
-								}
-									
-							});
-				});
+							
+					});
+		});
 	});
 	
 //动态创建分局及其子元素
@@ -615,27 +640,38 @@ function createChild_ul_li(obj,elementMessage){
 		
 	var obj_ul = document.createElement("ul");
 	obj_ul.setAttribute("id", "stationL3");
+	obj_ul.setAttribute("title", obj.title);
 	child.appendChild(obj_ul);
+	
+	var add_div = document.createElement("div");
 	
 	var add_input = document.createElement("input");
 	add_input.setAttribute("type", "button");
 	add_input.setAttribute("class", "layui-btn layui-btn-primary");
+	add_input.setAttribute("onclick", "showMess('"+obj.title+","+elementMessage.id+"')");
 	add_input.setAttribute("value", "添加");
-	obj_ul.appendChild(add_input);
+	add_div.appendChild(add_input);
 	
+	
+	var show_input = document.createElement("button");
+	show_input.innerHTML="<img class='form_img' style='position: relative;top: 4px;left: 4px' src='../images/unchecked.png'>显示全部";
+	show_input.setAttribute("class", "layui-btn layui-btn-primary");
+	show_input.setAttribute("id", "showAllBtn_" + elementMessage.id);
+	show_input.setAttribute("onclick", "showAllBtn(this,'"+ elementMessage.id+"')");
+	
+	add_div.appendChild(show_input);
+	obj_ul.appendChild(add_div);
 	father.appendChild(child);
 }
 
-//动态创建分局及其子元素
+//动态创建分局及其子元素3
 function createChild3_ul_li(obj,elementMessage){
 	var father = obj;
 	var child = document.createElement("li");
-	child.setAttribute("onclick", "showMess(this)");
+	child.setAttribute("onclick", "showMess(this,'"+elementMessage.state+"')");
 	child.setAttribute("id", elementMessage.id);
-	//child.innerHTML=elementMessage.name+'<img src="../images/starlogo.png" onclick="showTable()">';
 	
 	var li_span = document.createElement("span");
-	li_span.setAttribute("id", "stationL2");
 	li_span.setAttribute("title", elementMessage.name);
 	li_span.innerHTML=elementMessage.name 
 	child.appendChild(li_span);
@@ -693,8 +729,8 @@ function showL3(obj) {
 				var child = tag[i].children;
 				var count = child.length;
 				for(var c=0;c<count;c++){
-					if(null != child[1] )
-					tag[i].removeChild(child[1]);
+					if(null != child[2] )
+					tag[i].removeChild(child[2]);
 				}
 				$(obj).removeClass("liL1");
 				tag[i].style.display = "none";
@@ -713,6 +749,218 @@ function showL3(obj) {
 		}
 	}
 	cancelBubble();
+}
+
+// 显示临时卡点或检查站信息
+function showMess(obj,strState) {
+	layuiRender();
+	closeMess();
+	var typeofpoint = document.getElementById("typeofpiont");
+	if(strState == "停用"){
+		whole_stop.innerText = "启用";
+	}else if(strState == "启用"){
+		whole_stop.innerText = "停用";
+	}
+	if (!(typeof(obj) == 'string')) { 
+		var station_id = $(obj).attr("id");
+		PostData(
+				"point/point/get",
+				station_id,
+				function(result) {
+					var popedom = result.data;
+					if("1130"==popedom.type){
+						typeofpoint.style.display="none"
+					}else{
+						typeofpoint.style.display="block"
+					}
+					if(typeof(popedom.name) != "undefined"){
+						whole_topName.innerText = popedom.name;
+					}
+					if(typeof(popedom.description) != "undefined"){
+						whole_pointwhere.value = popedom.name;
+					}else{
+						whole_pointwhere.value ="";
+					}
+					if(typeof(popedom.code) != "undefined"){
+						whole_number.value = popedom.code;
+					}
+					if(typeof(popedom.latitude) != "undefined"){
+						whole_latitude.value = popedom.latitude;
+					}
+					if(typeof(popedom.longitude) != "undefined"){
+						whole_longitude.value = popedom.longitude;
+					}
+					if(typeof(popedom.stationName) != "undefined"){
+						whole_stationName.value = popedom.stationName;
+					}
+					if(typeof(popedom.memo) != "undefined"){
+						whole_memo.value = popedom.memo;
+					}
+					if(typeof(popedom.state) != "undefined"){
+						whole_stop.value = popedom.state;
+					}
+					if(typeof(popedom.shiftTypeId) != "undefined"){
+						var str = popedom.shiftTypeId;
+						for (var i = 0; i < whole_patrolType.options.length; i++) {
+							if (str == Number(whole_patrolType.options[i].value)) {
+								whole_patrolType.options[i].selected = 'selected';
+							}
+						}
+					}
+					whole_savePopedomMess.setAttribute("onclick", "savePopedomMess("+popedom.pid+","+popedom.id+")"); 
+					whole_stop.setAttribute("onclick", "stopPopedom("+popedom.pid+","+popedom.id+")"); 
+					whole_formDiv.style.display = "block";
+					layuiRender();
+				});
+	}else{
+		whole_savePopedomMess.setAttribute("onclick", "savePopedomMess('"+obj+"',\"\")");
+		whole_stop.setAttribute("onclick", "stopPopedom(-1)"); 
+		var st1 = obj.split(",")
+		if("1130"==st1[1]){
+			typeofpoint.style.display="none"
+			whole_topName.innerText = "临时卡点";
+		}else{
+			typeofpoint.style.display="block"
+			whole_topName.innerText = "检查站";
+		}
+		whole_latitude.value="";
+		whole_number.value = "";
+		whole_memo.value = "";
+		whole_longitude.value = "";
+		whole_pointwhere.value="";
+		whole_stationName.value="";
+		if (obj != 1) {
+			createOpt(whole_patrolTypeList,0,whole_patrolType);
+			layuiRender();			
+		}else{
+			layuiRender();
+		}
+		whole_formDiv.style.display = "block";
+	}
+
+	cancelBubble();
+}
+//创建option
+function createOpt(optArr ,value , name) {
+	for(var i=0;i<optArr.length;i++){	
+		var po = new Option(optArr[i].split(",")[1],optArr[i].split(",")[0]);
+		name.options.add(po);
+	}
+	
+}
+
+// 关闭详细信息
+function closeMess() {
+	
+	whole_formDiv.style.display = "none";
+}
+
+//获取坐标
+function getCoordinate() {
+	PGISHelper.Map.addMapEventListener(Ez.Event.MAP_CLICK, function (e) {
+		var coordinate = e.coordinate;
+		whole_latitude.value = coordinate[0];
+		whole_longitude.value = coordinate[1];
+	});
+}
+
+// 保存详细信息
+function savePopedomMess(pid,id) {
+	var request = new Object();
+	pid = pid+"";
+	var str = pid.split(",");
+	request.pid = str[0];
+	if(str.length>1){
+		request.type=str[1];
+	}
+	if(id != "" && id != null){
+		request.id = id;
+	}
+	if(whole_number.value != "" && whole_number.value != null){
+		request.code = whole_number.value;
+	}
+	if(whole_pointwhere.value != "" && whole_pointwhere.value != null){
+		request.name = whole_pointwhere.value;
+	}
+	if(whole_patrolType.value != null && whole_patrolType.value != ""){
+		request.ShiftTypeId = whole_patrolType.value;
+	}
+	if(whole_latitude.value != "" && whole_latitude.value != null){
+		request.latitude = whole_latitude.value;
+	}
+	if(whole_longitude.value != "" && whole_longitude.value != null){
+		request.longitude = whole_longitude.value;
+	}
+	if(whole_stationName != "" && whole_stationName.value != null){
+		request.stationId = whole_stationId;
+	}
+	if(whole_memo.value != "" && whole_memo.value != null){
+		request.memo = whole_memo.value;
+	}
+	request.state = "启用";
+	PostData("point/point/save",request,function(result) {
+		window.location.reload();
+	});
+}
+
+//显示全部
+function showAllBtn(obj,id) {
+	var src;
+	var popedoms = document.getElementById(id).childNodes;
+	if(typeof(obj)=="number"){
+		src = document.getElementById("showAllBtn_"+id).getElementsByTagName("img")[0].src;
+		if (src.indexOf("/images/checked.png") != -1) {
+			for(var i=0;i<popedoms.length;i++){
+				if(popedoms[i].hasAttribute("style")){
+					popedoms[i].style.display = "block";
+				}
+			}
+		} else if (src.indexOf("/images/unchecked.png") != -1) {
+			for(var i=0;i<popedoms.length;i++){
+				if(popedoms[i].hasAttribute("style")){
+					popedoms[i].style.display = "none";
+				}
+			}
+		}
+	}else{
+		src = $(obj).children().attr("src");
+		if (src == "../images/checked.png") {
+			$(obj).children().attr("src", "../images/unchecked.png");
+			for(var i=0;i<popedoms.length;i++){
+				if(popedoms[i].hasAttribute("style")){
+					popedoms[i].style.display = "none";
+				}
+			}
+		} else if (src == "../images/unchecked.png") {
+			$(obj).children().attr("src", "../images/checked.png");
+			for(var i=0;i<popedoms.length;i++){
+				if(popedoms[i].hasAttribute("style")){
+					popedoms[i].style.display = "block";
+				}
+			}
+		}
+	}
+}
+
+
+//启用停用
+function stopPopedom(stationId,id) {
+	//var src = document.getElementById("showAllBtn_"+stationId).getElementsByTagName("img")[0].src;
+	if(id != -1){
+		var request = new Object();
+		request.id = id;
+		request.state = whole_stop.innerText;
+		if(whole_stop.innerText == "启用"){
+			whole_stop.innerText = "停用";
+			
+		}else if(whole_stop.innerText == "停用"){
+			whole_stop.innerText = "启用";
+		}
+		PostData("point/point/save",request,function(result) {
+			//showAllBtn(1,stationId);
+		});
+	}
+	layuiRender();
 }
 
 //获取综合武装设卡盘查所有的id

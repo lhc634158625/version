@@ -126,10 +126,5 @@
 			}
 		}
 
-		function showMess() {
-			var formDiv = document.getElementById("formDiv");
-			formDiv.style.display = "block";
-			cancelBubble();
-		}
 	</script>
 </aside>

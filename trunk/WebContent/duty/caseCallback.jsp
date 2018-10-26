@@ -733,11 +733,4 @@ function ChangeTableHeight(){
 	}
 }
 </script>
- <script src="../js/jquery.ztree.all-3.1.min.js"></script>
-<script src="../js/dateTime.js"></script>
-<script src="../js/common.js?v=180725" type="text/javascript"></script>
-<script src="../js/linq/linq.min.js"></script>
-<script src="../js/dictCache.js"></script>
-<script src="../js/IndexDB.js"></script>
-<script src="../js/common/stationSelector.js?v=180612" charset="gb2312"></script>
 </html>
