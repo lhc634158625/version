@@ -110,7 +110,7 @@
                 }
 
                 .page_head_btn {
-                    width: 68px;
+                    width: 55x;
                     height: 28px;
                     border: 0px solid blue;
                     background-color: #3F69BA;
@@ -244,7 +244,7 @@
                         <button id="layui_getSelectNums_btn" class="layui-btn" data-type="getCheckLength">获取选中数目</button>
                         <button id="layui_allSelect_btn" class="layui-btn" data-type="isAll">验证是否全选</button> -->
                         <button id="layui_getSelectData_btn" class="layui-btn">警员列表</button>
-                        <button id="layui_getSelectNums_btn" class="layui-btn" ></button>
+                        <button id="layui_getSelectNums_btn" class="layui-btn"></button>
                         <button class="layui-btn" id="addPolice">新增警员</button>
                     </div>
                 </div>
@@ -392,7 +392,8 @@
                 </div>
 
                 <div class="layui-row">
-                    <table class="layui-table" lay-data="{width: 1980, page:false, id:'idTest'}" lay-filter="demo"
+                    <table class="layui-hide" id="list" lay-filter="test"></table>
+                    <!-- <table class="layui-table" lay-data="{width: 1980, page:false, id:'idTest'}" lay-filter="demo"
                         lay-size="lg">
                         <thead>
                             <tr>
@@ -418,7 +419,7 @@
 
                             </tr>
                         </thead>
-                    </table>
+                    </table> -->
                 </div>
 
             </div>
@@ -429,13 +430,13 @@
                 <a class="layui-btn layui-btn-danger layui-btn-xs layui_del_btn" lay-event="del">删除</a>
             </script>
     <script type="text/html" id="barDemo1" style="width:100px">
-                <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">排班情况</a>
+                <a class="layui-btn layui-btn-primary layui-btn-xs layui-btn-disabled disabled" disabled="disabled" lay-event="detail">排班情况</a>
             </script>
     <script type="text/html" id="barDemo2" style="width:100px">
-                <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">工作日志</a>
+                <a class="layui-btn layui-btn-primary layui-btn-xs layui-btn-disabled disabled" disabled="disabled" lay-event="detail">工作日志</a>
             </script>
     <script type="text/html" id="barDemo3" style="width:100px">
-                <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">设备编号</a>
+                <a class="layui-btn layui-btn-primary layui-btn-xs layui-btn-disabled disabled" disabled="disabled" lay-event="detail">设备编号</a>
             </script>
     <script src="./js/vue.js"></script>
     <script src="../My97DatePicker/WdatePicker.js"></script>
@@ -662,19 +663,41 @@
                 }
                 console.log(pageLimit);
                 //表格重载,自定义表格与分页
-                table.reload('idTest', {
-                    limit: pageLimit,//控制表格实际加载
-                    data: dataPolice//dataTest
+                table.render({
+                    elem: '#list',
+                    cols: [[ //标题栏
+                        { type: 'checkbox', fixed: 'left',title: ''},
+                        { width: 218, align: 'center', toolbar: '#barDemo',title: '操作' },
+                        { field: 'code', align: 'center', width: 120,title: '警号' },
+                        { field: 'name', align: 'center', width: 150 ,title: '姓名/名称'},
+                        { field: 'stationName', align: 'center', width: 200 ,title: '单位'},
+                        { field: 'positionName', align: 'center', width: 100,title: '岗位' },
+                        { field: 'telephone', align: 'center', width: 150 ,title: '电话'},
+                        { field: 'leaderPost', align: 'center', width: 100,title: '领导职位' },
+                        { field: 'nonLeaderPost', align: 'center', width: 100,title: '非领导职务' },
+                        { field: 'idCode', align: 'center', width: 205,title: '身份证' },
+                        { field: 'gender', align: 'center', width: 80,title: '角色' },
+                        { field: 'deviceInfos', align: 'center', width: 123, toolbar: '#barDemo3',title: '' },
+                        { field: 'state', align: 'center', width: 100,title: '当前状态' },
+                        { width: 123, align: 'center', toolbar: '#barDemo1',title: '排班情况' },
+                        { width: 123, align: 'center', toolbar: '#barDemo2',title: '工作日志' }
+                    ]],
+                    data: dataPolice,
+                    // toolbar: '#barDemo',
                 });
+                // table.reload('idTest', {
+                //     limit: pageLimit,//控制表格实际加载
+                //     data: dataPolice//dataTest
+                // });
                 //监听表格复选框选择
                 table.on('checkbox(demo)', function (obj) {
                     console.log(obj)
                 });
                 //监听工具条
-                table.on('tool(demo)', function (obj) {
+                table.on('tool(test)', function (obj) {
                     var data = obj.data;
                     if (obj.event === 'detail') {
-                        layer.msg('ID：' + data.id + ' 的查看操作');
+                        // layer.msg('ID：' + data.id + ' 的查看操作');
                     } else if (obj.event === 'del') {
                         layer.confirm('真的删除行么', function (index) {
                             obj.del();

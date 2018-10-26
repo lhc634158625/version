@@ -203,7 +203,6 @@
         <section class="section" id="width_right">
             <div class="manager_btn">
                 <input type="button" class="layui-btn layui-btn-sm" style="background-color:#3F69BA" value="基本信息" />
-                <input type="button" class="layui-btn layui-btn-primary layui-btn-sm" value="班别设置" />
             </div>
             <div class="manager_tip">
                 <div style="width: 250px">
@@ -331,8 +330,8 @@
 
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button id="post_data_btn" class="layui-btn" lay-submit="" lay-filter="demo1" style="background-color: #4472CA;">新增</button>
-                            <button type="reset" class="layui-btn layui-btn-primary" style="background-color: #4472CA;color: white">取消</button>
+                            <button id="post_data_btn" class="layui-btn layui-btn-disabled" lay-submit="" lay-filter="demo1" style="background-color: #4472CA;" disabled="disabled">新增</button>
+                            <button type="reset" class="layui-btn layui-btn-primary layui-btn-disabled" style="background-color: #4472CA;color: white" disabled="disabled" >取消</button>
                         </div>
                     </div>
                 </form>
