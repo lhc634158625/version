@@ -652,7 +652,9 @@
         //}
 
 
-        var loadTab=function(){};
+        var loadTab=function(){
+            console.log("1111")
+        };
 
         //改
         layui.use('table', function () {
@@ -685,7 +687,7 @@
             });
 
             loadTab1 = function () {
-                table.reload('idTest', {
+                table.reload('list', {
                     limit: pageLimit,//控制表格实际加载
                     data: dataPolice//dataTest
                 });

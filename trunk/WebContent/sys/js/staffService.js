@@ -11,7 +11,7 @@ function GetPolice(page_num, pageSize_num, condition) {
     load.PostData("staff/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
         sessionStorage.setItem("pageLimit", pageFilter.pageSize);
-        // loadTab();
+        loadTab();
     });
 
 }
@@ -71,7 +71,7 @@ function PagiNationSelect(obj, cobj) {
     load.PostData("staff/staff/filter", pageFilter, function (result) {
         dataPolice = result.data;
         sessionStorage.setItem("pageLimit", pageFilter.pageSize);
-        laytab.loadTab();
+        loadTab();
     });
 }
 
@@ -123,7 +123,7 @@ function AddNewPolice(formData) {
                     dataPolice = result.data;
                     console.log(dataPolice);
                     sessionStorage.setItem("pageLimit", condition.pageSize);
-                    laytab.loadTab();
+                    loadTab();
                 });
             } else {
                 GetPolice(1, 25);
@@ -177,7 +177,7 @@ function deletePolice(policeId) {
                     dataPolice = result.data;
                     console.log(dataPolice);
                     sessionStorage.setItem("pageLimit", condition.pageSize);
-                    laytab.loadTab();  
+                   loadTab();  
                 });
             } else {
                 GetPolice(1, 25);
