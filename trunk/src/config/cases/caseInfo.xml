@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetCaseInfoById" parameterType="int" resultType="teamwish.duty.dataContracts.cases.CaseInfo">
+        select id,caseCode,reporter,reportTel,contactTel,code,occurAddress,occurTime,caseType,description,station,fabw,stationCode,updateTime,created,crimeMeans,type,longitude,latitude,regionName,needCallBack,stationId from CaseInfo where id = #{id}
+    </select>
+<select id="GetCaseInfoByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.cases.CaseInfo"  statementType="STATEMENT">
+        SELECT id,caseCode,reporter,reportTel,contactTel,code,occurAddress,occurTime,caseType,description,station,fabw,stationCode,updateTime,created,crimeMeans,type,longitude,latitude,regionName,needCallBack,stationId FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from CaseInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertCaseInfo" parameterType="teamwish.duty.dataContracts.cases.CaseInfo">
+        insert into CaseInfo(caseCode,reporter,reportTel,contactTel,code,occurAddress,occurTime,caseType,description,station,fabw,stationCode,updateTime,created,crimeMeans,type,longitude,latitude,regionName,needCallBack,stationId) values(#{caseCode},#{reporter},#{reportTel},#{contactTel},#{code},#{occurAddress},#{occurTime},#{caseType},#{description},#{station},#{fabw},#{stationCode},#{updateTime},#{created},#{crimeMeans},#{type},#{longitude},#{latitude},#{regionName},#{needCallBack},#{stationId})
+    </insert>
+ <delete id="DeleteCaseInfo" parameterType="int">
+        delete from CaseInfo where id=#{id}
+    </delete>
+ <update id="UpdateCaseInfo" parameterType="teamwish.duty.dataContracts.cases.CaseInfo">
+        update CaseInfo <set> 
+ <if test="caseCode != null ">
+   caseCode=#{caseCode},
+</if>
+ <if test="reporter != null ">
+   reporter=#{reporter},
+</if>
+ <if test="reportTel != null ">
+   reportTel=#{reportTel},
+</if>
+ <if test="contactTel != null ">
+   contactTel=#{contactTel},
+</if>
+ <if test="code != null ">
+   code=#{code},
+</if>
+ <if test="occurAddress != null ">
+   occurAddress=#{occurAddress},
+</if>
+ <if test="occurTime != null ">
+   occurTime=#{occurTime},
+</if>
+ <if test="caseType != null ">
+   caseType=#{caseType},
+</if>
+ <if test="description != null ">
+   description=#{description},
+</if>
+ <if test="station != null ">
+   station=#{station},
+</if>
+ <if test="fabw != null ">
+   fabw=#{fabw},
+</if>
+ <if test="stationCode != null ">
+   stationCode=#{stationCode},
+</if>
+ <if test="updateTime != null ">
+   updateTime=#{updateTime},
+</if>
+ <if test="created != null ">
+   created=#{created},
+</if>
+ <if test="crimeMeans != null ">
+   crimeMeans=#{crimeMeans},
+</if>
+ <if test="type != null ">
+   type=#{type},
+</if>
+ <if test="longitude != null ">
+   longitude=#{longitude},
+</if>
+ <if test="latitude != null ">
+   latitude=#{latitude},
+</if>
+ <if test="regionName != null ">
+   regionName=#{regionName},
+</if>
+ <if test="needCallBack != null ">
+   needCallBack=#{needCallBack},
+</if>
+ <if test="stationId != null ">
+   stationId=#{stationId}
+</if>
+ </set> where id=#{id}
+    </update>
+</mapper>
+

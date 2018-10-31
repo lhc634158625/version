@@ -26,8 +26,10 @@ public class ArrangeInfo {
     private String staffIDCard;
 	@ApiModelProperty(value = "警员电话")
 	private String staffPhone;
-	@ApiModelProperty(value = "警员职务")
+	@ApiModelProperty(value = "警员职务")	
     private String staffPost;
+    @ApiModelProperty(value = "警员岗位")
+    private String staffPositionName;
 	@ApiModelProperty(value = "排班日期")
     private String workDt;
 	@ApiModelProperty(value = "开始时间")
@@ -60,7 +62,9 @@ public class ArrangeInfo {
     private String callNo;
     @ApiModelProperty(value = "巡逻区ID")
     private int pointInfoId;
-
+    @ApiModelProperty(value = "任务巡区ID")
+    private Integer interceptPointId;    
+    
     public int getId() {
         return this.id;
     }
@@ -123,6 +127,14 @@ public class ArrangeInfo {
 
 	public void setStaffPost(String staffPost) {
 		this.staffPost = staffPost;
+	}
+
+	public String getStaffPositionName() {
+		return staffPositionName;
+	}
+
+	public void setStaffPositionName(String staffPositionName) {
+		this.staffPositionName = staffPositionName;
 	}
 
 	public String getWorkDt() {
@@ -252,4 +264,14 @@ public class ArrangeInfo {
     public void setPointInfoId(int pointInfoId) {
         this.pointInfoId = pointInfoId;
     }
+
+	public Integer getInterceptPointId() {
+		return interceptPointId;
+	}
+
+	public void setInterceptPointId(Integer interceptPointId) {
+		this.interceptPointId = interceptPointId;
+	}
+    
+    
 }

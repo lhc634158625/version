@@ -225,6 +225,8 @@ ul.layui-tab-title li:first-child i {
 		
 		getArrangeInfos(0);
 		strToJson();
+		// console.log(typeof whole_arrangeInfoJson)
+		// console.log(whole_arrangeInfoJson)
 		table.render({
 		    elem: '#gradeTable'
 		    ,cols: [[ //表头
@@ -343,6 +345,7 @@ ul.layui-tab-title li:first-child i {
 					whole_arrangeInfoStr += '"';
 				}
 				whole_arrangeInfoStr +='},';
+				
 			}
 		},false);
 	}
@@ -350,8 +353,11 @@ ul.layui-tab-title li:first-child i {
 	// 字符串转json
 	function strToJson() {
 		whole_arrangeInfoStr = whole_arrangeInfoStr.substring(0, whole_arrangeInfoStr.length - 1);
+		console.log(whole_arrangeInfoStr)
 		whole_arrangeInfoStr = '[' + whole_arrangeInfoStr + ']';
+		console.log(whole_arrangeInfoStr)
 		whole_arrangeInfoJson = JSON.parse(whole_arrangeInfoStr);
+		console.log(whole_arrangeInfoJson)
 	}
 	
 	// 搜索排班

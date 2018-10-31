@@ -9,12 +9,12 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "InterceptPoint信息")
 public class  InterceptPoint {
 @ApiModelProperty(value = "id")
-private Integer id ;
- public Integer getId(){
+private int id ;
+ public int getId(){
   return this.id;
  }
  
- public void setId(Integer id){
+ public void setId(int id){
   this.id = id;
  }
 @ApiModelProperty(value = "类型")

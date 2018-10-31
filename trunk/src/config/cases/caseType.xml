@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetCaseTypeById" parameterType="int" resultType="teamwish.duty.dataContracts.cases.CaseType">
+        select caseTypeIDS,caseType,parentType,parentTypeIDS,isLeftChild,stanCaseTypeIDS,stanCaseType,provinceCaseTypeIDS,provinceCaseType,treeParentIDS,treeIndx,id,isUsed,dSId from CaseType where id = #{id}
+    </select>
+<select id="GetCaseTypeByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.cases.CaseType"  statementType="STATEMENT">
+        SELECT caseTypeIDS,caseType,parentType,parentTypeIDS,isLeftChild,stanCaseTypeIDS,stanCaseType,provinceCaseTypeIDS,provinceCaseType,treeParentIDS,treeIndx,id,isUsed,dSId FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from CaseType  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertCaseType" parameterType="teamwish.duty.dataContracts.cases.CaseType">
+        insert into CaseType(caseTypeIDS,caseType,parentType,parentTypeIDS,isLeftChild,stanCaseTypeIDS,stanCaseType,provinceCaseTypeIDS,provinceCaseType,treeParentIDS,treeIndx,isUsed,dSId) values(#{caseTypeIDS},#{caseType},#{parentType},#{parentTypeIDS},#{isLeftChild},#{stanCaseTypeIDS},#{stanCaseType},#{provinceCaseTypeIDS},#{provinceCaseType},#{treeParentIDS},#{treeIndx},#{isUsed},#{dSId})
+    </insert>
+ <delete id="DeleteCaseType" parameterType="int">
+        delete from CaseType where id=#{id}
+    </delete>
+ <update id="UpdateCaseType" parameterType="teamwish.duty.dataContracts.cases.CaseType">
+        update CaseType <set> 
+ <if test="caseTypeIDS != null ">
+   caseTypeIDS=#{caseTypeIDS},
+</if>
+ <if test="caseType != null ">
+   caseType=#{caseType},
+</if>
+ <if test="parentType != null ">
+   parentType=#{parentType},
+</if>
+ <if test="parentTypeIDS != null ">
+   parentTypeIDS=#{parentTypeIDS},
+</if>
+ <if test="isLeftChild != null ">
+   isLeftChild=#{isLeftChild},
+</if>
+ <if test="stanCaseTypeIDS != null ">
+   stanCaseTypeIDS=#{stanCaseTypeIDS},
+</if>
+ <if test="stanCaseType != null ">
+   stanCaseType=#{stanCaseType},
+</if>
+ <if test="provinceCaseTypeIDS != null ">
+   provinceCaseTypeIDS=#{provinceCaseTypeIDS},
+</if>
+ <if test="provinceCaseType != null ">
+   provinceCaseType=#{provinceCaseType},
+</if>
+ <if test="treeParentIDS != null ">
+   treeParentIDS=#{treeParentIDS},
+</if>
+ <if test="treeIndx != null ">
+   treeIndx=#{treeIndx},
+</if>
+ <if test="isUsed != null ">
+   isUsed=#{isUsed},
+</if>
+ <if test="dSId != null ">
+   dSId=#{dSId}
+</if>
+ </set> where id=#{id}
+    </update>
+</mapper>
+

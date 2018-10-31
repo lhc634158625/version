@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="config">
 
-<select id="GetStationDutyStateReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.common.ReportItem"  >
+<select id="GetStationDutyStateReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.report.ReportItem"  >
    select groupName,name,value from(
    select Name groupName,'派出所' name,  dbo.GetTotalCount(id,name,'派出所')  value
    from station where isuse=1  
@@ -45,7 +45,7 @@
  ) a order by groupName
 </select>
 
-<select id="GetStationShiftReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.common.ReportItem"  >
+<select id="GetStationShiftReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.report.ReportItem"  >
      select b.name groupName,ShiftState name,cast(value as float) value from(
   	select ShiftType ,ShiftState ,count(Id) value from staff
 	where exists(select id from dbo.getChildIds(#{stationId},'1'))	
@@ -53,7 +53,7 @@
 	where a.shiftType=b.id 
 	order by b.name
 </select>
-<select id="GetStationCaseReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.common.ReportItem"  >
+<select id="GetStationCaseReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.report.ReportItem"  >
 select groupName,name,cast(value as float) value from(
    select Name groupName,'派出所' name,  dbo.GetTotalCount(id,name,'派出所')  value
    from station where isuse=1  
@@ -96,7 +96,7 @@ select groupName,name,cast(value as float) value from(
  ) a order by groupName
 </select>
 
-<select id="GetStationDeviceReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.common.ReportItem"  >
+<select id="GetStationDeviceReport" parameterType="teamwish.duty.dataContracts.report.RequestReport" resultType="teamwish.duty.dataContracts.report.ReportItem"  >
 select groupName,name,cast(value as float) value from(
    select Name groupName,'派出所' name,  dbo.GetTotalCount(id,name,'派出所')  value
    from station where isuse=1  

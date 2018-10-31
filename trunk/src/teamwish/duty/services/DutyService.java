@@ -159,7 +159,7 @@ public class DutyService {
         try {
         	Buss logic = new Buss("ArrangeInfo");
 
-            return new Result(logic.GetMultiByRequest(filter, "DeleteArrangeInfoByFilter"));
+            return new Result(logic.deleteFilter(filter, "DeleteArrangeInfoByFilter"));
         } catch (Exception ex) {
             return new Result(ResponseCode.SystemError, ex.getMessage());
         }
@@ -501,6 +501,37 @@ public class DutyService {
             return new Result(ResponseCode.SystemError, ex.getMessage());
         }
     }
+    
+    
+    @POST
+    @ApiOperation(value = "批量保存InterceptPoint", response = Result.class)
+    @Path("/interceptPoint/saveList")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Result saveInterceptPointList(List<InterceptPoint> requests) {
+        try {
+        	Buss logic = new Buss("InterceptPoint");
+        	List<InterceptPoint> results = new java.util.ArrayList<>();
+        	
+        	for(InterceptPoint request : requests) {
+        		if (request.getId() > 0) {
+                    int count = logic.Save(request);
+                    if(count == 1) {
+                    	results.add((InterceptPoint)logic.getById(request.getId()));
+                    }
+                }
+        		else {
+        			Object _id = logic.Insert(request);
+                    if (_id != null) {
+                    	int id = Integer.parseInt(_id.toString());
+                    	results.add((InterceptPoint)logic.getById(id));
+                    }
+        		}
+        	}
+            return new Result(results);
+        } catch (Exception ex) {
+            return new Result(ResponseCode.SystemError, ex.getMessage());
+        }
+    }
 
     @POST
     @Path("/interceptPoint/delete")
@@ -511,6 +542,23 @@ public class DutyService {
             Buss logic = new Buss("InterceptPoint");
 
             return logic.Delete(id);
+        } catch (Exception ex) {
+            return new Result(ResponseCode.SystemError, ex.getMessage());
+        }
+    }
+    
+    @POST
+    @Path("/interceptPoint/deleteList")
+    @ApiOperation(value = "批量删除InterceptPoint", response = Result.class)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Result deleteInterceptPoint(int[] ids) {
+    	try {
+        	Buss logic = new Buss("InterceptPoint");
+        	int count =0;
+        	for(int id : ids) {
+        		count += logic.delete(id);
+        	}
+            return new Result(count);
         } catch (Exception ex) {
             return new Result(ResponseCode.SystemError, ex.getMessage());
         }
@@ -536,4 +584,5 @@ public class DutyService {
             return new Result(ResponseCode.SystemError, ex.getMessage());
         }
     }
+   
 }

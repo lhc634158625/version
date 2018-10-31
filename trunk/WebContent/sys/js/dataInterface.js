@@ -1,5 +1,6 @@
 
 var _serviceUrl = "http://218.85.92.186:8081/api/";
+// var _serviceUrl = "/api/";
 var result = sessionStorage.getItem("result");
 var dataObj;
 if (result != null) {

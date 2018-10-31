@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetPointInfoStationById" parameterType="int" resultType="teamwish.duty.dataContracts.point.PointInfoStation">
+        select id,pointInfoId,stationId,stationName,workDt,fromTime,toTime from PointInfoStation where id = #{id}
+    </select>
+<select id="GetPointInfoStationByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.point.PointInfoStation"  statementType="STATEMENT">
+        SELECT id,pointInfoId,stationId,stationName,workDt,fromTime,toTime FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from PointInfoStation  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertPointInfoStation" parameterType="teamwish.duty.dataContracts.point.PointInfoStation">
+        insert into PointInfoStation(pointInfoId,stationId,stationName,workDt,fromTime,toTime) values(#{pointInfoId},#{stationId},#{stationName},#{workDt},#{fromTime},#{toTime})
+    </insert>
+ <delete id="DeletePointInfoStation" parameterType="int">
+        delete from PointInfoStation where id=#{id}
+    </delete>
+ <update id="UpdatePointInfoStation" parameterType="teamwish.duty.dataContracts.point.PointInfoStation">
+        update PointInfoStation <set> 
+ <if test="pointInfoId != null ">
+   pointInfoId=#{pointInfoId},
+</if>
+ <if test="stationId != null ">
+   stationId=#{stationId},
+</if>
+ <if test="stationName != null ">
+   stationName=#{stationName},
+</if>
+ <if test="workDt != null ">
+   workDt=#{workDt},
+</if>
+ <if test="fromTime != null ">
+   fromTime=#{fromTime},
+</if>
+ <if test="toTime != null ">
+   toTime=#{toTime}
+</if>
+ </set> where id=#{id}
+    </update>
+</mapper>
+
+

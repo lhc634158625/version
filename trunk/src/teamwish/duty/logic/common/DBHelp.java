@@ -103,11 +103,11 @@ public class DBHelp {
 
         return mySqlSession.delete("config.Delete" + tableName, id);
     }
-
-    public int DeleteByFilter(PageFilter pf, String methodName) {
+    
+    public int DeleteByFilter(Object request, String methodName) {
         MySqlSession mySqlSession = new MySqlSession();
 
-        return mySqlSession.delete("config." + methodName, pf);
+        return mySqlSession.delete("config." + methodName, request);
     }
 
     private RecordCountParam GetRecordCountParam(PageFilter pf, String _tableName) {

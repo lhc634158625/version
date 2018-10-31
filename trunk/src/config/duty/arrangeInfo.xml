@@ -3,13 +3,13 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="config">
    <select id="GetArrangeInfoById" parameterType="int" resultType="teamwish.duty.dataContracts.duty.ArrangeInfo">
-        select id,stationId,staffId,staffName,staffCode,staffIDCard,staffPhone,staffPost,workDt,fromTime,toTime,state,code,regionId,regionCode,regionName,shiftType,serviceName,groupName,teamName,shiftName,carNo,callNo,pointInfoId from ArrangeInfo where id = #{id}
-    </select>
+        select id,stationId,staffId,staffName,staffCode,staffIDCard,staffPhone,staffPost,staffPositionName,workDt,fromTime,toTime,state,code,regionId,regionCode,regionName,shiftType,serviceName,groupName,teamName,shiftName,carNo,callNo,pointInfoId,interceptPointId from ArrangeInfo where id = #{id}
+   </select>
 <select id="GetArrangeInfoByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.duty.ArrangeInfo"  statementType="STATEMENT">
-        SELECT id,stationId,staffId,staffName,staffCode,staffIDCard,staffPhone,staffPost,workDt,fromTime,toTime,state,code,regionId,regionCode,regionName,shiftType,serviceName,groupName,teamName,shiftName,carNo,callNo,pointInfoId FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from ArrangeInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+        SELECT id,stationId,staffId,staffName,staffCode,staffIDCard,staffPhone,staffPost,staffPositionName,workDt,fromTime,toTime,state,code,regionId,regionCode,regionName,shiftType,serviceName,groupName,teamName,shiftName,carNo,callNo,pointInfoId,interceptPointId FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from ArrangeInfo  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
     </select>
  <insert useGeneratedKeys="true" keyProperty="id" id="InsertArrangeInfo" parameterType="teamwish.duty.dataContracts.duty.ArrangeInfo">
-        insert into ArrangeInfo(stationId,staffId,staffName,staffCode,staffIDCard,staffPhone,staffPost,workDt,fromTime,toTime,state,code,regionId,regionCode,regionName,shiftType,serviceName,groupName,teamName,shiftName,carNo,callNo,pointInfoId) values(#{stationId},#{staffId},#{staffName},#{staffCode},#{staffIDCard},#{staffPhone},#{staffPost},#{workDt},#{fromTime},#{toTime},#{state},#{code},#{regionId},#{regionCode},#{regionName},#{shiftType},#{serviceName},#{groupName},#{teamName},#{shiftName},#{carNo},#{callNo},#{pointInfoId})
+        insert into ArrangeInfo(stationId,staffId,staffName,staffCode,staffIDCard,staffPhone,staffPost,staffPositionName,workDt,fromTime,toTime,state,code,regionId,regionCode,regionName,shiftType,serviceName,groupName,teamName,shiftName,carNo,callNo,pointInfoId,interceptPointId) values(#{stationId},#{staffId},#{staffName},#{staffCode},#{staffIDCard},#{staffPhone},#{staffPost},#{staffPositionName},#{workDt},#{fromTime},#{toTime},#{state},#{code},#{regionId},#{regionCode},#{regionName},#{shiftType},#{serviceName},#{groupName},#{teamName},#{shiftName},#{carNo},#{callNo},#{pointInfoId},#{interceptPointId})
     </insert>
  <delete id="DeleteArrangeInfo" parameterType="int">
         delete from ArrangeInfo where id=#{id}
@@ -37,6 +37,9 @@
 </if>
  <if test="staffPost != null ">
    staffPost=#{staffPost},
+</if>
+ <if test="staffPositionName != null ">
+   staffPositionName=#{staffPositionName},
 </if>
  <if test="workDt != null ">
    workDt=#{workDt},
@@ -85,6 +88,9 @@
 </if>
  <if test="pointInfoId != null ">
    pointInfoId=#{pointInfoId}
+</if>
+ <if test="interceptPointId != null ">
+   interceptPointId=#{interceptPointId}
 </if>
  </set> where id=#{id}
     </update>
@@ -312,7 +318,7 @@ drop table #tb_station
 		and  station.pid=#{stationId}
     </select>
     
-    <select id="GetStationStaffCountReport" parameterType="teamwish.duty.dataContracts.common.RequestDuty" resultType="teamwish.duty.dataContracts.duty.ArrangeInfoReportCount" >        
+    <select id="GetStationStaffCountReport" parameterType="teamwish.duty.dataContracts.duty.RequestDuty" resultType="teamwish.duty.dataContracts.duty.ArrangeInfoReportCount" >        
      <if test="isShow == null or isShow == 0">
 select distinct 0 as count, s.id as stationId, s.name as stationName, vst.idPath, vst.namePath, vst.orderIndex
 </if>
@@ -335,11 +341,11 @@ order by stationId, vst.orderIndex
     
      <delete id="DeleteArrangeInfoByFilter" parameterType="teamwish.duty.dataContracts.duty.RequestArrangeDelete">
         delete from ArrangeInfo where pointInfoId=#{pointInfoId}
-        <if test="fromDt != null" >
-        and fromDt &gt;= #{fromDt}
+        <if test="fromTime != null" >
+        and fromTime &gt;= #{fromTime}
 	   </if>
-	    <if test="toDt != null" >
-        and toDt &lt;= #{toDt}
+	    <if test="toTime != null" >
+        and toTime &lt;= #{toTime}
 	   </if>
     </delete>
 </mapper>

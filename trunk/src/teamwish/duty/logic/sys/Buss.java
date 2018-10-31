@@ -5,7 +5,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import teamwish.duty.dataContracts.common.*;
-import teamwish.duty.dataContracts.sys.*;
+import teamwish.duty.dataContracts.sys.Module;
+import teamwish.duty.dataContracts.sys.Request;
+import teamwish.duty.dataContracts.sys.Station;
+import teamwish.duty.dataContracts.sys.UserInfo;
 import teamwish.duty.logic.common.CommonBuss;
 import teamwish.duty.logic.common.DBHelp;
 import teamwish.common.Cache;

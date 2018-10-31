@@ -6,10 +6,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import teamwish.duty.dataContracts.common.*;
+import teamwish.duty.dataContracts.duty.ArrangeInfo;
 import teamwish.duty.dataContracts.point.PointInfo;
 import teamwish.duty.dataContracts.point.PointInfoDevice;
+import teamwish.duty.dataContracts.point.PointInfoStation;
 import teamwish.duty.dataContracts.point.RequestPointDelete;
-import teamwish.duty.logic.duty.Buss;
+import teamwish.duty.logic.point.Buss;
 import teamwish.duty.common.CheckAuth;
 
 import java.util.ArrayList;
@@ -291,8 +293,8 @@ public class PointService {
     public Result deletePointDeviceInfoByFilter(RequestPointDelete filter) {
         try {
         	Buss logic = new Buss("PointInfoDevice");
-
-            return new Result(logic.GetMultiByRequest(filter, "DeletePointInfoDeviceByFilter"));
+        	
+            return new Result(logic.deleteFilter(filter, "DeletePointInfoDeviceByFilter"));
         } catch (Exception ex) {
             return new Result(ResponseCode.SystemError, ex.getMessage());
         }
@@ -306,6 +308,129 @@ public class PointService {
         try {
         	Buss logic = new Buss("PointInfoDevice");
         	int count = 0;
+        	for(int id : ids) {
+        		count += logic.delete(id);
+        	}
+            return new Result(count);
+        } catch (Exception ex) {
+            return new Result(ResponseCode.SystemError, ex.getMessage());
+        }
+    }
+    
+    /***********巡区相关单位服务********************/
+    @POST
+    @ApiOperation(value = "通过主健查询PointInfoStation", response = Result.class)
+    @Path("/pointInfoStation/get")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Result getPointInfoStationById(int id) {
+        try {
+            Buss logic = new Buss("PointInfoStation");
+
+            return logic.GetById(id);
+        } catch (Exception ex) {
+            return new Result(ResponseCode.SystemError, ex.getMessage());
+        }
+    }
+
+    @POST
+    @ApiOperation(value = "通过条件分页查询PointInfoStation", response = Result.class)
+    @Path("/pointInfoStation/filter")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Result getPointInfoStationByFilter(PageFilter pf) {
+        try {
+            Buss logic = new Buss("PointInfoStation");
+
+            return logic.GetByFilter(pf);
+        } catch (Exception ex) {
+            return new Result(ResponseCode.SystemError, ex.getMessage());
+        }
+    }
+
+    @POST
+    @ApiOperation(value = "保存PointInfoStation", response = Result.class)
+    @Path("/pointInfoStation/save")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Result savePointInfoStation(PointInfoStation request) {
+        try {
+            Buss logic = new Buss("PointInfoStation");
+
+            if (request.getId() > 0) {
+                int count = logic.Save(request);
+
+                if (count == 0) {
+                    return new Result(0);
+                }
+
+                return logic.GetById(request.getId());
+            }
+
+            Object _id = logic.Insert(request);
+
+            if (_id == null) {
+                return new Result(0);
+            }
+
+            int id = Integer.parseInt(_id.toString());
+
+            return logic.GetById(id);
+        } catch (Exception ex) {
+            return new Result(ResponseCode.SystemError, ex.getMessage());
+        }
+    }
+    
+    @ApiOperation(value = "批量保存巡区单位", response = Result.class)
+    @POST
+    @Path("/pointInfoStation/saveList")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Result saveListPointInfoStation(List<PointInfoStation> requests) {
+        try {
+        	Buss logic = new Buss("PointInfoStation");
+        	List<PointInfoStation> results = new java.util.ArrayList<>();
+        	
+        	for(PointInfoStation request : requests) {
+        		if (request.getId() > 0) {
+                    int count = logic.Save(request);
+                    if(count == 1) {
+                    	results.add((PointInfoStation)logic.getById(request.getId()));
+                    }
+                }
+        		else {
+        			Object _id = logic.Insert(request);
+                    if (_id != null) {
+                    	int id = Integer.parseInt(_id.toString());
+                    	results.add((PointInfoStation)logic.getById(id));
+                    }
+        		}
+        	}
+            return new Result(results);           
+        } catch (Exception ex) {
+            return new Result(ResponseCode.SystemError, ex.getMessage());
+        }
+    }
+
+    @POST
+    @Path("/pointInfoStation/delete")
+    @ApiOperation(value = "删除PointInfoStation", response = Result.class)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Result deletePointInfoStation(int id) {
+        try {
+            Buss logic = new Buss("PointInfoStation");
+
+            return logic.Delete(id);
+        } catch (Exception ex) {
+            return new Result(ResponseCode.SystemError, ex.getMessage());
+        }
+    }
+    
+    @POST
+    @Path("/pointInfoStation/deleteList")
+    @ApiOperation(value = "批量删除巡区单位", response = Result.class)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Result deletePointInfoStation(int[] ids) {
+    	try {
+        	Buss logic = new Buss("PointInfoStation");
+        	int count =0;
         	for(int id : ids) {
         		count += logic.delete(id);
         	}

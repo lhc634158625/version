@@ -3,17 +3,15 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="config">
     <select id="GetStaffById" parameterType="int" resultType="teamwish.duty.dataContracts.staff.Staff">
-        select s.id,s.name,gender,state,longitude,latitude,stationId,s.telephone,position,shiftType,regionId,s.code,s.pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,ISNULL(leaderPost,''),ISNULL(nonLeaderPost,''),posType,shiftState,s.updateDt,shiftInfos,d.Name as deviceInfos, st.name as stationName,p.name as positionName 
+        select s.id,s.name,gender,state,longitude,latitude,stationId,s.telephone,position,shiftType,regionId,s.code,s.pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,ISNULL(leaderPost,''),ISNULL(nonLeaderPost,''),posType,shiftState,s.updateDt,shiftInfos,st.name as stationName,p.name as positionName 
         from Staff s 
         left join station st on st.id = s.stationId
         left join position p on p.id = s.position
-        left join VStaffDevices d on d.staffcode = s.Code 
         where s.id = #{id}
     </select>
     <select id="GetStaffByCode" parameterType="String" resultType="teamwish.duty.dataContracts.staff.Staff">
-        select s.id,s.name,gender,state,longitude,latitude,stationId,s.telephone,position,shiftType,regionId,s.code,s.pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,ISNULL(leaderPost,''),ISNULL(nonLeaderPost,''),posType,shiftState,s.updateDt,shiftInfos,d.Name as deviceInfos, st.name as stationName,p.name as positionName 
+        select s.id,s.name,gender,state,longitude,latitude,stationId,s.telephone,position,shiftType,regionId,s.code,s.pyCode,address,timeType,serviceId,lastPosTime,isDel,idCode,ISNULL(leaderPost,''),ISNULL(nonLeaderPost,''),posType,shiftState,s.updateDt,shiftInfos,st.name as stationName,p.name as positionName 
         from Staff s 
-        left join VStaffDevices d on d.staffcode = s.Code 
         left join position p on p.id = s.position
         where s.code = #{code}
     </select>

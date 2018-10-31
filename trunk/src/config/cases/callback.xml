@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetCallbackById" parameterType="int" resultType="teamwish.duty.dataContracts.cases.Callback">
+        select id,caseCode,caseType,occurTime,occurAddress,reporter,reportTel,contactTel,description,memo,staffId,callbackDt,callbackType,callBackInfo,advice,visiteeAdvice,visitee,result,stationAdvice,otherAdvice,stationId,regionId,visiteeID,visiteeTel,relative,created,updater,updateTime,reportType,code,casePart,caseStation,policeName,policeCode,provideMaterial,crimeMeans,caseCreated,centerX,centerY,positionSource,stationCode from Callback where id = #{id}
+    </select>
+<select id="GetCallbackByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.cases.Callback"  statementType="STATEMENT">
+        SELECT id,caseCode,caseType,occurTime,occurAddress,reporter,reportTel,contactTel,description,memo,staffId,callbackDt,callbackType,callBackInfo,advice,visiteeAdvice,visitee,result,stationAdvice,otherAdvice,stationId,regionId,visiteeID,visiteeTel,relative,created,updater,updateTime,reportType,code,casePart,caseStation,policeName,policeCode,provideMaterial,crimeMeans,caseCreated,centerX,centerY,positionSource,stationCode FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from Callback  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertCallback" parameterType="teamwish.duty.dataContracts.cases.Callback">
+        insert into Callback(caseCode,caseType,occurTime,occurAddress,reporter,reportTel,contactTel,description,memo,staffId,callbackDt,callbackType,callBackInfo,advice,visiteeAdvice,visitee,result,stationAdvice,otherAdvice,stationId,regionId,visiteeID,visiteeTel,relative,created,updater,updateTime,reportType,code,casePart,caseStation,policeName,policeCode,provideMaterial,crimeMeans,caseCreated,centerX,centerY,positionSource,stationCode) values(#{caseCode},#{caseType},#{occurTime},#{occurAddress},#{reporter},#{reportTel},#{contactTel},#{description},#{memo},#{staffId},#{callbackDt},#{callbackType},#{callBackInfo},#{advice},#{visiteeAdvice},#{visitee},#{result},#{stationAdvice},#{otherAdvice},#{stationId},#{regionId},#{visiteeID},#{visiteeTel},#{relative},#{created},#{updater},#{updateTime},#{reportType},#{code},#{casePart},#{caseStation},#{policeName},#{policeCode},#{provideMaterial},#{crimeMeans},#{caseCreated},#{centerX},#{centerY},#{positionSource},#{stationCode})
+    </insert>
+ <delete id="DeleteCallback" parameterType="int">
+        delete from Callback where id=#{id}
+    </delete>
+ <update id="UpdateCallback" parameterType="teamwish.duty.dataContracts.cases.Callback">
+        update Callback <set> 
+ <if test="caseCode != null ">
+   caseCode=#{caseCode},
+</if>
+ <if test="caseType != null ">
+   caseType=#{caseType},
+</if>
+ <if test="occurTime != null ">
+   occurTime=#{occurTime},
+</if>
+ <if test="occurAddress != null ">
+   occurAddress=#{occurAddress},
+</if>
+ <if test="reporter != null ">
+   reporter=#{reporter},
+</if>
+ <if test="reportTel != null ">
+   reportTel=#{reportTel},
+</if>
+ <if test="contactTel != null ">
+   contactTel=#{contactTel},
+</if>
+ <if test="description != null ">
+   description=#{description},
+</if>
+ <if test="memo != null ">
+   memo=#{memo},
+</if>
+ <if test="staffId != null ">
+   staffId=#{staffId},
+</if>
+ <if test="callbackDt != null ">
+   callbackDt=#{callbackDt},
+</if>
+ <if test="callbackType != null ">
+   callbackType=#{callbackType},
+</if>
+ <if test="callBackInfo != null ">
+   callBackInfo=#{callBackInfo},
+</if>
+ <if test="advice != null ">
+   advice=#{advice},
+</if>
+ <if test="visiteeAdvice != null ">
+   visiteeAdvice=#{visiteeAdvice},
+</if>
+ <if test="visitee != null ">
+   visitee=#{visitee},
+</if>
+ <if test="result != null ">
+   result=#{result},
+</if>
+ <if test="stationAdvice != null ">
+   stationAdvice=#{stationAdvice},
+</if>
+ <if test="otherAdvice != null ">
+   otherAdvice=#{otherAdvice},
+</if>
+ <if test="stationId != null ">
+   stationId=#{stationId},
+</if>
+ <if test="regionId != null ">
+   regionId=#{regionId},
+</if>
+ <if test="visiteeID != null ">
+   visiteeID=#{visiteeID},
+</if>
+ <if test="visiteeTel != null ">
+   visiteeTel=#{visiteeTel},
+</if>
+ <if test="relative != null ">
+   relative=#{relative},
+</if>
+ <if test="created != null ">
+   created=#{created},
+</if>
+ <if test="updater != null ">
+   updater=#{updater},
+</if>
+ <if test="updateTime != null ">
+   updateTime=#{updateTime},
+</if>
+ <if test="reportType != null ">
+   reportType=#{reportType},
+</if>
+ <if test="code != null ">
+   code=#{code},
+</if>
+ <if test="casePart != null ">
+   casePart=#{casePart},
+</if>
+ <if test="caseStation != null ">
+   caseStation=#{caseStation},
+</if>
+ <if test="policeName != null ">
+   policeName=#{policeName},
+</if>
+ <if test="policeCode != null ">
+   policeCode=#{policeCode},
+</if>
+ <if test="provideMaterial != null ">
+   provideMaterial=#{provideMaterial},
+</if>
+ <if test="crimeMeans != null ">
+   crimeMeans=#{crimeMeans},
+</if>
+ <if test="caseCreated != null ">
+   caseCreated=#{caseCreated},
+</if>
+ <if test="centerX != null ">
+   centerX=#{centerX},
+</if>
+ <if test="centerY != null ">
+   centerY=#{centerY},
+</if>
+ <if test="positionSource != null ">
+   positionSource=#{positionSource},
+</if>
+ <if test="stationCode != null ">
+   stationCode=#{stationCode}
+</if>
+ </set> where id=#{id}
+    </update>
+</mapper>
+

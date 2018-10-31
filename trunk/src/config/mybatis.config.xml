@@ -14,9 +14,12 @@
 		<mapper resource="config/sys/module.xml" />	
 		<mapper resource="config/duty/arrangeInfo.xml" />
 		<mapper resource="config/duty/shiftType.xml" />
+		<mapper resource="config/duty/interceptPoint.xml" />
+		<mapper resource="config/duty/interceptTask.xml" />
 		<mapper resource="config/duty/vw_allPoint.xml" />		
 		<mapper resource="config/point/pointInfo.xml" />
 		<mapper resource="config/point/pointInfoDevice.xml" />	
+		<mapper resource="config/point/pointInfoStation.xml" />	
 		<mapper resource="config/device/deviceInfo.xml" />	
 		<mapper resource="config/device/cameraInfo.xml" />	
 		<mapper resource="config/report/report.xml" />	

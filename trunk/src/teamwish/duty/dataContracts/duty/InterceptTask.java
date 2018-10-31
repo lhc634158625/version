@@ -9,12 +9,12 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "InterceptTask信息")
 public class  InterceptTask {
 @ApiModelProperty(value = "id")
-private Integer id ;
- public Integer getId(){
+private int id ;
+ public int getId(){
   return this.id;
  }
  
- public void setId(Integer id){
+ public void setId(int id){
   this.id = id;
  }
 @ApiModelProperty(value = "任务名称")
@@ -54,21 +54,21 @@ private String state ;
   this.state = state;
  }
 @ApiModelProperty(value = "起始时间")
-private Timestamp fromTime ;
- public Timestamp getFromTime(){
+private String fromTime ;
+ public String getFromTime(){
   return this.fromTime;
  }
  
- public void setFromTime(Timestamp fromTime){
+ public void setFromTime(String fromTime){
   this.fromTime = fromTime;
  }
 @ApiModelProperty(value = "截止时间")
-private Timestamp toTime ;
- public Timestamp getToTime(){
+private String toTime ;
+ public String getToTime(){
   return this.toTime;
  }
  
- public void setToTime(Timestamp toTime){
+ public void setToTime(String toTime){
   this.toTime = toTime;
  }
 @ApiModelProperty(value = "负责单位ID")

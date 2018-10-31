@@ -9,7 +9,7 @@
         SELECT id,name,leader,telephone,centerX,centerY,pId,zoom,code,workTime,shiftDays,checkInTime,innerCode,pyCode,wbCode,shortName,isUse,sCode,radioNo,caseInfoStationCode,serviceStationCode,updateDt,groupIds FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from Station  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
     </select>
     
-    <select id="GetSuperiorsById" parameterType="teamwish.duty.dataContracts.common.Request" resultType="teamwish.duty.dataContracts.sys.Station"  statementType="STATEMENT">
+    <select id="GetSuperiorsById" parameterType="teamwish.duty.dataContracts.sys.Request" resultType="teamwish.duty.dataContracts.sys.Station"  statementType="STATEMENT">
  	 with cte as
 (
 	select  id, pid, cast(id as nvarchar(max)) as path, 1 as TLevel, id as mapping
@@ -28,7 +28,7 @@ order by PId
     </select>
     
     
-    <select id="GetStationTree" parameterType="teamwish.duty.dataContracts.common.Request" resultType="teamwish.duty.dataContracts.sys.Station"  statementType="STATEMENT">
+    <select id="GetStationTree" parameterType="teamwish.duty.dataContracts.sys.Request" resultType="teamwish.duty.dataContracts.sys.Station"  statementType="STATEMENT">
       with cte as
 (
 	select  id, pid, cast(id as nvarchar(max)) as path, 1 as TLevel, id as mapping

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="config">
+    <select id="GetCallbackCheckById" parameterType="int" resultType="teamwish.duty.dataContracts.cases.CallbackCheck">
+        select id,caseCode,result,memo,checkDt,stationId,created,updater,updateTime,staffId,policeCode,policeName,callbackId from CallbackCheck where id = #{id}
+    </select>
+<select id="GetCallbackCheckByFilter" parameterType="teamwish.duty.dataContracts.common.PageFilter" resultType="teamwish.duty.dataContracts.cases.CallbackCheck"  statementType="STATEMENT">
+        SELECT id,caseCode,result,memo,checkDt,stationId,created,updater,updateTime,staffId,policeCode,policeName,callbackId FROM (select ROW_NUMBER() Over(order by ${orderField} ) as rowNum, * from CallbackCheck  where ${filter}) tb where rowNum between ${fromRecord} and ${toRecord}
+    </select>
+ <insert useGeneratedKeys="true" keyProperty="id" id="InsertCallbackCheck" parameterType="teamwish.duty.dataContracts.cases.CallbackCheck">
+        insert into CallbackCheck(caseCode,result,memo,checkDt,stationId,created,updater,updateTime,staffId,policeCode,policeName,callbackId) values(#{caseCode},#{result},#{memo},#{checkDt},#{stationId},#{created},#{updater},#{updateTime},#{staffId},#{policeCode},#{policeName},#{callbackId})
+    </insert>
+ <delete id="DeleteCallbackCheck" parameterType="int">
+        delete from CallbackCheck where id=#{id}
+    </delete>
+ <update id="UpdateCallbackCheck" parameterType="teamwish.duty.dataContracts.cases.CallbackCheck">
+        update CallbackCheck <set> 
+ <if test="caseCode != null ">
+   caseCode=#{caseCode},
+</if>
+ <if test="result != null ">
+   result=#{result},
+</if>
+ <if test="memo != null ">
+   memo=#{memo},
+</if>
+ <if test="checkDt != null ">
+   checkDt=#{checkDt},
+</if>
+ <if test="stationId != null ">
+   stationId=#{stationId},
+</if>
+ <if test="created != null ">
+   created=#{created},
+</if>
+ <if test="updater != null ">
+   updater=#{updater},
+</if>
+ <if test="updateTime != null ">
+   updateTime=#{updateTime},
+</if>
+ <if test="staffId != null ">
+   staffId=#{staffId},
+</if>
+ <if test="policeCode != null ">
+   policeCode=#{policeCode},
+</if>
+ <if test="policeName != null ">
+   policeName=#{policeName},
+</if>
+ <if test="callbackId != null ">
+   callbackId=#{callbackId}
+</if>
+ </set> where id=#{id}
+    </update>
+</mapper>
+

@@ -102,6 +102,11 @@ public class CommonBuss {
         return dbHelp.Delete(id);
     }
     
+    public int deleteFilter(Object request, String methodName) {
+        DBHelp dbHelp = new DBHelp(tableName);
+        return dbHelp.DeleteByFilter(request, methodName);
+    }
+    
     public Object GetMultiByRequest(Object request, String methodName) {
     	 DBHelp dbHelp = new DBHelp();
          return dbHelp.GetMultiByRequest(request, methodName);
