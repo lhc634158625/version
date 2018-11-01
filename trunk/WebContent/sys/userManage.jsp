@@ -70,11 +70,22 @@
                 /*表格数据操作按钮*/
                 .layui_edit_btn {
                     background-color: #3F69BA;
+                    width:50px;
+                    height:40px;
+                    padding:0px;
+                    margin:0px;
                 }
 
                 .layui_del_btn {
                     background-color: #90B2F1;
+                    width:50px;
+                    height:40px;
+                    padding:0px;
                 }
+
+                .layui-table-cell{
+                   padding:0px;
+                 }
 
                 /*表格按钮组*/
                 #layui_getSelectData_btn {
@@ -117,6 +128,9 @@
                     color: white;
                     margin-top: 10px;
                     margin-right: 10px;
+                }
+                .layui-inline{
+                  width:206px;
                 }
             </style>
 </head>
@@ -251,11 +265,11 @@
 
                 <!-- 分页条 -->
                 <div class="layui-row">
-                    <div class="layui-col-md1 layui-col-md-offset8">
+                    <!-- <div class="layui-col-md1 layui-col-md-offset8">
                         <button id="first_page_btn" class="page_head_btn">首页</button>
-                        <button id="last_page_btn" class="page_head_btn">尾页</button>
-                    </div>
-                    <div class="layui-col-md3">
+                        <button id="last_page_btn" class="page_head_btn">尾页</button> 
+                    </div> -->
+                    <div class="layui-col-md3 layui-col-md-offset9">
                         <div id="demo7"></div>
                     </div>
                 </div>
@@ -282,7 +296,7 @@
                                             height: 38px;"><span
                                         style="">单位:</span></div>
                                 <div class="layui-col-md10">
-                                    <input id="station_select_ztree" name="stationName" type="text" v-model="stationName"
+                                    <input id="station_select_ztree" readonly="readonly" name="stationName" type="text" v-model="stationName"
                                         autocomplete="off" class="layui-input" />
                                 </div>
                             </div>
@@ -311,17 +325,115 @@
                         </div>
                         <div class="layui-inline">
                             <div class="layui-form-item layui-row">
+                                <label class="layui-col-md2" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span
+                                        style="">岗位:</span></label>
+                                <div class="layui-col-md10">
+                                    <select name="stationId" v-model="stationId" lay-filter="myselect1" class="layui-input layui-col-md12">
+                                        <option value="">未选择</option>
+                                        <option v-for="(station,index) in allStations" :value="station.name" :key="index">{{station.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-form-item layui-row">
+                                <label class="layui-col-md2" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span
+                                        style="">角色:</span></label>
+                                <div class="layui-col-md10">
+                                    <select name="roleId" v-model="roleId" lay-filter="myselect2" class="layui-input layui-col-md12">
+                                        <option value="">未选择</option>
+                                        <option v-for="(role,index) in allRoles" :value="role.name" :key="index">{{role.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-form-item layui-row">
+                                <label class="layui-col-md3" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span
+                                        style="">当前班:</span></label>
+                                <div class="layui-col-md9">
+                                    <select name="dutyId" v-model="dutyId" lay-filter="myselect3" class="layui-input layui-col-md12">
+                                        <option value="">未选择</option>
+                                        <option v-for="(duty,index) in allDutys" :value="duty.name" :key="index">{{duty.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-form-item layui-row">
+                                <label class="layui-col-md2" style="display:-webkit-flex;
+                                            flex-flow:row column nowrap;align-items: center;justify-content :center;
+                                            height: 38px;"><span
+                                        style="">状态:</span></label>
+                                <div class="layui-col-md10">
+                                    <select name="stateId" v-model="stateId" lay-filter="myselect4" class="layui-input layui-col-md12">
+                                        <option value="">未选择</option>
+                                        <option v-for="(state,index) in allStates" :value="state.name" :key="index">{{state.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <div class="layui-form-item layui-row">
                                 <div class="layui-col-md1">
                                     <input type="button" value="搜索" id="search_btn" lay-submit lay-filter="sr" class="layui-btn"
                                         style="margin-left:10px;width:60px;height:35px;background-color:#3F69BA;" />
                                 </div>
                             </div>
                         </div>
+                        <!-- <div class="layui-inline">
+                            <div class="content_wrap">
+                                <div class="zTreeDemoBackground left">
+                                    <ul class="list">
+                                        <li class="title">&nbsp;&nbsp;城市：<input id="citySel" type="text" readonly value=""
+                                                style="width:120px;" />
+                                            &nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">选择</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+                                <ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
+                            </div>
+                        </div> -->
                     </form>
                 </div>
 
                 <div class="layui-row">
-                    <table class="layui-hide" id="list" lay-filter="test"></table>      
+                    <table class="layui-hide" id="list" lay-filter="test"></table>
+                    <!-- <table class="layui-table" lay-data="{width: 1980, page:false, id:'idTest'}" lay-filter="demo"
+                        lay-size="lg">
+                        <thead>
+                            <tr>
+                                <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+                                <th lay-data="{width:218,align:'center', toolbar: '#barDemo'}">操作</th>
+                                <th lay-data="{field:'code', align:'center',width:120}">警号</th>
+                                <th lay-data="{field:'name', align:'center',width:150}">姓名/名称</th>
+
+                                <th lay-data="{field:'stationName',align:'center', width:200}">单位</th>
+                                <th lay-data="{field:'positionName', align:'center',width:100}">岗位</th>
+
+                                <th lay-data="{field:'telephone', align:'center',width:150}">电话</th>
+                                <th lay-data="{field:'leaderPost', align:'center',width:100}">领导职位</th>
+                                <th lay-data="{field:'nonLeaderPost', align:'center',width:100}">非领导职务</th>
+                                <th lay-data="{field:'idCode', align:'center',width:205}">身份证</th>
+                                <th lay-data="{field:'gender',align:'center', width:80}">角色</th>
+
+                                <th lay-data="{field:'deviceInfos',align:'center', width:123, toolbar: '#barDemo3'}">设备</th>
+
+                                <th lay-data="{field:'state',align:'center', width:100,}">当前状态</th>
+                                <th lay-data="{width:123,align:'center', toolbar: '#barDemo1'}">排班情况</th>
+                                <th lay-data="{width:123,align:'center', toolbar: '#barDemo2'}">工作日志</th>
+
+                            </tr>
+                        </thead>
+                    </table> -->
                 </div>
 
             </div>
@@ -344,7 +456,7 @@
     <script src="../My97DatePicker/WdatePicker.js"></script>
     <script src="./js/layui/layui.js"></script>
     <script src="../js/IndexDB.js"></script>
-    <script src="./js/staffService_test.js"></script>
+    <script src="./js/staffService.js"></script>
     <script src="./js/dataInterface.js"></script>
     <script>
 
@@ -360,15 +472,34 @@
 
         var initGT;
 
-
+        // console.log(initGT);
+        // console.log(initGT.next);
+        // console.log(initGT.next);
 
         //jq初始化加载 
         $(function () {
             SelectPoliceNum(pageLimit, null)
-            GetPolice(1, 25);//第几页,一页几条    
+            GetPolice(1, 25);//第几页,一页几条 
+            var screen_width=screen.width;
+            var screen_height=screen.height;  
+            console.log("width:"+screen_width+","+"height:"+screen_height)
             sessionStorage.removeItem("cobj");
             sessionStorage.removeItem("search_conditions");
             sessionStorage.removeItem("pageLimit");
+            //异步
+            // function* initGenerator() {
+            //     yield SelectPoliceNum(pageLimit, null)
+            //     yield GetPolice(1, 25);//第几页,一页几条    
+            //     yield sessionStorage.removeItem("cobj");
+            //     console.log("111");
+            //     yield loadTreeSelect();
+            //     console.log("222");
+            // }
+            // initGT = initGenerator();
+            // initGT;
+            // initGT.next();
+            // initGT.next();
+            // initGT.next();
         });
 
         function AfterInitial() {
@@ -543,9 +674,6 @@
         };
 
         //改
-        dataPolice=JSON.stringify(dataPolice);
-        dataPolice=JSON.parse(dataPolice);
-        console.log(dataPolice);
         layui.use('table', function () {
             var table = layui.table;
             if (sessionStorage.getItem("pageLimit") != null) {
@@ -557,31 +685,31 @@
             table.render({
                 elem: '#list',
                 id:'list',
+                width:1900,
                 limit: pageLimit,
-                cols: [[ //标题栏
-                    { type: 'checkbox', fixed: 'left', title: '' },
-                    { width: 218, align: 'center', toolbar: '#barDemo', title: '操作' },
-                    { field: 'code', align: 'center', width: 120, title: '警号' },
+                cols: [[ //标题栏 
+                    { width: 128, align: 'center', toolbar: '#barDemo', title: ' 操作' },
+                    { field: 'code', align: 'center', width: 100, title: '警号' },
                     { field: 'name', align: 'center', width: 150, title: '姓名/名称' },
-                    { field: 'stationName', align: 'center', width: 200, title: '单位' },
+                    { field: 'stationName', align: 'center', width: 100, title: '单位' },
                     { field: 'positionName', align: 'center', width: 100, title: '岗位' },
                     { field: 'telephone', align: 'center', width: 150, title: '电话' },
                     { field: 'leaderPost', align: 'center', width: 100, title: '领导职位' },
                     { field: 'nonLeaderPost', align: 'center', width: 100, title: '非领导职务' },
-                    { field: 'idCode', align: 'center', width: 205, title: '身份证' },
+                    { field: 'idCode', align: 'center', width: 105, title: '身份证' },
                     { field: 'gender', align: 'center', width: 80, title: '角色' },
-                    { field: 'deviceInfos', align: 'center', width: 123, toolbar: '#barDemo3', title: '' },
+                    { field: 'deviceInfos', align: 'center', width: 103, toolbar: '#barDemo3', title: '' },
                     { field: 'state', align: 'center', width: 100, title: '当前状态' },
-                    { width: 123, align: 'center', toolbar: '#barDemo1', title: '排班情况' },
-                    { width: 123, align: 'center', toolbar: '#barDemo2', title: '工作日志' }
+                    { width: 103, align: 'center', toolbar: '#barDemo1', title: '排班情况' },
+                    { width: 103, align: 'center', toolbar: '#barDemo2', title: '工作日志' }
                 ]],
                 data: dataPolice
             });
 
             loadTab1 = function () {
                 table.reload('list', {
-                    limit: pageLimit,//控制表格实际加载
-                    data: dataPolice//dataTest
+                   limit: pageLimit,//控制表格实际加载
+                   data: dataPolice//dataTest
                 });
             }
             window.loadTab=loadTab1;
@@ -653,8 +781,8 @@
             });
         });
 
+
     </script>
-  
 </body>
 
 </html>

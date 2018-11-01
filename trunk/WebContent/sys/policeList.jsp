@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -70,11 +70,22 @@
                 /*表格数据操作按钮*/
                 .layui_edit_btn {
                     background-color: #3F69BA;
+                    width:50px;
+                    height:40px;
+                    padding:0px;
+                    margin:0px;
                 }
 
                 .layui_del_btn {
                     background-color: #90B2F1;
+                    width:50px;
+                    height:40px;
+                    padding:0px;
                 }
+
+                .layui-table-cell{
+                   padding:0px;
+                 }
 
                 /*表格按钮组*/
                 #layui_getSelectData_btn {
@@ -117,6 +128,9 @@
                     color: white;
                     margin-top: 10px;
                     margin-right: 10px;
+                }
+                .layui-inline{
+                  width:206px;
                 }
             </style>
 </head>
@@ -251,11 +265,11 @@
 
                 <!-- 分页条 -->
                 <div class="layui-row">
-                    <div class="layui-col-md1 layui-col-md-offset8">
+                    <!-- <div class="layui-col-md1 layui-col-md-offset8">
                         <button id="first_page_btn" class="page_head_btn">首页</button>
-                        <button id="last_page_btn" class="page_head_btn">尾页</button>
-                    </div>
-                    <div class="layui-col-md3">
+                        <button id="last_page_btn" class="page_head_btn">尾页</button> 
+                    </div> -->
+                    <div class="layui-col-md3 layui-col-md-offset9">
                         <div id="demo7"></div>
                     </div>
                 </div>
@@ -282,7 +296,7 @@
                                             height: 38px;"><span
                                         style="">单位:</span></div>
                                 <div class="layui-col-md10">
-                                    <input id="station_select_ztree" name="stationName" type="text" v-model="stationName"
+                                    <input id="station_select_ztree" readonly="readonly" name="stationName" type="text" v-model="stationName"
                                         autocomplete="off" class="layui-input" />
                                 </div>
                             </div>
@@ -465,13 +479,13 @@
         //jq初始化加载 
         $(function () {
             SelectPoliceNum(pageLimit, null)
-            GetPolice(1, 25);//第几页,一页几条    
+            GetPolice(1, 25);//第几页,一页几条 
+            var screen_width=screen.width;
+            var screen_height=screen.height;  
+            console.log("width:"+screen_width+","+"height:"+screen_height)
             sessionStorage.removeItem("cobj");
             sessionStorage.removeItem("search_conditions");
             sessionStorage.removeItem("pageLimit");
-            var swidrh=screen.width;
-            var sheight=screen.height;
-            console.log(swidrh+","+sheight);
             //异步
             // function* initGenerator() {
             //     yield SelectPoliceNum(pageLimit, null)
@@ -671,31 +685,31 @@
             table.render({
                 elem: '#list',
                 id:'list',
+                width:1900,
                 limit: pageLimit,
-                cols: [[ //标题栏
-                    //{ type: 'checkbox', fixed: 'left', title: '' },
-                    { width: 218, align: 'center', toolbar: '#barDemo', title: '操作' },
-                    { field: 'code', align: 'center', width: 120, title: '警号' },
-                    { field: 'name', align: 'center', width: 150, title: '姓名/名称' },
-                    { field: 'stationName', align: 'center', width: 200, title: '单位' },
-                    { field: 'positionName', align: 'center', width: 100, title: '岗位' },
-                    { field: 'telephone', align: 'center', width: 150, title: '电话' },
-                    { field: 'leaderPost', align: 'center', width: 100, title: '领导职位' },
-                    { field: 'nonLeaderPost', align: 'center', width: 100, title: '非领导职务' },
-                    { field: 'idCode', align: 'center', width: 205, title: '身份证' },
-                    { field: 'gender', align: 'center', width: 80, title: '角色' },
-                    { field: 'deviceInfos', align: 'center', width: 123, toolbar: '#barDemo3', title: '' },
-                    { field: 'state', align: 'center', width: 100, title: '当前状态' },
-                    { width: 123, align: 'center', toolbar: '#barDemo1', title: '排班情况' },
-                    { width: 123, align: 'center', toolbar: '#barDemo2', title: '工作日志' }
+                cols: [[ //标题栏 
+                    { width: 128, align: 'center', toolbar: '#barDemo', title: ' 操作',unresize:true },
+                    { field: 'code', align: 'center', width: 100, title: '警号',unresize:true },
+                    { field: 'name', align: 'center', width: 150, title: '姓名/名称',unresize:true },
+                    { field: 'stationName', align: 'center', width: 100, title: '单位' ,unresize:true},
+                    { field: 'positionName', align: 'center', width: 100, title: '岗位' ,unresize:true},
+                    { field: 'telephone', align: 'center', width: 150, title: '电话',unresize:true },
+                    { field: 'leaderPost', align: 'center', width: 100, title: '领导职位' ,unresize:true},
+                    { field: 'nonLeaderPost', align: 'center', width: 100, title: '非领导职务',unresize:true },
+                    { field: 'idCode', align: 'center', width: 105, title: '身份证',unresize:true },
+                    { field: 'gender', align: 'center', width: 80, title: '角色',unresize:true },
+                    { field: 'deviceInfos', align: 'center', width: 103, toolbar: '#barDemo3', title: '',unresize:true },
+                    { field: 'state', align: 'center', width: 100, title: '当前状态' ,unresize:true},
+                    { width: 103, align: 'center', toolbar: '#barDemo1', title: '排班情况' ,unresize:true},
+                    { width: 103, align: 'center', toolbar: '#barDemo2', title: '工作日志' ,unresize:true}
                 ]],
                 data: dataPolice
             });
 
             loadTab1 = function () {
                 table.reload('list', {
-                    limit: pageLimit,//控制表格实际加载
-                    data: dataPolice//dataTest
+                   limit: pageLimit,//控制表格实际加载
+                   data: dataPolice//dataTest
                 });
             }
             window.loadTab=loadTab1;
